@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/profile/ProfileCard";
-
 const About = () => {
   return (
     <div className="container mx-auto px-10 pt-1 text-white">
@@ -23,7 +22,7 @@ const About = () => {
             Currently, I’m sharpening my technical depth while preparing to transition from academic projects to industry-grade systems and professional development environments.
           </p>
         </div>
-
+        
         {/* RIGHT: Profile Card */}
         <div className="flex-1 flex justify-center lg:justify-end">
           {/* Using a slight negative margin to keep the card perfectly level with the text top */}
@@ -37,8 +36,8 @@ const About = () => {
               avatarUrl="/jay1.png"
               showUserInfo={true}
               enableTilt={true}
-              enableMobileTilt={false}
-              onContactClick={() => alert("+91 97971 ")}
+              enableMobileTilt={true}
+              onContactClick={() => navigate("/contact")}
               showIcon
               showBehindGlow
               behindGlowColor="rgba(125, 190, 255, 0.67)"
