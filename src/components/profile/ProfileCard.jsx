@@ -304,13 +304,17 @@ const ProfileCardComponent = ({
 
   const cardRadius = '30px';
 
-  const cardStyle = useMemo(
+ const cardStyle = useMemo(
     () => ({
       '--icon': iconUrl ? `url(${iconUrl})` : 'none',
-      '--grain': grainUrl ? `url(${grainUrl})` : 'public/grain.webp ',
+      // CHANGE THIS LINE: We use a Data URI as the default so it works instantly without a file
+      '--grain': grainUrl 
+        ? `url(${grainUrl})` 
+        : `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")`,
       '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT,
       '--behind-glow-color': behindGlowColor ?? 'rgba(125, 190, 255, 0.67)',
       '--behind-glow-size': behindGlowSize ?? '50%',
+      // ... keep the rest of your variables ...
       '--pointer-x': '50%',
       '--pointer-y': '50%',
       '--pointer-from-center': '0',
@@ -322,6 +326,7 @@ const ProfileCardComponent = ({
       '--background-x': '50%',
       '--background-y': '50%',
       '--card-radius': cardRadius,
+      // ... keep sunpillars ...
       '--sunpillar-1': 'hsl(2, 100%, 73%)',
       '--sunpillar-2': 'hsl(53, 100%, 69%)',
       '--sunpillar-3': 'hsl(93, 100%, 69%)',
@@ -409,6 +414,20 @@ const ProfileCardComponent = ({
     pointerEvents: 'none'
   };
 
+  const grainStyle = {
+    position: 'absolute', // Ensure it sits on top
+    inset: 0,
+    backgroundImage: 'var(--grain)',
+    backgroundSize: '200px', // IMPORTANT: Controls the "size" of the grain
+    backgroundRepeat: 'repeat',
+    mixBlendMode: 'overlay', // or 'soft-light' if overlay is too harsh
+    opacity: 0.35, // Adjust up/down for visibility
+    zIndex: 2,     // Ensure it is above the gradient (z-index 1) but below text
+    gridArea: '1 / -1',
+    borderRadius: cardRadius,
+    pointerEvents: 'none'
+  };
+
   return (
     <div
       ref={wrapRef}
@@ -470,6 +489,9 @@ const ProfileCardComponent = ({
             {/* Glare layer */}
             <div style={glareStyle} />
 
+            {/* Grain layer */}
+            <div style={grainStyle} />
+
             {/* Avatar content */}
             <div
               className="overflow-visible backface-hidden"
@@ -481,21 +503,23 @@ const ProfileCardComponent = ({
                 pointerEvents: 'none'
               }}
             >
-              <img
-                className="w-full absolute left-[209px] bottom-[61px] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out overflow-hidden"
+             <img
+                className="absolute left-[209px] bottom-[27px] w-[95%] h-[80%] object-cover object-top -translate-x-1/2 backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
                 loading="lazy"
                 style={{
                   transformOrigin: '50% 100%',
-                  transform:
-                    'translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))',
+                  transform: `
+                    translateX(-50%) 
+                    translateZ(0) 
+                    scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) 
+                    scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))
+                  `,
                   borderRadius: cardRadius,
+                  zIndex: 1, // Keep it above background but below the Grain overlay
                 }}
-                onError={e => {
-                  const t = e.target;
-                  t.style.display = 'none';
-                }}
+                onError={e => { e.target.style.display = 'none'; }}
               />
               {showUserInfo && (
                 <div
