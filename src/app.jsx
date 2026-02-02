@@ -21,7 +21,7 @@ function AppContent() {
 
   const dockItems = [
     {
-      label: "Home1",
+      label: "Home",
       icon: <HomeIcon size={20} color="#ffffff" />,
       onClick: () => navigate("/")
     },
