@@ -81,3 +81,14 @@ html {
     cursor: none;
   }
 }
+/* Hide scrollbar globally (but keep scroll functionality) */
+html, body {
+  overflow-x: hidden;
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE / Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                  /* Chrome, Safari */
+}

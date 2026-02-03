@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProfileCard from "../components/profile/ProfileCard";
 const About = () => {
+  const navigate = useNavigate();
   return (
     <div className="container mx-auto px-10 pt-1 text-white">
       <div className="flex flex-col lg:flex-row items-start gap-16 w-full">
@@ -25,8 +27,10 @@ const About = () => {
         
         {/* RIGHT: Profile Card */}
         <div className="flex-1 flex justify-center lg:justify-end">
+          
           {/* Using a slight negative margin to keep the card perfectly level with the text top */}
           <div className="lg:-mt-1"> 
+            
             <ProfileCard
               name="Jay Joshi"
               title="B.Tech CSE Student"
