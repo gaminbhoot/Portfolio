@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
+import GlassSurface from '../glass/GlassSurface';
 
 import './Dock.css';
 
@@ -32,12 +33,19 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className={`dock-item ${className}`}
+      // className={`dock-item ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
     >
+      <GlassSurface
+        width={size} 
+  height={size}
+
+            
+      >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
+      </GlassSurface>
     </motion.div>
   );
 }
@@ -112,6 +120,9 @@ export default function Dock({
         role="toolbar"
         aria-label="Application dock"
       >
+              {/* <GlassSurface 
+              > */}
+
         {items.map((item, index) => (
           <DockItem
             key={index}
@@ -127,6 +138,8 @@ export default function Dock({
             <DockLabel>{item.label}</DockLabel>
           </DockItem>
         ))}
+              {/* </GlassSurface> */}
+
       </motion.div>
     </motion.div>
   );

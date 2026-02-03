@@ -29,9 +29,8 @@ const About = () => {
           <div className="lg:-mt-1"> 
             <ProfileCard
               name="Jay Joshi"
-              title="B.Tech Computer Science Student"
-              handle="gaminbhoot"
-              status="Online"
+              title="B.Tech CSE Student"
+              handle="gaminbhoot"              status="Online"
               contactText="Contact Me"
               avatarUrl="/jay1.png"
               showUserInfo={true}
