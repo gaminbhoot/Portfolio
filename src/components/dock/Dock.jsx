@@ -106,7 +106,7 @@ export default function Dock({
 
   return (
     <motion.div style={{ height, scrollbarWidth: 'none' }} className="dock-outer">
-      <motion.div
+      <motion.GlassSurface
         onMouseMove={({ pageX }) => {
           isHovered.set(1);
           mouseX.set(pageX);
@@ -115,13 +115,12 @@ export default function Dock({
           isHovered.set(0);
           mouseX.set(Infinity);
         }}
-        className={`dock-panel ${className}`}
-        style={{ height: panelHeight }}
+        style={{ height:panelHeight  }}
         role="toolbar"
+                        className={`dock-panel ${className}`}
+
         aria-label="Application dock"
       >
-              {/* <GlassSurface 
-              > */}
 
         {items.map((item, index) => (
           <DockItem
@@ -138,9 +137,7 @@ export default function Dock({
             <DockLabel>{item.label}</DockLabel>
           </DockItem>
         ))}
-              {/* </GlassSurface> */}
-
-      </motion.div>
+      </motion.GlassSurface>
     </motion.div>
   );
 }
