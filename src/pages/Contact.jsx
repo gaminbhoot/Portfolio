@@ -42,8 +42,8 @@ export default function Contact() {
         
         {/* LEFT COLUMN: CONTACT LINKS */}
         <div className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between space-y-10">
-          <p className="reveal text-lg text-gray-400 max-w-sm">
-            Ready to build something unique? I'm available for web development projects and networking consultations.
+          <p className="reveal text-xl text-gray-400 max-w-sm">
+           From interfaces to intelligence, if you’re building something thoughtful, let’s talk.
           </p>
 
           <div className="space-y-6">
