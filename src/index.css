@@ -44,3 +44,40 @@ html {
     cursor: auto;
      }
 }
+/* Hide custom cursor by default on touch-only devices */
+@media (pointer: coarse) {
+  .custom-cursor-class {
+    display: none !important;
+  }
+}
+
+/* Ensure native cursor is visible if the custom one is hidden on mobile */
+@media (pointer: coarse) {
+  html, body {
+    cursor: auto !important;
+  }
+}
+/* 1. Default: Hide custom cursor on all touch devices */
+@media (pointer: coarse) {
+  .custom-cursor-wrapper, 
+  [data-testid="custom-cursor"] { 
+    display: none !important; 
+  }
+  
+  /* Ensure the standard mouse pointer is restored so the site is usable */
+  html, body {
+    cursor: auto !important;
+  }
+}
+
+/* 2. Laptop/Desktop Fix: Ensure visibility for Trackpads & Mice */
+@media (pointer: fine) {
+  .custom-cursor-wrapper {
+    display: block;
+  }
+  
+  /* Hide the default system cursor ONLY when the custom one is active */
+  html, body {
+    cursor: none;
+  }
+}

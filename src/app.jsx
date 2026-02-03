@@ -19,36 +19,22 @@ function AppContent() {
   const navigate = useNavigate();
 
   const dockItems = [
-    {
-      label: "Home",
-      icon: <HomeIcon size={20} color="#ffffff" />,
-      onClick: () => navigate("/")
-    },
-    {
-      label: "About",
-      icon: <User size={20} color="#ffffff" />,
-      onClick: () => navigate("/about")
-    },
-    {
-      label: "Projects",
-      icon: <Folder size={20} color="#ffffff" />,
-      onClick: () => navigate("/projects")
-    },
-    {
-      label: "Skills",
-      icon: <Settings size={20} color="#ffffff" />,
-      onClick: () => navigate("/skills")
-    },
-    {
-      label: "Contact",
-      icon: <Mail size={20} color="#ffffff" />,
-      onClick: () => navigate("/contact")
-    }
+    { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
+    { label: "About", icon: <User size={16} color="#ffffff" />, onClick: () => navigate("/about") },
+    { label: "Projects", icon: <Folder size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
+    { label: "Skills", icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
+    { label: "Contact", icon: <Mail size={16} color="#ffffff" />, onClick: () => navigate("/contact") }
   ];
 
   return (
     <>
-      <CustomCursor />
+      {/* Wrap the CustomCursor in a div that is hidden on touch devices.
+          The 'pointer-fine' group will only render if a mouse/stylus is detected.
+      */}
+      {/* Hide on mobile/tablets (below 1024px), show on desktops/laptops */}
+      <div className="hidden lg:block">
+        <CustomCursor />
+      </div>
       
       {/* 1. BACKGROUND ELEMENTS */}
       <div className="fixed inset-0 z-0">
@@ -73,7 +59,6 @@ function AppContent() {
       />
 
       {/* 2. PAGE CONTENT */}
-      {/* Increased pb-48 to ensure content isn't cut off by the taller footer */}
       <div className="relative z-20 min-h-screen pt-20 pb-48">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -87,12 +72,10 @@ function AppContent() {
 
       {/* 3. GAUSSIAN BLUR FOOTER WITH DOCK */}
       <footer 
-        /* h-64 makes the blur start much higher up the page */
-        className="fixed bottom-0 left-0 w-full h-60 z-50 pointer-events-none flex items-end justify-center pb-4"
+        className="fixed bottom-0 left-0 w-full h-36 z-50 pointer-events-none flex items-end justify-center pb-4"
         style={{
           backdropFilter: 'blur(17px)',
           WebkitBackdropFilter: 'blur(16px)',
-          /* black 20% moves the 'solid' blur lower, transparent 100% starts the fade higher */
           WebkitMaskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
           maskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
         }}
@@ -113,4 +96,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

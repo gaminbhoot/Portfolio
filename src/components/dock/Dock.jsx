@@ -2,7 +2,6 @@
 
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
-import GlassSurface from '../glass/GlassSurface';
 
 import './Dock.css';
 
@@ -33,19 +32,12 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      // className={`dock-item ${className}`}
+      className={`dock-item ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
     >
-      <GlassSurface
-        width={size} 
-  height={size}
-
-            
-      >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
-      </GlassSurface>
     </motion.div>
   );
 }
@@ -87,8 +79,8 @@ function DockIcon({ children, className = '' }) {
 export default function Dock({
   items,
   className = '',
-  spring = { mass: 0.1, stiffness: 150, damping: 12 },
-  magnification = 90,
+  spring = { mass: 0.1, stiffness: 120, damping: 12 },
+  magnification = 70,
   distance = 200,
   panelHeight = 68,
   dockHeight = 256,
@@ -106,7 +98,7 @@ export default function Dock({
 
   return (
     <motion.div style={{ height, scrollbarWidth: 'none' }} className="dock-outer">
-      <motion.GlassSurface
+      <motion.div
         onMouseMove={({ pageX }) => {
           isHovered.set(1);
           mouseX.set(pageX);
@@ -115,13 +107,11 @@ export default function Dock({
           isHovered.set(0);
           mouseX.set(Infinity);
         }}
-        style={{ height:panelHeight  }}
+        className={`dock-panel ${className}`}
+        style={{ height: panelHeight }}
         role="toolbar"
-                        className={`dock-panel ${className}`}
-
         aria-label="Application dock"
       >
-
         {items.map((item, index) => (
           <DockItem
             key={index}
@@ -137,7 +127,7 @@ export default function Dock({
             <DockLabel>{item.label}</DockLabel>
           </DockItem>
         ))}
-      </motion.GlassSurface>
+      </motion.div>
     </motion.div>
   );
 }
