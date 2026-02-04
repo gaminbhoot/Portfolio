@@ -75,7 +75,7 @@ export default function Contact() {
         </div>
 
         {/* RIGHT COLUMN: CONTACT FORM */}
-        <div className="p-8 md:p-10 bg-black/20">
+        <div className="p-8 md:p-10 bg-black/70" style={{borderTopRightRadius:19  , borderBottomRightRadius:19}}>
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="reveal group relative">
               <label className="text-[10px] uppercase text-indigo-400 tracking-[0.2em] mb-1 block">Your Name</label>
