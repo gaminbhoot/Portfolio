@@ -66,7 +66,7 @@ export default function Skills() {
 
       {/* Terminal Section */}
       <div className="reveal">
-        <Terminal title="skills.sh" subtitle="scrollable skill index">
+        <Terminal title="skills.sh" subtitle=" ">
           <ScrollArea maxHeight={600} theme="none" smooth className="pr-2">
             <ScrollList
               data={skills}
@@ -94,6 +94,61 @@ export default function Skills() {
           </ScrollArea>
         </Terminal>
       </div>
+      {/* Skills Perspective Section */}
+      <div className="reveal max-w-5xl mx-auto mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* Card 1 */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
+              Frontend Engineering
+            </h3>
+            <p className="text-gray-200 leading-relaxed">
+              I focus on building interfaces that feel intentional — not just visually,
+              but structurally. Clean component boundaries, predictable state flow, and
+              motion that supports understanding rather than distracting from it.
+            </p>
+          </div>
+
+          {/* Card 2 */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
+              Motion & Interaction
+            </h3>
+            <p className="text-gray-200 leading-relaxed">
+              Animation, for me, is a communication tool. Subtle transitions, scroll-based
+              focus, and timing choices help guide attention and make complex interfaces
+              feel natural and responsive.
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
+              Applied AI & Logic
+            </h3>
+            <p className="text-gray-200 leading-relaxed">
+              My AI-related work leans toward practical application — understanding how
+              models behave, where they fail, and how to integrate them into systems that
+              solve real problems rather than demo-only scenarios.
+            </p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
+              Engineering Mindset
+            </h3>
+            <p className="text-gray-200 leading-relaxed">
+              I value clarity over cleverness. Whether it’s frontend code or model logic,
+              I try to build things that are understandable, maintainable, and resilient
+              to change over time.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   );
 }

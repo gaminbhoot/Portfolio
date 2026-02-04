@@ -34,8 +34,8 @@ export default function Terminal({
   /* =========================
      GLASS CONTROLS
      ========================= */
-  headerOpacity = 0.4,
-  bodyOpacity = 0.18,
+  headerOpacity = 0.55,
+  bodyOpacity = 0.2,
   tint = "neutral",
   mode = "dark",
 
