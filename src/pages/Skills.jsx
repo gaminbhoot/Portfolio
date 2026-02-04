@@ -57,7 +57,7 @@ export default function Skills() {
 
         <p className="reveal mt-3 text-gray-200 max-w-3xl">
           A curated stack of tools, technologies, and systems I’ve actually built
-          with — not just listed
+          with — not just listed.
         </p>
 
         {/* Thin divider (intentional separation, like Contact) */}

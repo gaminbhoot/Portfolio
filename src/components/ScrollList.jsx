@@ -101,7 +101,7 @@ export default function ScrollList({
             variants={itemVariants}
             initial="hidden"
             animate={variant}
-            style={{ height: `${itemHeight}` }}
+            style={{ height: `${itemHeight}px` }}
           >
             {renderItem(item, index)}
           </motion.div>
