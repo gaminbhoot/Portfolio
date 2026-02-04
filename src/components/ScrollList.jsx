@@ -97,11 +97,11 @@ export default function ScrollList({
         return (
           <motion.div
             key={index}
-            className="scroll-list__item mx-auto max-w-3xl"
+            className="scroll-list__item mx-auto max-w-3xl mb-3"
             variants={itemVariants}
             initial="hidden"
             animate={variant}
-            style={{ height: `${itemHeight}px` }}
+            style={{ height: `${itemHeight}` }}
           >
             {renderItem(item, index)}
           </motion.div>
