@@ -88,51 +88,27 @@ export default function Skills() {
         "-=0.3"
       );
 
-      // Cards reveal with staggered 3D flip
-      tl.fromTo(
-        ".perspective-card",
-        {
-          opacity: 0,
-          rotateY: -90,
-          scale: 0.8,
-          transformOrigin: "left center",
-        },
-        {
-          opacity: 1,
-          rotateY: 0,
-          scale: 1,
-          duration: 0.8,
-          stagger: {
-            each: 0.15,
-            from: "start",
+      // Simple fade-in for perspective cards on scroll
+      gsap.utils.toArray(".perspective-card").forEach((card) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 24,
           },
-          ease: "back.out(1.5)",
-        },
-        "-=0.5"
-      );
-
-      // Scroll-based animations
-
-      // Header parallax on scroll - Fixed to return on scroll up
-      gsap.fromTo(headerRef.current, 
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1
-        },
-        {
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: 1,
-          },
-          y: -80,
-          opacity: 0, // Set to 0 to fully disappear, or 0.7 to stay faint
-          scale: 0.95,
-          ease: "none",
-        }
-      );
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
 
       // Terminal floats and tilts on scroll
       gsap.to(terminalRef.current, {
