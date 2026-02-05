@@ -407,7 +407,7 @@ export default function TerminalHero() {
                 Engineering
               </span>{" "}
               <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">
-                Interfaces
+                Solutions
               </span>
               <br />
               <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">
