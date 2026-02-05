@@ -88,19 +88,19 @@ export default function Skills() {
         "-=0.3"
       );
 
-      // Simple fade-in for perspective cards on scroll
+      // Simple, natural fade-in for perspective cards
       gsap.utils.toArray(".perspective-card").forEach((card) => {
         gsap.fromTo(
           card,
           {
             opacity: 0,
-            y: 24,
+            y: 30,
           },
           {
             opacity: 1,
             y: 0,
             duration: 0.8,
-            ease: "power3.out",
+            ease: "power2.out",
             scrollTrigger: {
               trigger: card,
               start: "top 80%",
@@ -272,8 +272,8 @@ export default function Skills() {
 
           {/* Card 1 */}
           <div 
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-indigo-400/50 hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/20"
-            style={{ transformStyle: "preserve-3d" }}
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-indigo-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20"
+            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-indigo-300 transition-colors duration-300">
               Frontend Engineering
@@ -288,8 +288,8 @@ export default function Skills() {
 
           {/* Card 2 */}
           <div 
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-purple-400/50 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/20"
-            style={{ transformStyle: "preserve-3d" }}
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-purple-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/20"
+            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">
               Motion & Interaction
@@ -304,8 +304,8 @@ export default function Skills() {
 
           {/* Card 3 */}
           <div 
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-cyan-400/50 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/20"
-            style={{ transformStyle: "preserve-3d" }}
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-cyan-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20"
+            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">
               Applied AI & Logic
@@ -320,8 +320,8 @@ export default function Skills() {
 
           {/* Card 4 */}
           <div 
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-green-400/50 hover:scale-105 hover:shadow-xl hover:shadow-green-500/20"
-            style={{ transformStyle: "preserve-3d" }}
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-green-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/20"
+            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-green-300 transition-colors duration-300">
               Engineering Mindset
