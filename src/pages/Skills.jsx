@@ -99,7 +99,7 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Card 1 */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+          <div className="rounded-2xl border border-black/10 bg-black/30 backdrop-blur-md p-6">
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
               Frontend Engineering
             </h3>
@@ -111,7 +111,7 @@ export default function Skills() {
           </div>
 
           {/* Card 2 */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+          <div className="rounded-2xl border border-black/10 bg-black/30 backdrop-blur-md p-6">
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
               Motion & Interaction
             </h3>
@@ -123,7 +123,7 @@ export default function Skills() {
           </div>
 
           {/* Card 3 */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+          <div className="rounded-2xl border border-black/10 bg-black/30 backdrop-blur-md p-6">
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
               Applied AI & Logic
             </h3>
@@ -135,7 +135,7 @@ export default function Skills() {
           </div>
 
           {/* Card 4 */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6">
+          <div className="rounded-2xl border border-black/10 bg-black/30 backdrop-blur-md p-6">
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3">
               Engineering Mindset
             </h3>
