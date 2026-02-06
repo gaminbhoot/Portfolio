@@ -451,7 +451,7 @@ const About = () => {
       id: "5",
       year: "2025",
       title: "Data Science Focus",
-      subtitle: "Applied Analysis",
+      subtitle: "Machine Learning Foundations",
       description: "Started the IITG–Masai data science program. Focused on machine learning, data behavior, and modeling assumptions. Emphasis was placed on interpretation and real-world constraints rather than purely optimizing metrics."
     }
 
