@@ -61,13 +61,13 @@ const ProfileCardComponent = ({
     setScrollbarVisible(scrollable);
     
     if (scrollable) {
-      const thumbHeight = Math.max((clientHeight / scrollHeight) * 200, 30);
+      const thumbHeight = Math.max((clientHeight / scrollHeight) * 250, 40);
       const maxScroll = scrollHeight - clientHeight;
       const scrollPercent = scrollTop / maxScroll;
-      const thumbTop = scrollPercent * (200 - thumbHeight);
+      const thumbTop = scrollPercent * (250 - thumbHeight);
       
       thumb.style.height = `${thumbHeight}px`;
-      thumb.style.transform = `translateY(${thumbTop}px)`;
+      thumb.style.transform = `translateX(-50%) translateY(${thumbTop}px) rotate(-8deg)`;
     }
   }, []);
 
@@ -411,52 +411,106 @@ const ProfileCardComponent = ({
         
         .pc-custom-scrollbar {
           position: fixed;
-          right: 8px;
+          right: 12px;
           top: 50%;
           transform: translateY(-50%);
-          width: 6px;
-          height: 200px;
-          background: linear-gradient(145deg, rgba(96, 73, 110, 0.15), rgba(113, 196, 255, 0.15));
-          border-radius: 10px;
-          backdrop-filter: blur(10px);
+          width: 8px;
+          height: 250px;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 20px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           z-index: 9999;
           opacity: 0;
-          transition: opacity 0.3s ease, width 0.2s ease;
+          transition: opacity 0.4s ease, width 0.25s ease, box-shadow 0.3s ease;
           pointer-events: none;
-          box-shadow: 0 0 20px rgba(125, 190, 255, 0.2);
+          box-shadow: 
+            0 4px 24px rgba(0, 0, 0, 0.1),
+            inset 0 1px 2px rgba(255, 255, 255, 0.1);
         }
         
         .pc-custom-scrollbar.visible {
-          opacity: 1;
+          opacity: 0.85;
           pointer-events: auto;
         }
         
         .pc-custom-scrollbar:hover {
-          width: 8px;
-          box-shadow: 0 0 30px rgba(125, 190, 255, 0.4);
+          opacity: 1;
+          width: 10px;
+          box-shadow: 
+            0 8px 32px rgba(113, 196, 255, 0.15),
+            inset 0 1px 3px rgba(255, 255, 255, 0.15);
         }
         
         .pc-scrollbar-thumb {
           position: absolute;
-          left: 0;
+          left: 50%;
           top: 0;
-          width: 100%;
-          background: linear-gradient(145deg, #60496e, #71C4FF);
-          border-radius: 10px;
+          width: 14px;
+          transform: translateX(-50%) rotate(-8deg);
+          background: linear-gradient(
+            135deg,
+            rgba(113, 196, 255, 0.6) 0%,
+            rgba(96, 73, 110, 0.7) 50%,
+            rgba(113, 196, 255, 0.5) 100%
+          );
+          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
           cursor: grab;
-          transition: background 0.2s ease, box-shadow 0.2s ease;
-          box-shadow: 0 2px 8px rgba(113, 196, 255, 0.3);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 
+            0 4px 16px rgba(113, 196, 255, 0.4),
+            inset 0 1px 2px rgba(255, 255, 255, 0.3),
+            inset 0 -1px 2px rgba(96, 73, 110, 0.3);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .pc-scrollbar-thumb::before {
+          content: '';
+          position: absolute;
+          top: 15%;
+          left: 20%;
+          width: 35%;
+          height: 35%;
+          background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.5),
+            transparent 60%
+          );
+          border-radius: 50%;
+          filter: blur(2px);
         }
         
         .pc-scrollbar-thumb:hover {
-          background: linear-gradient(145deg, #71C4FF, #60496e);
-          box-shadow: 0 4px 16px rgba(113, 196, 255, 0.5);
+          width: 16px;
+          transform: translateX(-50%) rotate(-5deg) scale(1.05);
+          background: linear-gradient(
+            135deg,
+            rgba(113, 196, 255, 0.75) 0%,
+            rgba(96, 73, 110, 0.85) 50%,
+            rgba(113, 196, 255, 0.65) 100%
+          );
+          box-shadow: 
+            0 6px 24px rgba(113, 196, 255, 0.6),
+            inset 0 1px 3px rgba(255, 255, 255, 0.4),
+            inset 0 -1px 3px rgba(96, 73, 110, 0.4);
         }
         
         .pc-scrollbar-thumb:active {
           cursor: grabbing;
-          background: linear-gradient(145deg, #71C4FF, #71C4FF);
-          box-shadow: 0 6px 20px rgba(113, 196, 255, 0.7);
+          transform: translateX(-50%) rotate(-3deg) scale(0.98);
+          background: linear-gradient(
+            135deg,
+            rgba(113, 196, 255, 0.85) 0%,
+            rgba(96, 73, 110, 0.95) 50%,
+            rgba(113, 196, 255, 0.75) 100%
+          );
+          box-shadow: 
+            0 8px 32px rgba(113, 196, 255, 0.8),
+            inset 0 2px 4px rgba(255, 255, 255, 0.5),
+            inset 0 -2px 4px rgba(96, 73, 110, 0.5);
         }
       `}</style>
       
