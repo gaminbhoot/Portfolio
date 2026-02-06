@@ -38,74 +38,9 @@ const ProfileCardComponent = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
-  const scrollThumbRef = useRef(null);
 
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
-  
-  const [scrollbarVisible, setScrollbarVisible] = React.useState(false);
-  const [isDragging, setIsDragging] = React.useState(false);
-  const dragStartRef = useRef({ y: 0, scrollTop: 0 });
-
-  // Scrollbar handlers
-  const updateScrollbar = useCallback(() => {
-    const thumb = scrollThumbRef.current;
-    if (!thumb) return;
-
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-    const clientHeight = window.innerHeight;
-    
-    const scrollable = scrollHeight > clientHeight;
-    
-    setScrollbarVisible(scrollable);
-    
-    if (scrollable) {
-      const thumbHeight = Math.max((clientHeight / scrollHeight) * 250, 40);
-      const maxScroll = scrollHeight - clientHeight;
-      const scrollPercent = scrollTop / maxScroll;
-      const thumbTop = scrollPercent * (250 - thumbHeight);
-      
-      thumb.style.height = `${thumbHeight}px`;
-      thumb.style.transform = `translateX(-50%) translateY(${thumbTop}px) rotate(-8deg)`;
-    }
-  }, []);
-
-  const handleScrollbarMouseDown = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-    dragStartRef.current = {
-      y: e.clientY,
-      scrollTop: document.documentElement.scrollTop || document.body.scrollTop
-    };
-  }, []);
-
-  const handleScrollbarMouseMove = useCallback((e) => {
-    if (!isDragging) return;
-    
-    const deltaY = e.clientY - dragStartRef.current.y;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = window.innerHeight;
-    const scrollRatio = scrollHeight / clientHeight;
-    
-    window.scrollTo(0, dragStartRef.current.scrollTop + (deltaY * scrollRatio));
-  }, [isDragging]);
-
-  const handleScrollbarMouseUp = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleScrollbarMouseMove);
-      document.addEventListener('mouseup', handleScrollbarMouseUp);
-      return () => {
-        document.removeEventListener('mousemove', handleScrollbarMouseMove);
-        document.removeEventListener('mouseup', handleScrollbarMouseUp);
-      };
-    }
-  }, [isDragging, handleScrollbarMouseMove, handleScrollbarMouseUp]);
 
   const tiltEngine = useMemo(() => {
     if (!enableTilt) return null;
@@ -226,12 +161,6 @@ const ProfileCardComponent = ({
 
   const handlePointerMove = useCallback(
     event => {
-      // Skip touch events to allow scrolling
-      if (event.pointerType === 'touch') {
-        event.stopPropagation();
-        return;
-      }
-      
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
       const { x, y } = getOffsets(event, shell);
@@ -242,12 +171,6 @@ const ProfileCardComponent = ({
 
   const handlePointerEnter = useCallback(
     event => {
-      // Skip touch events to allow scrolling
-      if (event.pointerType === 'touch') {
-        event.stopPropagation();
-        return;
-      }
-      
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
 
@@ -381,230 +304,67 @@ const ProfileCardComponent = ({
     onContactClick?.();
   }, [onContactClick]);
 
-  useEffect(() => {
-    const handleScroll = () => updateScrollbar();
-    const handleResize = () => updateScrollbar();
-    
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-    
-    // Initial update
-    updateScrollbar();
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [updateScrollbar]);
-
   return (
-    <>
-      <style>{`
-        body::-webkit-scrollbar {
-          display: none;
-        }
-        
-        body {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        
-        .pc-custom-scrollbar {
-          position: fixed;
-          right: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 8px;
-          height: 250px;
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 20px;
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          z-index: 9999;
-          opacity: 0;
-          transition: opacity 0.4s ease, width 0.25s ease, box-shadow 0.3s ease;
-          pointer-events: none;
-          box-shadow: 
-            0 4px 24px rgba(0, 0, 0, 0.1),
-            inset 0 1px 2px rgba(255, 255, 255, 0.1);
-        }
-        
-        .pc-custom-scrollbar.visible {
-          opacity: 0.85;
-          pointer-events: auto;
-        }
-        
-        .pc-custom-scrollbar:hover {
-          opacity: 1;
-          width: 10px;
-          box-shadow: 
-            0 8px 32px rgba(113, 196, 255, 0.15),
-            inset 0 1px 3px rgba(255, 255, 255, 0.15);
-        }
-        
-        .pc-scrollbar-thumb {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          width: 14px;
-          transform: translateX(-50%) rotate(-8deg);
-          background: linear-gradient(
-            135deg,
-            rgba(113, 196, 255, 0.6) 0%,
-            rgba(96, 73, 110, 0.7) 50%,
-            rgba(113, 196, 255, 0.5) 100%
-          );
-          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-          cursor: grab;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 
-            0 4px 16px rgba(113, 196, 255, 0.4),
-            inset 0 1px 2px rgba(255, 255, 255, 0.3),
-            inset 0 -1px 2px rgba(96, 73, 110, 0.3);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .pc-scrollbar-thumb::before {
-          content: '';
-          position: absolute;
-          top: 15%;
-          left: 20%;
-          width: 35%;
-          height: 35%;
-          background: radial-gradient(
-            circle at 30% 30%,
-            rgba(255, 255, 255, 0.5),
-            transparent 60%
-          );
-          border-radius: 50%;
-          filter: blur(2px);
-        }
-        
-        .pc-scrollbar-thumb:hover {
-          width: 16px;
-          transform: translateX(-50%) rotate(-5deg) scale(1.05);
-          background: linear-gradient(
-            135deg,
-            rgba(113, 196, 255, 0.75) 0%,
-            rgba(96, 73, 110, 0.85) 50%,
-            rgba(113, 196, 255, 0.65) 100%
-          );
-          box-shadow: 
-            0 6px 24px rgba(113, 196, 255, 0.6),
-            inset 0 1px 3px rgba(255, 255, 255, 0.4),
-            inset 0 -1px 3px rgba(96, 73, 110, 0.4);
-        }
-        
-        .pc-scrollbar-thumb:active {
-          cursor: grabbing;
-          transform: translateX(-50%) rotate(-3deg) scale(0.98);
-          background: linear-gradient(
-            135deg,
-            rgba(113, 196, 255, 0.85) 0%,
-            rgba(96, 73, 110, 0.95) 50%,
-            rgba(113, 196, 255, 0.75) 100%
-          );
-          box-shadow: 
-            0 8px 32px rgba(113, 196, 255, 0.8),
-            inset 0 2px 4px rgba(255, 255, 255, 0.5),
-            inset 0 -2px 4px rgba(96, 73, 110, 0.5);
-        }
-      `}</style>
-      
-      <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
-        {behindGlowEnabled && <div className="pc-behind" />}
-        <div ref={shellRef} className="pc-card-shell">
-          <section className="pc-card">
-            <div className="pc-inside">
-              <div className="pc-shine" />
-              <div className="pc-glare" />
-              <div className="pc-content pc-avatar-content">
-                <img
-                  className="absolute left-1/2 bottom-[27px] w-[95%] h-[80%] object-cover object-top -translate-x-[43%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
-                  src={avatarUrl}
-                  alt={`${name || 'User'} avatar`}
-                  loading="lazy"
-                  onError={e => {
-                    const t = e.target;
-                    t.style.display = 'none';
-                  }}
-                />
-                {showUserInfo && (
-                  <div className="pc-user-info">
-                    <div className="pc-user-details">
-                      <div className="pc-mini-avatar">
-                        <img
-                          src={miniAvatarUrl || avatarUrl}
-                          alt={`${name || 'User'} mini avatar`}
-                          loading="lazy"
-                          onError={e => {
-                            const t = e.target;
-                            t.style.opacity = '0.5';
-                            t.src = avatarUrl;
-                          }}
-                        />
-                      </div>
-                      <div className="pc-user-text">
-                        <div className="pc-handle">@{handle}</div>
-                        <div className="pc-status">{status}</div>
-                      </div>
+    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+      {behindGlowEnabled && <div className="pc-behind" />}
+      <div ref={shellRef} className="pc-card-shell">
+        <section className="pc-card">
+          <div className="pc-inside">
+            <div className="pc-shine" />
+            <div className="pc-glare" />
+            <div className="pc-content pc-avatar-content">
+              <img
+                className="avatar"
+                src={avatarUrl}
+                alt={`${name || 'User'} avatar`}
+                loading="lazy"
+                onError={e => {
+                  const t = e.target;
+                  t.style.display = 'none';
+                }}
+              />
+              {showUserInfo && (
+                <div className="pc-user-info">
+                  <div className="pc-user-details">
+                    <div className="pc-mini-avatar">
+                      <img
+                        src={miniAvatarUrl || avatarUrl}
+                        alt={`${name || 'User'} mini avatar`}
+                        loading="lazy"
+                        onError={e => {
+                          const t = e.target;
+                          t.style.opacity = '0.5';
+                          t.src = avatarUrl;
+                        }}
+                      />
                     </div>
-                    <button
-                      className="pc-contact-btn"
-                      onClick={handleContactClick}
-                      style={{ pointerEvents: 'auto' }}
-                      type="button"
-                      aria-label={`Contact ${name || 'user'}`}
-                    >
-                      {contactText}
-                    </button>
+                    <div className="pc-user-text">
+                      <div className="pc-handle">@{handle}</div>
+                      <div className="pc-status">{status}</div>
+                    </div>
                   </div>
-                )}
-              </div>
-              <div className="pc-content">
-                <div className="pc-details">
-                  <h3>{name}</h3>
-                  <p>{title}</p>
+                  <button
+                    className="pc-contact-btn"
+                    onClick={handleContactClick}
+                    style={{ pointerEvents: 'auto' }}
+                    type="button"
+                    aria-label={`Contact ${name || 'user'}`}
+                  >
+                    {contactText}
+                  </button>
                 </div>
+              )}
+            </div>
+            <div className="pc-content">
+              <div className="pc-details">
+                <h3>{name}</h3>
+                <p>{title}</p>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
-      
-      {/* Custom Scrollbar */}
-      <div className={`pc-custom-scrollbar ${scrollbarVisible ? 'visible' : ''}`}>
-        <div 
-          ref={scrollThumbRef}
-          className="pc-scrollbar-thumb"
-          onMouseDown={handleScrollbarMouseDown}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            setIsDragging(true);
-            dragStartRef.current = {
-              y: touch.clientY,
-              scrollTop: document.documentElement.scrollTop || document.body.scrollTop
-            };
-          }}
-          onTouchMove={(e) => {
-            if (!isDragging) return;
-            const touch = e.touches[0];
-            
-            const deltaY = touch.clientY - dragStartRef.current.y;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const clientHeight = window.innerHeight;
-            const scrollRatio = scrollHeight / clientHeight;
-            
-            window.scrollTo(0, dragStartRef.current.scrollTop + (deltaY * scrollRatio));
-          }}
-          onTouchEnd={() => setIsDragging(false)}
-        />
-      </div>
-    </>
+    </div>
   );
 };
 
