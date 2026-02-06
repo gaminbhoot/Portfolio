@@ -14,11 +14,6 @@ import { Calendar } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const isTouchDevice =
-  typeof window !== "undefined" &&
-  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
-
 const ScrollTimeline = ({
   events,
   title = "Timeline",
@@ -288,11 +283,7 @@ const ScrollTimeline = ({
                     initial="initial"
                     whileInView="whileInView"
                     viewport={{ once: false, margin: "-100px" }}
-                    style={{
-                      ...(parallaxIntensity > 0 ? { y: yOffset } : {}),
-                      pointerEvents: isTouchDevice ? "none" : "auto",
-                    }}
-
+                    style={parallaxIntensity > 0 ? { y: yOffset } : undefined}
                   >
                     <div className="p-6">
                       {dateFormat === "badge" ? (
@@ -525,7 +516,7 @@ const About = () => {
               grainUrl="/grain.webp"
               iconUrl="/iconpattern.png"
               showUserInfo={true}
-              enableTilt={!isTouchDevice}
+              enableTilt={true}
               onContactClick={() => navigate("/contact")}
               showBehindGlow
               behindGlowColor="rgba(125, 190, 255, 0.4)"
