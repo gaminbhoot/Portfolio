@@ -162,7 +162,10 @@ const ProfileCardComponent = ({
   const handlePointerMove = useCallback(
     event => {
       // Skip touch events to allow scrolling
-      if (event.pointerType === 'touch') return;
+      if (event.pointerType === 'touch') {
+        event.stopPropagation();
+        return;
+      }
       
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
@@ -175,7 +178,10 @@ const ProfileCardComponent = ({
   const handlePointerEnter = useCallback(
     event => {
       // Skip touch events to allow scrolling
-      if (event.pointerType === 'touch') return;
+      if (event.pointerType === 'touch') {
+        event.stopPropagation();
+        return;
+      }
       
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
@@ -311,9 +317,9 @@ const ProfileCardComponent = ({
   }, [onContactClick]);
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={{...cardStyle, touchAction: 'pan-y pan-x'}}>
       {behindGlowEnabled && <div className="pc-behind" />}
-      <div ref={shellRef} className="pc-card-shell">
+      <div ref={shellRef} className="pc-card-shell" style={{touchAction: 'pan-y pan-x'}}>
         <section className="pc-card">
           <div className="pc-inside">
             <div className="pc-shine" />
