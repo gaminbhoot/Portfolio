@@ -516,7 +516,7 @@ const About = () => {
               grainUrl="/grain.webp"
               iconUrl="/iconpattern.png"
               showUserInfo={true}
-              enableTilt={true}
+              enableTilt={false}
               onContactClick={() => navigate("/contact")}
               showBehindGlow
               behindGlowColor="rgba(125, 190, 255, 0.4)"
