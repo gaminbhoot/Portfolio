@@ -161,6 +161,9 @@ const ProfileCardComponent = ({
 
   const handlePointerMove = useCallback(
     event => {
+      // Skip touch events to allow scrolling
+      if (event.pointerType === 'touch') return;
+      
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
       const { x, y } = getOffsets(event, shell);
@@ -171,6 +174,9 @@ const ProfileCardComponent = ({
 
   const handlePointerEnter = useCallback(
     event => {
+      // Skip touch events to allow scrolling
+      if (event.pointerType === 'touch') return;
+      
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
 
