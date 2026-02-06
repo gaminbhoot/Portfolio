@@ -169,7 +169,7 @@ export default function Skills() {
             scale: 0.9,
           },
           {
-            opacity: 1,
+            opacity: 0.7,
             y: 0,
             scale: 1,
             duration: 0.8,
@@ -251,37 +251,39 @@ export default function Skills() {
   }, []);
 
   const skills = [
-    "React",
-    "JavaScript",
-    "Tailwind CSS",
-    "Framer Motion",
-    "GSAP",
-    "Node.js",
+    "Artificial Intelligence",
     "Python",
+    "PyTorch",
+    "Pandas & NumPy",
+    "Matplotlib & Seaborn",
+    "Scikit-learn",
+    "Motion Tracking",
     "Computer Vision",
     "YOLOv8",
     "Neural Networks",
     "Machine Learning",
+    "Cisco Networking",
     "Git & GitHub",
+    "React.js",
   ];
 
   const certifications = [
     {
-      title: "Machine Learning Specialization",
-      issuer: "Stanford University & DeepLearning.AI",
+      title: " Python for Data Science",
+      issuer: "NPTEL",
       date: "2024",
       color: "indigo"
     },
     {
-      title: "Advanced React & JavaScript",
-      issuer: "Meta",
-      date: "2023",
+      title: "CCNA: Introduction to Networks",
+      issuer: "Cisco Networking Academy",
+      date: "2025",
       color: "purple"
     },
     {
-      title: "Full Stack Development",
-      issuer: "freeCodeCamp",
-      date: "2023",
+      title: "Data Science and Machine Learning",
+      issuer: "Masai X IIT Guwahati",
+      date: "2025",
       color: "cyan"
     },
   ];
@@ -328,10 +330,11 @@ export default function Skills() {
         style={{ transformStyle: "preserve-3d" }}
       >
         <Terminal title="skills.sh" subtitle=" ">
-          <ScrollArea maxHeight={600} theme="none" smooth className="pr-2">
+          <ScrollArea maxHeight={600} theme="none" smooth className="pr-2 py-2">
             <ScrollList
               data={skills}
               itemHeight={88}
+              gap={8}
               renderItem={(skill, index) => (
                 <div
                   className="

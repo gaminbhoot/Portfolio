@@ -418,41 +418,44 @@ const About = () => {
   }, []);
 
   const timelineData = [
+    
     {
       id: "1",
-      year: "2020",
-      title: "Early Foundations",
-      subtitle: "The Beginning",
-      description: "Started my journey in computer science with a focus on understanding core programming principles and data structures. Built foundational projects to solidify problem-solving skills.",
+      year: "2021",
+      title: "Introduction to Computer Science",
+      subtitle: "Learning the Basics",
+      description: "Started pursuing computer science. Focused on understanding programming logic, control flow, and basic data structures. This phase was all about learning the core concepts & how programs execute."
     },
     {
       id: "2",
-      year: "2021",
-      title: "Web Development",
-      subtitle: "Full Stack Journey",
-      description: "Dove into modern web technologies — React, Node.js, and responsive design. Developed multiple full-stack applications focusing on clean architecture and user experience.",
+      year: "2022",
+      title: "Conceptual Strengthening",
+      subtitle: "From Syntax to Reasoning",
+      description: "Moved beyond writing code that merely runs to understanding why it works. Emphasized problem decomposition, debugging, and writing clearer, more structured programs."
     },
     {
       id: "3",
-      year: "2022",
-      title: "AI & Machine Learning",
-      subtitle: "Applied Intelligence",
-      description: "Explored applied AI and computer vision with YOLO and neural networks. Worked on practical implementations that solve real-world problems beyond academic exercises.",
+      year: "2023",
+      title: "Undergraduate Computer Science",
+      subtitle: "Formal Engineering Education",
+      description: "Began B.Tech in Computer Science. Gained exposure to core theoretical subjects and structured coursework. Learned to balance conceptual understanding with practical implementation under defined constraints."
     },
     {
       id: "4",
-      year: "2023",
-      title: "Motion & Design",
-      subtitle: "Interface Animation",
-      description: "Mastered animation libraries like GSAP and Framer Motion. Created interfaces where motion serves purpose — guiding attention and enhancing usability rather than just decoration.",
+      year: "2024",
+      title: "Software Engineering Perspective",
+      subtitle: "Systems and Interfaces",
+      description: "Shifted focus from isolated programs to complete systems. Went through basic but important concepts of OOP, OS, DBMS, DSA, and software design principles. Started projects that integrated these concepts into functional applications."
     },
     {
       id: "5",
-      year: "2024",
-      title: "Engineering Mindset",
-      subtitle: "Professional Growth",
-      description: "Developed a systematic approach to building software. Prioritizing maintainability, clarity, and scalability. Learning to write code that others can understand and build upon.",
-    },
+      year: "2025",
+      title: "Data Science Focus",
+      subtitle: "Applied Analysis",
+      description: "Started the IITG–Masai data science program. Focused on machine learning, data behavior, and modeling assumptions. Emphasis was placed on interpretation and real-world constraints rather than purely optimizing metrics."
+    }
+
+
   ];
 
   return (
@@ -483,14 +486,14 @@ const About = () => {
               className="mb-8 h-px w-full bg-white/10" 
             />
 
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6">
+            <p className="text-base md:text-m text-gray-300 leading-relaxed mb-6">
               I'm a computer science student focused on building practical, scalable software solutions. 
               My interests lie in applied problem-solving, where I translate ideas into functional, 
               user-centric applications. I've worked on multiple development projects involving structured UI design and 
               implementation of efficient workflows.
             </p>
 
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
+            <p className="text-base md:text-m text-gray-300 leading-relaxed">
               I approach development with an engineering mindset—clarity 
               over cleverness, fundamentals over shortcuts. Currently, I'm sharpening my technical depth while preparing 
               to transition from academic projects to industry-grade systems and 

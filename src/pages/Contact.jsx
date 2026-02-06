@@ -203,7 +203,7 @@ export default function Contact() {
       </div>
 
       {/* HEADER */}
-      <div ref={headerRef} className="border-b border-white/10 pb-6 mb-8 mt-0 relative overflow-hidden">
+      <div ref={headerRef} className="border-b border-white/10 pb-6 mb-10 mt-0 relative overflow-hidden">
         <h1 
           className="text-4xl md:text-7xl font-black uppercase tracking-tighter leading-none perspective-1000" 
           style={{ fontFamily: "'Orbitron', sans-serif" }}
