@@ -38,9 +38,74 @@ const ProfileCardComponent = ({
 }) => {
   const wrapRef = useRef(null);
   const shellRef = useRef(null);
+  const scrollThumbRef = useRef(null);
 
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
+  
+  const [scrollbarVisible, setScrollbarVisible] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const dragStartRef = useRef({ y: 0, scrollTop: 0 });
+
+  // Scrollbar handlers
+  const updateScrollbar = useCallback(() => {
+    const thumb = scrollThumbRef.current;
+    if (!thumb) return;
+
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    const clientHeight = window.innerHeight;
+    
+    const scrollable = scrollHeight > clientHeight;
+    
+    setScrollbarVisible(scrollable);
+    
+    if (scrollable) {
+      const thumbHeight = Math.max((clientHeight / scrollHeight) * 200, 30);
+      const maxScroll = scrollHeight - clientHeight;
+      const scrollPercent = scrollTop / maxScroll;
+      const thumbTop = scrollPercent * (200 - thumbHeight);
+      
+      thumb.style.height = `${thumbHeight}px`;
+      thumb.style.transform = `translateY(${thumbTop}px)`;
+    }
+  }, []);
+
+  const handleScrollbarMouseDown = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    dragStartRef.current = {
+      y: e.clientY,
+      scrollTop: document.documentElement.scrollTop || document.body.scrollTop
+    };
+  }, []);
+
+  const handleScrollbarMouseMove = useCallback((e) => {
+    if (!isDragging) return;
+    
+    const deltaY = e.clientY - dragStartRef.current.y;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = window.innerHeight;
+    const scrollRatio = scrollHeight / clientHeight;
+    
+    window.scrollTo(0, dragStartRef.current.scrollTop + (deltaY * scrollRatio));
+  }, [isDragging]);
+
+  const handleScrollbarMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleScrollbarMouseMove);
+      document.addEventListener('mouseup', handleScrollbarMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleScrollbarMouseMove);
+        document.removeEventListener('mouseup', handleScrollbarMouseUp);
+      };
+    }
+  }, [isDragging, handleScrollbarMouseMove, handleScrollbarMouseUp]);
 
   const tiltEngine = useMemo(() => {
     if (!enableTilt) return null;
@@ -316,67 +381,176 @@ const ProfileCardComponent = ({
     onContactClick?.();
   }, [onContactClick]);
 
+  useEffect(() => {
+    const handleScroll = () => updateScrollbar();
+    const handleResize = () => updateScrollbar();
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    
+    // Initial update
+    updateScrollbar();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [updateScrollbar]);
+
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={{...cardStyle, touchAction: 'pan-y pan-x'}}>
-      {behindGlowEnabled && <div className="pc-behind" />}
-      <div ref={shellRef} className="pc-card-shell" style={{touchAction: 'pan-y pan-x'}}>
-        <section className="pc-card">
-          <div className="pc-inside">
-            <div className="pc-shine" />
-            <div className="pc-glare" />
-            <div className="pc-content pc-avatar-content">
-              <img
-                className="absolute left-1/2 bottom-[27px] w-[95%] h-[80%] object-cover object-top -translate-x-[43%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
-                src={avatarUrl}
-                alt={`${name || 'User'} avatar`}
-                loading="lazy"
-                onError={e => {
-                  const t = e.target;
-                  t.style.display = 'none';
-                }}
-              />
-              {showUserInfo && (
-                <div className="pc-user-info">
-                  <div className="pc-user-details">
-                    <div className="pc-mini-avatar">
-                      <img
-                        src={miniAvatarUrl || avatarUrl}
-                        alt={`${name || 'User'} mini avatar`}
-                        loading="lazy"
-                        onError={e => {
-                          const t = e.target;
-                          t.style.opacity = '0.5';
-                          t.src = avatarUrl;
-                        }}
-                      />
+    <>
+      <style>{`
+        body::-webkit-scrollbar {
+          display: none;
+        }
+        
+        body {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        
+        .pc-custom-scrollbar {
+          position: fixed;
+          right: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 6px;
+          height: 200px;
+          background: linear-gradient(145deg, rgba(96, 73, 110, 0.15), rgba(113, 196, 255, 0.15));
+          border-radius: 10px;
+          backdrop-filter: blur(10px);
+          z-index: 9999;
+          opacity: 0;
+          transition: opacity 0.3s ease, width 0.2s ease;
+          pointer-events: none;
+          box-shadow: 0 0 20px rgba(125, 190, 255, 0.2);
+        }
+        
+        .pc-custom-scrollbar.visible {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        
+        .pc-custom-scrollbar:hover {
+          width: 8px;
+          box-shadow: 0 0 30px rgba(125, 190, 255, 0.4);
+        }
+        
+        .pc-scrollbar-thumb {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          background: linear-gradient(145deg, #60496e, #71C4FF);
+          border-radius: 10px;
+          cursor: grab;
+          transition: background 0.2s ease, box-shadow 0.2s ease;
+          box-shadow: 0 2px 8px rgba(113, 196, 255, 0.3);
+        }
+        
+        .pc-scrollbar-thumb:hover {
+          background: linear-gradient(145deg, #71C4FF, #60496e);
+          box-shadow: 0 4px 16px rgba(113, 196, 255, 0.5);
+        }
+        
+        .pc-scrollbar-thumb:active {
+          cursor: grabbing;
+          background: linear-gradient(145deg, #71C4FF, #71C4FF);
+          box-shadow: 0 6px 20px rgba(113, 196, 255, 0.7);
+        }
+      `}</style>
+      
+      <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+        {behindGlowEnabled && <div className="pc-behind" />}
+        <div ref={shellRef} className="pc-card-shell">
+          <section className="pc-card">
+            <div className="pc-inside">
+              <div className="pc-shine" />
+              <div className="pc-glare" />
+              <div className="pc-content pc-avatar-content">
+                <img
+                  className="absolute left-1/2 bottom-[27px] w-[95%] h-[80%] object-cover object-top -translate-x-[43%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
+                  src={avatarUrl}
+                  alt={`${name || 'User'} avatar`}
+                  loading="lazy"
+                  onError={e => {
+                    const t = e.target;
+                    t.style.display = 'none';
+                  }}
+                />
+                {showUserInfo && (
+                  <div className="pc-user-info">
+                    <div className="pc-user-details">
+                      <div className="pc-mini-avatar">
+                        <img
+                          src={miniAvatarUrl || avatarUrl}
+                          alt={`${name || 'User'} mini avatar`}
+                          loading="lazy"
+                          onError={e => {
+                            const t = e.target;
+                            t.style.opacity = '0.5';
+                            t.src = avatarUrl;
+                          }}
+                        />
+                      </div>
+                      <div className="pc-user-text">
+                        <div className="pc-handle">@{handle}</div>
+                        <div className="pc-status">{status}</div>
+                      </div>
                     </div>
-                    <div className="pc-user-text">
-                      <div className="pc-handle">@{handle}</div>
-                      <div className="pc-status">{status}</div>
-                    </div>
+                    <button
+                      className="pc-contact-btn"
+                      onClick={handleContactClick}
+                      style={{ pointerEvents: 'auto' }}
+                      type="button"
+                      aria-label={`Contact ${name || 'user'}`}
+                    >
+                      {contactText}
+                    </button>
                   </div>
-                  <button
-                    className="pc-contact-btn"
-                    onClick={handleContactClick}
-                    style={{ pointerEvents: 'auto' }}
-                    type="button"
-                    aria-label={`Contact ${name || 'user'}`}
-                  >
-                    {contactText}
-                  </button>
+                )}
+              </div>
+              <div className="pc-content">
+                <div className="pc-details">
+                  <h3>{name}</h3>
+                  <p>{title}</p>
                 </div>
-              )}
-            </div>
-            <div className="pc-content">
-              <div className="pc-details">
-                <h3>{name}</h3>
-                <p>{title}</p>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
-    </div>
+      
+      {/* Custom Scrollbar */}
+      <div className={`pc-custom-scrollbar ${scrollbarVisible ? 'visible' : ''}`}>
+        <div 
+          ref={scrollThumbRef}
+          className="pc-scrollbar-thumb"
+          onMouseDown={handleScrollbarMouseDown}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            setIsDragging(true);
+            dragStartRef.current = {
+              y: touch.clientY,
+              scrollTop: document.documentElement.scrollTop || document.body.scrollTop
+            };
+          }}
+          onTouchMove={(e) => {
+            if (!isDragging) return;
+            const touch = e.touches[0];
+            
+            const deltaY = touch.clientY - dragStartRef.current.y;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = window.innerHeight;
+            const scrollRatio = scrollHeight / clientHeight;
+            
+            window.scrollTo(0, dragStartRef.current.scrollTop + (deltaY * scrollRatio));
+          }}
+          onTouchEnd={() => setIsDragging(false)}
+        />
+      </div>
+    </>
   );
 };
 
