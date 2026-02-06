@@ -11,6 +11,8 @@ export default function Skills() {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
   const terminalRef = useRef(null);
+  const certificationsRef = useRef(null);
+  const resumeButtonRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -110,6 +112,77 @@ export default function Skills() {
         );
       });
 
+      // Certifications section reveal
+      if (certificationsRef.current) {
+        gsap.fromTo(
+          certificationsRef.current,
+          {
+            opacity: 0,
+            y: 50,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: certificationsRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
+      // Certification cards reveal
+      gsap.utils.toArray(".cert-card").forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 40,
+            rotateX: 15,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // Resume button reveal
+      if (resumeButtonRef.current) {
+        gsap.fromTo(
+          resumeButtonRef.current,
+          {
+            opacity: 0,
+            y: 30,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.8,
+            ease: "back.out(1.4)",
+            scrollTrigger: {
+              trigger: resumeButtonRef.current,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
+
       // Terminal floats and tilts on scroll
       gsap.to(terminalRef.current, {
         scrollTrigger: {
@@ -192,6 +265,34 @@ export default function Skills() {
     "Git & GitHub",
   ];
 
+  const certifications = [
+    {
+      title: "Machine Learning Specialization",
+      issuer: "Stanford University & DeepLearning.AI",
+      date: "2024",
+      color: "indigo"
+    },
+    {
+      title: "Advanced React & JavaScript",
+      issuer: "Meta",
+      date: "2023",
+      color: "purple"
+    },
+    {
+      title: "Full Stack Development",
+      issuer: "freeCodeCamp",
+      date: "2023",
+      color: "cyan"
+    },
+  ];
+
+  const handleResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/JAY JOSHI RESUME.pdf';
+    link.download = 'JAY_JOSHI_RESUME.pdf';
+    link.click();
+  };
+
   return (
     <div
       ref={containerRef}
@@ -223,7 +324,7 @@ export default function Skills() {
       {/* Terminal Section */}
       <div 
         ref={terminalRef}
-        className="max-w-4xl mx-auto w-full rounded-3xl overflow-hidden" // Added width and radius
+        className="max-w-4xl mx-auto w-full rounded-3xl overflow-hidden"
         style={{ transformStyle: "preserve-3d" }}
       >
         <Terminal title="skills.sh" subtitle=" ">
@@ -334,6 +435,190 @@ export default function Skills() {
             <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-green-400 to-emerald-400 transition-all duration-700" />
           </div>
 
+        </div>
+      </div>
+
+      {/* Certifications Section */}
+      <div 
+        ref={certificationsRef}
+        className="max-w-5xl mx-auto mt-20"
+      >
+        {/* Section Header */}
+        <div className="mb-10">
+          <h2
+            className="text-3xl md:text-5xl font-black tracking-tight mb-4"
+            style={{ fontFamily: "'Orbitron', sans-serif" }}
+          >
+            Certifications
+          </h2>
+          <p className="text-gray-200 max-w-2xl">
+            Professional certifications and courses completed to validate and expand my technical expertise.
+          </p>
+          <div className="mt-6 h-px w-full bg-white/10" />
+        </div>
+
+        {/* Certifications Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {certifications.map((cert, index) => {
+            const colorClasses = {
+              indigo: {
+                border: 'hover:border-indigo-400/50',
+                shadow: 'hover:shadow-indigo-500/20',
+                gradient: 'from-indigo-400 to-indigo-600',
+                text: 'text-indigo-400 group-hover:text-indigo-300'
+              },
+              purple: {
+                border: 'hover:border-purple-400/50',
+                shadow: 'hover:shadow-purple-500/20',
+                gradient: 'from-purple-400 to-purple-600',
+                text: 'text-purple-400 group-hover:text-purple-300'
+              },
+              cyan: {
+                border: 'hover:border-cyan-400/50',
+                shadow: 'hover:shadow-cyan-500/20',
+                gradient: 'from-cyan-400 to-cyan-600',
+                text: 'text-cyan-400 group-hover:text-cyan-300'
+              }
+            };
+
+            const colors = colorClasses[cert.color];
+
+            return (
+              <div
+                key={index}
+                className={`
+                  cert-card
+                  group
+                  relative
+                  rounded-2xl
+                  border border-white/10
+                  bg-black/30 backdrop-blur-md
+                  p-6
+                  transition-all duration-500
+                  hover:bg-black/40
+                  ${colors.border}
+                  hover:scale-105
+                  hover:-translate-y-2
+                  hover:shadow-xl
+                  ${colors.shadow}
+                  overflow-hidden
+                `}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {/* Certificate Icon */}
+                <div className={`
+                  mb-4 
+                  w-12 h-12 
+                  rounded-lg 
+                  bg-gradient-to-br ${colors.gradient}
+                  flex items-center justify-center
+                  transition-transform duration-300
+                  group-hover:scale-110 group-hover:rotate-6
+                `}>
+                  <svg 
+                    className="w-6 h-6 text-white" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" 
+                    />
+                  </svg>
+                </div>
+
+                {/* Certificate Details */}
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-gray-100 transition-colors duration-300">
+                  {cert.title}
+                </h3>
+                <p className={`text-sm font-mono uppercase tracking-wider mb-1 ${colors.text} transition-colors duration-300`}>
+                  {cert.issuer}
+                </p>
+                <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  {cert.date}
+                </p>
+
+                {/* Bottom accent line */}
+                <div className={`mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r ${colors.gradient} transition-all duration-700`} />
+
+                {/* Decorative glow effect */}
+                <div className={`absolute -inset-1 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10`} />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Note and Resume Button Section */}
+        <div className="mt-12 flex flex-col items-center gap-6">
+          <p className="text-gray-400 text-sm text-center">
+            More certifications and continuous learning in progress...
+          </p>
+
+          {/* Resume Download Button - Centered - Glassmorphic */}
+          <div ref={resumeButtonRef}>
+            <button
+              onClick={handleResumeDownload}
+              className="
+                group
+                relative
+                px-8 py-4
+                rounded-2xl
+                font-bold
+                text-white
+                text-lg
+                transition-all duration-300
+                hover:scale-110
+                active:scale-95
+                overflow-hidden
+                backdrop-blur-xl
+                border border-white/20
+              "
+              style={{
+                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2))',
+              }}
+            >
+              {/* Gradient border glow */}
+              <div className="absolute inset-0 rounded-2xl p-[2px] opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-sm" />
+              </div>
+
+              <span className="relative z-10 flex items-center gap-3">
+                <svg 
+                  className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1 group-hover:scale-110" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2.5} 
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
+                  />
+                </svg>
+                <span className="tracking-wide">Download Resume</span>
+              </span>
+              
+              {/* Glassmorphic hover overlay */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4))',
+                }}
+              />
+              
+              {/* Shine effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </div>
+
+              {/* Outer glow */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/50 via-purple-500/50 to-pink-500/50 opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500 -z-10" />
+            </button>
+          </div>
         </div>
       </div>
 
