@@ -510,6 +510,8 @@ const About = () => {
               status="Online"
               contactText="Contact Me"
               avatarUrl="/jay1.png"
+              grainUrl="/grain.webp"
+              iconUrl="/iconpattern.png"
               showUserInfo={true}
               enableTilt={true}
               onContactClick={() => navigate("/contact")}
