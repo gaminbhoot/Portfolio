@@ -1,11 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll } from "framer-motion";
 
-export default function ScrollList({
-  data,
-  renderItem,
-  itemHeight = 155,
-}) {
+export default function ScrollList({ data, renderItem, itemHeight = 155 }) {
   const listRef = useRef(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
 
@@ -29,9 +25,7 @@ export default function ScrollList({
         const itemHeight = child.offsetHeight;
         const itemCenter = itemTop + itemHeight / 2;
 
-        const distance = Math.abs(
-          itemCenter - scrollTop - containerCenter
-        );
+        const distance = Math.abs(itemCenter - scrollTop - containerCenter);
 
         if (distance < minDistance) {
           minDistance = distance;
@@ -81,7 +75,7 @@ export default function ScrollList({
     <div
       ref={listRef}
       className="scroll-list__wrp scrollbar-hidden mx-auto w-full"
-      style={{ height: "600px", overflowY: "auto" }}
+      style={{ height: "400px", overflowY: "auto" }}
     >
       {data.map((item, index) => {
         let variant = "hidden";
