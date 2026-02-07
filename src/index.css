@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.section-content {
+  white-space: pre-line;
+}
+
+
 * {
   margin: 0;
   padding: 0;

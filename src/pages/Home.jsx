@@ -445,7 +445,7 @@ export default function TerminalHero() {
                   FOCUS
                 </p>
                 <p className="text-white/70 group-hover:text-white/90 transition-colors duration-300 font-semibold">
-                  Web · Motion · AI
+                  Web · Data Science · AI
                 </p>
               </div>
               <div className="status-card group hover:bg-white/5 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:border hover:border-white/20">

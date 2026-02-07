@@ -4,6 +4,56 @@ import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { ArrowLeft, ChevronRight, Eye } from "lucide-react";
+function renderFormattedContent(text) {
+  if (!text || typeof text !== "string") {
+    return null;
+  }
+
+  // Match numbered items like "(1) something"
+  const itemRegex = /\(\d+\)\s*([^()]+)/g;
+
+  const items = [];
+  let match;
+
+  while ((match = itemRegex.exec(text)) !== null) {
+    items.push(match[1].trim().replace(/,$/, ""));
+  }
+
+  // ❗ GUARD: no numbered list found
+  if (items.length === 0) {
+    return <p>{text}</p>;
+  }
+
+  // Intro = text before first (1)
+  const intro = text.split(/\(1\)/)[0].trim();
+
+  // Conclusion = text after the last list item
+  const lastItemText = items[items.length - 1];
+  const conclusionIndex =
+    text.lastIndexOf(lastItemText) + lastItemText.length;
+
+  const conclusion = text.slice(conclusionIndex).trim();
+
+  return (
+    <div className="space-y-6">
+      {intro && <p>{intro}</p>}
+
+      <ul className="space-y-3 pl-6 border-l border-indigo-400/30">
+        {items.map((item, i) => (
+          <li key={i} className="flex gap-3">
+            <span className="text-indigo-400 font-mono">
+              {i + 1}.
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      {conclusion && <p>{conclusion}</p>}
+    </div>
+  );
+}
+
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -292,9 +342,10 @@ export default function ProjectDetail() {
                 </div>
 
                 {/* Content with enhanced styling */}
-                <div className="text-base md:text-lg leading-relaxed text-gray-100 font-light space-y-4 mb-8">
-                  {section.content}
+                <div className="section-content text-base md:text-lg leading-relaxed text-gray-100 font-light mb-8">
+                {renderFormattedContent(section.content)}
                 </div>
+
                 
                 {/* Image placeholder with glass morphism */}
                 <div className="relative group">
@@ -302,22 +353,31 @@ export default function ProjectDetail() {
                   
                   <div className="relative rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 h-64 md:h-96 w-full overflow-hidden">
                     {/* Grain texture */}
-                    <div 
-                      className="absolute inset-0 opacity-[0.03]"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        backgroundSize: '200px 200px'
-                      }}
-                    />
-                    
-                    <div className="relative flex items-center justify-center h-full">
-                      <div className="text-center">
-                        <Eye size={32} className="mx-auto mb-3 text-gray-400" />
-                        <p className="text-sm font-mono text-gray-400">
-                          [ Project Image: {section.title} ]
-                        </p>
-                      </div>
-                    </div>
+                    {section.image ? (
+                        <div className="relative rounded-xl h-64 md:h-96 w-full overflow-hidden">
+                            <img
+                            src={section.image}
+                            alt={section.title}
+                            className="w-full h-full object-cover"
+                            />
+
+                            {/* Grain texture overlay */}
+                            <div
+                            className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                            style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                                backgroundSize: '200px 200px'
+                            }}
+                            />
+                        </div>
+                        ) : (
+                        <div className="relative rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 h-64 md:h-96 w-full overflow-hidden flex items-center justify-center">
+                            <p className="text-sm font-mono text-gray-400">
+                            [ Project Image: {section.title} ]
+                            </p>
+                        </div>
+                        )}
+
                     
                     {/* Corner accent */}
                     <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
