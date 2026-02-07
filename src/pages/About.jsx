@@ -144,7 +144,7 @@ const ScrollTimeline = ({
     <div
       ref={scrollRef}
       className={cn(
-        "relative min-h-screen w-full overflow-hidden",
+        "relative min-h-screen w-full overflow-x-hidden",
         darkMode ? "bg-background text-foreground" : "",
         className
       )}
