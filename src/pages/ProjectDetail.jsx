@@ -97,6 +97,10 @@ export default function ProjectDetail() {
       return () => hero.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
+  // Smooth scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
 
   // Scroll Progress Bar
   const { scrollYProgress } = useScroll();
