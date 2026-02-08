@@ -577,15 +577,15 @@ export default function Skills() {
                 active:scale-95
                 overflow-hidden
                 backdrop-blur-xl
-                border border-white/20
+                border border-white/10
               "
               style={{
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2))',
+                background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))',
               }}
             >
               {/* Gradient border glow */}
-              <div className="absolute inset-0 rounded-2xl p-[2px] opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-sm" />
+              <div className="absolute inset-0 rounded-2xl p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 blur-sm" />
               </div>
 
               <span className="relative z-10 flex items-center gap-3">
@@ -602,24 +602,33 @@ export default function Skills() {
                     d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" 
                   />
                 </svg>
-                <span className="tracking-wide">Download Resume</span>
+                <span className="tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Download Resume</span>
               </span>
               
               {/* Glassmorphic hover overlay */}
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.4), rgba(236, 72, 153, 0.4))',
+                  background: 'linear-gradient(145deg, rgba(113, 196, 255, 0.15), rgba(96, 73, 110, 0.15))',
                 }}
               />
               
               {/* Shine effect */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
 
-              {/* Outer glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/50 via-purple-500/50 to-pink-500/50 opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500 -z-10" />
+              {/* Outer glow with cyan/purple theme */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 via-indigo-500/30 to-purple-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
+              
+              {/* Grain texture overlay */}
+              <div 
+                className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 rounded-2xl pointer-events-none"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                  backgroundSize: '200px 200px'
+                }}
+              />
             </button>
           </div>
         </div>
