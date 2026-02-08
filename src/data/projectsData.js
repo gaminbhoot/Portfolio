@@ -191,7 +191,7 @@ export const projectsData = [
       title: "Tamper-Proof Certificate Layer",
       image: "/images/octawipe/blockchain.webp",
       content:
-        "To prevent certificate forgery or tampering, OctaWipe integrates a blockchain-backed verification layer. Hashes of wiping certificates are anchored on-chain, ensuring immutability and long-term trust. This mechanism allows third parties to independently verify that a device was securely wiped according to certified standards."
+        "The blockchain layer in OctaWipe serves as an immutable trust anchor rather than a transactional system. Instead of storing full certificates on-chain, cryptographic hashes of digitally signed wipe reports are anchored to a distributed ledger. This design ensures that certificate integrity can be independently verified at any point in the future without exposing sensitive device metadata. By decoupling verification from centralized servers, the system eliminates single points of failure and reduces the risk of forged or altered wipe reports. This approach balances transparency, privacy, and long-term auditability while avoiding unnecessary blockchain overhead."
     },
     {
       id: "standards",
@@ -205,21 +205,21 @@ export const projectsData = [
       title: "Impact & Benefits",
       image: "/images/octawipe/impact.webp",
       content:
-        "By simplifying secure data destruction, OctaWipe reduces IT asset hoarding, improves user confidence, and promotes circular economy practices. Enterprises benefit from scalable bulk wiping, while individuals gain assurance that personal data is permanently erased. The system directly contributes to improved e-waste management and responsible device reuse."
+       "OctaWipe addresses a critical trust gap in the IT asset disposal lifecycle. By providing verifiable proof of data destruction, the system enables devices to be safely resold, refurbished, or recycled without fear of residual data leakage. This directly reduces unnecessary hardware disposal and supports circular economy practices. For enterprises, OctaWipe lowers compliance risk and operational overhead in large-scale decommissioning workflows. For individuals and e-waste handlers, it restores confidence that sensitive personal or organizational data is permanently erased. The net impact is both environmental sustainability and improved data security hygiene."
     },
     {
       id: "novelty",
       title: "Novelty & Innovation",
       image: "/images/octawipe/novelty.webp",
       content:
-        "OctaWipe is among the first solutions to combine bulk PXE-based wiping, hybrid storage sanitization, and blockchain-backed certification into a unified platform. Its hybrid compatibility, time efficiency, and enterprise scalability distinguish it from conventional data wiping tools."
+        "OctaWipe’s novelty lies not in inventing new wiping algorithms, but in integrating existing, proven techniques into a cohesive, verifiable system. The combination of PXE-based bulk wiping, storage-aware sanitization methods, and cryptographically verifiable certificates is rarely seen in a single platform. Most existing tools focus either on wiping or reporting; OctaWipe treats verification as a first-class system component. This integration-first design enables scalability, auditability, and trust without sacrificing usability, making the solution suitable for both enterprise and field deployment scenarios."
     },
     {
       id: "future",
       title: "Future Scope",
       image: "/images/octawipe/future.webp",
       content:
-        "Future enhancements include expanded mobile device support, automated compliance recommendations, tighter integration with recycling workflows, and advanced forensic verification techniques. These extensions aim to further strengthen trust, scalability, and regulatory alignment."
+        "Future development of OctaWipe will focus on strengthening automation, intelligence, and interoperability. Planned extensions include policy-driven wipe recommendations based on device type and regulatory context, tighter integration with enterprise asset management systems, and expanded support for mobile and embedded devices. Introducing controlled temporal decay and forensic verification layers could further enhance post-wipe assurance. Long-term, the system could evolve into a standardized trust layer for device lifecycle management, bridging the gap between data security, compliance, and sustainable hardware reuse."
     }
   ]
 },
