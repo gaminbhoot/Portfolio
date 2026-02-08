@@ -81,35 +81,35 @@ export const projectsData = [
     {
       id: "deployment",
       title: "Deployment & Web Interface",
-      image: "/images/ai-vision/deployment.jpg",
+      image: "/images/ai-vision/deployment.webp",
       content:
         "To ensure accessibility and ease of deployment, the system was wrapped in a Flask-based web server. Video streams with overlaid detections, track IDs, and heatmaps are served via a browser-compatible MJPEG feed. Additional API endpoints expose motion and threat status in JSON format, allowing integration with dashboards or external systems. The project was validated both locally and in GPU-enabled cloud environments such as Google Colab."
     },
     {
       id: "results",
       title: "Results & Performance",
-      image: "/images/ai-vision/results.jpg",
+      image: "/images/ai-vision/results.webp",
       content:
         "On GPU-backed environments, the system consistently achieved 35–45 FPS while maintaining stable tracking and responsive heatmap updates. Detection precision exceeded 85% for human subjects in controlled scenes, with low ID-switch rates even under partial occlusion. On CPU-only systems, performance degraded gracefully to 7–10 FPS, demonstrating practical usability beyond high-end hardware."
     },
     {
       id: "limitations",
       title: "Limitations",
-      image: "/images/ai-vision/limitations.jpg",
+      image: "/images/ai-vision/limitations.webp",
       content:
         "While effective, the system relies on rule-based threat logic, which can produce false positives in ambiguous scenarios. Heatmap accumulation currently lacks temporal decay, potentially overemphasizing historical motion. Additionally, performance is bounded by detector accuracy and camera placement. These limitations were accepted tradeoffs to preserve interpretability and real-time responsiveness."
     },
     {
       id: "future",
       title: "Future Directions",
-      image: "/images/ai-vision/future.jpg",
+      image: "/images/ai-vision/future.webp",
       content:
         "Future iterations could incorporate learned anomaly detection models, such as autoencoders or temporal CNNs, to replace heuristic threat logic. Temporal decay and semantic zone modeling would further refine heatmap analytics. Edge deployment optimization and multi-camera fusion represent natural extensions of the current architecture."
     },
     {
       id: "impact",
       title: "Impact",
-      image: "/images/ai-vision/impact.jpg",
+      image: "/images/ai-vision/impact.webp",
       content:
         "This project demonstrates how modern computer vision systems can move beyond raw detection toward interpretable, deployable surveillance intelligence. By integrating detection, tracking, motion analytics, and visualization into a single pipeline, the system provides a foundation for real-world monitoring applications that value both performance and human interpretability."
     }
