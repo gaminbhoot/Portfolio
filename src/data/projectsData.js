@@ -11,108 +11,95 @@ export const projectsData = [
   sections: [
 
     {
-      id: "overview",
-      title: "Overview",
-      image: "/images/ai-vision/overview.webp",
-      content:
-        "This project focuses on designing and implementing a real-time surveillance system capable of detecting, tracking, and analyzing motion in live video streams. By combining deep learning–based object detection (YOLOv8), multi-object tracking (Deep SORT), and motion heatmap analytics, the system transforms raw video feeds into actionable spatial and behavioral insights. The goal was not only accurate detection, but sustained identity tracking, motion pattern visualization, and deployability in real-world environments."
-    },
-    {
-      id: "context",
-      title: "Context & Motivation",
-      image: "/images/ai-vision/context.webp",
-      content:
-        "Traditional motion detection systems rely heavily on background subtraction or frame differencing, which often fail in dynamic environments due to lighting changes, shadows, camera noise, and background motion. In modern surveillance scenarios—such as classrooms, corridors, offices, or public spaces—these limitations lead to high false positives and poor situational awareness. This project was motivated by the need for a more intelligent, context-aware system that understands what is moving, where it is moving, and how long it persists in a scene."
-    },
-    {
-      id: "problem",
-      title: "The Problem",
-      image: "/images/ai-vision/problem.webp",
-      content:
-        "Most existing real-time surveillance setups either detect motion without semantic understanding or detect objects without long-term tracking and spatial analysis. Systems that perform object detection alone lose identity across frames, while tracking-only systems struggle with occlusion and re-identification. Additionally, many solutions lack visual analytics such as heatmaps that summarize motion behavior over time, making post-event analysis difficult. The challenge was to design a unified pipeline that maintains real-time performance while combining detection, tracking, motion analysis, and visualization."
-    },
-    {
-      id: "goals",
-      title: "Design Goals",
-      image: "/images/ai-vision/goals.webp",
-      content:
-        "The system was designed around four core goals: " +
-        "(1) Real-time performance on commodity hardware, " +
-        "(2) Stable multi-object tracking with minimal ID switches, " +
-        "(3) Interpretable motion analytics through heatmaps, " +
-        "(4) Modular deployment via a lightweight web interface. " +
-        "Every architectural decision—from model selection to visualization—was evaluated against these constraints."
-    },
-    {
-      id: "architecture",
-      title: "System Architecture",
-      image: "/images/ai-vision/architecture.webp",
-      content:
-        "The pipeline follows a modular, sequential architecture. Incoming video frames are first processed by YOLOv8 for object detection. Detected bounding boxes are passed to Deep SORT, which applies Kalman filtering and appearance embeddings to preserve object identities across frames. Tracking metadata is then used to update a cumulative motion heatmap, highlighting regions of frequent activity. Finally, all visual outputs—bounding boxes, track IDs, and heatmaps—are streamed in real time through a Flask-based web interface."
-    },
-    {
-      id: "detection",
-      title: "Object Detection Strategy",
-      image: "/images/ai-vision/detection.webp",
-      content:
-        "YOLOv8 (nano variant) was selected for its anchor-free architecture and favorable speed–accuracy tradeoff. The model performs object localization and classification in a single forward pass, making it well suited for real-time inference. Pretrained COCO weights were used to reliably detect humans and common objects without the need for custom dataset training. Confidence thresholding was applied to reduce false positives while maintaining recall in crowded scenes."
-    },
-    {
-      id: "tracking",
-      title: "Multi-Object Tracking & Identity Preservation",
-      image: "/images/ai-vision/tracking.webp",
-      content:
-        "To maintain consistent identities across frames, Deep SORT was integrated on top of YOLOv8 detections. Deep SORT combines motion prediction via Kalman filters with appearance-based embeddings and Hungarian matching for data association. This approach significantly reduces ID switches during occlusions and re-entries, allowing the system to reason about object persistence, loitering behavior, and movement trajectories over time."
-    },
-    {
-      id: "motion-analysis",
-      title: "Motion Analysis & Heatmap Generation",
-      image: "/images/ai-vision/heatmap.webp",
-      content:
-        "Beyond detection and tracking, the system introduces a motion heatmap layer that accumulates spatial activity over time. Each tracked object contributes to a floating-point heatmap matrix corresponding to its bounding box region. Over successive frames, frequently traversed areas emerge as high-intensity regions. This transforms frame-by-frame motion into a persistent spatial summary, enabling rapid identification of hotspots, blind spots, and behavioral patterns without replaying raw video."
-    },
-    {
-      id: "threat-logic",
-      title: "Behavioral Analysis & Threat Logic",
-      image: "/images/ai-vision/threat-logic.webp",
-      content:
-        "A rule-based threat assessment layer was implemented on top of tracking and heatmap data. Objects that persist within a confined spatial region beyond a temporal threshold are flagged as potential loitering events. Similarly, repeated traversal through high-density heatmap regions increases contextual risk scores. While intentionally simple, this layer demonstrates how low-level vision outputs can be elevated into interpretable security signals."
-    },
-    {
-      id: "deployment",
-      title: "Deployment & Web Interface",
-      image: "/images/ai-vision/deployment.webp",
-      content:
-        "To ensure accessibility and ease of deployment, the system was wrapped in a Flask-based web server. Video streams with overlaid detections, track IDs, and heatmaps are served via a browser-compatible MJPEG feed. Additional API endpoints expose motion and threat status in JSON format, allowing integration with dashboards or external systems. The project was validated both locally and in GPU-enabled cloud environments such as Google Colab."
-    },
-    {
-      id: "results",
-      title: "Results & Performance",
-      image: "/images/ai-vision/results.webp",
-      content:
-        "On GPU-backed environments, the system consistently achieved 35–45 FPS while maintaining stable tracking and responsive heatmap updates. Detection precision exceeded 85% for human subjects in controlled scenes, with low ID-switch rates even under partial occlusion. On CPU-only systems, performance degraded gracefully to 7–10 FPS, demonstrating practical usability beyond high-end hardware."
-    },
-    {
-      id: "limitations",
-      title: "Limitations",
-      image: "/images/ai-vision/limitations.webp",
-      content:
-        "While effective, the system relies on rule-based threat logic, which can produce false positives in ambiguous scenarios. Heatmap accumulation currently lacks temporal decay, potentially overemphasizing historical motion. Additionally, performance is bounded by detector accuracy and camera placement. These limitations were accepted tradeoffs to preserve interpretability and real-time responsiveness."
-    },
-    {
-      id: "future",
-      title: "Future Directions",
-      image: "/images/ai-vision/future.webp",
-      content:
-        "Future iterations could incorporate learned anomaly detection models, such as autoencoders or temporal CNNs, to replace heuristic threat logic. Temporal decay and semantic zone modeling would further refine heatmap analytics. Edge deployment optimization and multi-camera fusion represent natural extensions of the current architecture."
-    },
-    {
-      id: "impact",
-      title: "Impact",
-      image: "/images/ai-vision/impact.webp",
-      content:
-        "This project demonstrates how modern computer vision systems can move beyond raw detection toward interpretable, deployable surveillance intelligence. By integrating detection, tracking, motion analytics, and visualization into a single pipeline, the system provides a foundation for real-world monitoring applications that value both performance and human interpretability."
-    }
+  id: "overview",
+  title: "Overview",
+  image: "/images/ai-vision/overview.webp",
+  content:
+    "This project focuses on designing and implementing a real-time surveillance system capable of detecting, tracking, and analyzing motion in live video streams. By combining deep learning–based object detection (YOLOv8), multi-object tracking (Deep SORT), and motion heatmap analytics, the system transforms raw video feeds into actionable spatial and behavioral insights. The goal was not only accurate detection, but sustained identity tracking, motion pattern visualization, and deployability in real-world environments."
+},
+{
+  id: "problem",
+  title: "Problem Statement & Motivation",
+  image: "/images/ai-vision/problem.webp",
+  content:
+    "Traditional motion detection systems rely heavily on background subtraction or frame differencing, which perform poorly in dynamic environments due to lighting variation, shadows, camera noise, and background motion. In real-world surveillance scenarios—such as corridors, classrooms, offices, or public spaces—these limitations lead to high false positives and limited situational awareness. At the same time, many modern systems perform object detection without long-term tracking, losing identity across frames, while tracking-only systems lack semantic understanding. The motivation behind this project was to design a unified, context-aware pipeline that understands what is moving, where it is moving, and how long it persists, while remaining performant in real-time settings."
+},
+{
+  id: "goals",
+  title: "Design Goals",
+  image: "/images/ai-vision/goals.webp",
+  content:
+    "The system was designed around four core goals: " +
+    "(1) Near real-time performance under constrained hardware and network conditions, " +
+    "(2) Stable multi-object tracking with minimal identity switches, " +
+    "(3) Interpretable motion analytics through cumulative heatmaps, " +
+    "(4) Modular deployment via a lightweight web interface. " +
+    "All architectural decisions—from model selection to visualization—were evaluated against these constraints."
+},
+{
+  id: "architecture",
+  title: "System Architecture",
+  image: "/images/ai-vision/architecture.webp",
+  content:
+    "The pipeline follows a modular, sequential architecture. Incoming video frames are first processed by YOLOv8 for object detection. Detected bounding boxes are passed to Deep SORT, which applies Kalman filtering and appearance embeddings to preserve object identities across frames. Tracking metadata is then used to update a cumulative motion heatmap, highlighting regions of frequent activity. Finally, all visual outputs—bounding boxes, track IDs, and heatmaps—are streamed in real time through a Flask-based web interface."
+},
+{
+  id: "detection",
+  title: "Object Detection Strategy",
+  image: "/images/ai-vision/detection.webp",
+  content:
+    "YOLOv8 (nano variant) was selected for its anchor-free architecture and favorable speed–accuracy tradeoff. The model performs object localization and classification in a single forward pass, making it well suited for real-time inference. Pretrained COCO weights were used to reliably detect humans without the need for custom dataset training. Confidence thresholding was applied to suppress low-confidence detections while preserving recall in moderately crowded scenes."
+},
+{
+  id: "tracking",
+  title: "Multi-Object Tracking & Identity Preservation",
+  image: "/images/ai-vision/tracking.webp",
+  content:
+    "To maintain consistent identities across frames, Deep SORT was integrated on top of YOLOv8 detections. Deep SORT combines motion prediction via Kalman filters with appearance-based embeddings and Hungarian matching for data association. This significantly reduces identity switches during occlusions and re-entries, enabling temporal reasoning about object persistence, loitering behavior, and movement trajectories."
+},
+{
+  id: "motion-analysis",
+  title: "Motion Analysis & Heatmap Generation",
+  image: "/images/ai-vision/heatmap.webp",
+  content:
+    "Beyond detection and tracking, the system introduces a motion heatmap layer that accumulates spatial activity over time. Each tracked object contributes to a floating-point heatmap grid based on its centroid position. Over successive frames, frequently traversed regions emerge as high-intensity areas, providing a persistent spatial summary of movement patterns without requiring video replay."
+},
+{
+  id: "threat-logic",
+  title: "Behavioral Analysis & Threat Logic",
+  image: "/images/ai-vision/threat-logic.webp",
+  content:
+    "A lightweight, rule-based behavioral analysis layer was implemented on top of tracking and motion data. Objects that remain within a confined spatial region beyond a predefined temporal threshold are flagged as potential loitering events. This temporal persistence-based logic prioritizes interpretability and robustness over complex learned models, demonstrating how low-level vision outputs can be elevated into meaningful security signals."
+},
+{
+  id: "deployment",
+  title: "Deployment & Web Interface",
+  image: "/images/ai-vision/deployment.webp",
+  content:
+    "The system is deployed using a Flask-based web server, exposing a browser-compatible video stream with real-time overlays for detections, tracking IDs, and heatmaps. Additional REST endpoints provide JSON-based access to motion statistics and alert states, enabling integration with dashboards or external systems. The system was validated both locally and in GPU-enabled cloud environments."
+},
+{
+  id: "results",
+  title: "Results & Performance Evaluation",
+  image: "/images/ai-vision/results.webp",
+  content:
+    "System performance was evaluated under live operating conditions without ground-truth annotations. On GPU-backed environments, the pipeline achieved stable throughput in the range of 12–18 FPS with end-to-end latencies between approximately 90–130 ms, dominated by network transmission rather than inference. Inference time remained consistently low (≈25–35 ms per frame). Detection confidence analysis showed the majority of person detections clustering above 0.70 confidence, supporting reliable downstream tracking. Loitering events were detected only after sustained temporal persistence, reducing false alerts and demonstrating robust behavioral consistency."
+},
+{
+  id: "limitations",
+  title: "Limitations",
+  image: "/images/ai-vision/limitations.webp",
+  content:
+    "The system relies on heuristic, rule-based behavioral logic, which may produce false positives in ambiguous or highly congested scenes. Heatmap accumulation does not currently incorporate temporal decay, potentially overemphasizing historical motion. Additionally, overall performance is influenced by camera placement, scene density, and detector accuracy. These tradeoffs were accepted to preserve interpretability and real-time responsiveness."
+},
+{
+  id: "future",
+  title: "Future Directions & Impact",
+  image: "/images/ai-vision/future.webp",
+  content:
+    "Future iterations could replace heuristic threat logic with learned temporal anomaly detection models, such as autoencoders or temporal convolutional networks. Incorporating temporal decay and semantic zoning would further refine heatmap analytics. Beyond technical extensions, this project demonstrates how modern computer vision pipelines can move beyond raw detection toward interpretable, deployable surveillance intelligence, providing a strong foundation for real-world monitoring systems that balance performance, transparency, and usability."
+}
+ 
   ],
   }
 ,

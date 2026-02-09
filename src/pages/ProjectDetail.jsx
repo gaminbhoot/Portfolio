@@ -1,9 +1,10 @@
 // src/pages/ProjectDetail.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { projectsData } from "../data/projectsData";
-import { ArrowLeft, ChevronRight, Eye } from "lucide-react";
+import { ArrowLeft, ChevronRight, Eye, X, ZoomIn } from "lucide-react";
+
 function renderFormattedContent(text) {
   if (!text || typeof text !== "string") {
     return null;
@@ -54,13 +55,89 @@ function renderFormattedContent(text) {
   );
 }
 
+// Lightbox Component
+function ImageLightbox({ image, alt, onClose }) {
+  useEffect(() => {
+    // Prevent body scroll when lightbox is open
+    document.body.style.overflow = 'hidden';
+    
+    // Close on Escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
+      
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
+        aria-label="Close lightbox"
+      >
+        <X size={24} className="group-hover:rotate-90 transition-transform duration-300" />
+      </button>
+
+      {/* Image container */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={image}
+          alt={alt}
+          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+        />
+        
+        {/* Corner brackets */}
+        <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-indigo-400/60" />
+        <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-indigo-400/60" />
+        <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-indigo-400/60" />
+        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-indigo-400/60" />
+      </motion.div>
+
+      {/* Hint text */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
+        <p className="text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+          Click anywhere or press ESC to close
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const project = projectsData.find((p) => p.id === id);
   const [activeSection, setActiveSection] = useState("");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
+
+  // Scroll to top when project changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   // Handle Scroll Spy (Active Link Highlight)
   useEffect(() => {
@@ -97,10 +174,6 @@ export default function ProjectDetail() {
       return () => hero.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
-  // Smooth scroll to top when route changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [id]);
 
   // Scroll Progress Bar
   const { scrollYProgress } = useScroll();
@@ -129,6 +202,17 @@ export default function ProjectDetail() {
   return (
     <div className="min-h-screen pb-32 relative overflow-hidden">
       
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <ImageLightbox
+            image={lightboxImage.src}
+            alt={lightboxImage.alt}
+            onClose={() => setLightboxImage(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Animated background orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-indigo-500/5 blur-[100px] animate-pulse" 
@@ -151,8 +235,20 @@ export default function ProjectDetail() {
       <motion.div 
         ref={heroRef}
         layoutId={`hero-image-${id}`} 
-        className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden"
+        className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden cursor-pointer group"
+        onClick={() => setLightboxImage({ 
+          src: project.heroImage || project.thumbnail, 
+          alt: project.title 
+        })}
       >
+        {/* Zoom indicator */}
+        <div className="absolute top-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-sm border border-white/20">
+            <ZoomIn size={16} className="text-white" />
+            <span className="text-xs font-mono text-white">Click to expand</span>
+          </div>
+        </div>
+
         {/* Grain texture overlay */}
         <div 
           className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none"
@@ -165,7 +261,7 @@ export default function ProjectDetail() {
         {/* Parallax image */}
         <motion.img 
           src={project.heroImage || project.thumbnail} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           alt={project.title}
           style={{
             transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`,
@@ -174,12 +270,12 @@ export default function ProjectDetail() {
         />
         
         {/* Multi-layer gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
         
         {/* Scan lines effect */}
         <motion.div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-30 pointer-events-none"
           animate={{
             backgroundPosition: ['0% 0%', '0% 100%']
           }}
@@ -195,15 +291,15 @@ export default function ProjectDetail() {
         />
 
         {/* Corner brackets */}
-        <div className="absolute top-8 left-8 w-20 h-20 border-t-2 border-l-2 border-indigo-400/40" />
-        <div className="absolute top-8 right-8 w-20 h-20 border-t-2 border-r-2 border-indigo-400/40" />
-        <div className="absolute bottom-8 left-8 w-20 h-20 border-b-2 border-l-2 border-indigo-400/40" />
-        <div className="absolute bottom-8 right-8 w-20 h-20 border-b-2 border-r-2 border-indigo-400/40" />
+        <div className="absolute top-8 left-8 w-20 h-20 border-t-2 border-l-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute top-8 right-8 w-20 h-20 border-t-2 border-r-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute bottom-8 left-8 w-20 h-20 border-b-2 border-l-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute bottom-8 right-8 w-20 h-20 border-b-2 border-r-2 border-indigo-400/40 pointer-events-none" />
         
         {/* Title Overlay with glass effect */}
         <motion.div 
           style={{ opacity }}
-          className="absolute bottom-0 left-0 right-0 p-6 md:p-12"
+          className="absolute bottom-0 left-0 right-0 p-6 md:p-12 pointer-events-none"
         >
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -347,45 +443,58 @@ export default function ProjectDetail() {
 
                 {/* Content with enhanced styling */}
                 <div className="section-content text-base md:text-lg leading-relaxed text-gray-100 font-light mb-8">
-                {renderFormattedContent(section.content)}
+                  {renderFormattedContent(section.content)}
                 </div>
 
-                
-                {/* Image placeholder with glass morphism */}
+                {/* Image with lightbox functionality */}
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  <div className="relative rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 h-64 md:h-96 w-full overflow-hidden">
-                    {/* Grain texture */}
-                    {section.image ? (
-                        <div className="relative rounded-xl h-64 md:h-96 w-full overflow-hidden">
-                            <img
-                            src={section.image}
-                            alt={section.title}
-                            className="w-full h-full object-cover"
-                            />
+                  {section.image ? (
+                    <div 
+                      className="relative rounded-xl h-64 md:h-96 w-full overflow-hidden cursor-pointer"
+                      onClick={() => setLightboxImage({ 
+                        src: section.image, 
+                        alt: section.title 
+                      })}
+                    >
+                      <img
+                        src={section.image}
+                        alt={section.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
 
-                            {/* Grain texture overlay */}
-                            <div
-                            className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                            style={{
-                                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                                backgroundSize: '200px 200px'
-                            }}
-                            />
+                      {/* Zoom overlay indicator */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:scale-100 scale-90">
+                          <div className="p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/30">
+                            <ZoomIn size={32} className="text-white" />
+                          </div>
                         </div>
-                        ) : (
-                        <div className="relative rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 h-64 md:h-96 w-full overflow-hidden flex items-center justify-center">
-                            <p className="text-sm font-mono text-gray-400">
-                            [ Project Image: {section.title} ]
-                            </p>
-                        </div>
-                        )}
+                      </div>
 
-                    
-                    {/* Corner accent */}
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
-                  </div>
+                      {/* Grain texture overlay */}
+                      <div
+                        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                          backgroundSize: '200px 200px'
+                        }}
+                      />
+
+                      {/* Corner accent */}
+                      <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16 pointer-events-none" />
+                    </div>
+                  ) : (
+                    <div className="relative rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 h-64 md:h-96 w-full overflow-hidden flex items-center justify-center">
+                      <p className="text-sm font-mono text-gray-400">
+                        [ Project Image: {section.title} ]
+                      </p>
+                      
+                      {/* Corner accent */}
+                      <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
+                    </div>
+                  )}
                 </div>
               </motion.section>
             ))}
