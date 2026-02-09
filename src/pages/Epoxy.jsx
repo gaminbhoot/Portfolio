@@ -190,7 +190,7 @@ export default function Epoxy({ adminAccess = false }) {
               htmlFor="answer2" 
               className="block text-sm font-mono uppercase tracking-widest text-purple-400"
             >
-              Who has the the memory of a Goldfish?
+              Who has the memory of a Goldfish?
             </label>
             <div className="relative">
               <input
@@ -219,7 +219,7 @@ export default function Epoxy({ adminAccess = false }) {
                 placeholder="Enter your answer..."
                 required
               />
-              {/* Toggle password visibility button */}
+            
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
