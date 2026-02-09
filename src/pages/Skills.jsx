@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Terminal from "../components/Terminal";
@@ -13,6 +13,34 @@ export default function Skills() {
   const terminalRef = useRef(null);
   const certificationsRef = useRef(null);
   const resumeButtonRef = useRef(null);
+
+  // Secret combination state
+  const [secretSequence, setSecretSequence] = useState([]);
+  const secretCode = ['header', 'terminal', 'cert-0', 'cert-2', 'cert-1'];
+
+  const handleSecretClick = (identifier) => {
+    setSecretSequence(prev => {
+      const newSequence = [...prev, identifier];
+      
+      // Check if the last N clicks match the secret code
+      const recentClicks = newSequence.slice(-secretCode.length);
+      
+      if (JSON.stringify(recentClicks) === JSON.stringify(secretCode)) {
+        // Secret combination completed!
+        // Generate a random access token (this will be the URL itself)
+        const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        sessionStorage.setItem('epoxyAccessToken', token);
+        
+        setTimeout(() => {
+          window.location.href = `/${token}`;
+        }, 300);
+        return [];
+      }
+      
+      // Keep only the last 10 clicks to prevent memory issues
+      return newSequence.slice(-10);
+    });
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -306,8 +334,9 @@ export default function Skills() {
       {/* Page Header */}
       <div 
         ref={headerRef}
-        className="max-w-5xl mx-auto mb-6"
+        className="max-w-5xl mx-auto mb-6 cursor-pointer"
         style={{ transformStyle: "preserve-3d" }}
+        onClick={() => handleSecretClick('header')}
       >
         <h1
           className="text-4xl md:text-6xl font-black tracking-tight"
@@ -328,8 +357,9 @@ export default function Skills() {
       {/* Terminal Section */}
       <div 
         ref={terminalRef}
-        className="max-w-4xl mx-auto w-full rounded-3xl overflow-hidden"
+        className="max-w-4xl mx-auto w-full rounded-3xl overflow-hidden cursor-pointer"
         style={{ transformStyle: "preserve-3d" }}
+        onClick={() => handleSecretClick('terminal')}
       >
         <Terminal title="skills.sh" subtitle=" ">
           <ScrollArea maxHeight={600} theme="none" smooth className="pr-2 py-2">
@@ -507,8 +537,10 @@ export default function Skills() {
                   hover:shadow-xl
                   ${colors.shadow}
                   overflow-hidden
+                  cursor-pointer
                 `}
                 style={{ transformStyle: "preserve-3d" }}
+                onClick={() => handleSecretClick(`cert-${index}`)}
               >
                 {/* Certificate Icon */}
                 <div className={`
@@ -565,7 +597,10 @@ export default function Skills() {
           {/* Resume Download Button - Centered - Glassmorphic */}
           <div ref={resumeButtonRef}>
             <button
-              onClick={handleResumeDownload}
+              onClick={(e) => {
+                handleResumeDownload();
+                handleSecretClick('resume');
+              }}
               className="
                 group
                 relative

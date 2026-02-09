@@ -15,6 +15,8 @@ import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
 import Contact from "./pages/Contact";
 import ProjectDetail from './pages/ProjectDetail';
+import Epoxy from './pages/Epoxy';
+import Boost from './pages/Boost';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -68,7 +70,9 @@ function AppContent() {
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<Home />} />
+          <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
+          <Route path="/boost" element={<Boost />} />
+          <Route path="/:token" element={<Epoxy />} />
         </Routes>
       </div>
 
