@@ -120,19 +120,15 @@ export const projectsData = [
         "OctaWipe is a secure, cross-platform data sanitization system designed to enable safe IT asset recycling and reuse. Built in alignment with international data destruction standards, the system provides a one-click, user-friendly interface for securely erasing data from storage devices while ensuring forensic unrecoverability. The solution targets individuals, enterprises, and e-waste processors seeking trustworthy and verifiable data wiping mechanisms."
     },
     {
-      id: "context",
-      title: "Context & Motivation",
-      image: "/images/octawipe/context.webp",
-      content:
-        "India faces a rapidly growing e-waste crisis, with millions of devices hoarded or discarded due to concerns over residual data exposure. Existing data wiping tools are often fragmented, OS-dependent, or technically inaccessible to non-expert users. This gap creates both privacy risks and barriers to sustainable device reuse. OctaWipe was conceived to provide a simple yet standards-compliant solution that lowers the barrier to secure data destruction."
-    },
-    {
-      id: "problem",
-      title: "The Problem",
+      id: "context-problem",
+      title: "Context, Motivation & Problem Statement",
       image: "/images/octawipe/problem.webp",
       content:
-        "Most current data wiping solutions lack ease of use, cross-platform compatibility, or independent verification of successful sanitization. Users are forced to trust opaque processes without proof of compliance. Additionally, enterprise-scale environments struggle with bulk wiping across large fleets of devices, while forensic recoverability remains a persistent concern—especially for SSDs and NVMe storage."
+        "India faces a rapidly growing e-waste crisis, with millions of devices hoarded or prematurely discarded due to concerns over residual data exposure. Individuals, enterprises, and recycling agencies often avoid reuse or resale of hardware simply because they cannot be certain that sensitive data has been completely erased. Existing data wiping tools are frequently fragmented, OS-dependent, or designed for technically skilled users, creating a high barrier to secure data sanitization.\n\n" +
+        "At the same time, most current data destruction solutions suffer from deeper systemic issues. Many lack cross-platform compatibility, making them impractical in heterogeneous environments. Others offer no independent or verifiable proof of sanitization, forcing users and organizations to blindly trust opaque wiping processes. This lack of transparency becomes a serious compliance risk in regulated industries.\n\n" +
+        "Enterprise-scale environments face additional challenges, particularly when attempting to sanitize large fleets of devices efficiently. Bulk wiping across dozens or hundreds of machines is often slow, manual, and error-prone. The problem is further compounded by modern storage technologies such as SSDs and NVMe drives, where traditional overwriting techniques are insufficient and forensic recoverability remains a real concern. OctaWipe was conceived to address this combined gap—usability, scale, verification, and trust—within a single, standards-compliant system."
     },
+
     {
       id: "goals",
       title: "Design Goals",
@@ -166,20 +162,17 @@ export const projectsData = [
       content:
         "To eliminate OS dependency, OctaWipe supports execution via Live USB, ISO, and PXE network boot. PXE booting enables one-click bulk wiping across multiple machines in enterprise and e-waste facilities, while Live USB support allows portable, offline wiping in field conditions. Ubuntu 24.04 LTS serves as the underlying execution environment."
     },
-    {
-      id: "verification",
-      title: "Verification & Digital Certification",
+   {
+      id: "verification-trust",
+      title: "Verification, Certification & Tamper-Proof Trust Layer",
       image: "/images/octawipe/certification.webp",
       content:
-        "Post-sanitization, OctaWipe performs verification checks to ensure compliance with selected standards. The system automatically generates digitally signed wiping certificates in PDF and JSON formats. These certificates include device identifiers, wipe method, timestamped logs, and cryptographic signatures, enabling auditability and trust."
+        "Verification is treated as a first-class system component in OctaWipe rather than a post-process add-on. After sanitization, the system performs automated verification checks to ensure that the selected wiping standard has been correctly applied. These checks validate completion status, method integrity, and device-specific parameters, ensuring that no partial or silent failures go unnoticed.\n\n" +
+        "Once verification is complete, OctaWipe generates digitally signed wiping certificates in both human-readable (PDF) and machine-readable (JSON) formats. Each certificate contains detailed metadata including device identifiers, storage type, applied wipe method, execution logs, timestamps, and cryptographic signatures. This enables both operational confirmation and long-term auditability.\n\n" +
+        "To eliminate the risk of certificate tampering or forgery, OctaWipe introduces an additional immutable trust layer using blockchain anchoring. Rather than storing full certificates on-chain, cryptographic hashes of the signed wipe reports are anchored to a distributed ledger. This design preserves privacy while ensuring that any future alteration of a certificate can be independently detected.\n\n" +
+        "By decoupling verification from centralized servers, the system avoids single points of failure and long-term dependency risks. The result is a robust trust architecture where wiping claims can be validated years later, even outside the original operational environment. This layered approach balances transparency, privacy, and durability without introducing unnecessary blockchain overhead."
     },
-    {
-      id: "blockchain",
-      title: "Tamper-Proof Certificate Layer",
-      image: "/images/octawipe/blockchain.webp",
-      content:
-        "The blockchain layer in OctaWipe serves as an immutable trust anchor rather than a transactional system. Instead of storing full certificates on-chain, cryptographic hashes of digitally signed wipe reports are anchored to a distributed ledger. This design ensures that certificate integrity can be independently verified at any point in the future without exposing sensitive device metadata. By decoupling verification from centralized servers, the system eliminates single points of failure and reduces the risk of forged or altered wipe reports. This approach balances transparency, privacy, and long-term auditability while avoiding unnecessary blockchain overhead."
-    },
+
     {
       id: "standards",
       title: "Standards Compliance",
@@ -187,13 +180,7 @@ export const projectsData = [
       content:
         "OctaWipe adheres strictly to globally recognized data sanitization standards, including NIST 800-88, DoD 5220.22-M (E), and DoD 5220.22-M (ECE). These standards ensure that data is rendered unrecoverable using both software-based and forensic techniques, making the solution suitable for regulated industries."
     },
-    {
-      id: "impact",
-      title: "Impact & Benefits",
-      image: "/images/octawipe/impact.webp",
-      content:
-       "OctaWipe addresses a critical trust gap in the IT asset disposal lifecycle. By providing verifiable proof of data destruction, the system enables devices to be safely resold, refurbished, or recycled without fear of residual data leakage. This directly reduces unnecessary hardware disposal and supports circular economy practices. For enterprises, OctaWipe lowers compliance risk and operational overhead in large-scale decommissioning workflows. For individuals and e-waste handlers, it restores confidence that sensitive personal or organizational data is permanently erased. The net impact is both environmental sustainability and improved data security hygiene."
-    },
+   
     {
       id: "novelty",
       title: "Novelty & Innovation",
@@ -202,12 +189,16 @@ export const projectsData = [
         "OctaWipe’s novelty lies not in inventing new wiping algorithms, but in integrating existing, proven techniques into a cohesive, verifiable system. The combination of PXE-based bulk wiping, storage-aware sanitization methods, and cryptographically verifiable certificates is rarely seen in a single platform. Most existing tools focus either on wiping or reporting; OctaWipe treats verification as a first-class system component. This integration-first design enables scalability, auditability, and trust without sacrificing usability, making the solution suitable for both enterprise and field deployment scenarios."
     },
     {
-      id: "future",
-      title: "Future Scope",
+      id: "impact-future",
+      title: "Impact, Benefits & Future Scope",
       image: "/images/octawipe/future.webp",
       content:
-        "Future development of OctaWipe will focus on strengthening automation, intelligence, and interoperability. Planned extensions include policy-driven wipe recommendations based on device type and regulatory context, tighter integration with enterprise asset management systems, and expanded support for mobile and embedded devices. Introducing controlled temporal decay and forensic verification layers could further enhance post-wipe assurance. Long-term, the system could evolve into a standardized trust layer for device lifecycle management, bridging the gap between data security, compliance, and sustainable hardware reuse."
+        "OctaWipe addresses a critical trust deficit in the IT asset disposal and reuse lifecycle. By providing verifiable, tamper-resistant proof of data destruction, the system enables devices to be safely resold, refurbished, or recycled without fear of residual data leakage. This directly reduces unnecessary hardware disposal and supports circular economy practices, particularly in regions facing severe e-waste challenges.\n\n" +
+        "For enterprises, OctaWipe significantly lowers compliance risk and operational overhead during large-scale decommissioning workflows. Automated verification, bulk wiping via PXE, and standardized certification streamline audit readiness and reduce reliance on manual reporting. For individuals and e-waste handlers, the system restores confidence that sensitive personal or organizational data has been permanently erased using recognized standards.\n\n" +
+        "Looking ahead, future development will focus on deeper automation, intelligence, and ecosystem integration. Planned enhancements include policy-driven wipe recommendations based on device type, storage technology, and regulatory context, as well as tighter integration with enterprise asset management and ITSM systems. Expanded support for mobile, embedded, and IoT-class devices will further broaden applicability.\n\n" +
+        "Long-term, OctaWipe has the potential to evolve into a standardized trust layer for device lifecycle management—bridging data security, compliance, and sustainable hardware reuse. By extending verification beyond the moment of wiping and into the lifetime of the asset, the system can help redefine how organizations think about digital trust in physical infrastructure."
     }
+
   ]
 },
 
