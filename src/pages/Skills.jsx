@@ -253,18 +253,20 @@ export default function Skills() {
   const skills = [
     "Artificial Intelligence",
     "Python",
-    "PyTorch",
-    "Pandas & NumPy",
-    "Matplotlib & Seaborn",
-    "Scikit-learn",
+    "Data Science",
+    "Deep Learning Frameworks",
+    "Data Visualization",
     "Motion Tracking",
     "Computer Vision",
-    "YOLOv8",
     "Neural Networks",
     "Machine Learning",
     "Cisco Networking",
     "Git & GitHub",
-    "React.js",
+    "Project Development",
+    "Project Management",
+    "Design Lead",
+    "Analytical Thinking",
+    "Adaptability",
   ];
 
   const certifications = [
