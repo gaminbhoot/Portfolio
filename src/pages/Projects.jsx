@@ -117,7 +117,7 @@ export default function Projects() {
               ease: [0.22, 1, 0.36, 1]
             }}
           >
-            <Link to={`/project/${project.id}`}>
+            <Link to={`/project-summary/${project.id}`}>
               <div 
                 className="group cursor-pointer relative"
                 onMouseEnter={() => setHoveredId(project.id)}

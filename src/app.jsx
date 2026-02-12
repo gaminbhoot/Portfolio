@@ -15,6 +15,7 @@ import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
 import Contact from "./pages/Contact";
 import ProjectDetail from './pages/ProjectDetail';
+import ProjectSummary from './pages/ProjectSummary'; // 👈 ADD THIS LINE
 import Epoxy from './pages/Epoxy';
 import Boost from './pages/Boost';
 
@@ -31,15 +32,10 @@ function AppContent() {
 
   return (
     <>
-      {/* Wrap the CustomCursor in a div that is hidden on touch devices.
-          The 'pointer-fine' group will only render if a mouse/stylus is detected.
-      */}
-      {/* Hide on mobile/tablets (below 1024px), show on desktops/laptops */}
       <div className="hidden lg:block">
         <CustomCursor />
       </div>
       
-      {/* 1. BACKGROUND ELEMENTS */}
       <div className="fixed inset-0 z-0">
         <ColorBends
           colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
@@ -61,12 +57,12 @@ function AppContent() {
         opacity={0.75}
       />
 
-      {/* 2. PAGE CONTENT */}
       <div className="relative z-20 min-h-screen pt-20 pb-48">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/project-summary/:id" element={<ProjectSummary />} /> {/* 👈 ADD THIS LINE */}
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
@@ -76,7 +72,6 @@ function AppContent() {
         </Routes>
       </div>
 
-      {/* 3. GAUSSIAN BLUR FOOTER WITH DOCK */}
       <footer 
         className="fixed bottom-0 left-0 w-full h-36 z-50 pointer-events-none flex items-end justify-center pb-4"
         style={{
