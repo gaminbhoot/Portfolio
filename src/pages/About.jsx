@@ -14,6 +14,10 @@ import { Calendar } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ============================================
+   SCROLL TIMELINE COMPONENT - COMMENTED OUT
+   ============================================ */
+/*
 const ScrollTimeline = ({
   events,
   title = "Timeline",
@@ -323,6 +327,7 @@ const ScrollTimeline = ({
     </div>
   );
 };
+*/
 
 const About = () => {
   const navigate = useNavigate();
@@ -417,6 +422,10 @@ const About = () => {
     };
   }, []);
 
+  /* ============================================
+     TIMELINE DATA - COMMENTED OUT
+     ============================================ */
+  /*
   const timelineData = [
     
     {
@@ -457,6 +466,7 @@ const About = () => {
 
 
   ];
+  */
 
   return (
     <div 
@@ -486,14 +496,14 @@ const About = () => {
               className="mb-8 h-px w-full bg-white/10" 
             />
 
-            <p className="text-base md:text-m text-gray-300 leading-relaxed mb-6">
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6">
               I'm a computer science student focused on building practical, scalable software solutions. 
               My interests lie in applied problem-solving, where I translate ideas into functional, 
               user-centric applications. I've worked on multiple development projects involving structured UI design and 
               implementation of efficient workflows.
             </p>
 
-            <p className="text-base md:text-m text-gray-300 leading-relaxed">
+            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
               I approach development with an engineering mindset—clarity 
               over cleverness, fundamentals over shortcuts. Currently, I'm sharpening my technical depth while preparing 
               to transition from academic projects to industry-grade systems and 
@@ -525,7 +535,10 @@ const About = () => {
         </div>
       </section>
 
-      {/* Journey Timeline Section */}
+      {/* ============================================
+          JOURNEY TIMELINE SECTION - COMMENTED OUT
+          ============================================ */}
+      {/*
       <section className="relative w-full pt-12">
         <ScrollTimeline
           events={timelineData}
@@ -544,7 +557,6 @@ const About = () => {
           className="pb-8"
         />
 
-        {/* Journey Continues Section */}
         <motion.div 
           className="relative flex flex-col items-center justify-center pt-8 pb-2"
           initial={{ opacity: 0, y: 30 }}
@@ -586,6 +598,7 @@ const About = () => {
           </div>
         </motion.div>
       </section>
+      */}
     </div>
   );
 };

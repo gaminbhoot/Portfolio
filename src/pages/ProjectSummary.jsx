@@ -1,14 +1,86 @@
 // src/pages/ProjectSummary.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { projectsData } from "../data/projectsData";
-import { ArrowLeft, ExternalLink, Code2, Layers, Zap, ChevronRight } from "lucide-react";
+import { ArrowLeft, ExternalLink, Code2, Layers, Zap, ChevronRight, X, ZoomIn } from "lucide-react";
+
+// Lightbox Component
+function ImageLightbox({ image, alt, onClose }) {
+  useEffect(() => {
+    // Prevent body scroll when lightbox is open
+    document.body.style.overflow = 'hidden';
+    
+    // Close on Escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
+      
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
+        aria-label="Close lightbox"
+      >
+        <X size={24} className="group-hover:rotate-90 transition-transform duration-300" />
+      </button>
+
+      {/* Image container */}
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={image}
+          alt={alt}
+          className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+        />
+        
+        {/* Corner brackets */}
+        <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-indigo-400/60" />
+        <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-indigo-400/60" />
+        <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-indigo-400/60" />
+        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-indigo-400/60" />
+      </motion.div>
+
+      {/* Hint text */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
+        <p className="text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+          Click anywhere or press ESC to close
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ProjectSummary() {
   const { id } = useParams();
   const project = projectsData.find((p) => p.id === id);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
 
   // Scroll to top when project changes
@@ -59,6 +131,17 @@ export default function ProjectSummary() {
   return (
     <div className="min-h-screen pb-32 relative overflow-hidden">
       
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <ImageLightbox
+            image={lightboxImage.src}
+            alt={lightboxImage.alt}
+            onClose={() => setLightboxImage(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Animated background orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-indigo-500/5 blur-[100px] animate-pulse" 
@@ -77,11 +160,24 @@ export default function ProjectSummary() {
         <div className="w-full h-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500" />
       </motion.div>
 
-      {/* Compact Hero Section */}
+      {/* Hero Section - Matching ProjectDetail for smooth transition */}
       <motion.div 
         ref={heroRef}
-        className="w-full h-[50vh] md:h-[60vh] relative z-0 overflow-hidden"
+        layoutId={`hero-image-${id}`}
+        className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden cursor-pointer group"
+        onClick={() => setLightboxImage({ 
+          src: project.heroImage || project.thumbnail, 
+          alt: project.title 
+        })}
       >
+        {/* Zoom indicator */}
+        <div className="absolute top-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-sm border border-white/20">
+            <ZoomIn size={16} className="text-white" />
+            <span className="text-xs font-mono text-white">Click to expand</span>
+          </div>
+        </div>
+
         {/* Grain texture overlay */}
         <div 
           className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none"
@@ -94,7 +190,7 @@ export default function ProjectSummary() {
         {/* Parallax image */}
         <motion.img 
           src={project.heroImage || project.thumbnail} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           alt={project.title}
           style={{
             transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`,
@@ -103,48 +199,81 @@ export default function ProjectSummary() {
         />
         
         {/* Multi-layer gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
         
+        {/* Scan lines effect */}
+        <motion.div
+          className="absolute inset-0 opacity-30 pointer-events-none"
+          animate={{
+            backgroundPosition: ['0% 0%', '0% 100%']
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.03) 50%, transparent 100%)',
+            backgroundSize: '100% 200%'
+          }}
+        />
+
         {/* Corner brackets */}
-        <div className="absolute top-8 left-8 w-16 h-16 border-t-2 border-l-2 border-indigo-400/40 pointer-events-none" />
-        <div className="absolute top-8 right-8 w-16 h-16 border-t-2 border-r-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute top-8 left-8 w-20 h-20 border-t-2 border-l-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute top-8 right-8 w-20 h-20 border-t-2 border-r-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute bottom-8 left-8 w-20 h-20 border-b-2 border-l-2 border-indigo-400/40 pointer-events-none" />
+        <div className="absolute bottom-8 right-8 w-20 h-20 border-b-2 border-r-2 border-indigo-400/40 pointer-events-none" />
         
-        {/* Title Overlay */}
+        {/* Title Overlay with glass effect - matching ProjectDetail */}
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 pointer-events-none">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
+              className="relative"
             >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-3 py-1.5 rounded-full border border-indigo-400/30 bg-indigo-400/10 backdrop-blur-sm">
-                  {project.category}
-                </span>
-                <span className="text-xs font-mono text-gray-200">
-                  {project.year}
-                </span>
-              </div>
+              {/* Glass card behind title */}
+              <div className="absolute -inset-6 bg-gradient-to-r from-black/60 via-black/40 to-transparent backdrop-blur-xl rounded-2xl border border-white/10" />
               
-              <h1 
-                className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter"
-                style={{ 
-                  fontFamily: "'Orbitron', sans-serif",
-                  background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                {project.title}
-              </h1>
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-3 py-1.5 rounded-full border border-indigo-400/30 bg-indigo-400/10 backdrop-blur-sm">
+                    {project.category}
+                  </span>
+                  <span className="text-xs font-mono text-gray-200">
+                    {project.year}
+                  </span>
+                  <div className="flex-1 h-[1px] bg-gradient-to-r from-indigo-400/50 to-transparent" />
+                </div>
+                
+                <h1 
+                  className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4"
+                  style={{ 
+                    fontFamily: "'Orbitron', sans-serif",
+                    background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  {project.title}
+                </h1>
+                
+                {project.subtitle && (
+                  <p className="text-lg md:text-xl text-gray-200 font-light max-w-3xl">
+                    {project.subtitle}
+                  </p>
+                )}
+              </div>
             </motion.div>
           </div>
         </div>
       </motion.div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 mt-12 md:mt-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-24 relative z-10">
         
         {/* Back Button */}
         <Link 
@@ -339,6 +468,10 @@ export default function ProjectSummary() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.5 + index * 0.1, duration: 0.5 }}
                   className="relative group cursor-pointer"
+                  onClick={() => setLightboxImage({ 
+                    src: item.image, 
+                    alt: item.title 
+                  })}
                 >
                   {/* Glow effect */}
                   <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
@@ -353,6 +486,15 @@ export default function ProjectSummary() {
                     
                     {/* Overlay gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Zoom overlay indicator */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:scale-100 scale-90">
+                        <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/30">
+                          <ZoomIn size={24} className="text-white" />
+                        </div>
+                      </div>
+                    </div>
                     
                     {/* Title overlay on hover */}
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
