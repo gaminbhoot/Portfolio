@@ -471,7 +471,7 @@ const About = () => {
   return (
     <div 
       ref={mainContainerRef} 
-      className="min-h-screen text-white overflow-x-hidden"
+      className="h-screen overflow-hidden text-white"
       style={{ perspective: "1500px" }}
     >
       {/* Top Section */}
@@ -603,4 +603,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About; 
