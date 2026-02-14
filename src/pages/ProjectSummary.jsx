@@ -568,9 +568,6 @@ export default function ProjectSummary() {
                       <div className="w-8 h-[2px] bg-gradient-to-r from-indigo-400 to-transparent" />
                       <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Screenshots</span>
                     </div>
-                    <span className="text-xs font-mono text-gray-400">
-                      {summary.showcaseImages.length} images
-                    </span>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-3 h-[calc(100%-3rem)]">
