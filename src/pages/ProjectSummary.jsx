@@ -2,8 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projectsData } from "../data/projectsData";
 import { ArrowLeft, ExternalLink, Code2, Layers, Zap, ChevronRight, X, ZoomIn } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Lightbox Component
 function ImageLightbox({ image, alt, onClose }) {
@@ -82,11 +86,193 @@ export default function ProjectSummary() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
+  const containerRef = useRef(null);
+  const overviewCardRef = useRef(null);
+  const screenshotsCardRef = useRef(null);
+  const techCardRef = useRef(null);
 
   // Scroll to top when project changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  // GSAP Animations
+  useEffect(() => {
+    if (!project) return;
+
+    const ctx = gsap.context(() => {
+      // Animate overview card on scroll
+      gsap.fromTo(
+        overviewCardRef.current,
+        {
+          opacity: 0,
+          y: 50,
+          rotateX: 10,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: overviewCardRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Animate screenshots card
+      gsap.fromTo(
+        screenshotsCardRef.current,
+        {
+          opacity: 0,
+          y: 50,
+          rotateX: 10,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 1,
+          delay: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: screenshotsCardRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+
+      // Animate tech stack pills
+      gsap.utils.toArray(".tech-pill").forEach((pill, index) => {
+        gsap.fromTo(
+          pill,
+          {
+            opacity: 0,
+            scale: 0.8,
+            y: 20,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            delay: index * 0.05,
+            ease: "back.out(1.5)",
+            scrollTrigger: {
+              trigger: overviewCardRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // Animate screenshot thumbnails
+      gsap.utils.toArray(".screenshot-thumb").forEach((thumb, index) => {
+        gsap.fromTo(
+          thumb,
+          {
+            opacity: 0,
+            scale: 0.9,
+            rotateY: -15,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotateY: 0,
+            duration: 0.6,
+            delay: 0.3 + index * 0.1,
+            ease: "back.out(1.3)",
+            scrollTrigger: {
+              trigger: screenshotsCardRef.current,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // Animate technical highlight cards
+      gsap.utils.toArray(".tech-highlight-card").forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 40,
+            rotateX: 15,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // Parallax effect on cards
+      gsap.utils.toArray(".parallax-card").forEach((card, i) => {
+        gsap.to(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+          y: -20 * (i % 2 === 0 ? 1 : 0.8),
+          ease: "none",
+        });
+      });
+
+      // Glow effect on tech card hover area
+      ScrollTrigger.create({
+        trigger: techCardRef.current,
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => {
+          gsap.to(techCardRef.current, {
+            boxShadow: "0 0 40px rgba(99, 102, 241, 0.3)",
+            duration: 0.6,
+          });
+        },
+        onLeave: () => {
+          gsap.to(techCardRef.current, {
+            boxShadow: "none",
+            duration: 0.6,
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(techCardRef.current, {
+            boxShadow: "0 0 40px rgba(99, 102, 241, 0.3)",
+            duration: 0.6,
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(techCardRef.current, {
+            boxShadow: "none",
+            duration: 0.6,
+          });
+        },
+      });
+
+    }, containerRef);
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [project]);
 
   // Mouse tracking for parallax effect
   useEffect(() => {
@@ -129,7 +315,7 @@ export default function ProjectSummary() {
   const summary = project.summary;
 
   return (
-    <div className="min-h-screen pb-32 relative overflow-hidden">
+    <div className="min-h-screen pb-32 relative overflow-hidden" ref={containerRef} style={{ perspective: "1500px" }}>
       
       {/* Lightbox */}
       <AnimatePresence>
@@ -272,8 +458,8 @@ export default function ProjectSummary() {
         </div>
       </motion.div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-24 relative z-10">
+      {/* Main Content - Compact Card Layout */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-8 md:mt-12 relative z-10">
         
         {/* Back Button */}
         <Link 
@@ -286,284 +472,232 @@ export default function ProjectSummary() {
           <span className="font-mono text-sm">Back to Projects</span>
         </Link>
 
-        {/* Tagline */}
+        {/* Main Content Grid - Everything in 2 rows */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="mb-12"
+          className="space-y-6"
         >
-          <p className="text-xl md:text-2xl text-gray-200 leading-relaxed font-light">
-            {summary.tagline}
-          </p>
-        </motion.div>
-
-        {/* Architecture Overview */}
-        {summary.architecture && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mb-12 relative"
-          >
-            <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 rounded-2xl blur-xl" />
-            <div className="relative p-6 rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10">
-              <div className="flex items-center gap-2 mb-4">
-                <Layers size={18} className="text-indigo-400" />
-                <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400">
-                  System Architecture
-                </h3>
-              </div>
-              <p className="text-gray-200 font-mono text-sm leading-relaxed">
-                {summary.architecture}
-              </p>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Key Technologies */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Code2 size={20} className="text-indigo-400" />
-            <h2 
-              className="text-2xl md:text-3xl font-bold text-white"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
-              Key Technologies
-            </h2>
-          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {summary.keyTechnologies.map((tech, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + index * 0.05, duration: 0.4 }}
-                className="group relative"
-              >
-                <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur" />
-                <div className="relative flex items-center gap-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-indigo-400/30 transition-colors duration-300">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
-                  <span className="text-gray-200 text-sm font-mono">{tech}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Technical Highlights */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Zap size={20} className="text-indigo-400" />
-            <h2 
-              className="text-2xl md:text-3xl font-bold text-white"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
-              Technical Implementation
-            </h2>
-          </div>
-          
-          <div className="space-y-6">
-            {summary.technicalHighlights.map((highlight, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + index * 0.1, duration: 0.5 }}
-                className="relative group"
-              >
-                <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+          {/* Row 1: Overview + Screenshots */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* Left: Project Overview Card */}
+            <div ref={overviewCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
+              <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+              
+              <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-indigo-400/40 hover:bg-black/50 hover:shadow-2xl hover:shadow-indigo-500/10">
                 
-                <div className="relative p-6 rounded-xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 group-hover:border-indigo-400/20 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-400/10 border border-indigo-400/30 flex items-center justify-center">
-                      <span className="text-indigo-400 font-mono text-sm font-bold">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-white mb-2">
-                        {highlight.title}
+                {/* Tagline */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-[2px] bg-gradient-to-r from-indigo-400 to-transparent group-hover:w-12 transition-all duration-500" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300">Overview</span>
+                  </div>
+                  <p className="text-lg md:text-xl text-white font-light leading-relaxed group-hover:text-gray-100 transition-colors duration-300">
+                    {summary.tagline}
+                  </p>
+                </div>
+
+                {/* Architecture */}
+                {summary.architecture && (
+                  <div className="mb-6 pb-6 border-b border-white/10 group-hover:border-white/20 transition-colors duration-300">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Layers size={16} className="text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300" />
+                      <h3 className="text-xs font-mono uppercase tracking-widest text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300">
+                        Architecture
                       </h3>
-                      <p className="text-gray-300 text-sm leading-relaxed">
-                        {highlight.description}
-                      </p>
                     </div>
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {summary.architecture}
+                    </p>
+                  </div>
+                )}
+
+                {/* Key Technologies - Compact pills */}
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Code2 size={16} className="text-indigo-400" />
+                    <h3 className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+                      Tech Stack
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {summary.keyTechnologies.map((tech, index) => (
+                      <span
+                        key={index}
+                        className="tech-pill px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-200 text-xs font-mono hover:border-indigo-400/50 hover:bg-indigo-400/10 hover:text-indigo-300 hover:scale-110 transition-all duration-300 cursor-default"
+                      >
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
-        {/* Performance Metrics */}
-        {summary.metrics && summary.metrics.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className="mb-12"
-          >
-            <h2 
-              className="text-2xl md:text-3xl font-bold text-white mb-6"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
-              Performance Metrics
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {summary.metrics.map((metric, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.3 + index * 0.1, duration: 0.4 }}
-                  className="relative group"
-                >
-                  <div className="absolute -inset-2 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur" />
-                  <div className="relative p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group-hover:border-indigo-400/30 transition-all duration-300">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-indigo-400" />
-                      <span className="text-gray-200 font-mono text-sm">{metric}</span>
+                {/* Metrics at bottom if available */}
+                {summary.metrics && summary.metrics.length > 0 && (
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Zap size={16} className="text-indigo-400" />
+                      <h3 className="text-xs font-mono uppercase tracking-widest text-indigo-400">
+                        Key Metrics
+                      </h3>
+                    </div>
+                    <div className="grid grid-cols-1 gap-2">
+                      {summary.metrics.slice(0, 3).map((metric, index) => (
+                        <div key={index} className="flex items-center gap-2 text-xs">
+                          <div className="w-1 h-1 rounded-full bg-indigo-400 flex-shrink-0" />
+                          <span className="text-gray-300 font-mono">{metric}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </motion.div>
-              ))}
+                )}
+              </div>
             </div>
-          </motion.div>
-        )}
 
-        {/* Project Screenshots Gallery */}
-        {summary.showcaseImages && summary.showcaseImages.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4, duration: 0.6 }}
-            className="mb-12"
-          >
-            <h2 
-              className="text-2xl md:text-3xl font-bold text-white mb-6"
-              style={{ fontFamily: "'Orbitron', sans-serif" }}
-            >
-              Project Screenshots
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {summary.showcaseImages.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.5 + index * 0.1, duration: 0.5 }}
-                  className="relative group cursor-pointer"
-                  onClick={() => setLightboxImage({ 
-                    src: item.image, 
-                    alt: item.title 
-                  })}
-                >
-                  {/* Glow effect */}
-                  <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            {/* Right: Screenshots Grid */}
+            {summary.showcaseImages && summary.showcaseImages.length > 0 && (
+              <div ref={screenshotsCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
+                <div className="absolute -inset-4 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+                
+                <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-purple-400/40">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-[2px] bg-gradient-to-r from-indigo-400 to-transparent" />
+                      <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Screenshots</span>
+                    </div>
+                    <span className="text-xs font-mono text-gray-400">
+                      {summary.showcaseImages.length} images
+                    </span>
+                  </div>
                   
-                  <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-video">
-                    {/* Image */}
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
-                    />
-                    
-                    {/* Overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* Zoom overlay indicator */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:scale-100 scale-90">
-                        <div className="p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/30">
-                          <ZoomIn size={24} className="text-white" />
+                  <div className="grid grid-cols-2 gap-3 h-[calc(100%-3rem)]">
+                    {summary.showcaseImages.slice(0, 4).map((item, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.4 + index * 0.1, duration: 0.4 }}
+                        className="screenshot-thumb relative group/img cursor-pointer overflow-hidden rounded-lg border border-white/10 hover:border-indigo-400/30 transition-all duration-300 hover:scale-105"
+                        style={{ transformStyle: "preserve-3d" }}
+                        onClick={() => setLightboxImage({ src: item.image, alt: item.title })}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover transition-all duration-500 group-hover/img:scale-110"
+                        />
+                        
+                        {/* Hover overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                          <div className="w-full">
+                            <p className="text-white text-xs font-semibold line-clamp-2 mb-1">{item.title}</p>
+                            <div className="flex items-center gap-1 text-indigo-400">
+                              <ZoomIn size={12} />
+                              <span className="text-[10px] font-mono">Expand</span>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    
-                    {/* Title overlay on hover */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <h3 className="text-white font-semibold text-sm mb-1">
-                        {item.title}
-                      </h3>
-                      <div className="h-[2px] w-12 bg-indigo-400 rounded-full" />
-                    </div>
-                    
-                    {/* Grain texture overlay */}
-                    <div
-                      className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        backgroundSize: '200px 200px'
-                      }}
-                    />
-                    
-                    {/* Corner accent */}
-                    <div className="absolute top-3 right-3 w-8 h-8 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-12 group-hover:h-12 pointer-events-none" />
-                    
-                    {/* Image number badge */}
-                    <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center">
-                      <span className="text-xs font-mono text-indigo-400 font-bold">
+                        
+                        {/* Number badge */}
+                        <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                          <span className="text-[10px] font-mono text-indigo-400 font-bold">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Row 2: Technical Highlights - Horizontal Cards */}
+          <div ref={techCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
+            <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+            
+            <div className="relative p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-indigo-400/30">
+              <div className="flex items-center gap-2 mb-6">
+                <Zap size={18} className="text-indigo-400" />
+                <h2 
+                  className="text-xl md:text-2xl font-bold text-white"
+                  style={{ fontFamily: "'Orbitron', sans-serif" }}
+                >
+                  Technical Implementation
+                </h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {summary.technicalHighlights.map((highlight, index) => (
+                  <div
+                    key={index}
+                    className="tech-highlight-card relative group/card p-5 rounded-xl bg-gradient-to-br from-black/30 to-black/50 border border-white/10 hover:border-indigo-400/30 hover:bg-black/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {/* Number indicator with hover effect */}
+                    <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-600 border-2 border-gray-900 flex items-center justify-center shadow-lg group-hover/card:scale-110 group-hover/card:rotate-12 transition-transform duration-300">
+                      <span className="text-white font-mono text-xs font-bold">
                         {String(index + 1).padStart(2, '0')}
                       </span>
                     </div>
+                    
+                    <h3 className="text-white font-semibold mb-2 mt-2 text-sm group-hover/card:text-indigo-300 transition-colors duration-300">
+                      {highlight.title}
+                    </h3>
+                    <p className="text-gray-300 text-xs leading-relaxed group-hover/card:text-gray-200 transition-colors duration-300">
+                      {highlight.description}
+                    </p>
+                    
+                    {/* Corner accent with animation */}
+                    <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-indigo-400/20 group-hover/card:border-indigo-400/60 group-hover/card:w-8 group-hover/card:h-8 transition-all duration-300" />
+                    
+                    {/* Glow effect on hover */}
+                    <div className="absolute -inset-1 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 opacity-0 group-hover/card:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
                   </div>
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </div>
-            
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.0, duration: 0.6 }}
-              className="text-center text-gray-400 text-sm font-mono mt-6"
-            >
-              {summary.showcaseImages.length} selected screenshots from implementation
-            </motion.p>
-          </motion.div>
-        )}
-
-        {/* View Full Project CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          className="mt-16 pt-12 border-t border-white/10"
-        >
-          <div className="text-center">
-            <p className="text-gray-300 mb-6 text-sm font-mono">
-              Want to see the complete project documentation?
-            </p>
-            
-            <Link 
-              to={`/project/${project.id}`}
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105"
-            >
-              <span className="font-mono uppercase tracking-wider">View Full Project Details</span>
-              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-            
-            <p className="text-gray-400 mt-4 text-xs font-mono">
-              Includes: Problem Statement • Design Goals • Full Architecture • Results • Future Scope
-            </p>
           </div>
-        </motion.div>
 
+          {/* Compact CTA Footer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="relative group"
+          >
+            <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
+            
+            <div className="relative p-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 backdrop-blur-sm border border-white/20 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-center md:text-left">
+                <p className="text-white font-semibold mb-1">Ready for the deep dive?</p>
+                <p className="text-gray-300 text-xs font-mono">
+                  Complete documentation with problem statement, design goals, and results
+                </p>
+              </div>
+              
+              <Link 
+                to={`/project/${project.id}`}
+                className="group/btn relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/60 hover:shadow-xl hover:scale-110 active:scale-95 whitespace-nowrap overflow-hidden"
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700 rounded-xl">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
+                </div>
+                
+                <span className="relative font-mono text-sm uppercase tracking-wider">View Full Details</span>
+                <ChevronRight size={18} className="relative group-hover/btn:translate-x-1 transition-transform duration-300" />
+                
+                {/* Animated border glow */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 rounded-xl opacity-0 group-hover/btn:opacity-50 blur transition-opacity duration-500 -z-10" />
+              </Link>
+            </div>
+          </motion.div>
+
+        </motion.div>
       </div>
     </div>
   );
