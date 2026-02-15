@@ -152,21 +152,48 @@ export default function Contact() {
     return () => ctx.revert();
   }, []);
 
-  // Magnetic button effect
+  // Magnetic button effect with continuous tracking
   const handleMagneticEffect = (e, element) => {
     const rect = element.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    const x = e.clientX - centerX;
+    const y = e.clientY - centerY;
+
+    // Calculate angle for plane rotation (pointing towards mouse)
+    const angle = Math.atan2(y, x) * (180 / Math.PI);
+    
+    // Find the Send icon within the button and rotate it
+    const planeIcon = element.querySelector('.plane-icon');
+    if (planeIcon) {
+      gsap.to(planeIcon, {
+        rotation: angle + 45, // Add 45 to adjust for icon's default orientation
+        duration: 0.2,
+        ease: "power1.out",
+        overwrite: true
+      });
+    }
 
     gsap.to(element, {
       x: x * 0.3,
       y: y * 0.3,
       duration: 0.4,
-      ease: "power2.out"
+      ease: "power2.out",
+      overwrite: true
     });
   };
 
   const handleMagneticReset = (element) => {
+    const planeIcon = element.querySelector('.plane-icon');
+    if (planeIcon) {
+      gsap.to(planeIcon, {
+        rotation: 0,
+        duration: 0.6,
+        ease: "elastic.out(1, 0.3)"
+      });
+    }
+    
     gsap.to(element, {
       x: 0,
       y: 0,
@@ -357,7 +384,7 @@ export default function Contact() {
                 onMouseLeave={(e) => handleMagneticReset(e.currentTarget)}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <Send size={18} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
+                <Send size={18} className="plane-icon relative z-10 transition-transform duration-500" />
                 <span className="relative z-10 uppercase tracking-widest text-sm">Send Message</span>
                 
                 {/* Shine effect */}
