@@ -243,7 +243,7 @@ export default function Contact() {
       </div>
 
       {/* MAIN BOX */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/10 rounded-2xl backdrop-blur-xl relative parallax-layer pr-"
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/10 rounded-2xl backdrop-blur-xl relative parallax-layer pr- mt-16"
            style={{ background: "linear-gradient(145deg, rgba(20, 20, 25, 0.4) 0%, rgba(60, 60, 80, 0.2) 100%)", overflow: 'visible' }}>
         
         {/* Animated gradient overlay */}
