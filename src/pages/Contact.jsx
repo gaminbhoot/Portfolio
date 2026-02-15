@@ -247,13 +247,13 @@ export default function Contact() {
            style={{ background: "linear-gradient(145deg, rgba(20, 20, 25, 0.4) 0%, rgba(60, 60, 80, 0.2) 100%)", overflow: 'visible' }}>
         
         {/* Animated gradient overlay */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20 animate-pulse" 
+        <div className="absolute inset-0 opacity-30 pointer-events-none rounded-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20 animate-pulse rounded-2xl" 
                style={{ animationDuration: '4s' }} />
         </div>
 
         {/* LEFT COLUMN: CONTACT LINKS */}
-        <div ref={linksRef} className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between space-y-10 relative z-10">
+        <div ref={linksRef} className="p-8 md:p-10 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between space-y-10 relative z-10 rounded-l-2xl">
           <p className="text-xl text-gray-400 max-w-sm leading-relaxed opacity-0 contact-link"
              style={{ 
                animation: 'fadeInUp 1s forwards',
