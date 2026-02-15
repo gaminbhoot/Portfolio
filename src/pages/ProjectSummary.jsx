@@ -613,7 +613,7 @@ export default function ProjectSummary() {
           </div>
 
           {/* Row 2: Technical Highlights - Horizontal Cards */}
-          <div ref={techCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
+          <div ref={techCardRef} className="relative group parallax-card rounded-2xl" style={{ transformStyle: "preserve-3d" }}>
             <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
             
             <div className="relative p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-indigo-400/30">
