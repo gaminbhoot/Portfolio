@@ -309,7 +309,7 @@ export default function ProjectDetail() {
               className="relative"
             >
               {/* Glass card behind title */}
-              <div className="absolute -inset-6 bg-gradient-to-r from-black/60 via-black/40 to-transparent backdrop-blur-xl rounded-2xl border border-white/10" />
+              <div className="absolute -inset-6 bg-gradient-to-r from-black/60 via-black/40 to-transparent backdrop-blur-lg border border-white/10" />
               
               <div className="relative">
                 <div className="flex items-center gap-3 mb-4">
@@ -354,10 +354,10 @@ export default function ProjectDetail() {
           <aside className="hidden lg:block lg:col-span-3 h-fit sticky top-24">
             <Link 
               to="/projects" 
-              className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-12 transition-all duration-300"
+              className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-12 transition-all duration-300 hover:gap-3"
             >
               <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
-                <ArrowLeft size={16} />
+                <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
               </div>
               <span className="font-mono text-sm">Back to Projects</span>
             </Link>
@@ -411,9 +411,9 @@ export default function ProjectDetail() {
             {/* Mobile Back Button */}
             <Link 
               to="/projects" 
-              className="lg:hidden inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 transition-colors"
+              className="lg:hidden group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 transition-all duration-300 hover:gap-3"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" />
               <span className="font-mono text-sm">Back</span>
             </Link>
 
