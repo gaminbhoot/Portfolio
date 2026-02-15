@@ -216,8 +216,8 @@ export default function Contact() {
       </div>
 
       {/* MAIN BOX */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl relative parallax-layer"
-           style={{ background: "linear-gradient(145deg, rgba(20, 20, 25, 0.4) 0%, rgba(60, 60, 80, 0.2) 100%)" }}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/10 rounded-2xl backdrop-blur-xl relative parallax-layer pr-"
+           style={{ background: "linear-gradient(145deg, rgba(20, 20, 25, 0.4) 0%, rgba(60, 60, 80, 0.2) 100%)", overflow: 'visible' }}>
         
         {/* Animated gradient overlay */}
         <div className="absolute inset-0 opacity-30 pointer-events-none">
@@ -345,23 +345,25 @@ export default function Contact() {
               <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-500 group-focus-within:w-full" />
             </div>
 
-            <button 
-              type="submit"
-              className="submit-btn relative w-full mt-4 flex items-center justify-center gap-3 
-                        bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-purple-600 
-                        text-white font-bold py-4 rounded-xl transition-all duration-500 
-                        shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:shadow-xl
-                        overflow-hidden group"
-              onMouseMove={(e) => handleMagneticEffect(e, e.currentTarget)}
-              onMouseLeave={(e) => handleMagneticReset(e.currentTarget)}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Send size={18} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
-              <span className="relative z-10 uppercase tracking-widest text-sm">Send Message</span>
-              
-              {/* Shine effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-            </button>
+            <div className="-mx-7 md:-mx-8 px-8 md:px-10 py-4 -mb-8 md:-mb-10">
+              <button 
+                type="submit"
+                className="submit-btn relative w-full mt-4 flex items-center justify-center gap-3 
+                          bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-purple-600 
+                          text-white font-bold py-4 rounded-xl transition-all duration-500 
+                          shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:shadow-xl
+                          overflow-hidden group"
+                onMouseMove={(e) => handleMagneticEffect(e, e.currentTarget)}
+                onMouseLeave={(e) => handleMagneticReset(e.currentTarget)}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Send size={18} className="relative z-10 group-hover:rotate-45 transition-transform duration-500" />
+                <span className="relative z-10 uppercase tracking-widest text-sm">Send Message</span>
+                
+                {/* Shine effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+              </button>
+            </div>
           </form>
         </div>
       </div>
