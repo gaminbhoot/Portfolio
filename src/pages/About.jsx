@@ -496,18 +496,12 @@ const About = () => {
               className="mb-8 h-px w-full bg-white/10" 
             />
 
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6">
-              I'm a computer science student focused on building practical, scalable software solutions. 
-              My interests lie in applied problem-solving, where I translate ideas into functional, 
-              user-centric applications. I've worked on multiple development projects involving structured UI design and 
-              implementation of efficient workflows.
+            <p className="text-base md:text-m text-gray-300 leading-relaxed mb-6">
+              I am a computer science student with a focus on the design and development of useful and efficient software solutions. My academic and research focus is on the practical applications of problem-solving, where theoretical concepts are turned into useful and user-centric applications. I have been part of several software development projects that require the design and implementation of user interfaces and efficient workflow systems.
             </p>
 
-            <p className="text-base md:text-lg text-gray-300 leading-relaxed">
-              I approach development with an engineering mindset—clarity 
-              over cleverness, fundamentals over shortcuts. Currently, I'm sharpening my technical depth while preparing 
-              to transition from academic projects to industry-grade systems and 
-              professional development environments.
+            <p className="text-base md:text-m text-gray-300 leading-relaxed">
+             My approach to development is from an engineering perspective, with an emphasis on simplicity over cleverness and principles over shortcuts. At the moment, I am improving my technical expertise and planning the transition from academically-focused projects to real-world systems and development environments.
             </p>
           </div>
           

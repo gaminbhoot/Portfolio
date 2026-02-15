@@ -86,14 +86,14 @@ export const projectsData = [
         title: "Overview",
         image: "/images/ai-vision/overview.webp",
         content:
-          "This project focuses on designing and implementing a real-time surveillance system capable of detecting, tracking, and analyzing motion in live video streams. By combining deep learning–based object detection (YOLOv8), multi-object tracking (Deep SORT), and motion heatmap analytics, the system transforms raw video feeds into actionable spatial and behavioral insights. The goal was not only accurate detection, but sustained identity tracking, motion pattern visualization, and deployability in real-world environments."
+          "This project focuses on the design and development of a real-time video surveillance system with the capability of detecting, tracking, and analyzing movement in real-time video feeds. The project integrates object detection using deep learning algorithms (YOLOv8), tracking of multiple objects (Deep SORT), and movement heatmap analytics. The project’s aim goes beyond object detection; it also focuses on tracking moving objects, visualization of movement, and practical application in real-world scenarios."
       },
       {
         id: "problem",
         title: "Problem Statement & Motivation",
         image: "/images/ai-vision/problem.webp",
         content:
-          "Traditional motion detection systems rely heavily on background subtraction or frame differencing, which perform poorly in dynamic environments due to lighting variation, shadows, camera noise, and background motion. In real-world surveillance scenarios—such as corridors, classrooms, offices, or public spaces—these limitations lead to high false positives and limited situational awareness. At the same time, many modern systems perform object detection without long-term tracking, losing identity across frames, while tracking-only systems lack semantic understanding. The motivation behind this project was to design a unified, context-aware pipeline that understands what is moving, where it is moving, and how long it persists, while remaining performant in real-time settings."
+          "Traditional motion detection systems rely heavily on background subtraction or frame differencing, which are ineffective under changing conditions of illumination, shadows, camera noise, and background movement. In practical surveillance scenarios, such as corridors, classrooms, offices, or public areas, these systems lead to high false positives and low situational awareness. Simultaneously, there are numerous modern systems that detect objects but do not track them over time, causing loss of identity, and systems that track but do not understand the semantics of the scene. The need for this project was to develop a unified system that can detect what is moving, where it is moving, and for how long, with high performance."
       },
       {
         id: "goals",
@@ -105,70 +105,70 @@ export const projectsData = [
           "(2) Stable multi-object tracking with minimal identity switches, " +
           "(3) Interpretable motion analytics through cumulative heatmaps, " +
           "(4) Modular deployment via a lightweight web interface. " +
-          "All architectural decisions—from model selection to visualization—were evaluated against these constraints."
+          "All architectural decisions from model selection to visualization were evaluated against these constraints."
       },
       {
         id: "architecture",
         title: "System Architecture",
         image: "/images/ai-vision/architecture.webp",
         content:
-          "The pipeline follows a modular, sequential architecture. Incoming video frames are first processed by YOLOv8 for object detection. Detected bounding boxes are passed to Deep SORT, which applies Kalman filtering and appearance embeddings to preserve object identities across frames. Tracking metadata is then used to update a cumulative motion heatmap, highlighting regions of frequent activity. Finally, all visual outputs—bounding boxes, track IDs, and heatmaps—are streamed in real time through a Flask-based web interface."
+          "The pipeline follows a modular and sequential structure. The video frames received are first processed by the YOLOv8 model to detect objects in the video feed. The detected objects' bounding boxes are then fed into the Deep SORT model, which utilizes Kalman filtering and appearance embeddings to keep track of the objects' identities over time. The tracking information is then used to construct a cumulative heatmap representing the areas with the most movement. Finally, the video feed and other relevant information are streamed in real time via a Flask-based web interface."
       },
       {
         id: "detection",
         title: "Object Detection Strategy",
         image: "/images/ai-vision/detection.webp",
         content:
-          "YOLOv8 (nano variant) was selected for its anchor-free architecture and favorable speed–accuracy tradeoff. The model performs object localization and classification in a single forward pass, making it well suited for real-time inference. Pretrained COCO weights were used to reliably detect humans without the need for custom dataset training. Confidence thresholding was applied to suppress low-confidence detections while preserving recall in moderately crowded scenes."
+          "For the purpose of object localization and classification in a single pass, the YOLOv8 model’s nano variant was selected for its advantageous balance of speed and accuracy. Additionally, the model’s ability to utilize the COCO weights for the detection of human objects without the need for training on a custom dataset was a major consideration. A confidence threshold was also used for filtering out low-confidence detections."
       },
       {
         id: "tracking",
         title: "Multi-Object Tracking & Identity Preservation",
         image: "/images/ai-vision/tracking.webp",
         content:
-          "To maintain consistent identities across frames, Deep SORT was integrated on top of YOLOv8 detections. Deep SORT combines motion prediction via Kalman filters with appearance-based embeddings and Hungarian matching for data association. This significantly reduces identity switches during occlusions and re-entries, enabling temporal reasoning about object persistence, loitering behavior, and movement trajectories."
+          "In order to maintain consistent identity in each frame, Deep SORT was integrated with YOLOv8. Deep SORT makes use of Kalman Filter-based motion prediction in combination with appearance-based embeddings and Hungarian matching. This significantly reduces identity swaps during occlusions and re-entries. This allows reasoning about object persistence, loitering, and movement."
       },
       {
         id: "motion-analysis",
         title: "Motion Analysis & Heatmap Generation",
         image: "/images/ai-vision/heatmap.webp",
         content:
-          "Beyond detection and tracking, the system introduces a motion heatmap layer that accumulates spatial activity over time. Each tracked object contributes to a floating-point heatmap grid based on its centroid position. Over successive frames, frequently traversed regions emerge as high-intensity areas, providing a persistent spatial summary of movement patterns without requiring video replay."
+          "Apart from mere detection and tracking, the system also introduces a motion heatmap layer. In this case, spatial activities are accumulated over a certain period of time. The detected objects contribute to a floating-point heatmap grid in proportion to their centroid position. Over a series of frames, areas with frequent traversal are identified as hotspots. This provides an interpretable visualization of movement patterns, which can be useful for security monitoring, space utilization analysis, or behavioral insights."
       },
       {
         id: "threat-logic",
         title: "Behavioral Analysis & Threat Logic",
         image: "/images/ai-vision/threat-logic.webp",
         content:
-          "A lightweight, rule-based behavioral analysis layer was implemented on top of tracking and motion data. Objects that remain within a confined spatial region beyond a predefined temporal threshold are flagged as potential loitering events. This temporal persistence-based logic prioritizes interpretability and robustness over complex learned models, demonstrating how low-level vision outputs can be elevated into meaningful security signals."
+          "A lightweight rule-based behavior analysis was also implemented on top of tracking and motion information. Objects that remain in a confined region of space after a temporal threshold are identified as possible loitering behavior. This temporal persistence-based approach prioritizes interpretability over more sophisticated learned models, demonstrating the power of low-level vision features in being promoted to security relevance."
       },
       {
         id: "deployment",
         title: "Deployment & Web Interface",
         image: "/images/ai-vision/deployment.webp",
         content:
-          "The system is deployed using a Flask-based web server, exposing a browser-compatible video stream with real-time overlays for detections, tracking IDs, and heatmaps. Additional REST endpoints provide JSON-based access to motion statistics and alert states, enabling integration with dashboards or external systems. The system was validated both locally and in GPU-enabled cloud environments."
+          "The system can be deployed through a web server based on Flask, which sends a browser-compatible video stream with real-time overlays for detections, tracking IDs, and heatmaps. Other endpoints provide JSON-based access to motion statistics and alert states through REST APIs. The validation of the system was done through local environments and GPU-enabled cloud environments."
       },
       {
         id: "results",
         title: "Results & Performance Evaluation",
         image: "/images/ai-vision/results.webp",
         content:
-          "System performance was evaluated under live operating conditions without ground-truth annotations. On GPU-backed environments, the pipeline achieved stable throughput in the range of 12–18 FPS with end-to-end latencies between approximately 90–130 ms, dominated by network transmission rather than inference. Inference time remained consistently low (≈25–35 ms per frame). Detection confidence analysis showed the majority of person detections clustering above 0.70 confidence, supporting reliable downstream tracking. Loitering events were detected only after sustained temporal persistence, reducing false alerts and demonstrating robust behavioral consistency."
+          "The performance of the system was also tested under real-time conditions in the absence of ground truth annotations. In the GPU-backed environment, the system was able to provide stable performance with a frame rate between 12 FPS and 18 FPS, with end-to-end latency between 90 ms and 130 ms. The difference in latency was mostly because of the transmission aspect. The inference latency was consistently low at around 25-35 ms per frame. The confidence in person detection was also analyzed, which revealed that most of the detection confidence was above 0.70. Loitering detection was also found to happen after temporal persistence."
       },
       {
         id: "limitations",
         title: "Limitations",
         image: "/images/ai-vision/limitations.webp",
         content:
-          "The system relies on heuristic, rule-based behavioral logic, which may produce false positives in ambiguous or highly congested scenes. Heatmap accumulation does not currently incorporate temporal decay, potentially overemphasizing historical motion. Additionally, overall performance is influenced by camera placement, scene density, and detector accuracy. These tradeoffs were accepted to preserve interpretability and real-time responsiveness."
+          "The system also uses heuristic, rule-based behavioral logic, which can sometimes result in false positives in uncertain or highly congested scenes. The accumulation of the heatmap does not currently have temporal decay, which could result in over-weighting past movement. The performance of the system also depends on the location of the cameras, the density of the scenes, and the accuracy of the detectors. These limitations were necessary to ensure interpretability and real-time responsiveness."
       },
       {
         id: "future",
         title: "Future Directions & Impact",
         image: "/images/ai-vision/future.webp",
         content:
-          "Future iterations could replace heuristic threat logic with learned temporal anomaly detection models, such as autoencoders or temporal convolutional networks. Incorporating temporal decay and semantic zoning would further refine heatmap analytics. Beyond technical extensions, this project demonstrates how modern computer vision pipelines can move beyond raw detection toward interpretable, deployable surveillance intelligence, providing a strong foundation for real-world monitoring systems that balance performance, transparency, and usability."
+          "The upcoming versions of this approach could replace heuristic threat logic with learned temporal anomaly detection models. The addition of temporal decay and semantic zoning would further improve heatmap analytics. Finally, it is important to note that this project shows how existing computer vision pipelines can be used to improve surveillance intelligence from raw detection to something deployable and interpretable, thereby building a solid base for surveillance intelligence."
       }
     ]
   },
@@ -256,16 +256,16 @@ export const projectsData = [
         title: "Overview",
         image: "/images/octawipe/overview.webp",
         content:
-          "OctaWipe is a secure, cross-platform data sanitization system designed to enable safe IT asset recycling and reuse. Built in alignment with international data destruction standards, the system provides a one-click, user-friendly interface for securely erasing data from storage devices while ensuring forensic unrecoverability. The solution targets individuals, enterprises, and e-waste processors seeking trustworthy and verifiable data wiping mechanisms."
+          "OctaWipe provides a secure and cross-platform solution for data erasure that can be used to promote safe IT asset recycling and reuse. The OctaWipe system was developed in accordance with various international standards on data destruction and provides a one-click user interface for secure data erasure from storage devices while ensuring forensic unrecoverability. The OctaWipe solution targets various users, including individuals, enterprises, and e-waste processors who require secure and verifiable wiping methods for their data."
       },
       {
         id: "context-problem",
         title: "Context, Motivation & Problem Statement",
         image: "/images/octawipe/problem.webp",
         content:
-          "India faces a rapidly growing e-waste crisis, with millions of devices hoarded or prematurely discarded due to concerns over residual data exposure. Individuals, enterprises, and recycling agencies often avoid reuse or resale of hardware simply because they cannot be certain that sensitive data has been completely erased. Existing data wiping tools are frequently fragmented, OS-dependent, or designed for technically skilled users, creating a high barrier to secure data sanitization.\n\n" +
-          "At the same time, most current data destruction solutions suffer from deeper systemic issues. Many lack cross-platform compatibility, making them impractical in heterogeneous environments. Others offer no independent or verifiable proof of sanitization, forcing users and organizations to blindly trust opaque wiping processes. This lack of transparency becomes a serious compliance risk in regulated industries.\n\n" +
-          "Enterprise-scale environments face additional challenges, particularly when attempting to sanitize large fleets of devices efficiently. Bulk wiping across dozens or hundreds of machines is often slow, manual, and error-prone. The problem is further compounded by modern storage technologies such as SSDs and NVMe drives, where traditional overwriting techniques are insufficient and forensic recoverability remains a real concern. OctaWipe was conceived to address this combined gap—usability, scale, verification, and trust—within a single, standards-compliant system."
+          "The problem of e-waste is growing at a very fast rate in India, with millions of devices being stored or discarded early because of the fear of exposing the data. Many people, organizations, and recycling centers avoid reselling or reusing these devices because they cannot ensure the complete removal of the sensitive information. The current methods of removing data are highly fragmented, platform-dependent, and require technical expertise, which is a major hindrance.\n\n" +
+          "Currently, the greater part of the prevailing data destruction solutions is suffering from the aforementioned systemic issues. A substantial number of the solutions lack cross-platform compatibility, making them impractical and ineffective in heterogeneous environments. Others lack independent and verifiable evidence of sanitization, making the user and organization in question forced to employ an opaque wiping process without guarantees.\n\n" +
+          "In large-scale enterprise settings, there are additional issues that come into play to efficiently sanitize a large number of devices. Bulk wiping a large number of devices can be a slow and laborious process. The problem is further compounded by modern storage media, such as SSDs and NVMe drives, where traditional overwriting methods do not suffice and forensic recoverability is a valid concern. OctaWipe was developed to address the usability, scale, verification, and trust issues within a single standards-based solution."
       },
       {
         id: "goals",
@@ -284,21 +284,21 @@ export const projectsData = [
         title: "System Architecture",
         image: "/images/octawipe/architecture.webp",
         content:
-          "OctaWipe follows a modular architecture centered around a boot-independent wiping environment. The workflow begins with a web-based or local portal, followed by bootable execution via USB, ISO, or PXE network boot. Once launched, the system detects connected storage devices, applies the selected sanitization method, verifies the wipe, and finally generates a digitally signed certificate containing logs and metadata."
+          "OctaWipe has a modular architecture that uses a boot-independent wiping environment. Its operation starts by using a web-based or local portal, followed by a bootable execution using USB, ISO, and PXE Network Boot. Once executed, the device detects the storage devices, applies the wiping method, and then creates a digitally signed certificate that includes the logs and the metadata."
       },
       {
         id: "sanitization",
         title: "Disk Detection & Sanitization Engine",
         image: "/images/octawipe/sanitization.webp",
         content:
-          "At its core, OctaWipe implements multiple sanitization techniques tailored to different storage technologies. For HDDs, multi-pass and single-pass overwriting is supported using shred. For SSDs and NVMe devices, the system leverages ATA Secure Erase, blkdiscard, nvme-cli, and cryptographic erase methods. Special handling ensures HPA and DCO sectors are also wiped, preventing hidden data persistence."
+          "Essentially, the core idea behind OctaWipe is the implementation of various sanitization methods, depending on the storage devices being used. For instance, when dealing with HDD devices, the tool supports both multi-pass and single-pass overwriting using the shred method. On the other hand, the tool uses ATA Secure Erase, blkdiscard, nvme-cli, and even cryptographic erase methods when dealing with SSD and NVMe devices. The tool also supports the wiping of HPA and DCO sectors."
       },
       {
         id: "boot",
         title: "Bootable & Network Deployment",
         image: "/images/octawipe/boot.webp",
         content:
-          "To eliminate OS dependency, OctaWipe supports execution via Live USB, ISO, and PXE network boot. PXE booting enables one-click bulk wiping across multiple machines in enterprise and e-waste facilities, while Live USB support allows portable, offline wiping in field conditions. Ubuntu 24.04 LTS serves as the underlying execution environment."
+          "To overcome the OS dependency, OctaWipe supports execution on Live USB, ISO, and PXE Network Boot. The advantage of using PXE Boot is that it allows one-click wiping of multiple machines, which is especially useful for enterprises and e-waste recycling centers. The execution environment is provided by Ubuntu 24.04 LTS."
       },
       {
         id: "verification-trust",
@@ -315,7 +315,7 @@ export const projectsData = [
         title: "Standards Compliance",
         image: "/images/octawipe/standards.webp",
         content:
-          "OctaWipe adheres strictly to globally recognized data sanitization standards, including NIST 800-88, DoD 5220.22-M (E), and DoD 5220.22-M (ECE). These standards ensure that data is rendered unrecoverable using both software-based and forensic techniques, making the solution suitable for regulated industries."
+          "OctaWipe adheres strictly to globally recognized data sanitization standards, including NIST 800-88, DoD 5220.22-M (E), and DoD 5220.22-M (ECE). These standards ensure that data is rendered unrecoverable using both software based and forensic techniques, making the solution suitable for regulated industries."
       },
       {
         id: "novelty",

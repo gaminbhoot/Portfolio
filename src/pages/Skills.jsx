@@ -346,8 +346,7 @@ export default function Skills() {
         </h1>
 
         <p className="desc-reveal mt-3 text-gray-200 max-w-3xl">
-          A curated stack of tools, technologies, and systems I've actually built
-          with — not just listed.
+          A list of tools, technologies, and systems that I have personally used 
         </p>
 
         {/* Thin divider with expand animation */}
@@ -415,9 +414,7 @@ export default function Skills() {
               Frontend Engineering
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              I focus on building interfaces that feel intentional — not just visually,
-              but structurally. Clean component boundaries, predictable state flow, and
-              motion that supports understanding rather than distracting from it.
+             My focus is on designing interfaces that have a sense of intentionality, not just in their looks, but also in their structure. I try to ensure that components have clear boundaries, the state changes in a logical fashion, and the motion helps to clarify the experience rather than confusing it.
             </p>
             <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-700" />
           </div>
@@ -431,9 +428,7 @@ export default function Skills() {
               Motion & Interaction
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              Animation, for me, is a communication tool. Subtle transitions, scroll-based
-              focus, and timing choices help guide attention and make complex interfaces
-              feel natural and responsive.
+              To me, animation is a communication tool. Transitions, the use of scroll, and timing are useful in guiding the user and making the interface feel more natural and responsive.
             </p>
             <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-700" />
           </div>
@@ -447,9 +442,7 @@ export default function Skills() {
               Applied AI & Logic
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              My AI-related work leans toward practical application — understanding how
-              models behave, where they fail, and how to integrate them into systems that
-              solve real problems rather than demo-only scenarios.
+              My research in the area of artificial intelligence focuses on application, ie. trying to gain an understanding of the model, its failures, and its application to solve problems rather than just its potential.
             </p>
             <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-cyan-400 to-blue-400 transition-all duration-700" />
           </div>
@@ -463,9 +456,7 @@ export default function Skills() {
               Engineering Mindset
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              I value clarity over cleverness. Whether it's frontend code or model logic,
-              I try to build things that are understandable, maintainable, and resilient
-              to change over time.
+             I value clarity over cleverness. In working with frontend code or model logic, I aim to build systems that are clear, easy to maintain, and flexible in the face of change.
             </p>
             <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-green-400 to-emerald-400 transition-all duration-700" />
           </div>
