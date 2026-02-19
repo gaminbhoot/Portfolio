@@ -24,7 +24,6 @@ function AppContent() {
 
   const dockItems = [
     { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
-    { label: "About", icon: <User size={16} color="#ffffff" />, onClick: () => navigate("/about") },
     { label: "Projects", icon: <Folder size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
     { label: "Skills", icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
     { label: "Contact", icon: <Mail size={16} color="#ffffff" />, onClick: () => navigate("/contact") }
