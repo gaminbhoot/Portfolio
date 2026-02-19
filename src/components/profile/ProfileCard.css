@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 :root {
   --pointer-x: 50%;
   --pointer-y: 50%;
@@ -367,13 +369,14 @@
 .pc-details {
   width: 100%;
   position: absolute;
-  top: 2.5em;
+  top: 2.3em;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .pc-details h3 {
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   margin: 0;
   font-size: min(5svh, 3em);
@@ -387,6 +390,7 @@
 }
 
 .pc-details p {
+  font-family: 'Inter', sans-serif;
   font-weight: 600;
   position: relative;
   top: 0;
