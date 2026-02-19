@@ -239,9 +239,9 @@ export default function TerminalHero() {
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
                       `I am a ${age} year old computer science student focused on building useful, efficient software solutions.`,
-                      "My focus is on turning theoretical concepts into practical, user-centric applications — I've worked across UI design and workflow system implementation.",
+                      "My focus is on turning theoretical concepts into practical, user-centric applications. I've worked across UI design and workflow system implementation.",
                       "I approach development from an engineering mindset: simplicity over cleverness, principles over shortcuts.",
-                      "Currently improving my technical depth and transitioning from academic projects into real-world systems.",
+                      "Currently improving my technical depth and transitioning from academic projects into real world systems.",
                     ].map((line, i) => (
                       <p key={i} className="about-line">
                         <span className="text-indigo-400/70 mr-2 select-none">›</span>
