@@ -314,7 +314,7 @@ const ProfileCardComponent = ({
             <div className="pc-glare" />
             <div className="pc-content pc-avatar-content">
               <img
-                className="absolute left-1/2 bottom-[27px] w-[95%] h-[80%] object-cover object-top -translate-x-[43%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
+                className="absolute left-1/2 bottom-0 w-[80%] h-[75%] object-cover object-top -translate-x-[50%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
                 loading="lazy"
