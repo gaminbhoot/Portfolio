@@ -1,12 +1,14 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { Home as HomeIcon, User, Folder, Mail, Settings } from 'lucide-react';
+import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
 
-// Keep these as static imports — they're always visible on every page
-import ColorBends from "./components/background/ColorBends";
+// Always visible, keep static
 import GlassOverlay from "./components/background/GlassOverlay";
 import CustomCursor from "./components/cursor/CustomCursor";
 import Dock from "./components/dock/Dock";
+
+// Lazy load Three.js background — biggest win
+const ColorBends = lazy(() => import("./components/background/ColorBends"));
 
 // Lazy load all pages
 const Home = lazy(() => import("./pages/Home"));
@@ -34,20 +36,23 @@ function AppContent() {
       <div className="hidden lg:block">
         <CustomCursor />
       </div>
-      
+
+      {/* Black fallback shows instantly, shader loads after */}
       <div className="fixed inset-0 z-0">
-        <ColorBends
-          colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
-          rotation={0}
-          speed={0.2}
-          scale={1.14}
-          frequency={1}
-          warpStrength={1.044}
-          mouseInfluence={1}
-          parallax={0.5}
-          noise={0.1}
-          transparent
-        />
+        <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
+          <ColorBends
+            colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
+            rotation={0}
+            speed={0.2}
+            scale={1.14}
+            frequency={1}
+            warpStrength={1.044}
+            mouseInfluence={1}
+            parallax={0.5}
+            noise={0.1}
+            transparent
+          />
+        </Suspense>
       </div>
 
       <GlassOverlay
@@ -73,7 +78,7 @@ function AppContent() {
         </Suspense>
       </div>
 
-      <footer 
+      <footer
         className="fixed bottom-0 left-0 w-full h-36 z-50 pointer-events-none flex items-end justify-center pb-4"
         style={{
           backdropFilter: 'blur(17px)',
