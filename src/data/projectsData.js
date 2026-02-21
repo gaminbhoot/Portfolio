@@ -8,6 +8,8 @@ export const projectsData = [
     year: "2025",
     thumbnail: "/images/ai-vision/thumb.webp",
     heroImage: "/images/ai-vision/hero.webp",
+    githubLink: "https://github.com/gaminbhoot/surveillance-system",
+    prototypeLink: "https://surveillance-system-gaminbhoot.netlify.app/",
     
     // RECRUITER SUMMARY - Technical implementation highlights only
     summary: {
@@ -86,7 +88,7 @@ export const projectsData = [
         title: "Overview",
         image: "/images/ai-vision/overview.webp",
         content:
-          "This project focuses on the design and development of a real-time video surveillance system with the capability of detecting, tracking, and analyzing movement in real-time video feeds. The project integrates object detection using deep learning algorithms (YOLOv8), tracking of multiple objects (Deep SORT), and movement heatmap analytics. The project’s aim goes beyond object detection; it also focuses on tracking moving objects, visualization of movement, and practical application in real-world scenarios."
+          "This project focuses on the design and development of a real-time video surveillance system with the capability of detecting, tracking, and analyzing movement in real-time video feeds. The project integrates object detection using deep learning algorithms (YOLOv8), tracking of multiple objects (Deep SORT), and movement heatmap analytics. The project's aim goes beyond object detection; it also focuses on tracking moving objects, visualization of movement, and practical application in real-world scenarios."
       },
       {
         id: "problem",
@@ -119,7 +121,7 @@ export const projectsData = [
         title: "Object Detection Strategy",
         image: "/images/ai-vision/detection.webp",
         content:
-          "For the purpose of object localization and classification in a single pass, the YOLOv8 model’s nano variant was selected for its advantageous balance of speed and accuracy. Additionally, the model’s ability to utilize the COCO weights for the detection of human objects without the need for training on a custom dataset was a major consideration. A confidence threshold was also used for filtering out low-confidence detections."
+          "For the purpose of object localization and classification in a single pass, the YOLOv8 model's nano variant was selected for its advantageous balance of speed and accuracy. Additionally, the model's ability to utilize the COCO weights for the detection of human objects without the need for training on a custom dataset was a major consideration. A confidence threshold was also used for filtering out low-confidence detections."
       },
       {
         id: "tracking",
@@ -180,6 +182,8 @@ export const projectsData = [
     year: "2025",
     thumbnail: "/images/octawipe/thumb.webp",
     heroImage: "/images/octawipe/hero.webp",
+    githubLink: "https://github.com/gaminbhoot/Octawipe",
+    prototypeLink: "https://octawipe.netlify.app/",
     
     // RECRUITER SUMMARY - Technical implementation highlights only
     summary: {
