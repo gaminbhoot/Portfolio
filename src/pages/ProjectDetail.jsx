@@ -461,6 +461,7 @@ export default function ProjectDetail() {
                       <img
                         src={section.image}
                         alt={section.title}
+                        loading={index === 0 ? "eager" : "lazy"}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
 

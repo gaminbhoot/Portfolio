@@ -159,6 +159,7 @@ export default function Projects() {
                       layoutId={`hero-image-${project.id}`}
                       src={project.thumbnail}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-105"
                     />
                     
