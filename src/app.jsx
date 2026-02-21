@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // Always visible, keep static
 import GlassOverlay from "./components/background/GlassOverlay";
@@ -91,6 +92,7 @@ function AppContent() {
           <Dock items={dockItems} />
         </div>
       </footer>
+      <SpeedInsights/>
     </>
   );
 }
