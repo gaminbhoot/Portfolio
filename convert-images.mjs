@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import { readdirSync, statSync, writeFileSync, readFileSync } from 'fs';
 import { join, extname, basename, dirname } from 'path';
 
-const IMAGES_ROOT = './public/images';
+const IMAGES_ROOT = './public';
 const QUALITY = 82;
 
 function getAllImages(dir) {
@@ -29,12 +29,8 @@ for (const file of files) {
   try {
     const inputSize = statSync(file).size;
 
-    // Read as raw bytes — bypasses extension-based format detection.
-    // Sharp sniffs the actual file header (PNG/JPG magic bytes) regardless
-    // of whether the file is named .webp. Handles fake/renamed webps.
     const inputBuffer = readFileSync(file);
     const buffer = await sharp(inputBuffer, { failOn: 'none' })
-      .resize(1200, null, { withoutEnlargement: true })
       .webp({ quality: QUALITY })
       .toBuffer();
 
