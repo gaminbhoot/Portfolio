@@ -34,6 +34,7 @@ for (const file of files) {
     // of whether the file is named .webp. Handles fake/renamed webps.
     const inputBuffer = readFileSync(file);
     const buffer = await sharp(inputBuffer, { failOn: 'none' })
+      .resize(1200, null, { withoutEnlargement: true })
       .webp({ quality: QUALITY })
       .toBuffer();
 
