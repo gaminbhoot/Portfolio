@@ -124,6 +124,7 @@ export default function ColorBends({
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef(8);
+  const idleCallbackRef = useRef(null);
   const mobile = isMobile();
 
   useEffect(() => {
@@ -148,7 +149,6 @@ export default function ColorBends({
         uFrequency: { value: frequency },
         uWarpStrength: { value: warpStrength },
         uPointer: { value: new THREE.Vector2(0, 0) },
-        // disable mouse influence on mobile entirely
         uMouseInfluence: { value: mobile ? 0 : mouseInfluence },
         uParallax: { value: mobile ? 0 : parallax },
         uNoise: { value: noise }
@@ -168,7 +168,6 @@ export default function ColorBends({
     });
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    // Mobile: cap at 1x pixel ratio. Desktop: up to 2x
     renderer.setPixelRatio(mobile ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = '100%';
@@ -177,8 +176,6 @@ export default function ColorBends({
     container.appendChild(renderer.domElement);
 
     const clock = new THREE.Clock();
-
-    // On mobile, render at half resolution and upscale via CSS
     const resolutionScale = mobile ? 0.5 : 1;
 
     const handleResize = () => {
@@ -233,11 +230,36 @@ export default function ColorBends({
       renderer.render(scene, camera);
       rafRef.current = requestAnimationFrame(loop);
     };
-    rafRef.current = requestAnimationFrame(loop);
+
+    if (mobile) {
+      // On mobile: wait until browser is idle before starting the render loop
+      // so the animation doesn't compete with page load on the main thread.
+      // Falls back to setTimeout if requestIdleCallback isn't supported.
+      if ('requestIdleCallback' in window) {
+        idleCallbackRef.current = requestIdleCallback(() => {
+          rafRef.current = requestAnimationFrame(loop);
+        }, { timeout: 5000 });
+      } else {
+        idleCallbackRef.current = setTimeout(() => {
+          rafRef.current = requestAnimationFrame(loop);
+        }, 3000);
+      }
+    } else {
+      // Desktop: start immediately
+      rafRef.current = requestAnimationFrame(loop);
+    }
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibility);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      // Clean up the idle callback if it hasn't fired yet
+      if (idleCallbackRef.current !== null) {
+        if ('requestIdleCallback' in window) {
+          cancelIdleCallback(idleCallbackRef.current);
+        } else {
+          clearTimeout(idleCallbackRef.current);
+        }
+      }
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
       else window.removeEventListener('resize', handleResize);
       geometry.dispose();
@@ -289,7 +311,6 @@ export default function ColorBends({
   ]);
 
   useEffect(() => {
-    // Don't bother tracking pointer on mobile
     if (mobile) return;
 
     const material = materialRef.current;
