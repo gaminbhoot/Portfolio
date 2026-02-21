@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, User, Folder, Mail, Settings } from 'lucide-react';
 
-// Import components
+// Keep these as static imports — they're always visible on every page
 import ColorBends from "./components/background/ColorBends";
 import GlassOverlay from "./components/background/GlassOverlay";
 import CustomCursor from "./components/cursor/CustomCursor";
 import Dock from "./components/dock/Dock";
 
-// Import pages
-import Home from "./pages/Home";
-import About from "./pages/About"; 
-import Projects from "./pages/Projects";
-import Skills from "./pages/Skills";
-import Contact from "./pages/Contact";
-import ProjectDetail from './pages/ProjectDetail';
-import ProjectSummary from './pages/ProjectSummary'; // 👈 ADD THIS LINE
-import Epoxy from './pages/Epoxy';
-import Boost from './pages/Boost';
+// Lazy load all pages
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Skills = lazy(() => import("./pages/Skills"));
+const Contact = lazy(() => import("./pages/Contact"));
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const ProjectSummary = lazy(() => import('./pages/ProjectSummary'));
+const Epoxy = lazy(() => import('./pages/Epoxy'));
+const Boost = lazy(() => import('./pages/Boost'));
 
 function AppContent() {
   const navigate = useNavigate();
@@ -57,18 +57,20 @@ function AppContent() {
       />
 
       <div className="relative z-20 min-h-screen pt-20 pb-48">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/project-summary/:id" element={<ProjectSummary />} /> {/* 👈 ADD THIS LINE */}
-          <Route path="/project/:id" element={<ProjectDetail />} />
-          <Route path="/skills" element={<Skills />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
-          <Route path="/boost" element={<Boost />} />
-          <Route path="/:token" element={<Epoxy />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/project-summary/:id" element={<ProjectSummary />} />
+            <Route path="/project/:id" element={<ProjectDetail />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
+            <Route path="/boost" element={<Boost />} />
+            <Route path="/:token" element={<Epoxy />} />
+          </Routes>
+        </Suspense>
       </div>
 
       <footer 

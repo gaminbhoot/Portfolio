@@ -164,6 +164,8 @@ export default function TerminalHero() {
     };
   }, []);
 
+  const hi = (s) => <span className="text-indigo-400">{s}</span>;
+
   return (
     <div ref={containerRef}>
       <section className="relative z-20 min-h-[70vh] flex items-start justify-center px-6 pt-16 pb-24">
@@ -238,10 +240,10 @@ export default function TerminalHero() {
                   {/* stdout lines */}
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      `I am a ${age} year old computer science student focused on building useful, efficient software solutions.`,
-                      "My focus is on turning theoretical concepts into practical, user-centric applications. I've worked across UI design and workflow system implementation.",
-                      "I approach development from an engineering mindset: simplicity over cleverness, principles over shortcuts.",
-                      "Currently improving my technical depth and transitioning from academic projects into real world systems.",
+                      <span>I'm a {hi(`${age} year old`)} computer science student in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
+                      <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
+                      <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
+                      <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line">
                         <span className="text-indigo-400/70 mr-2 select-none">›</span>

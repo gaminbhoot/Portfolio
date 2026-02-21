@@ -17,7 +17,7 @@ uniform int uTransparent;
 uniform float uScale;
 uniform float uFrequency;
 uniform float uWarpStrength;
-uniform vec2 uPointer; // in NDC [-1,1]
+uniform vec2 uPointer;
 uniform float uMouseInfluence;
 uniform float uParallax;
 uniform float uNoise;
@@ -48,8 +48,8 @@ void main() {
             vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
             float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
             float kBelow = clamp(uWarpStrength, 0.0, 1.0);
-            float kMix = pow(kBelow, 0.3); // strong response across 0..1
-            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0); // allow >1 to amplify displacement
+            float kMix = pow(kBelow, 0.3);
+            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
             vec2 disp = (r - s) * kBelow;
             vec2 warped = s + disp * gain;
             float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
@@ -97,6 +97,8 @@ void main() {
 }
 `;
 
+const isMobile = () => window.innerWidth <= 768;
+
 export default function ColorBends({
   className,
   style,
@@ -122,6 +124,7 @@ export default function ColorBends({
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef(8);
+  const mobile = isMobile();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -145,8 +148,9 @@ export default function ColorBends({
         uFrequency: { value: frequency },
         uWarpStrength: { value: warpStrength },
         uPointer: { value: new THREE.Vector2(0, 0) },
-        uMouseInfluence: { value: mouseInfluence },
-        uParallax: { value: parallax },
+        // disable mouse influence on mobile entirely
+        uMouseInfluence: { value: mobile ? 0 : mouseInfluence },
+        uParallax: { value: mobile ? 0 : parallax },
         uNoise: { value: noise }
       },
       premultipliedAlpha: true,
@@ -159,12 +163,13 @@ export default function ColorBends({
 
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
-      powerPreference: 'high-performance',
+      powerPreference: mobile ? 'low-power' : 'high-performance',
       alpha: true
     });
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    // Mobile: cap at 1x pixel ratio. Desktop: up to 2x
+    renderer.setPixelRatio(mobile ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -173,10 +178,15 @@ export default function ColorBends({
 
     const clock = new THREE.Clock();
 
+    // On mobile, render at half resolution and upscale via CSS
+    const resolutionScale = mobile ? 0.5 : 1;
+
     const handleResize = () => {
       const w = container.clientWidth || 1;
       const h = container.clientHeight || 1;
-      renderer.setSize(w, h, false);
+      renderer.setSize(Math.floor(w * resolutionScale), Math.floor(h * resolutionScale), false);
+      renderer.domElement.style.width = '100%';
+      renderer.domElement.style.height = '100%';
       material.uniforms.uCanvas.value.set(w, h);
     };
 
@@ -190,6 +200,17 @@ export default function ColorBends({
       window.addEventListener('resize', handleResize);
     }
 
+    // Pause when tab is hidden, resume when visible
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      } else {
+        if (!rafRef.current) rafRef.current = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     const loop = () => {
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
@@ -201,17 +222,21 @@ export default function ColorBends({
       const s = Math.sin(rad);
       material.uniforms.uRot.value.set(c, s);
 
-      const cur = pointerCurrentRef.current;
-      const tgt = pointerTargetRef.current;
-      const amt = Math.min(1, dt * pointerSmoothRef.current);
-      cur.lerp(tgt, amt);
-      material.uniforms.uPointer.value.copy(cur);
+      if (!mobile) {
+        const cur = pointerCurrentRef.current;
+        const tgt = pointerTargetRef.current;
+        const amt = Math.min(1, dt * pointerSmoothRef.current);
+        cur.lerp(tgt, amt);
+        material.uniforms.uPointer.value.copy(cur);
+      }
+
       renderer.render(scene, camera);
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
       else window.removeEventListener('resize', handleResize);
@@ -235,8 +260,8 @@ export default function ColorBends({
     material.uniforms.uScale.value = scale;
     material.uniforms.uFrequency.value = frequency;
     material.uniforms.uWarpStrength.value = warpStrength;
-    material.uniforms.uMouseInfluence.value = mouseInfluence;
-    material.uniforms.uParallax.value = parallax;
+    material.uniforms.uMouseInfluence.value = mobile ? 0 : mouseInfluence;
+    material.uniforms.uParallax.value = mobile ? 0 : parallax;
     material.uniforms.uNoise.value = noise;
 
     const toVec3 = hex => {
@@ -259,20 +284,14 @@ export default function ColorBends({
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
     if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
   }, [
-    rotation,
-    autoRotate,
-    speed,
-    scale,
-    frequency,
-    warpStrength,
-    mouseInfluence,
-    parallax,
-    noise,
-    colors,
-    transparent
+    rotation, autoRotate, speed, scale, frequency, warpStrength,
+    mouseInfluence, parallax, noise, colors, transparent
   ]);
 
   useEffect(() => {
+    // Don't bother tracking pointer on mobile
+    if (mobile) return;
+
     const material = materialRef.current;
     const container = containerRef.current;
     if (!material || !container) return;
@@ -285,10 +304,8 @@ export default function ColorBends({
     };
 
     container.addEventListener('pointermove', handlePointerMove);
-    return () => {
-      container.removeEventListener('pointermove', handlePointerMove);
-    };
+    return () => container.removeEventListener('pointermove', handlePointerMove);
   }, []);
 
-  return <div ref={containerRef} className={`color-bends-container ${className}`} style={style} />;
+  return <div ref={containerRef} className={`color-bends-container ${className ?? ''}`} style={style} />;
 }

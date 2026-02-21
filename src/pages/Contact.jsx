@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Mail, Github, Linkedin, Send, ArrowRight } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, ArrowRight, MapPin } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -168,7 +168,7 @@ export default function Contact() {
     const planeIcon = element.querySelector('.plane-icon');
     if (planeIcon) {
       gsap.to(planeIcon, {
-        rotation: angle + 45, // Add 45 to adjust for icon's default orientation
+        rotation: angle + 45,
         duration: 0.2,
         ease: "power1.out",
         overwrite: true
@@ -262,7 +262,7 @@ export default function Contact() {
             From interfaces to intelligence, if you're building something thoughtful, let's talk.
           </p>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             <a 
               href="https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com" 
               target="_blank" 
@@ -307,6 +307,17 @@ export default function Contact() {
               </p>
               <ArrowRight size={18} className="ml-auto opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300" />
             </a>
+
+            {/* Static Location — extra top margin for visual separation */}
+            <div className="contact-link flex items-center gap-5 mt-6">
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <MapPin size={22} className="text-indigo-400" />
+              </div>
+              <div>
+                <p className="text-md font-medium text-gray-300">Noida, India</p>
+                <p className="text-xs text-gray-500 mt-0.5 tracking-wide">IST · UTC+5:30</p>
+              </div>
+            </div>
           </div>
         </div>
 
