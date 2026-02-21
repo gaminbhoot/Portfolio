@@ -261,7 +261,7 @@ export default function TerminalHero() {
                       handle="gaminbhoot"
                       status="Online"
                       contactText="Contact Me"
-                      avatarUrl="/jay1.png"
+                      avatarUrl="/jay1.webp"
                       grainUrl="/grain.webp"
                       iconUrl="/iconpattern.png"
                       showUserInfo={true}
