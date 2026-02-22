@@ -146,27 +146,13 @@ export default function Projects() {
                 onMouseLeave={() => setHoveredId(null)}
               >
                 
-                {/* Glow effect behind card */}
-                <div 
-                  className="absolute -inset-4 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-                  style={{
-                    background: 'linear-gradient(145deg, rgba(113, 196, 255, 0.1), rgba(96, 73, 110, 0.1))',
-                  }}
-                />
-
                 {/* Main card container */}
                 <div className="relative">
                   
                   {/* Image Wrapper with glass morphism */}
                   <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-[4/3] mb-6 shadow-2xl">
                     
-                    {/* Gradient overlay */}
-                    <div 
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(113, 196, 255, 0.08) 0%, rgba(96, 73, 110, 0.08) 100%)'
-                      }}
-                    />
+                    {/* Gradient overlay removed - CRT glitch used instead */}
                     
                     {/* Animated grain texture */}
                     <div 
@@ -182,7 +168,7 @@ export default function Projects() {
                       src={project.thumbnail}
                       alt={project.title}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-105"
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-105 crt-img"
                     />
                     
                     {/* Corner accent */}
@@ -204,6 +190,14 @@ export default function Projects() {
                         backgroundSize: '100% 200%'
                       }}
                     />
+
+                    {/* CRT Glitch overlay on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-10 overflow-hidden" style={{ transition: 'opacity 0.15s ease' }}>
+                      <div className="absolute inset-0 crt-scanlines" />
+                      <div className="absolute inset-0 crt-bars" />
+                      <div className="absolute inset-0 crt-rgb-fringe" />
+                      <div className="absolute inset-0 crt-vignette" />
+                    </div>
 
                     {/* GitHub + Prototype Buttons — stacked on right side */}
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-10">
@@ -332,19 +326,111 @@ export default function Projects() {
 
       <style>{`
         @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
         }
-        
-        .animate-shimmer {
-          animation: shimmer 3s infinite;
+        .animate-shimmer { animation: shimmer 3s infinite; }
+
+        /* -- CRT Scanlines -- */
+        .crt-scanlines {
+          background: repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0, 0, 0, 0.13) 3px,
+            rgba(0, 0, 0, 0.13) 4px
+          );
+          animation: crt-flicker 0.12s infinite steps(1);
+          border-radius: inherit;
         }
 
-        /* On mobile: always show the link buttons regardless of hover state */
+        /* -- Horizontal glitch bars -- */
+        .crt-bars {
+          background: transparent;
+          animation: crt-bars 2.4s infinite steps(1);
+          border-radius: inherit;
+        }
+
+        /* -- RGB colour fringe on edges -- */
+        .crt-rgb-fringe {
+          box-shadow:
+            inset 2px 0 0 rgba(255, 30, 30, 0.07),
+            inset -2px 0 0 rgba(30, 180, 255, 0.07),
+            inset 0 2px 0 rgba(30, 255, 100, 0.04),
+            inset 0 -2px 0 rgba(255, 30, 180, 0.04);
+          animation: crt-rgb 1.8s infinite steps(1);
+          border-radius: inherit;
+        }
+
+        /* -- Edge vignette flicker -- */
+        .crt-vignette {
+          background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.22) 100%);
+          animation: crt-flicker 0.18s infinite steps(1);
+          border-radius: inherit;
+        }
+
+        @keyframes crt-flicker {
+          0%   { opacity: 1; }
+          25%  { opacity: 0.92; }
+          50%  { opacity: 1; }
+          75%  { opacity: 0.96; }
+          100% { opacity: 1; }
+        }
+
+        @keyframes crt-bars {
+          0%   { background: transparent; }
+          7%   { background: linear-gradient(to bottom, transparent 20%, rgba(255,30,30,0.09) 22%, rgba(255,30,30,0.09) 25%, transparent 27%); }
+          13%  { background: transparent; }
+          22%  { background: linear-gradient(to bottom, transparent 55%, rgba(255,255,255,0.06) 57%, rgba(255,255,255,0.06) 60%, transparent 62%); }
+          25%  { background: linear-gradient(to bottom, transparent 55%, rgba(30,255,100,0.07) 57%, rgba(30,255,100,0.07) 60%, transparent 62%); }
+          30%  { background: transparent; }
+          41%  { background: linear-gradient(to bottom, transparent 70%, rgba(30,140,255,0.09) 72%, rgba(30,140,255,0.09) 75%, transparent 77%); }
+          46%  { background: transparent; }
+          58%  { background: linear-gradient(to bottom, transparent 38%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0.05) 42%, transparent 44%); }
+          61%  { background: transparent; }
+          70%  { background: linear-gradient(to bottom, transparent 10%, rgba(255,30,30,0.07) 12%, rgba(255,30,30,0.07) 15%, transparent 17%); }
+          73%  { background: linear-gradient(to bottom, transparent 10%, rgba(30,140,255,0.08) 12%, rgba(30,140,255,0.08) 15%, transparent 17%); }
+          77%  { background: transparent; }
+          88%  { background: linear-gradient(to bottom, transparent 62%, rgba(30,255,100,0.06) 64%, rgba(30,255,100,0.06) 67%, transparent 69%); }
+          91%  { background: linear-gradient(to bottom, transparent 62%, rgba(255,255,255,0.05) 64%, rgba(255,255,255,0.05) 67%, transparent 69%); }
+          95%  { background: transparent; }
+          100% { background: transparent; }
+        }
+
+        @keyframes crt-rgb {
+          0%   { box-shadow: inset 2px 0 0 rgba(255,30,30,0.07), inset -2px 0 0 rgba(30,180,255,0.07), inset 0 2px 0 rgba(30,255,100,0.04), inset 0 -2px 0 rgba(255,30,180,0.04); }
+          20%  { box-shadow: inset 3px 0 0 rgba(255,30,30,0.10), inset -1px 0 0 rgba(30,180,255,0.05), inset 0 1px 0 rgba(30,255,100,0.03), inset 0 -3px 0 rgba(255,30,180,0.06); }
+          40%  { box-shadow: inset 1px 0 0 rgba(255,30,30,0.05), inset -3px 0 0 rgba(30,180,255,0.09), inset 0 3px 0 rgba(30,255,100,0.05), inset 0 -1px 0 rgba(255,30,180,0.03); }
+          60%  { box-shadow: inset 2px 0 0 rgba(255,30,30,0.08), inset -2px 0 0 rgba(30,180,255,0.08), inset 0 2px 0 rgba(30,255,100,0.04), inset 0 -2px 0 rgba(255,30,180,0.04); }
+          80%  { box-shadow: inset 1px 0 0 rgba(255,30,30,0.06), inset -1px 0 0 rgba(30,180,255,0.06), inset 0 1px 0 rgba(30,255,100,0.02), inset 0 -1px 0 rgba(255,30,180,0.05); }
+          100% { box-shadow: inset 2px 0 0 rgba(255,30,30,0.07), inset -2px 0 0 rgba(30,180,255,0.07), inset 0 2px 0 rgba(30,255,100,0.04), inset 0 -2px 0 rgba(255,30,180,0.04); }
+        }
+
+        /* -- Chromatic Aberration on image hover -- */
+        .crt-img {
+          transition: filter 0.15s steps(2), transform 0.7s ease, brightness 0.7s ease;
+        }
+        .group:hover .crt-img {
+          animation: chroma-shift 2.8s infinite steps(1);
+        }
+        @keyframes chroma-shift {
+          0%   { filter: none; }
+          8%   { filter: drop-shadow(2.5px 0 0 rgba(255,20,20,0.55)) drop-shadow(-2.5px 0 0 rgba(0,210,255,0.55)); }
+          14%  { filter: none; }
+          28%  { filter: drop-shadow(3px 1px 0 rgba(255,20,20,0.48)) drop-shadow(-2px -1px 0 rgba(0,210,255,0.48)); }
+          34%  { filter: drop-shadow(1.5px 0 0 rgba(255,20,20,0.60)) drop-shadow(-3px 0 0 rgba(0,210,255,0.60)); }
+          38%  { filter: none; }
+          55%  { filter: drop-shadow(2px 0 0 rgba(255,20,20,0.42)) drop-shadow(-3.5px 0 0 rgba(0,210,255,0.42)); }
+          61%  { filter: none; }
+          74%  { filter: drop-shadow(3.5px -1px 0 rgba(255,20,20,0.52)) drop-shadow(-2px 1px 0 rgba(0,210,255,0.52)); }
+          78%  { filter: drop-shadow(1px 0 0 rgba(255,20,20,0.38)) drop-shadow(-2.5px 0 0 rgba(0,210,255,0.38)); }
+          82%  { filter: none; }
+          93%  { filter: drop-shadow(2.5px 0.5px 0 rgba(255,20,20,0.50)) drop-shadow(-1.5px -0.5px 0 rgba(0,210,255,0.50)); }
+          97%  { filter: none; }
+          100% { filter: none; }
+        }
+
+                /* On mobile: always show the link buttons regardless of hover state */
         @media (max-width: 767px) {
           .project-link-btn {
             opacity: 1 !important;
