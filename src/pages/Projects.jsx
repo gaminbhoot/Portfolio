@@ -209,25 +209,11 @@ export default function Projects() {
                           onClick={(e) => handleLinkClick(e, project.githubLink)}
                           initial={{ opacity: 0, x: 20 }}
                           animate={hoveredId === project.id ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.05 }}
                           title="View GitHub Repo"
-                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white active:scale-95"
-                          style={{
-                            background: 'rgba(30, 30, 35, 0.55)',
-                            backdropFilter: 'blur(12px)',
-                            WebkitBackdropFilter: 'blur(12px)',
-                            border: '1px solid rgba(200, 200, 210, 0.18)',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)',
-                            transition: 'transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease',
-                          }}
-                          onMouseEnter={e => {
-                            e.currentTarget.style.transform = 'scale(1.15) translateY(-1px)';
-                            e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.45), 0 0 12px rgba(180,180,220,0.18), inset 0 1px 0 rgba(255,255,255,0.12)';
-                          }}
-                          onMouseLeave={e => {
-                            e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)';
-                          }}
+                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                         >
                           <GitHubIcon />
                         </motion.button>
@@ -239,25 +225,11 @@ export default function Projects() {
                           onClick={(e) => handleLinkClick(e, project.prototypeLink)}
                           initial={{ opacity: 0, x: 20 }}
                           animate={hoveredId === project.id ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.12 }}
                           title="View Prototype"
-                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white active:scale-95"
-                          style={{
-                            background: 'rgba(30, 30, 35, 0.55)',
-                            backdropFilter: 'blur(12px)',
-                            WebkitBackdropFilter: 'blur(12px)',
-                            border: '1px solid rgba(200, 200, 210, 0.18)',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)',
-                            transition: 'transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease',
-                          }}
-                          onMouseEnter={e => {
-                            e.currentTarget.style.transform = 'scale(1.15) translateY(-1px)';
-                            e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.45), 0 0 12px rgba(180,180,220,0.18), inset 0 1px 0 rgba(255,255,255,0.12)';
-                          }}
-                          onMouseLeave={e => {
-                            e.currentTarget.style.transform = 'scale(1) translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)';
-                          }}
+                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                         >
                           <AirPlayIcon />
                         </motion.button>
