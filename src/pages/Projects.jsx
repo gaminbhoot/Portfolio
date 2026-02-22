@@ -503,7 +503,24 @@ export default function Projects() {
           transition: filter 0.15s steps(2), transform 0.7s ease, brightness 0.7s ease;
         }
         .group:hover .crt-img {
-          animation: chroma-shift 3.45s infinite steps(1);
+          animation: chroma-shift 3.45s infinite steps(1), img-jitter 3.45s infinite steps(1);
+        }
+
+        @keyframes img-jitter {
+          0%   { transform: translate(0, 0) scale(1.1); }
+          8%   { transform: translate(-2px, 0.5px) scale(1.1); }
+          14%  { transform: translate(0, 0) scale(1.1); }
+          28%  { transform: translate(2px, -0.5px) scale(1.1); }
+          34%  { transform: translate(-1.5px, 0px) scale(1.1); }
+          38%  { transform: translate(0, 0) scale(1.1); }
+          55%  { transform: translate(1.5px, 0.5px) scale(1.1); }
+          61%  { transform: translate(0, 0) scale(1.1); }
+          74%  { transform: translate(-2px, -0.5px) scale(1.1); }
+          78%  { transform: translate(1px, 0px) scale(1.1); }
+          82%  { transform: translate(0, 0) scale(1.1); }
+          93%  { transform: translate(-1px, 0.5px) scale(1.1); }
+          97%  { transform: translate(0, 0) scale(1.1); }
+          100% { transform: translate(0, 0) scale(1.1); }
         }
         @keyframes chroma-shift {
           0%   { filter: none; }
