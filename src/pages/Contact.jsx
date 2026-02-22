@@ -5,40 +5,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Scramble text effect hook
-function useScramble(text, trigger) {
-  const [display, setDisplay] = useState(text);
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
-  
-  useEffect(() => {
-    if (!trigger) return;
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplay(
-        text.split('').map((char, i) => {
-          if (char === ' ') return ' ';
-          if (i < iteration) return text[i];
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('')
-      );
-      iteration += 0.5;
-      if (iteration >= text.length) clearInterval(interval);
-    }, 30);
-    return () => clearInterval(interval);
-  }, [trigger, text]);
-
-  return display;
-}
-
 export default function Contact() {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
   const formRef = useRef(null);
   const linksRef = useRef(null);
-  const [scrambleTrigger, setScrambleTrigger] = useState(false);
   const [hoveredLink, setHoveredLink] = useState(null);
   const [formFocused, setFormFocused] = useState(null);
-  const scrambled = useScramble('GET IN TOUCH', scrambleTrigger);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -100,14 +73,6 @@ export default function Contact() {
         scrollTrigger: {
           trigger: containerRef.current, start: "top bottom", end: "bottom top", scrub: 1.5,
         }
-      });
-
-      // Trigger scramble when header enters view
-      ScrollTrigger.create({
-        trigger: headerRef.current,
-        start: "top 80%",
-        onEnter: () => setScrambleTrigger(true),
-        onLeaveBack: () => setScrambleTrigger(false),
       });
 
     }, containerRef);
@@ -182,14 +147,6 @@ export default function Contact() {
           <span className="word inline-block relative z-10 text-indigo-400">Touch</span>
         </h1>
 
-        {/* Scramble subtitle */}
-        <p
-          className="mt-3 font-mono text-xs tracking-[0.25em] text-indigo-300/60 select-none"
-          style={{ fontFamily: "'Orbitron', sans-serif" }}
-        >
-          {scrambled}
-        </p>
-
         <div className="header-line absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
       </div>
 
@@ -259,11 +216,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Status footer */}
-          <div className="mt-3 pt-2 border-t border-white/[0.06] font-mono text-[9px] text-white/25 tracking-widest flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 term-pulse-dot" />
-            SIGNAL OPEN · ACCEPTING TRANSMISSIONS
-          </div>
+
         </div>
 
         {/* ── RIGHT: TERMINAL FORM ── */}
@@ -278,7 +231,7 @@ export default function Contact() {
             <span className="term-dot term-dot-yellow" />
             <span className="term-dot term-dot-green" />
             <span className="font-mono text-[9px] text-green-400/80 tracking-widest ml-2">compose.sh</span>
-            <span className="ml-auto font-mono text-[9px] text-white/45 tracking-widest">PID 4721</span>
+            <span className="ml-auto font-mono text-[9px] text-white/45 tracking-widest">PID 2406</span>
           </div>
 
           {/* Prompt line */}
@@ -359,100 +312,6 @@ export default function Contact() {
           opacity: 0.025;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
           background-size: 200px 200px;
-        }
-
-        /* -- Grid lines wrapper -- */
-        .contact-grid-lines {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
-          overflow: hidden;
-        }
-
-        /* Base horizontal grid */
-        .contact-grid-h {
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(rgba(99,102,241,0.22) 1px, transparent 1px);
-          background-size: 100% 60px;
-          mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 0%, transparent 100%);
-          animation: grid-h-jitter 3.5s infinite steps(1);
-        }
-
-        /* Base vertical grid */
-        .contact-grid-v {
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(90deg, rgba(99,102,241,0.22) 1px, transparent 1px);
-          background-size: 60px 100%;
-          mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 0%, transparent 100%);
-          animation: grid-v-jitter 4.1s infinite steps(1);
-        }
-
-        /* RGB glitch layer over grid */
-        .contact-grid-glitch {
-          position: absolute;
-          inset: 0;
-          mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 0%, transparent 100%);
-          animation: grid-rgb-glitch 2.8s infinite steps(1);
-          opacity: 0;
-        }
-
-        @keyframes grid-h-jitter {
-          0%   { transform: translateY(0);     opacity: 1; }
-          8%   { transform: translateY(-2px);  opacity: 0.7; }
-          10%  { transform: translateY(1px);   opacity: 1; }
-          12%  { transform: translateY(0);     opacity: 1; }
-          35%  { transform: translateY(0);     opacity: 1; }
-          37%  { transform: translateY(3px);   opacity: 0.6; }
-          39%  { transform: translateY(-1px);  opacity: 1; }
-          41%  { transform: translateY(0);     opacity: 1; }
-          70%  { transform: translateY(0);     opacity: 1; }
-          72%  { transform: translateY(-3px);  opacity: 0.75; }
-          74%  { transform: translateY(0);     opacity: 1; }
-          100% { transform: translateY(0);     opacity: 1; }
-        }
-
-        @keyframes grid-v-jitter {
-          0%   { transform: translateX(0);     opacity: 1; }
-          15%  { transform: translateX(2px);   opacity: 0.7; }
-          17%  { transform: translateX(-1px);  opacity: 1; }
-          19%  { transform: translateX(0);     opacity: 1; }
-          50%  { transform: translateX(0);     opacity: 1; }
-          52%  { transform: translateX(-3px);  opacity: 0.65; }
-          54%  { transform: translateX(1px);   opacity: 1; }
-          56%  { transform: translateX(0);     opacity: 1; }
-          85%  { transform: translateX(0);     opacity: 1; }
-          87%  { transform: translateX(2px);   opacity: 0.8; }
-          89%  { transform: translateX(0);     opacity: 1; }
-          100% { transform: translateX(0);     opacity: 1; }
-        }
-
-        @keyframes grid-rgb-glitch {
-          0%   { opacity: 0; background: none; }
-          9%   { opacity: 1;
-                 background-image:
-                   linear-gradient(rgba(255,30,30,0.32) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(30,140,255,0.28) 1px, transparent 1px);
-                 background-size: 100% 60px, 60px 100%;
-                 transform: translate(-2px, 1px); }
-          11%  { opacity: 0; background: none; transform: translate(0,0); }
-          36%  { opacity: 1;
-                 background-image:
-                   linear-gradient(rgba(30,255,100,0.28) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(255,30,30,0.24) 1px, transparent 1px);
-                 background-size: 100% 60px, 60px 100%;
-                 transform: translate(2px, -1px); }
-          38%  { opacity: 0; background: none; transform: translate(0,0); }
-          71%  { opacity: 1;
-                 background-image:
-                   linear-gradient(rgba(30,140,255,0.30) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(30,255,100,0.26) 1px, transparent 1px);
-                 background-size: 100% 60px, 60px 100%;
-                 transform: translate(-1px, -2px); }
-          73%  { opacity: 0; background: none; transform: translate(0,0); }
-          100% { opacity: 0; }
         }
 
         .contact-orb {
@@ -537,21 +396,6 @@ export default function Contact() {
           box-shadow: none;
         }
 
-        .contact-card-scanlines {
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          pointer-events: none;
-          z-index: 1;
-          background: repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(0,0,0,0.06) 3px,
-            rgba(0,0,0,0.06) 4px
-          );
-        }
-
         /* Corner accents */
         .contact-corner {
           position: absolute;
@@ -576,51 +420,6 @@ export default function Contact() {
           100% { opacity: 0.45; filter: none; }
         }
 
-        /* ── Contact link rows ── */
-        .contact-link-row {
-          display: flex;
-          align-items: center;
-          position: relative;
-          padding: 14px 0 14px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-          transition: background 0.3s ease;
-        }
-        .contact-link-row:hover {
-          background: rgba(99,102,241,0.04);
-        }
-
-        .contact-link-bar {
-          position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 2px;
-          background: rgba(129,140,248,0.15);
-          transition: background 0.3s ease, width 0.3s ease;
-          border-radius: 2px;
-        }
-        .contact-link-bar-active {
-          background: linear-gradient(to bottom, #818cf8, #a78bfa);
-          box-shadow: 0 0 8px rgba(129,140,248,0.5);
-          width: 3px;
-        }
-
-        .contact-icon-box {
-          width: 38px; height: 38px;
-          border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          color: #818cf8;
-          flex-shrink: 0;
-          transition: all 0.3s ease;
-        }
-        a:hover .contact-icon-box {
-          background: rgba(99,102,241,0.2);
-          border-color: rgba(129,140,248,0.3);
-          color: #a5b4fc;
-          transform: rotate(3deg) scale(1.08);
-          box-shadow: 0 0 12px rgba(129,140,248,0.2);
-        }
-
         /* ── Form inputs ── */
         .contact-input {
           background: transparent;
@@ -640,19 +439,6 @@ export default function Contact() {
           -webkit-text-fill-color: white !important;
           -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
           transition: background-color 5000s ease-in-out 0s !important;
-        }
-
-        /* ── Field dot indicator ── */
-        .contact-field-dot {
-          display: inline-block;
-          width: 5px; height: 5px;
-          border-radius: 50%;
-          background: rgba(129,140,248,0.3);
-          transition: background 0.3s, box-shadow 0.3s;
-        }
-        .contact-field-dot-active {
-          background: #818cf8;
-          box-shadow: 0 0 6px rgba(129,140,248,0.7);
         }
 
         /* ── Submit button ── */
@@ -709,11 +495,6 @@ export default function Contact() {
         /* ── Perspective ── */
         .perspective-1000 { perspective: 1000px; }
 
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
         /* ── Terminal panel ── */
         .term-panel {
           background-image: repeating-linear-gradient(
@@ -726,8 +507,6 @@ export default function Contact() {
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
         }
-
-
 
         /* Terminal dots */
         .term-dot {
@@ -822,9 +601,6 @@ export default function Contact() {
         }
         .contact-input:focus {
           border-bottom-color: rgba(129,140,248,0.6) !important;
-        }
-        .contact-input::placeholder::before {
-          content: '> ';
         }
       `}</style>
     </div>
