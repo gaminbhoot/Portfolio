@@ -197,6 +197,7 @@ export default function Projects() {
                       <div className="absolute inset-0 crt-bars" />
                       <div className="absolute inset-0 crt-rgb-fringe" />
                       <div className="absolute inset-0 crt-vignette" />
+                      <div className="absolute inset-0 crt-pixel-blocks" />
                     </div>
 
                     {/* GitHub + Prototype Buttons — stacked on right side */}
@@ -340,14 +341,14 @@ export default function Projects() {
             rgba(0, 0, 0, 0.13) 3px,
             rgba(0, 0, 0, 0.13) 4px
           );
-          animation: crt-flicker 0.12s infinite steps(1);
+          animation: crt-flicker 0.145s infinite steps(1);
           border-radius: inherit;
         }
 
         /* -- Horizontal glitch bars -- */
         .crt-bars {
           background: transparent;
-          animation: crt-bars 2.4s infinite steps(1);
+          animation: crt-bars 2.95s infinite steps(1);
           border-radius: inherit;
         }
 
@@ -358,14 +359,14 @@ export default function Projects() {
             inset -2px 0 0 rgba(30, 180, 255, 0.07),
             inset 0 2px 0 rgba(30, 255, 100, 0.04),
             inset 0 -2px 0 rgba(255, 30, 180, 0.04);
-          animation: crt-rgb 1.8s infinite steps(1);
+          animation: crt-rgb 2.2s infinite steps(1);
           border-radius: inherit;
         }
 
         /* -- Edge vignette flicker -- */
         .crt-vignette {
           background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.22) 100%);
-          animation: crt-flicker 0.18s infinite steps(1);
+          animation: crt-flicker 0.22s infinite steps(1);
           border-radius: inherit;
         }
 
@@ -406,12 +407,103 @@ export default function Projects() {
           100% { box-shadow: inset 2px 0 0 rgba(255,30,30,0.07), inset -2px 0 0 rgba(30,180,255,0.07), inset 0 2px 0 rgba(30,255,100,0.04), inset 0 -2px 0 rgba(255,30,180,0.04); }
         }
 
-        /* -- Chromatic Aberration on image hover -- */
+        /* -- Pixel block glitch -- */
+        .crt-pixel-blocks {
+          animation: pixel-blocks 3.95s infinite steps(1);
+          border-radius: inherit;
+          opacity: 0.55;
+        }
+
+        @keyframes pixel-blocks {
+          0%   { background: transparent; }
+
+          6%   {
+            background:
+              linear-gradient(90deg, transparent 12%, rgba(255,30,30,0.18) 12%, rgba(255,30,30,0.18) 22%, transparent 22%),
+              linear-gradient(90deg, transparent 60%, rgba(30,140,255,0.14) 60%, rgba(30,140,255,0.14) 68%, transparent 68%);
+            background-size: 100% 6px, 100% 4px;
+            background-position: 0 28%, 0 52%;
+            background-repeat: no-repeat;
+          }
+          9%   { background: transparent; }
+
+          18%  {
+            background:
+              linear-gradient(90deg, transparent 35%, rgba(30,255,100,0.15) 35%, rgba(30,255,100,0.15) 48%, transparent 48%),
+              linear-gradient(90deg, transparent 5%,  rgba(255,200,30,0.12) 5%,  rgba(255,200,30,0.12) 14%, transparent 14%),
+              linear-gradient(90deg, transparent 70%, rgba(255,30,30,0.13) 70%, rgba(255,30,30,0.13) 82%, transparent 82%);
+            background-size: 100% 5px, 100% 3px, 100% 4px;
+            background-position: 0 65%, 0 20%, 0 80%;
+            background-repeat: no-repeat;
+          }
+          21%  { background: transparent; }
+
+          33%  {
+            background:
+              linear-gradient(90deg, transparent 50%, rgba(30,140,255,0.16) 50%, rgba(30,140,255,0.16) 65%, transparent 65%),
+              linear-gradient(90deg, transparent 20%, rgba(255,30,180,0.12) 20%, rgba(255,30,180,0.12) 30%, transparent 30%);
+            background-size: 100% 7px, 100% 3px;
+            background-position: 0 40%, 0 70%;
+            background-repeat: no-repeat;
+          }
+          35%  {
+            background:
+              linear-gradient(90deg, transparent 50%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.08) 65%, transparent 65%);
+            background-size: 100% 7px;
+            background-position: 0 40%;
+            background-repeat: no-repeat;
+          }
+          38%  { background: transparent; }
+
+          52%  {
+            background:
+              linear-gradient(90deg, transparent 8%,  rgba(255,30,30,0.14) 8%,  rgba(255,30,30,0.14) 18%, transparent 18%),
+              linear-gradient(90deg, transparent 75%, rgba(30,255,100,0.11) 75%, rgba(30,255,100,0.11) 88%, transparent 88%);
+            background-size: 100% 4px, 100% 5px;
+            background-position: 0 55%, 0 30%;
+            background-repeat: no-repeat;
+          }
+          55%  { background: transparent; }
+
+          67%  {
+            background:
+              linear-gradient(90deg, transparent 30%, rgba(30,140,255,0.17) 30%, rgba(30,140,255,0.17) 50%, transparent 50%),
+              linear-gradient(90deg, transparent 55%, rgba(255,200,30,0.13) 55%, rgba(255,200,30,0.13) 62%, transparent 62%),
+              linear-gradient(90deg, transparent 2%,  rgba(255,30,180,0.10) 2%,  rgba(255,30,180,0.10) 10%, transparent 10%);
+            background-size: 100% 5px, 100% 3px, 100% 6px;
+            background-position: 0 15%, 0 75%, 0 50%;
+            background-repeat: no-repeat;
+          }
+          70%  { background: transparent; }
+
+          81%  {
+            background:
+              linear-gradient(90deg, transparent 42%, rgba(255,255,255,0.07) 42%, rgba(255,255,255,0.07) 58%, transparent 58%),
+              linear-gradient(90deg, transparent 18%, rgba(255,30,30,0.13) 18%, rgba(255,30,30,0.13) 26%, transparent 26%);
+            background-size: 100% 4px, 100% 6px;
+            background-position: 0 88%, 0 35%;
+            background-repeat: no-repeat;
+          }
+          83%  { background: transparent; }
+
+          92%  {
+            background:
+              linear-gradient(90deg, transparent 65%, rgba(30,255,100,0.14) 65%, rgba(30,255,100,0.14) 80%, transparent 80%),
+              linear-gradient(90deg, transparent 28%, rgba(30,140,255,0.12) 28%, rgba(30,140,255,0.12) 38%, transparent 38%);
+            background-size: 100% 3px, 100% 5px;
+            background-position: 0 60%, 0 20%;
+            background-repeat: no-repeat;
+          }
+          95%  { background: transparent; }
+          100% { background: transparent; }
+        }
+
+                /* -- Chromatic Aberration on image hover -- */
         .crt-img {
           transition: filter 0.15s steps(2), transform 0.7s ease, brightness 0.7s ease;
         }
         .group:hover .crt-img {
-          animation: chroma-shift 2.8s infinite steps(1);
+          animation: chroma-shift 3.45s infinite steps(1);
         }
         @keyframes chroma-shift {
           0%   { filter: none; }
