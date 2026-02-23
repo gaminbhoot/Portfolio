@@ -9,7 +9,7 @@ export const projectsData = [
     thumbnail: "/images/ai-vision/thumb.webp",
     heroImage: "/images/ai-vision/hero.webp",
     githubLink: "https://github.com/gaminbhoot/surveillance-system",
-    prototypeLink: "https://surveillance-system-gaminbhoot.netlify.app/",
+    prototypeLink: "https://surveillance-system.jayjoshi.online/",
     
     // RECRUITER SUMMARY - Technical implementation highlights only
     summary: {
@@ -183,7 +183,7 @@ export const projectsData = [
     thumbnail: "/images/octawipe/thumb.webp",
     heroImage: "/images/octawipe/hero.webp",
     githubLink: "https://github.com/gaminbhoot/Octawipe",
-    prototypeLink: "https://octawipe.netlify.app/",
+    prototypeLink: "https://octawipe.jayjoshi.online/",
     
     // RECRUITER SUMMARY - Technical implementation highlights only
     summary: {
