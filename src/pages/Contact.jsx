@@ -176,7 +176,7 @@ export default function Contact() {
           {/* Boot sequence */}
           <div className="font-mono text-xs space-y-0.5 mb-3 contact-link">
             <p className="text-indigo-300/90">[  1.006] <span className="text-white/80">initializing contact protocol...</span></p>
-            <p className="text-white/55">[3742] <span className="text-white/80">channels: OK</span></p>
+            <p className="text-white/55">[ 3742] <span className="text-white/80">channels: OK</span></p>
             <p className="text-indigo-300/90 term-flicker">[  5744] <span className="text-white/80">awaiting transmission</span><span className="term-cursor">▋</span></p>
           </div>
 
