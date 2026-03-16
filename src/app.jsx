@@ -1,17 +1,14 @@
-import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { lazy, Suspense, useState, useEffect, useMemo } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-// Always visible, keep static
 import GlassOverlay from "./components/background/GlassOverlay";
-import CustomCursor from "./components/cursor/CustomCursor";
 import Dock from "./components/dock/Dock";
 
-// Lazy load Three.js background — biggest win
+const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
 const ColorBends = lazy(() => import("./components/background/ColorBends"));
 
-// Lazy load all pages
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -21,39 +18,85 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const ProjectSummary = lazy(() => import('./pages/ProjectSummary'));
 const Epoxy = lazy(() => import('./pages/Epoxy'));
 const Boost = lazy(() => import('./pages/Boost'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  return isDesktop;
+}
+
+function TokenOrNotFound() {
+  const { token } = useParams();
+  const storedToken = sessionStorage.getItem('epoxyAccessToken');
+  const isValidToken = token && token === storedToken;
+
+  if (isValidToken) {
+    return (
+      <Suspense fallback={null}>
+        <Epoxy />
+      </Suspense>
+    );
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <NotFound />
+    </Suspense>
+  );
+}
 
 function AppContent() {
   const navigate = useNavigate();
+  const isDesktop = useIsDesktop();
 
-  const dockItems = [
-    { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
-    { label: "Projects", icon: <Folder size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
-    { label: "Skills", icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
-    { label: "Contact", icon: <Mail size={16} color="#ffffff" />, onClick: () => navigate("/contact") }
-  ];
+  const [showBg, setShowBg] = useState(false);
+  useEffect(() => {
+    const id = setTimeout(() => setShowBg(true), 0);
+    return () => clearTimeout(id);
+  }, []);
+
+  const dockItems = useMemo(() => [
+    { label: "Home",     icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
+    { label: "Projects", icon: <Folder  size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
+    { label: "Skills",   icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
+    { label: "Contact",  icon: <Mail    size={16} color="#ffffff" />, onClick: () => navigate("/contact") },
+  ], [navigate]);
 
   return (
     <>
-      <div className="hidden lg:block">
-        <CustomCursor />
-      </div>
-
-      {/* Black fallback shows instantly, shader loads after */}
-      <div className="fixed inset-0 z-0">
-        <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
-          <ColorBends
-            colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
-            rotation={0}
-            speed={0.2}
-            scale={1.14}
-            frequency={1}
-            warpStrength={1.044}
-            mouseInfluence={1}
-            parallax={0.5}
-            noise={0.1}
-            transparent
-          />
+      {isDesktop && (
+        <Suspense fallback={null}>
+          <CustomCursor />
         </Suspense>
+      )}
+
+      <div className="fixed inset-0 z-0">
+        {showBg ? (
+          <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
+            <ColorBends
+              colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
+              rotation={0}
+              speed={0.2}
+              scale={1.14}
+              frequency={1}
+              warpStrength={1.044}
+              mouseInfluence={1}
+              parallax={0.5}
+              noise={0.1}
+              transparent
+            />
+          </Suspense>
+        ) : (
+          <div style={{ width: '100%', height: '100%', background: '#000' }} />
+        )}
       </div>
 
       <GlassOverlay
@@ -63,7 +106,19 @@ function AppContent() {
       />
 
       <div className="relative z-20 min-h-screen pt-20 pb-48">
-        <Suspense fallback={null}>
+        <Suspense fallback={
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '60vh',
+            opacity: 0.4,
+            color: '#fff',
+            fontSize: 14,
+          }}>
+            Loading...
+          </div>
+        }>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -74,7 +129,7 @@ function AppContent() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
             <Route path="/boost" element={<Boost />} />
-            <Route path="/:token" element={<Epoxy />} />
+            <Route path="*" element={<TokenOrNotFound />} />
           </Routes>
         </Suspense>
       </div>
@@ -92,7 +147,7 @@ function AppContent() {
           <Dock items={dockItems} />
         </div>
       </footer>
-      <SpeedInsights/>
+      <SpeedInsights />
     </>
   );
 }
