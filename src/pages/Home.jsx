@@ -18,7 +18,7 @@ export default function TerminalHero() {
   );
 
   const age = (() => {
-    const dob = new Date(2005, 5, 24); // 24 June 2005 (month is 0-indexed)
+    const dob = new Date(2005, 5, 24);
     const now = new Date();
     let a = now.getFullYear() - dob.getFullYear();
     const beforeBirthday =
@@ -118,30 +118,14 @@ export default function TerminalHero() {
         }
       );
 
-      // ── AMBIENT LOOPS ─────────────────────────────────────────────
-      gsap.to(".cursor",  { opacity: 0, repeat: -1, yoyo: true, duration: 0.6, ease: "power1.inOut" });
-      gsap.to(".cursor-2",{ opacity: 0, repeat: -1, yoyo: true, duration: 0.6, ease: "power1.inOut" });
-      gsap.to(".system-log", {
-        opacity: 0.5, repeat: -1, yoyo: true, duration: 3,
-        stagger: { each: 0.8, repeat: -1 }, ease: "sine.inOut",
-      });
-      gsap.to(".boot-line",    { opacity: 0.6, repeat: -1, yoyo: true, duration: 4,   ease: "sine.inOut" });
-      gsap.to(".command-line", { opacity: 0.7, repeat: -1, yoyo: true, duration: 3.5, ease: "sine.inOut" });
-      gsap.to(".status-card",  {
-        opacity: 0.85, repeat: -1, yoyo: true, duration: 4.5,
-        stagger: { each: 0.6, repeat: -1 }, ease: "sine.inOut",
-      });
-      gsap.to(".hero-title", { opacity: 0.92, repeat: -1, yoyo: true, duration: 5, ease: "sine.inOut" });
-
       // ── SCROLL FX ─────────────────────────────────────────────────
-
       ScrollTrigger.create({
         trigger: terminalRef.current,
         start: "top center", end: "bottom center",
-        onEnter:      () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
-        onLeave:      () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
-        onEnterBack:  () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
-        onLeaveBack:  () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
+        onEnter:     () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
+        onLeave:     () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
+        onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
+        onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
       });
       gsap.to(".system-log", {
         scrollTrigger: { trigger: ".system-log", start: "top 30%", end: "bottom top", scrub: 0.5 },
@@ -158,10 +142,7 @@ export default function TerminalHero() {
 
     }, containerRef);
 
-    return () => {
-      ctx.revert();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
 
   const hi = (s) => <span className="text-indigo-400">{s}</span>;
@@ -170,14 +151,6 @@ export default function TerminalHero() {
     <div ref={containerRef}>
       <section className="relative z-20 min-h-[70vh] flex items-start justify-center px-6 pt-16 pb-24">
         <div className="w-full max-w-5xl mx-auto">
-
-          {/*
-            The terminal wrapper uses a ::before pseudo for the frosted glass effect
-            instead of backdrop-filter directly on this element.
-            This means NO filter/backdrop on the element that contains the card —
-            so the card's own backdrop-filter, perspective, and gradient-text
-            all render through a clean compositing context.
-          */}
           <div
             ref={terminalRef}
             className="terminal-shell rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
@@ -237,7 +210,6 @@ export default function TerminalHero() {
 
                 <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 pt-1">
 
-                  {/* stdout lines */}
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
                       <span>I'm a {hi(`${age} year old`)} computer science student in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
@@ -303,7 +275,6 @@ export default function TerminalHero() {
         </div>
       </section>
 
-      {/* Inject the frosted glass via CSS so backdrop-filter never touches the element that parents the card */}
       <style>{`
         .terminal-shell {
           background: rgba(0, 0, 0, 0.45);
@@ -322,6 +293,44 @@ export default function TerminalHero() {
         .terminal-shell > * {
           position: relative;
           z-index: 1;
+        }
+
+        /* Cursor blink — CSS instead of GSAP, runs off main thread */
+        @media (prefers-reduced-motion: no-preference) {
+          .cursor, .cursor-2 {
+            animation: blink 1.2s ease-in-out infinite;
+          }
+          .system-log {
+            animation: breathe 3s ease-in-out infinite;
+          }
+          .boot-line {
+            animation: breathe 4s ease-in-out infinite;
+          }
+          .command-line {
+            animation: breathe 3.5s ease-in-out infinite;
+          }
+          .status-card {
+            animation: breathe 4.5s ease-in-out infinite;
+          }
+          .status-card:nth-child(2) { animation-delay: 0.6s; }
+          .status-card:nth-child(3) { animation-delay: 1.2s; }
+          .status-card:nth-child(4) { animation-delay: 1.8s; }
+          .hero-title {
+            animation: breathe-subtle 5s ease-in-out infinite;
+          }
+        }
+
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+        @keyframes breathe {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.5; }
+        }
+        @keyframes breathe-subtle {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0.92; }
         }
       `}</style>
     </div>
