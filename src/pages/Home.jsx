@@ -17,6 +17,15 @@ export default function TerminalHero() {
     new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
 
+  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   const age = (() => {
     const dob = new Date(2005, 5, 24);
     const now = new Date();
@@ -239,7 +248,7 @@ export default function TerminalHero() {
                       grainUrl="/grain.webp"
                       iconUrl="/iconpattern.png"
                       showUserInfo={true}
-                      enableTilt={true}
+                      enableTilt={isDesktop}
                       onContactClick={() => navigate("/contact")}
                       showBehindGlow
                       behindGlowColor="rgba(125, 190, 255, 0.4)"
