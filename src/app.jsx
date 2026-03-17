@@ -38,19 +38,7 @@ function TokenOrNotFound() {
   const storedToken = sessionStorage.getItem('epoxyAccessToken');
   const isValidToken = token && token === storedToken;
 
-  if (isValidToken) {
-    return (
-      <Suspense fallback={null}>
-        <Epoxy />
-      </Suspense>
-    );
-  }
-
-  return (
-    <Suspense fallback={null}>
-      <NotFound />
-    </Suspense>
-  );
+  return isValidToken ? <Epoxy /> : <NotFound />;
 }
 
 function AppContent() {
@@ -59,9 +47,10 @@ function AppContent() {
 
   const [showBg, setShowBg] = useState(false);
   useEffect(() => {
+    if (!isDesktop) return;
     const id = setTimeout(() => setShowBg(true), 0);
     return () => clearTimeout(id);
-  }, []);
+  }, [isDesktop]);
 
   const dockItems = useMemo(() => [
     { label: "Home",     icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
@@ -78,24 +67,35 @@ function AppContent() {
         </Suspense>
       )}
 
+      {/* Background */}
       <div className="fixed inset-0 z-0">
-        {showBg ? (
-          <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
-            <ColorBends
-              colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
-              rotation={0}
-              speed={0.2}
-              scale={1.14}
-              frequency={1}
-              warpStrength={1.044}
-              mouseInfluence={1}
-              parallax={0.5}
-              noise={0.1}
-              transparent
-            />
-          </Suspense>
+        {isDesktop ? (
+          showBg ? (
+            <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
+              <ColorBends
+                colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
+                rotation={0}
+                speed={0.2}
+                scale={1.14}
+                frequency={1}
+                warpStrength={1.044}
+                mouseInfluence={1}
+                parallax={0.5}
+                noise={0.1}
+                transparent
+              />
+            </Suspense>
+          ) : (
+            <div style={{ width: '100%', height: '100%', background: '#000' }} />
+          )
         ) : (
-          <div style={{ width: '100%', height: '100%', background: '#000' }} />
+          <div style={{
+            width: '100%',
+            height: '100%',
+            background: '#0a0a0a',
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+            backgroundSize: '32px 32px',
+          }} />
         )}
       </div>
 
