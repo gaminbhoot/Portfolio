@@ -221,7 +221,7 @@ export default function TerminalHero() {
 
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      <span>I'm a {hi(`${age} year old`)} computer science student in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
+                      <span>I'm a {hi(`${age} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
                       <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
                       <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
                       <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
