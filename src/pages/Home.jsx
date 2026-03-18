@@ -63,18 +63,6 @@ export default function TerminalHero() {
         { scale: 1, opacity: 1, duration: 0.4, stagger: 0.08, ease: "back.out(2)" },
         "-=0.8"
       );
-      tl.fromTo(
-        ".boot-line",
-        { opacity: 0, x: -30 },
-        { opacity: 1, x: 0, duration: 0.6 },
-        "-=0.4"
-      );
-      tl.fromTo(
-        ".system-log",
-        { opacity: 0, x: -20, filter: "blur(4px)" },
-        { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.12 },
-        "-=0.3"
-      );
       tl.fromTo(".command-line", { opacity: 0 }, { opacity: 1, duration: 0.4 })
         .to(".command-line", { x: "+=2", duration: 0.05, repeat: 2, yoyo: true, ease: "none" });
       tl.fromTo(
@@ -136,18 +124,6 @@ export default function TerminalHero() {
         onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
         onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
       });
-      gsap.to(".system-log", {
-        scrollTrigger: { trigger: ".system-log", start: "top 30%", end: "bottom top", scrub: 0.5 },
-        opacity: 0.9, x: -8, ease: "none",
-      });
-      gsap.to(".boot-line", {
-        scrollTrigger: { trigger: ".boot-line", start: "top 40%", end: "bottom top", scrub: 1 },
-        x: -15, opacity: 0.85, ease: "none",
-      });
-      gsap.to(".command-line", {
-        scrollTrigger: { trigger: ".command-line", start: "top 50%", end: "bottom top", scrub: 1 },
-        x: 8, opacity: 0.85, ease: "none",
-      });
 
     }, containerRef);
 
@@ -181,15 +157,7 @@ export default function TerminalHero() {
             {/* ── BODY ────────────────────────────────────────────── */}
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
-              <div className="boot-line text-indigo-400">jay@system:~$ boot</div>
-
-              <div className="text-white/60 text-xs space-y-1">
-                <p className="system-log hover:text-white/90 hover:translate-x-1 transition-all duration-300">[ OK ] core modules loaded</p>
-                <p className="system-log hover:text-white/90 hover:translate-x-1 transition-all duration-300">[ OK ] animation engine ready</p>
-                <p className="system-log hover:text-white/90 hover:translate-x-1 transition-all duration-300">[ OK ] interface initialized</p>
-              </div>
-
-              <div className="command-line pt-4">
+              <div className="command-line">
                 <span className="text-indigo-400">jay@system:~$</span>{" "}
                 <span className="text-white">Yes, this is a portfolio. No, it's not finished</span>
                 <span className="cursor text-indigo-400">▋</span>
@@ -199,12 +167,11 @@ export default function TerminalHero() {
                 className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase pt-6"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Engineering</span>{" "}
-                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Solutions</span>
+                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
+                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Learning.</span>
                 <br />
-                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">That</span>{" "}
-                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Actually</span>{" "}
-                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Work</span>
+                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
+                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Shipping.</span>
               </h1>
 
               {/* ── ABOUT COMMAND OUTPUT ─────────────────────────── */}
@@ -221,7 +188,7 @@ export default function TerminalHero() {
 
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      <span>I'm a {hi(`${age} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
+                      <span>I'm a {hi(`${age} year old`)} computer science student in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
                       <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
                       <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
                       <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
@@ -308,15 +275,6 @@ export default function TerminalHero() {
         @media (prefers-reduced-motion: no-preference) {
           .cursor, .cursor-2 {
             animation: blink 1.2s ease-in-out infinite;
-          }
-          .system-log {
-            animation: breathe 3s ease-in-out infinite;
-          }
-          .boot-line {
-            animation: breathe 4s ease-in-out infinite;
-          }
-          .command-line {
-            animation: breathe 3.5s ease-in-out infinite;
           }
           .status-card {
             animation: breathe 4.5s ease-in-out infinite;
