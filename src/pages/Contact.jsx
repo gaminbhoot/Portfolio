@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Mail, Github, Linkedin, Send, ArrowRight, MapPin } from 'lucide-react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { Mail, Github, Linkedin, Send, MapPin, Clock, Briefcase, ChevronRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,598 +9,566 @@ export default function Contact() {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
   const formRef = useRef(null);
-  const linksRef = useRef(null);
-  const [hoveredLink, setHoveredLink] = useState(null);
+  const infoRef = useRef(null);
   const [formFocused, setFormFocused] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Header animation
-      const headerText = headerRef.current.querySelectorAll('.word');
-      gsap.fromTo(headerText,
-        { opacity: 0, y: 100, rotationX: -90 },
+      gsap.fromTo('.contact-badge',
+        { opacity: 0, y: -20 },
         {
-          opacity: 1, y: 0, rotationX: 0, duration: 1.4, stagger: 0.15,
-          ease: "power4.out",
-          scrollTrigger: { trigger: headerRef.current, start: "top 80%", toggleActions: "play none none reverse" }
+          opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' }
         }
       );
 
-      gsap.fromTo('.header-line',
-        { scaleX: 0, transformOrigin: "left center" },
+      gsap.fromTo('.contact-heading .word',
+        { opacity: 0, y: 80, rotationX: -60 },
         {
-          scaleX: 1, duration: 1.2, delay: 0.5, ease: "power3.inOut",
-          scrollTrigger: { trigger: headerRef.current, start: "top 80%", toggleActions: "play none none reverse" }
+          opacity: 1, y: 0, rotationX: 0, duration: 1.2, stagger: 0.12, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' }
         }
       );
 
-      // Contact links
-      const links = linksRef.current.querySelectorAll('.contact-link');
-      gsap.fromTo(links,
-        { opacity: 0, x: -80, rotation: -5, scale: 0.9 },
+      gsap.fromTo('.contact-subtext',
+        { opacity: 0, y: 20 },
         {
-          opacity: 1, x: 0, rotation: 0, scale: 1, duration: 1, stagger: 0.15,
-          ease: "back.out(1.7)",
-          scrollTrigger: { trigger: linksRef.current, start: "top 75%", toggleActions: "play none none reverse" }
+          opacity: 1, y: 0, duration: 1, delay: 0.4, ease: 'power3.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' }
         }
       );
 
-      // Form fields
-      const formFields = formRef.current.querySelectorAll('.form-field');
-      gsap.fromTo(formFields,
-        { opacity: 0, x: 60, filter: "blur(10px)" },
+      gsap.fromTo('.header-divider',
+        { scaleX: 0, transformOrigin: 'left center' },
         {
-          opacity: 1, x: 0, filter: "blur(0px)", duration: 1.2, stagger: 0.12,
-          ease: "power3.out",
-          scrollTrigger: { trigger: formRef.current, start: "top 70%", toggleActions: "play none none reverse" }
+          scaleX: 1, duration: 1.2, delay: 0.6, ease: 'power3.inOut',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' }
         }
       );
 
-      gsap.fromTo('.submit-btn',
-        { opacity: 0, scale: 0.8, y: 30 },
+      // Info panel animation
+      gsap.fromTo('.info-card',
+        { opacity: 0, x: -50 },
         {
-          opacity: 1, scale: 1, y: 0, duration: 1, ease: "elastic.out(1, 0.6)",
-          scrollTrigger: { trigger: '.submit-btn', start: "top 85%", toggleActions: "play none none reverse" }
+          opacity: 1, x: 0, duration: 1, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: infoRef.current, start: 'top 75%', toggleActions: 'play none none reverse' }
         }
       );
 
-      gsap.to('.float-element', {
-        y: -20, duration: 2, repeat: -1, yoyo: true, ease: "sine.inOut", stagger: 0.3
-      });
+      // Form animation
+      gsap.fromTo('.form-row',
+        { opacity: 0, x: 50, filter: 'blur(8px)' },
+        {
+          opacity: 1, x: 0, filter: 'blur(0px)', duration: 1, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: formRef.current, start: 'top 72%', toggleActions: 'play none none reverse' }
+        }
+      );
 
-      gsap.to('.parallax-layer', {
-        y: -50,
+      // Parallax orb
+      gsap.to('.contact-orb', {
+        y: -60,
         scrollTrigger: {
-          trigger: containerRef.current, start: "top bottom", end: "bottom top", scrub: 1.5,
+          trigger: containerRef.current, start: 'top bottom', end: 'bottom top', scrub: 2,
         }
       });
-
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleMagneticEffect = (e, element) => {
+  const handleMagneticEffect = useCallback((e, element) => {
     const rect = element.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-    const angle = Math.atan2(y, x) * (180 / Math.PI);
-    const planeIcon = element.querySelector('.plane-icon');
-    if (planeIcon) gsap.to(planeIcon, { rotation: angle + 45, duration: 0.2, ease: "power1.out", overwrite: true });
-    gsap.to(element, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out", overwrite: true });
-  };
+    const x = (e.clientX - (rect.left + rect.width / 2)) * 0.28;
+    const y = (e.clientY - (rect.top + rect.height / 2)) * 0.28;
+    gsap.to(element, { x, y, duration: 0.4, ease: 'power2.out', overwrite: true });
+  }, []);
 
-  const handleMagneticReset = (element) => {
-    const planeIcon = element.querySelector('.plane-icon');
-    if (planeIcon) gsap.to(planeIcon, { rotation: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-    gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-  };
+  const handleMagneticReset = useCallback((element) => {
+    gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('button');
+    const btn = e.target.querySelector('.submit-btn');
     gsap.to(btn, {
-      scale: 0.95, duration: 0.1, yoyo: true, repeat: 1,
-      onComplete: () => alert("Message feature integration coming soon! Feel free to use the direct email link for now.")
+      scale: 0.97, duration: 0.1, yoyo: true, repeat: 1,
+      onComplete: () => {
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 4000);
+        e.target.reset();
+      }
     });
-  };
+  }, []);
+
+  const contactLinks = useMemo(() => [
+    {
+      href: 'https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com',
+      icon: <Mail size={18} />,
+      label: 'Email',
+      value: 'jay05.joshi@gmail.com',
+      note: 'Preferred channel',
+    },
+    {
+      href: 'https://linkedin.com/in/gaminbhoot',
+      icon: <Linkedin size={18} />,
+      label: 'LinkedIn',
+      value: 'linkedin.com/in/gaminbhoot',
+      note: 'Connect professionally',
+    },
+    {
+      href: 'https://github.com/gaminbhoot',
+      icon: <Github size={18} />,
+      label: 'GitHub',
+      value: 'github.com/gaminbhoot',
+      note: 'View my work',
+    },
+  ], []);
 
   return (
-    <div ref={containerRef} className="contact-page container mx-auto px-6 pt-2 pb-12 text-white relative overflow-hidden">
+    <div ref={containerRef} className="contact-page container mx-auto px-6 pt-2 pb-16 text-white relative overflow-hidden">
 
-      {/* ── Background noise layer ── */}
+      {/* ── Background ── */}
       <div className="contact-noise-bg" />
-
-      {/* ── Floating decorative elements ── */}
-      <div className="absolute top-20 right-10 float-element opacity-15 pointer-events-none">
-        <Send size={40} className="text-indigo-400" />
-      </div>
-      <div className="absolute bottom-40 left-10 float-element opacity-15 pointer-events-none" style={{ animationDelay: '1s' }}>
-        <Send size={30} className="text-indigo-300" />
-      </div>
-
-      {/* -- Glowing orb -- */}
       <div className="contact-orb" />
+      <div className="contact-orb contact-orb-2" />
 
       {/* ── HEADER ── */}
-      <div ref={headerRef} className="border-b border-white/10 pb-6 mb-10 mt-0 relative overflow-hidden">
-
-        {/* Signal badge */}
-        <div className="flex items-center gap-2 mb-4">
-          <span className="contact-signal-dot" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-indigo-400">
-            Signal Open · Accepting Transmissions
-          </span>
-        </div>
+      <div ref={headerRef} className="mb-12 relative">
 
         <h1
-          className="text-4xl md:text-7xl font-black uppercase tracking-tighter leading-none perspective-1000 relative"
+          className="contact-heading text-4xl md:text-6xl font-black tracking-tight leading-none mb-4 perspective-1000"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
         >
-          {/* Glitch ghost layers */}
-          <span className="contact-glitch-ghost contact-glitch-ghost-r" aria-hidden="true">GET IN TOUCH</span>
-          <span className="contact-glitch-ghost contact-glitch-ghost-b" aria-hidden="true">GET IN TOUCH</span>
-
-          {/* Actual words */}
-          <span className="word inline-block relative z-10">Get</span>{' '}
-          <span className="word inline-block relative z-10">In</span>{' '}
-          <span className="word inline-block relative z-10 text-indigo-400">Touch</span>
+          <span className="word inline-block">Let's</span>{' '}
+          <span className="word inline-block">Work</span>{' '}
+          <span className="word inline-block text-indigo-400">Together</span>
         </h1>
 
-        <div className="header-line absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
+        <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
+          I'm open to hybrid roles, internships, and freelance projects. Reach out —
+          I typically respond within <span className="text-indigo-300 font-medium">24 hours</span>.
+        </p>
+
+        <div className="header-divider mt-6 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/40 to-transparent" />
       </div>
 
-      {/* ── MAIN CARD ── */}
-      <div
-        className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl relative parallax-layer mt-10 contact-card overflow-hidden"
-        style={{ background: "transparent", overflow: 'visible' }}
-      >
-        {/* Corner accents */}
-        <div className="contact-corner contact-corner-tl" />
-        <div className="contact-corner contact-corner-tr" />
-        <div className="contact-corner contact-corner-bl" />
-        <div className="contact-corner contact-corner-br" />
+      {/* ── MAIN GRID ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
 
-        {/* ── LEFT: TERMINAL READOUT ── */}
-        <div ref={linksRef} className="p-5 md:p-6 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between relative z-10 rounded-l-2xl term-panel" style={{ background: "rgba(30,30,38,0.60)" }}>
+        {/* ── LEFT: INFO PANEL (2 cols) ── */}
+        <div ref={infoRef} className="lg:col-span-2 flex flex-col gap-4">
 
-          {/* Terminal header bar */}
-          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/[0.06]">
-            <span className="term-dot term-dot-red" />
-            <span className="term-dot term-dot-yellow" />
-            <span className="term-dot term-dot-green" />
-            <span className="font-mono text-[9px] text-white/55 tracking-widest ml-2">contacts.sh</span>
-            <span className="ml-auto font-mono text-[9px] text-white/40 tracking-widest term-blink-text">LIVE</span>
-          </div>
-
-          {/* Boot sequence */}
-          <div className="font-mono text-xs space-y-0.5 mb-3 contact-link">
-            <p className="text-indigo-300/90">[  1.006] <span className="text-white/80">initializing contact protocol...</span></p>
-            <p className="text-white/55">[ 37.42] <span className="text-white/80">channels: OK</span></p>
-            <p className="text-indigo-300/90 term-flicker">[  5.744] <span className="text-white/80">awaiting transmission</span><span className="term-cursor">▋</span></p>
-          </div>
-
-          {/* Contact entries as stdout */}
-          <div className="space-y-1 mt-auto">
-            {[
-              { href: "https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com", icon: <Mail size={16} />, key: "EMAIL", value: "jay05.joshi@gmail.com", flag: "--primary" },
-              { href: "https://github.com/gaminbhoot",      icon: <Github size={16} />,   key: "GITHUB",   value: "@gaminbhoot", flag: "--open"    },
-              { href: "https://linkedin.com/in/gaminbhoot", icon: <Linkedin size={16} />, key: "LINKEDIN", value: "Jay Joshi",   flag: "--connect" },
-            ].map(({ href, icon, key, value, flag }, i) => (
-              <a
-                key={i}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="contact-link term-entry group"
-                onMouseEnter={() => setHoveredLink(i)}
-                onMouseLeave={() => setHoveredLink(null)}
-              >
-                <span className="text-indigo-300/90 shrink-0">{icon}</span>
-                <div className="flex flex-col ml-3 flex-1 min-w-0">
-                  <span className="font-mono text-[9px] text-indigo-300/60 uppercase tracking-widest">{key}</span>
-                  <span className="text-white/90 group-hover:text-white font-mono text-[13px] font-medium transition-colors duration-200 truncate term-entry-value">{value}</span>
-                </div>
-                <span className="text-indigo-400/30 font-mono text-[9px] ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0">{flag}</span>
-              </a>
-            ))}
-
-            {/* Location entry */}
-            <div className="contact-link term-entry" style={{ cursor: 'default' }}>
-              <span className="text-indigo-300/90 shrink-0"><MapPin size={16} /></span>
-              <div className="flex flex-col ml-3 flex-1">
-                <span className="font-mono text-[9px] text-indigo-300/60 uppercase tracking-widest">LOCATION</span>
-                <span className="text-white/90 font-mono text-[13px] font-medium">Noida, India</span>
+          {/* Availability card */}
+          <div className="info-card contact-glass-card">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="contact-icon-wrap">
+                <Briefcase size={16} className="text-indigo-300" />
               </div>
-              <span className="text-indigo-400/30 font-mono text-[9px] ml-2 shrink-0">UTC+5:30</span>
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Current Status</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-white/70 text-xs">Employment</span>
+                <span className="contact-status-pill contact-status-open">Open to Work</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-white/70 text-xs">Role Type</span>
+                <span className="text-white/90 text-xs font-medium">Hybrid / Internship</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-white/70 text-xs">Start Date</span>
+                <span className="text-white/90 text-xs font-medium">Within 2 weeks</span>
+              </div>
             </div>
           </div>
 
+          {/* Location & timezone */}
+          <div className="info-card contact-glass-card">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="contact-icon-wrap">
+                <MapPin size={16} className="text-indigo-300" />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Location</span>
+            </div>
+            <p className="text-white text-sm font-semibold">Noida, India</p>
+            <div className="flex items-center gap-2 mt-2">
+              <Clock size={13} className="text-white/40" />
+              <span className="text-white/50 text-[10px]">UTC +5:30 · IST</span>
+            </div>
+          </div>
 
+          {/* Direct contact links */}
+          <div className="info-card contact-glass-card flex flex-col flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="contact-icon-wrap">
+                <Mail size={16} className="text-indigo-300" />
+              </div>
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Direct Channels</span>
+            </div>
+            <div className="space-y-1">
+              {contactLinks.map(({ href, icon, label, value, note }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-link-row group"
+                >
+                  <span className="contact-link-icon-wrap">{icon}</span>
+                  <div className="flex-1 min-w-0 ml-3">
+                    <p className="text-[10px] text-white/40 uppercase tracking-wider font-medium">{label}</p>
+                    <p className="text-white/85 group-hover:text-white text-xs font-medium truncate transition-colors duration-200">{value}</p>
+                  </div>
+                  <div className="flex flex-col items-end shrink-0 ml-2">
+                    <span className="text-[9px] text-indigo-400/50 group-hover:text-indigo-300/80 transition-colors duration-200">{note}</span>
+                    <ChevronRight size={13} className="text-white/20 group-hover:text-indigo-300/60 mt-0.5 transition-colors duration-200 group-hover:translate-x-0.5 transform" />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* ── RIGHT: TERMINAL FORM ── */}
-        <div
-          ref={formRef}
-          className="p-5 md:p-6 relative z-10 term-panel"
-          style={{ borderTopRightRadius: 16, borderBottomRightRadius: 16, background: 'rgba(6,6,8,0.82)' }}
-        >
-          {/* Terminal header bar */}
-          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-white/[0.06]">
-            <span className="term-dot term-dot-red" />
-            <span className="term-dot term-dot-yellow" />
-            <span className="term-dot term-dot-green" />
-            <span className="font-mono text-[9px] text-green-400/80 tracking-widest ml-2">compose.sh</span>
-            <span className="ml-auto font-mono text-[9px] text-white/45 tracking-widest">PID 2406</span>
-          </div>
+        {/* ── RIGHT: INQUIRY FORM (3 cols) ── */}
+        <div ref={formRef} className="lg:col-span-3">
+          <div className="contact-glass-card relative overflow-hidden">
 
-          {/* Prompt line */}
-          <div className="font-mono text-xs mb-4 contact-link">
-            <span className="text-indigo-400 font-bold">jay@portfolio:~$</span>
-            <span className="text-white"> send --interactive</span>
-          </div>
+            {/* Card top accent line */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {[
-              { id: 'name',    label: 'YOUR NAME', type: 'text',  placeholder: 'Full Name',              tag: 'input'    },
-              { id: 'email',   label: 'EMAIL',     type: 'email', placeholder: 'email@example.com',      tag: 'input'    },
-              { id: 'message', label: 'MESSAGE',   type: 'text',  placeholder: 'What are you building?', tag: 'textarea' },
-            ].map(({ id, label, type, placeholder, tag }) => (
-              <div key={id} className="form-field group relative">
-                {/* Prompt label */}
-                <label className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] mb-2 transition-colors duration-300"
-                  style={{ color: formFocused === id ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.85)' }}>
-                  <span className="text-indigo-400/50">›</span>
-                  <span>--{label.toLowerCase()}</span>
-                  {formFocused === id && <span className="text-green-400/70 normal-case tracking-normal ml-1 font-mono">(editing)</span>}
-                </label>
-                {tag === 'textarea' ? (
-                  <textarea
-                    rows="3"
+
+
+            {submitted ? (
+              <div className="contact-success-msg">
+                <div className="contact-success-icon">
+                  <Send size={22} className="text-indigo-300" />
+                </div>
+                <p className="text-white font-semibold text-base mt-3">Message Received!</p>
+                <p className="text-white/50 text-sm mt-1">Thank you for reaching out. I'll respond within 24 hours.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+
+                {/* Name + Email row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="form-row group relative">
+                    <label className="contact-label">
+                      <span className="text-indigo-400/60">›</span> Name
+                      {formFocused === 'name' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Full Name"
+                      className="contact-input"
+                      onFocus={() => setFormFocused('name')}
+                      onBlur={() => setFormFocused(null)}
+                    />
+                    <div className={`contact-input-line ${formFocused === 'name' ? 'contact-input-line-active' : ''}`} />
+                  </div>
+
+                  <div className="form-row group relative">
+                    <label className="contact-label">
+                      <span className="text-indigo-400/60">›</span> Email
+                      {formFocused === 'email' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="email@example.com"
+                      className="contact-input"
+                      onFocus={() => setFormFocused('email')}
+                      onBlur={() => setFormFocused(null)}
+                    />
+                    <div className={`contact-input-line ${formFocused === 'email' ? 'contact-input-line-active' : ''}`} />
+                  </div>
+                </div>
+
+                {/* Company + Role row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="form-row group relative">
+                    <label className="contact-label">
+                      <span className="text-indigo-400/60">›</span> Company
+                      {formFocused === 'company' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Google, Startup Inc."
+                      className="contact-input"
+                      onFocus={() => setFormFocused('company')}
+                      onBlur={() => setFormFocused(null)}
+                    />
+                    <div className={`contact-input-line ${formFocused === 'company' ? 'contact-input-line-active' : ''}`} />
+                  </div>
+
+                  <div className="form-row group relative">
+                    <label className="contact-label">
+                      <span className="text-indigo-400/60">›</span> Inquiry Type
+                      {formFocused === 'type' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                    </label>
+                    <select
+                      className="contact-input contact-select"
+                      onFocus={() => setFormFocused('type')}
+                      onBlur={() => setFormFocused(null)}
+                    >
+                      <option value="" disabled selected>select --type</option>
+                      <option value="full-time">Full-time Role</option>
+                      <option value="internship">Internship</option>
+                      <option value="freelance">Freelance / Contract</option>
+                      <option value="collaboration">Collaboration</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div className={`contact-input-line ${formFocused === 'type' ? 'contact-input-line-active' : ''}`} />
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div className="form-row group relative">
+                  <label className="contact-label">
+                    <span className="text-indigo-400/60">›</span> Subject
+                    {formFocused === 'subject' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                  </label>
+                  <input
+                    type="text"
                     required
-                    placeholder={placeholder}
-                    className="contact-input w-full font-mono text-sm"
-                    onFocus={() => setFormFocused(id)}
+                    placeholder="Frontend Engineer @ Acme Corp"
+                    className="contact-input"
+                    onFocus={() => setFormFocused('subject')}
+                    onBlur={() => setFormFocused(null)}
+                  />
+                  <div className={`contact-input-line ${formFocused === 'subject' ? 'contact-input-line-active' : ''}`} />
+                </div>
+
+                {/* Message */}
+                <div className="form-row group relative">
+                  <label className="contact-label">
+                    <span className="text-indigo-400/60">›</span> Message
+                    {formFocused === 'message' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+                  </label>
+                  <textarea
+                    rows="4"
+                    required
+                    placeholder="What are you building?"
+                    className="contact-input"
+                    onFocus={() => setFormFocused('message')}
                     onBlur={() => setFormFocused(null)}
                     style={{ resize: 'none' }}
                   />
-                ) : (
-                  <input
-                    type={type}
-                    required
-                    placeholder={placeholder}
-                    className="contact-input w-full font-mono text-sm"
-                    onFocus={() => setFormFocused(id)}
-                    onBlur={() => setFormFocused(null)}
-                  />
-                )}
-                <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-gradient-to-r from-indigo-400/80 to-purple-400/60 transition-all duration-500 group-focus-within:w-full" />
-              </div>
-            ))}
+                  <div className={`contact-input-line ${formFocused === 'message' ? 'contact-input-line-active' : ''}`} />
+                </div>
 
-            {/* Submit row */}
-            <div className="-mx-5 md:-mx-6 px-5 md:px-6 py-3 -mb-5 md:-mb-6 border-t border-white/[0.06] mt-4">
-              {/* Command preview */}
-              <p className="font-mono text-[9px] text-white/20 mb-3 tracking-widest">
-                <span className="text-indigo-300/90">jay@portfolio:~$</span><span className="text-white/60"> transmit --encrypt --sign</span>
-              </p>
-              <button
-                type="submit"
-                className="submit-btn contact-submit-btn group"
-                onMouseMove={(e) => handleMagneticEffect(e, e.currentTarget)}
-                onMouseLeave={(e) => handleMagneticReset(e.currentTarget)}
-              >
-                <div className="contact-submit-sweep" />
-                <div className="contact-submit-fringe" />
-                <Send size={15} className="plane-icon relative z-10" />
-                <span className="relative z-10 font-mono text-sm tracking-[0.2em] font-bold">TRANSMIT</span>
-                <span className="relative z-10 font-mono text-[10px] text-white/60 ml-auto tracking-widest hidden md:block">[ ENTER ]</span>
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
-              </button>
-            </div>
-          </form>
+                {/* Submit */}
+                <div className="form-row pt-1">
+                  <button
+                    type="submit"
+                    className="submit-btn contact-submit-btn group"
+                    onMouseMove={(e) => handleMagneticEffect(e, e.currentTarget)}
+                    onMouseLeave={(e) => handleMagneticReset(e.currentTarget)}
+                  >
+                    <div className="contact-submit-sheen" />
+                    <Send size={15} className="relative z-10" />
+                    <span className="relative z-10 font-mono text-sm tracking-[0.2em] font-bold">TRANSMIT</span>
+                    <span className="relative z-10 font-mono text-[10px] text-white/60 ml-auto tracking-widest hidden md:block">[ ENTER ]</span>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </div>
 
       <style>{`
-        /* ── Page background effects ── */
+        /* ── Background ── */
         .contact-noise-bg {
-          position: fixed;
-          inset: 0;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0.025;
+          position: fixed; inset: 0;
+          pointer-events: none; z-index: 0; opacity: 0.022;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
           background-size: 200px 200px;
         }
 
         .contact-orb {
-          position: absolute;
-          top: -120px;
-          right: -180px;
-          width: 600px;
-          height: 600px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(99,102,241,0.04) 0%, transparent 65%);
-          pointer-events: none;
-          animation: orb-drift 8s ease-in-out infinite alternate;
-          filter: blur(20px);
+          position: absolute; top: -160px; right: -200px;
+          width: 700px; height: 700px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%);
+          pointer-events: none; filter: blur(30px);
+        }
+        .contact-orb-2 {
+          top: auto; bottom: -200px; right: auto; left: -200px;
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%);
         }
 
-        @keyframes orb-drift {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(-40px, 30px) scale(1.1); }
+
+
+        /* ── Heading ── */
+        .perspective-1000 { perspective: 1000px; }
+
+        /* ── Glass card ── */
+        .contact-glass-card {
+          background: rgba(15,15,20,0.75);
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px; padding: 24px;
+          position: relative; z-index: 1;
+          transition: border-color 0.3s ease;
+        }
+        .contact-glass-card:hover {
+          border-color: rgba(99,102,241,0.15);
         }
 
-        /* ── Signal dot ── */
-        .contact-signal-dot {
-          display: inline-block;
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #818cf8;
-          box-shadow: 0 0 8px #818cf8, 0 0 16px rgba(129,140,248,0.4);
-          animation: signal-pulse 2s ease-in-out infinite;
+        /* ── Icon wrap ── */
+        .contact-icon-wrap {
+          width: 32px; height: 32px; border-radius: 8px;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(99,102,241,0.12);
+          border: 1px solid rgba(99,102,241,0.2);
+          flex-shrink: 0;
         }
 
-        @keyframes signal-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.4; transform: scale(0.7); }
+        /* ── Status pill ── */
+        .contact-status-pill {
+          font-size: 10px; font-weight: 600; padding: 3px 10px;
+          border-radius: 999px; letter-spacing: 0.03em;
+        }
+        .contact-status-open {
+          background: rgba(74,222,128,0.1);
+          border: 1px solid rgba(74,222,128,0.25);
+          color: #86efac;
         }
 
-        /* ── Header glitch ghosts ── */
-        .contact-glitch-ghost {
-          position: absolute;
-          top: 0; left: 0;
-          font-family: 'Orbitron', sans-serif;
-          font-size: inherit;
-          font-weight: 900;
-          letter-spacing: -0.05em;
-          line-height: 1;
-          pointer-events: none;
-          white-space: nowrap;
+        /* ── Contact link rows ── */
+        .contact-link-row {
+          display: flex; align-items: center;
+          padding: 10px 10px; border-radius: 10px;
+          border: 1px solid transparent;
+          transition: background 0.2s ease, border-color 0.2s ease;
+          text-decoration: none;
         }
-        .contact-glitch-ghost-r {
-          color: rgba(255, 30, 60, 0.15);
-          animation: ghost-r 4s infinite steps(1);
-          clip-path: inset(0 0 60% 0);
+        .contact-link-row:hover {
+          background: rgba(99,102,241,0.08);
+          border-color: rgba(99,102,241,0.15);
         }
-        .contact-glitch-ghost-b {
-          color: rgba(30, 140, 255, 0.15);
-          animation: ghost-b 4s infinite steps(1);
-          clip-path: inset(40% 0 0 0);
+        .contact-link-icon-wrap {
+          width: 36px; height: 36px; border-radius: 9px;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(99,102,241,0.1);
+          border: 1px solid rgba(99,102,241,0.18);
+          color: rgba(165,180,252,0.9); flex-shrink: 0;
+          transition: background 0.2s, border-color 0.2s;
         }
-
-        @keyframes ghost-r {
-          0%   { transform: translate(0, 0); clip-path: inset(0 0 60% 0); }
-          10%  { transform: translate(-3px, 1px); clip-path: inset(10% 0 50% 0); }
-          15%  { transform: translate(2px, 0); clip-path: inset(0 0 60% 0); }
-          40%  { transform: translate(0, 0); clip-path: inset(0 0 60% 0); }
-          42%  { transform: translate(-4px, -1px); clip-path: inset(5% 0 55% 0); }
-          44%  { transform: translate(0, 0); clip-path: inset(0 0 60% 0); }
-          100% { transform: translate(0, 0); }
+        .contact-link-row:hover .contact-link-icon-wrap {
+          background: rgba(99,102,241,0.18);
+          border-color: rgba(99,102,241,0.3);
         }
 
-        @keyframes ghost-b {
-          0%   { transform: translate(0, 0); clip-path: inset(40% 0 0 0); }
-          20%  { transform: translate(3px, -1px); clip-path: inset(45% 0 0 0); }
-          24%  { transform: translate(0, 0); clip-path: inset(40% 0 0 0); }
-          65%  { transform: translate(0, 0); }
-          67%  { transform: translate(4px, 1px); clip-path: inset(35% 0 5% 0); }
-          70%  { transform: translate(0, 0); clip-path: inset(40% 0 0 0); }
-          100% { transform: translate(0, 0); }
+        /* ── Form labels ── */
+        .contact-label {
+          display: flex; align-items: center; gap: 6px;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 14px; font-weight: 600;
+          text-transform: uppercase; letter-spacing: 0.2em;
+          color: rgba(255,255,255,0.85);
+          margin-bottom: 8px;
+          transition: color 0.3s;
         }
 
-        /* ── Card decoration ── */
-        .contact-card {
-          box-shadow: none;
-        }
-
-        /* Corner accents */
-        .contact-corner {
-          position: absolute;
-          width: 20px; height: 20px;
-          pointer-events: none;
-          z-index: 20;
-          animation: corner-flicker 8s infinite steps(1);
-        }
-        .contact-corner-tl { top: -1px; left: -1px; border-top: 2px solid #818cf8; border-left: 2px solid #818cf8; border-radius: 16px 0 0 0; }
-        .contact-corner-tr { top: -1px; right: -1px; border-top: 2px solid #818cf8; border-right: 2px solid #818cf8; border-radius: 0 16px 0 0; animation-delay: 0.4s; }
-        .contact-corner-bl { bottom: -1px; left: -1px; border-bottom: 2px solid #818cf8; border-left: 2px solid #818cf8; border-radius: 0 0 0 16px; animation-delay: 0.8s; }
-        .contact-corner-br { bottom: -1px; right: -1px; border-bottom: 2px solid #818cf8; border-right: 2px solid #818cf8; border-radius: 0 0 16px 0; animation-delay: 1.2s; }
-
-        @keyframes corner-flicker {
-          0%   { opacity: 0.45; filter: none; }
-          30%  { opacity: 0.45; filter: none; }
-          32%  { opacity: 0.75; filter: drop-shadow(0 0 3px rgba(129,140,248,0.5)); }
-          35%  { opacity: 0.45; filter: none; }
-          75%  { opacity: 0.45; filter: none; }
-          77%  { opacity: 0.65; filter: drop-shadow(1px 0 0 rgba(255,30,30,0.6)) drop-shadow(-1px 0 0 rgba(30,140,255,0.6)); }
-          80%  { opacity: 0.45; filter: none; }
-          100% { opacity: 0.45; filter: none; }
-        }
-
-        /* ── Form inputs ── */
+        /* ── Inputs ── */
         .contact-input {
+          width: 100%;
           background: transparent;
           border: none;
           border-bottom: 1px solid rgba(255,255,255,0.1);
+          border-radius: 0;
           padding: 8px 0;
           outline: none;
-          color: white;
-          font-size: 14px;
-          transition: border-color 0.5s ease, padding-left 0.3s ease;
+          color: rgba(255,255,255,0.95);
+          font-size: 17px;
+          font-family: 'Courier New', Courier, monospace;
+          transition: border-color 0.4s ease, padding-left 0.3s ease;
         }
-        .contact-input::placeholder { color: rgba(156,163,175,0.5); }
-        .contact-input:focus { border-bottom-color: rgba(129,140,248,0.5); }
-
+        .contact-input::placeholder {
+          color: rgba(129,140,248,0.35);
+          font-family: 'Courier New', Courier, monospace;
+          font-style: italic;
+        }
+        .contact-input:focus {
+          border-bottom-color: rgba(129,140,248,0.6);
+          box-shadow: none;
+          background: transparent;
+        }
         .contact-input:-webkit-autofill,
         .contact-input:-webkit-autofill:focus {
-          -webkit-text-fill-color: white !important;
+          -webkit-text-fill-color: rgba(255,255,255,0.95) !important;
           -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
           transition: background-color 5000s ease-in-out 0s !important;
         }
 
+        /* ── Select ── */
+        .contact-select {
+          appearance: none; -webkit-appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(165,180,252,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          cursor: pointer;
+        }
+        .contact-select option {
+          background: #0f0f14; color: rgba(255,255,255,0.9);
+        }
+
+        /* ── Input underline (unused now, kept for compat) ── */
+        .contact-input-line {
+          height: 1px; background: rgba(99,102,241,0); margin-top: -1px;
+          transition: background 0.3s ease;
+        }
+        .contact-input-line-active { background: rgba(99,102,241,0.5); }
+
         /* ── Submit button ── */
         .contact-submit-btn {
-          position: relative;
-          width: 100%;
-          margin-top: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #7c3aed 100%);
-          color: white;
-          font-weight: 700;
-          padding: 16px;
-          border-radius: 12px;
+          position: relative; width: 100%;
+          display: flex; align-items: center; justify-content: center; gap: 10px;
+          background: linear-gradient(135deg, #4f46e5 0%, #6366f1 55%, #7c3aed 100%);
+          color: white; font-size: 15px; font-weight: 600;
+          padding: 14px 20px; border-radius: 12px;
           border: 1px solid rgba(129,140,248,0.3);
-          overflow: hidden;
-          cursor: pointer;
-          transition: box-shadow 0.4s ease, border-color 0.4s ease;
+          overflow: hidden; cursor: pointer;
           box-shadow: 0 8px 32px rgba(79,70,229,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+          transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.2s ease;
         }
         .contact-submit-btn:hover {
-          box-shadow: 0 12px 48px rgba(79,70,229,0.5), 0 0 24px rgba(129,140,248,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+          box-shadow: 0 12px 40px rgba(79,70,229,0.5), 0 0 20px rgba(129,140,248,0.15), inset 0 1px 0 rgba(255,255,255,0.15);
           border-color: rgba(129,140,248,0.5);
         }
 
-        .contact-submit-sweep {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 0%, rgba(113,196,255,0.05) 50%, transparent 100%);
-          background-size: 100% 200%;
-          animation: submit-sweep 2s linear infinite;
+        .contact-submit-sheen {
+          position: absolute; inset: 0;
+          background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+          transform: translateX(-100%);
+          transition: transform 0.6s ease;
           pointer-events: none;
         }
-        @keyframes submit-sweep {
-          from { background-position: 0% 0%; }
-          to   { background-position: 0% 100%; }
+        .contact-submit-btn:hover .contact-submit-sheen {
+          transform: translateX(100%);
         }
 
-        .contact-submit-fringe {
-          position: absolute;
-          inset: 0;
-          border-radius: 12px;
-          opacity: 0;
-          pointer-events: none;
-          box-shadow:
-            inset 2px 0 0 rgba(255,30,30,0.1),
-            inset -2px 0 0 rgba(30,180,255,0.1);
-          transition: opacity 0.3s;
+        /* ── Success state ── */
+        .contact-success-msg {
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          padding: 48px 24px; text-align: center;
+          animation: fade-in-up 0.5s ease;
         }
-        .contact-submit-btn:hover .contact-submit-fringe { opacity: 1; }
-
-        /* ── Perspective ── */
-        .perspective-1000 { perspective: 1000px; }
-
-        /* ── Terminal panel ── */
-        .term-panel {
-          background-image: repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(0,0,0,0.06) 3px,
-            rgba(0,0,0,0.06) 4px
-          );
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Terminal dots */
-        .term-dot {
-          display: inline-block;
-          width: 10px; height: 10px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-        .term-dot-red    { background: rgba(255,90,90,0.6); }
-        .term-dot-yellow { background: rgba(255,200,60,0.6); }
-        .term-dot-green  { background: rgba(60,220,100,0.6); }
-
-        /* Blinking LIVE text */
-        .term-blink-text {
-          animation: term-blink 1.4s infinite steps(1);
-        }
-        @keyframes term-blink {
-          0%, 49%  { opacity: 1; }
-          50%, 100% { opacity: 0; }
-        }
-
-        /* Inline cursor */
-        .term-cursor {
-          display: inline-block;
-          color: rgba(129,140,248,0.8);
-          animation: term-blink 0.8s infinite steps(1);
-          margin-left: 2px;
-        }
-
-        /* Occasional flicker on boot line */
-        .term-flicker {
-          animation: term-line-flicker 5s infinite steps(1);
-        }
-        @keyframes term-line-flicker {
-          0%   { opacity: 1; }
-          92%  { opacity: 1; }
-          93%  { opacity: 0.3; }
-          94%  { opacity: 1; }
-          96%  { opacity: 0.5; }
-          97%  { opacity: 1; }
-          100% { opacity: 1; }
-        }
-
-        /* Contact entry rows */
-        .term-entry {
-          display: flex;
-          align-items: center;
-          padding: 5px 0;
-          border-bottom: 1px solid rgba(255,255,255,0.03);
-          transition: background 0.2s;
-          border-radius: 4px;
-          padding-left: 4px;
-          padding-right: 4px;
-        }
-        .term-entry:hover {
-          background: rgba(99,102,241,0.06);
-        }
-        .term-entry-value {
-          animation: term-value-glitch 8s infinite steps(1);
-        }
-        @keyframes term-value-glitch {
-          0%   { opacity: 0.8; transform: translateX(0); filter: none; }
-          94%  { opacity: 0.8; transform: translateX(0); filter: none; }
-          95%  { opacity: 0.5; transform: translateX(-1px); filter: drop-shadow(1px 0 0 rgba(255,30,30,0.4)) drop-shadow(-1px 0 0 rgba(30,140,255,0.4)); }
-          96%  { opacity: 0.8; transform: translateX(0); filter: none; }
-          97%  { opacity: 0.6; transform: translateX(1px); filter: drop-shadow(-1px 0 0 rgba(255,30,30,0.3)); }
-          98%  { opacity: 0.8; transform: translateX(0); filter: none; }
-          100% { opacity: 0.8; }
-        }
-
-        /* Green status pulse dot */
-        .term-pulse-dot {
-          animation: pulse-dot 2s ease-in-out infinite;
-          box-shadow: 0 0 4px rgba(74,222,128,0.6);
-        }
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.4; transform: scale(0.7); }
-        }
-
-        /* Contact input override for mono */
-        .contact-input {
-          font-family: 'Courier New', Courier, monospace;
-          font-size: 14px;
-          color: rgba(255,255,255,0.95);
-          border-bottom-color: rgba(129,140,248,0.2);
-        }
-        .contact-input::placeholder {
-          font-family: 'Courier New', Courier, monospace;
-          color: rgba(129,140,248,0.35);
-          font-style: italic;
-        }
-        .contact-input:focus {
-          border-bottom-color: rgba(129,140,248,0.6) !important;
+        .contact-success-icon {
+          width: 56px; height: 56px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(99,102,241,0.12);
+          border: 1px solid rgba(99,102,241,0.3);
+          box-shadow: 0 0 24px rgba(99,102,241,0.2);
         }
       `}</style>
     </div>
