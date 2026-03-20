@@ -119,8 +119,8 @@ export default function TerminalHero() {
       ScrollTrigger.create({
         trigger: terminalRef.current,
         start: "top center", end: "bottom center",
-        onEnter:     () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
-        onLeave:     () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
+        onEnter: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
+        onLeave: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
         onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
         onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
       });
@@ -188,7 +188,7 @@ export default function TerminalHero() {
 
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      <span>I'm a {hi(`${age} year old`)} computer science student in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
+                      <span>I'm a {hi(`${age} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
                       <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
                       <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
                       <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,

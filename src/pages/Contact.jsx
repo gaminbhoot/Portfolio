@@ -148,7 +148,7 @@ export default function Contact() {
 
         <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
           I'm open to hybrid roles, internships, and freelance projects. Reach out —
-          I typically respond within <span className="text-indigo-300 font-medium">24 hours</span>.
+          <span className="text-indigo-300 font-medium">  I'd be happy to connect</span>.
         </p>
 
         <div className="header-divider mt-6 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/40 to-transparent" />
