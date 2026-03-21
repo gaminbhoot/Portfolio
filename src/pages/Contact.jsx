@@ -236,7 +236,7 @@ export default function Contact() {
 
         {/* ── RIGHT: INQUIRY FORM (3 cols) ── */}
         <div ref={formRef} className="lg:col-span-3 h-full">
-          <div className="contact-glass-card relative overflow-hidden h-full">
+          <div className="contact-glass-card relative overflow-hidden h-full" style={{ background: 'rgba(0,0,0,0.6)' }}>
 
             {/* Card top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
@@ -407,15 +407,18 @@ export default function Contact() {
 
         /* ── Glass card ── */
         .contact-glass-card {
-          background: rgba(15,15,20,0.75);
-          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: rgba(0,0,0,0.3);
+          backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 16px; padding: 24px;
           position: relative; z-index: 1;
-          transition: border-color 0.3s ease;
+          transition: all 0.5s ease;
         }
         .contact-glass-card:hover {
-          border-color: rgba(99,102,241,0.15);
+          background: rgba(0,0,0,0.4);
+          border-color: rgba(99,102,241,0.5);
+          box-shadow: 0 20px 40px rgba(99,102,241,0.2);
+          transform: translateY(-2px) scale(1.01);
         }
 
         /* ── Icon wrap ── */
