@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { Mail, Github, Linkedin, Send, MapPin, Clock, Briefcase, ChevronRight } from 'lucide-react';
+import { Mail, Github, Linkedin, Send, MapPin, Clock, Briefcase, ChevronRight, Link2 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -15,7 +15,6 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header animation
       gsap.fromTo('.contact-badge',
         { opacity: 0, y: -20 },
         {
@@ -48,7 +47,6 @@ export default function Contact() {
         }
       );
 
-      // Info panel animation
       gsap.fromTo('.info-card',
         { opacity: 0, x: -50 },
         {
@@ -57,7 +55,6 @@ export default function Contact() {
         }
       );
 
-      // Form animation
       gsap.fromTo('.form-row',
         { opacity: 0, x: 50, filter: 'blur(8px)' },
         {
@@ -66,7 +63,6 @@ export default function Contact() {
         }
       );
 
-      // Parallax orb
       gsap.to('.contact-orb', {
         y: -60,
         scrollTrigger: {
@@ -136,7 +132,6 @@ export default function Contact() {
 
       {/* ── HEADER ── */}
       <div ref={headerRef} className="mb-12 relative">
-
         <h1
           className="contact-heading text-4xl md:text-6xl font-black tracking-tight leading-none mb-4 perspective-1000"
           style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -148,64 +143,69 @@ export default function Contact() {
 
         <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
           I'm open to hybrid roles, internships, and freelance projects. Reach out —
-          <span className="text-indigo-300 font-medium">  I'd be happy to connect</span>.
+          <span className="text-indigo-300 font-medium"> I'd be happy to connect</span>.
         </p>
 
         <div className="header-divider mt-6 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/40 to-transparent" />
       </div>
 
       {/* ── MAIN GRID ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
 
         {/* ── LEFT: INFO PANEL (2 cols) ── */}
-        <div ref={infoRef} className="lg:col-span-2 flex flex-col gap-4">
+        <div ref={infoRef} className="lg:col-span-2 flex flex-col gap-4 h-full">
 
           {/* Availability card */}
           <div className="info-card contact-glass-card">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap">
                 <Briefcase size={16} className="text-indigo-300" />
               </div>
-              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Current Status</span>
+              {/* Card section title: 11px, all-caps, wide tracking */}
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Current Status</span>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-white/70 text-xs">Employment</span>
+                {/* Row label: 11px muted */}
+                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Employment</span>
                 <span className="contact-status-pill contact-status-open">Open to Work</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-white/70 text-xs">Role Type</span>
-                <span className="text-white/90 text-xs font-medium">Hybrid / Internship</span>
+                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Role Type</span>
+                {/* Primary value: 13px, white */}
+                <span className="text-[13px] text-white/90 font-semibold">Hybrid / Internship</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-white/70 text-xs">Start Date</span>
-                <span className="text-white/90 text-xs font-medium">Within 2 weeks</span>
+                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Start Date</span>
+                <span className="text-[13px] text-white/90 font-semibold">Within 2 weeks</span>
               </div>
             </div>
           </div>
 
           {/* Location & timezone */}
           <div className="info-card contact-glass-card">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap">
                 <MapPin size={16} className="text-indigo-300" />
               </div>
-              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Location</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Location</span>
             </div>
-            <p className="text-white text-sm font-semibold">Noida, India</p>
+            {/* Primary location value: 15px, full white */}
+            <p className="text-[15px] text-white font-bold leading-tight">Noida, India</p>
             <div className="flex items-center gap-2 mt-2">
-              <Clock size={13} className="text-white/40" />
-              <span className="text-white/50 text-[10px]">UTC +5:30 · IST</span>
+              <Clock size={12} className="text-white/30" />
+              {/* Metadata: 10px, most muted */}
+              <span className="text-[10px] text-white/35 tracking-wide">UTC +5:30 · IST</span>
             </div>
           </div>
 
           {/* Direct contact links */}
           <div className="info-card contact-glass-card flex flex-col flex-1">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap">
-                <Mail size={16} className="text-indigo-300" />
+                <Link2 size={16} className="text-indigo-300" />
               </div>
-              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/50">Direct Channels</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Direct Channels</span>
             </div>
             <div className="space-y-1">
               {contactLinks.map(({ href, icon, label, value, note }, i) => (
@@ -218,12 +218,15 @@ export default function Contact() {
                 >
                   <span className="contact-link-icon-wrap">{icon}</span>
                   <div className="flex-1 min-w-0 ml-3">
-                    <p className="text-[10px] text-white/40 uppercase tracking-wider font-medium">{label}</p>
-                    <p className="text-white/85 group-hover:text-white text-xs font-medium truncate transition-colors duration-200">{value}</p>
+                    {/* Link label: 10px metadata */}
+                    <p className="text-[10px] text-white/35 uppercase tracking-[0.15em] font-semibold mb-0.5">{label}</p>
+                    {/* Link value: 13px primary */}
+                    <p className="text-[13px] text-white/85 group-hover:text-white font-medium truncate transition-colors duration-200">{value}</p>
                   </div>
                   <div className="flex flex-col items-end shrink-0 ml-2">
-                    <span className="text-[9px] text-indigo-400/50 group-hover:text-indigo-300/80 transition-colors duration-200">{note}</span>
-                    <ChevronRight size={13} className="text-white/20 group-hover:text-indigo-300/60 mt-0.5 transition-colors duration-200 group-hover:translate-x-0.5 transform" />
+                    {/* Note: 10px, indigo tint */}
+                    <span className="text-[10px] text-indigo-400/45 group-hover:text-indigo-300/75 transition-colors duration-200 text-right leading-tight">{note}</span>
+                    <ChevronRight size={12} className="text-white/20 group-hover:text-indigo-300/60 mt-1 transition-colors duration-200 group-hover:translate-x-0.5 transform" />
                   </div>
                 </a>
               ))}
@@ -232,13 +235,11 @@ export default function Contact() {
         </div>
 
         {/* ── RIGHT: INQUIRY FORM (3 cols) ── */}
-        <div ref={formRef} className="lg:col-span-3">
-          <div className="contact-glass-card relative overflow-hidden">
+        <div ref={formRef} className="lg:col-span-3 h-full">
+          <div className="contact-glass-card relative overflow-hidden h-full">
 
             {/* Card top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
-
-
 
             {submitted ? (
               <div className="contact-success-msg">
@@ -249,7 +250,7 @@ export default function Contact() {
                 <p className="text-white/50 text-sm mt-1">Thank you for reaching out. I'll respond within 24 hours.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full" style={{ gap: '1.25rem' }}>
 
                 {/* Name + Email row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -401,8 +402,6 @@ export default function Contact() {
           background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%);
         }
 
-
-
         /* ── Heading ── */
         .perspective-1000 { perspective: 1000px; }
 
@@ -430,8 +429,8 @@ export default function Contact() {
 
         /* ── Status pill ── */
         .contact-status-pill {
-          font-size: 10px; font-weight: 600; padding: 3px 10px;
-          border-radius: 999px; letter-spacing: 0.03em;
+          font-size: 10px; font-weight: 700; padding: 3px 10px;
+          border-radius: 999px; letter-spacing: 0.06em;
         }
         .contact-status-open {
           background: rgba(74,222,128,0.1);
@@ -464,18 +463,18 @@ export default function Contact() {
           border-color: rgba(99,102,241,0.3);
         }
 
-        /* ── Form labels ── */
+        /* ── Form labels: 11px, all-caps, wide tracking ── */
         .contact-label {
           display: flex; align-items: center; gap: 6px;
           font-family: 'Courier New', Courier, monospace;
-          font-size: 14px; font-weight: 600;
-          text-transform: uppercase; letter-spacing: 0.2em;
-          color: rgba(255,255,255,0.85);
+          font-size: 11px; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.18em;
+          color: rgba(255,255,255,0.5);
           margin-bottom: 8px;
           transition: color 0.3s;
         }
 
-        /* ── Inputs ── */
+        /* ── Inputs: 15px for clear readability ── */
         .contact-input {
           width: 100%;
           background: transparent;
@@ -485,7 +484,7 @@ export default function Contact() {
           padding: 8px 0;
           outline: none;
           color: rgba(255,255,255,0.95);
-          font-size: 17px;
+          font-size: 15px;
           font-family: 'Courier New', Courier, monospace;
           transition: border-color 0.4s ease, padding-left 0.3s ease;
         }
@@ -493,6 +492,7 @@ export default function Contact() {
           color: rgba(129,140,248,0.35);
           font-family: 'Courier New', Courier, monospace;
           font-style: italic;
+          font-size: 13px;
         }
         .contact-input:focus {
           border-bottom-color: rgba(129,140,248,0.6);
@@ -518,7 +518,7 @@ export default function Contact() {
           background: #0f0f14; color: rgba(255,255,255,0.9);
         }
 
-        /* ── Input underline (unused now, kept for compat) ── */
+        /* ── Input underline ── */
         .contact-input-line {
           height: 1px; background: rgba(99,102,241,0); margin-top: -1px;
           transition: background 0.3s ease;

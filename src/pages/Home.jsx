@@ -158,8 +158,8 @@ export default function TerminalHero() {
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
               <div className="command-line">
-                <span className="text-indigo-400">jay@system:~$</span>{" "}
-                <span className="text-white">Yes, this is a portfolio. No, it's not finished</span>
+                <span className="text-indigo-400">jay@system:~$version</span>{" "}
+                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
                 <span className="cursor text-indigo-400">▋</span>
               </div>
 
