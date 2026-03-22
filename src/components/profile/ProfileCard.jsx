@@ -317,8 +317,9 @@ const ProfileCardComponent = ({
                 className="absolute left-1/2 bottom-0 w-[76%] h-[78%] object-contain -translate-x-[50%] backface-hidden will-change-transform transition-transform duration-[120ms] ease-out"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
-                loading="lazy"
-                onError={e => { 
+                loading="eager"
+                fetchpriority="high"
+                onError={e => {
                   const t = e.target;
                   t.style.display = 'none';
                 }}
