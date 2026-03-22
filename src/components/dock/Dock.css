@@ -30,8 +30,8 @@
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.37),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      background-color:#7575754f;
-;
+  background-color: #7575754f;
+  ;
 
   cursor: pointer;
   outline: none;
@@ -50,7 +50,7 @@
   width: fit-content;
   white-space: pre;
   border-radius: 0.39rem;
-  border: 0px solid #81818162;
+  border: 1px solid #81818162;
   background-color: #81818162;
   padding: 0.125rem 0.5rem;
   font-size: 0.75rem;

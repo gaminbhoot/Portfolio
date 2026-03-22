@@ -12,6 +12,7 @@ export default function Contact() {
   const infoRef = useRef(null);
   const [formFocused, setFormFocused] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -85,17 +86,31 @@ export default function Contact() {
     gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
   }, []);
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('.submit-btn');
-    gsap.to(btn, {
-      scale: 0.97, duration: 0.1, yoyo: true, repeat: 1,
-      onComplete: () => {
+
+    gsap.to(btn, { scale: 0.97, duration: 0.1, yoyo: true, repeat: 1 });
+
+    const formData = new FormData(e.target);
+
+    try {
+      const response = await fetch('https://formspree.io/f/mnjgywzg', {
+        method: 'POST',
+        body: formData,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        setSubmitError(false);
         setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 4000);
         e.target.reset();
+      } else {
+        setSubmitError(true);
       }
-    });
+    } catch (err) {
+      setSubmitError(true);
+    }
   }, []);
 
   const contactLinks = useMemo(() => [
@@ -161,18 +176,15 @@ export default function Contact() {
               <div className="contact-icon-wrap">
                 <Briefcase size={16} className="text-indigo-300" />
               </div>
-              {/* Card section title: 11px, all-caps, wide tracking */}
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Current Status</span>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                {/* Row label: 11px muted */}
                 <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Employment</span>
                 <span className="contact-status-pill contact-status-open">Open to Work</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Role Type</span>
-                {/* Primary value: 13px, white */}
                 <span className="text-[13px] text-white/90 font-semibold">Hybrid / Internship</span>
               </div>
               <div className="flex items-center justify-between">
@@ -190,11 +202,9 @@ export default function Contact() {
               </div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Location</span>
             </div>
-            {/* Primary location value: 15px, full white */}
             <p className="text-[15px] text-white font-bold leading-tight">Noida, India</p>
             <div className="flex items-center gap-2 mt-2">
               <Clock size={12} className="text-white/30" />
-              {/* Metadata: 10px, most muted */}
               <span className="text-[10px] text-white/35 tracking-wide">UTC +5:30 · IST</span>
             </div>
           </div>
@@ -218,13 +228,10 @@ export default function Contact() {
                 >
                   <span className="contact-link-icon-wrap">{icon}</span>
                   <div className="flex-1 min-w-0 ml-3">
-                    {/* Link label: 10px metadata */}
                     <p className="text-[10px] text-white/35 uppercase tracking-[0.15em] font-semibold mb-0.5">{label}</p>
-                    {/* Link value: 13px primary */}
                     <p className="text-[13px] text-white/85 group-hover:text-white font-medium truncate transition-colors duration-200">{value}</p>
                   </div>
                   <div className="flex flex-col items-end shrink-0 ml-2">
-                    {/* Note: 10px, indigo tint */}
                     <span className="text-[10px] text-indigo-400/45 group-hover:text-indigo-300/75 transition-colors duration-200 text-right leading-tight">{note}</span>
                     <ChevronRight size={12} className="text-white/20 group-hover:text-indigo-300/60 mt-1 transition-colors duration-200 group-hover:translate-x-0.5 transform" />
                   </div>
@@ -247,7 +254,34 @@ export default function Contact() {
                   <Send size={22} className="text-indigo-300" />
                 </div>
                 <p className="text-white font-semibold text-base mt-3">Message Received!</p>
-                <p className="text-white/50 text-sm mt-1">Thank you for reaching out. I'll respond within 24 hours.</p>
+                <p className="text-white/50 text-sm mt-1">
+                  Thanks for reaching out — I'll get back to you shortly.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 px-5 py-2.5 rounded-lg border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 text-xs font-mono uppercase tracking-widest hover:bg-indigo-400/20 hover:border-indigo-400/50 hover:text-indigo-200 transition-all duration-300"
+                >
+                  ← Send another message
+                </button>
+              </div>
+            ) : submitError ? (
+              <div className="contact-success-msg">
+                <div className="contact-success-icon" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)' }}>
+                  <Send size={22} className="text-red-400" />
+                </div>
+                <p className="text-white font-semibold text-base mt-3">Something went wrong.</p>
+                <p className="text-white/50 text-sm mt-1">
+                  Please email me directly at{' '}
+                  <a href="mailto:jay05.joshi@gmail.com" className="text-indigo-400 hover:text-indigo-300 transition-colors">
+                    jay05.joshi@gmail.com
+                  </a>
+                </p>
+                <button
+                  onClick={() => setSubmitError(false)}
+                  className="mt-6 px-5 py-2.5 rounded-lg border border-white/10 bg-white/5 text-white/50 text-xs font-mono uppercase tracking-widest hover:bg-white/10 hover:text-white/70 transition-all duration-300"
+                >
+                  ← Try again
+                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full" style={{ gap: '1.25rem' }}>
@@ -261,6 +295,7 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
                       placeholder="Full Name"
                       className="contact-input"
@@ -277,6 +312,7 @@ export default function Contact() {
                     </label>
                     <input
                       type="email"
+                      name="email"
                       required
                       placeholder="email@example.com"
                       className="contact-input"
@@ -296,6 +332,7 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
+                      name="company"
                       placeholder="Google, Startup Inc."
                       className="contact-input"
                       onFocus={() => setFormFocused('company')}
@@ -310,11 +347,12 @@ export default function Contact() {
                       {formFocused === 'type' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
                     </label>
                     <select
+                      name="inquiry_type"
                       className="contact-input contact-select"
                       onFocus={() => setFormFocused('type')}
                       onBlur={() => setFormFocused(null)}
                     >
-                      <option value="" disabled selected>select --type</option>
+                      <option value="" disabled defaultValue="">select --type</option>
                       <option value="full-time">Full-time Role</option>
                       <option value="internship">Internship</option>
                       <option value="freelance">Freelance / Contract</option>
@@ -333,6 +371,7 @@ export default function Contact() {
                   </label>
                   <input
                     type="text"
+                    name="subject"
                     required
                     placeholder="Frontend Engineer @ Acme Corp"
                     className="contact-input"
@@ -349,6 +388,7 @@ export default function Contact() {
                     {formFocused === 'message' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
                   </label>
                   <textarea
+                    name="message"
                     rows="4"
                     required
                     placeholder="What are you building?"
@@ -466,7 +506,7 @@ export default function Contact() {
           border-color: rgba(99,102,241,0.3);
         }
 
-        /* ── Form labels: 11px, all-caps, wide tracking ── */
+        /* ── Form labels ── */
         .contact-label {
           display: flex; align-items: center; gap: 6px;
           font-family: 'Courier New', Courier, monospace;
@@ -477,7 +517,7 @@ export default function Contact() {
           transition: color 0.3s;
         }
 
-        /* ── Inputs: 15px for clear readability ── */
+        /* ── Inputs ── */
         .contact-input {
           width: 100%;
           background: transparent;
@@ -556,7 +596,7 @@ export default function Contact() {
           transform: translateX(100%);
         }
 
-        /* ── Success state ── */
+        /* ── Success / Error state ── */
         .contact-success-msg {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           padding: 48px 24px; text-align: center;
