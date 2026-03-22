@@ -46,6 +46,13 @@ export default function TerminalHero() {
     return () => clearInterval(timer);
   }, []);
 
+  const handleResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/JAY JOSHI RESUME.pdf';
+    link.download = 'JAY_JOSHI_RESUME.pdf';
+    link.click();
+  };
+
   useEffect(() => {
     const ctx = gsap.context(() => {
 
@@ -66,6 +73,12 @@ export default function TerminalHero() {
       tl.fromTo(".command-line", { opacity: 0 }, { opacity: 1, duration: 0.4 })
         .to(".command-line", { x: "+=2", duration: 0.05, repeat: 2, yoyo: true, ease: "none" });
       tl.fromTo(
+        ".role-line",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+        "-=0.2"
+      );
+      tl.fromTo(
         ".hero-word",
         { opacity: 0, y: 30, rotateX: -20 },
         { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.08, ease: "back.out(1.2)" },
@@ -76,6 +89,13 @@ export default function TerminalHero() {
         { opacity: 0, y: 20, scale: 0.95 },
         { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.08, ease: "power2.out" },
         "-=0.5"
+      );
+      // Resume card pops in last with extra emphasis
+      tl.fromTo(
+        ".resume-card",
+        { opacity: 0, y: 20, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.6)" },
+        "-=0.3"
       );
 
       // ── ABOUT OUTPUT – SCROLL TRIGGERED ──────────────────────────
@@ -125,12 +145,29 @@ export default function TerminalHero() {
         onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
       });
 
+      // Resume card subtle pulse to draw attention
+      gsap.to(".resume-card", {
+        boxShadow: "0 0 20px rgba(99,102,241,0.4)",
+        repeat: 3,
+        yoyo: true,
+        duration: 1,
+        delay: 2,
+        ease: "power1.inOut",
+      });
+
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   const hi = (s) => <span className="text-indigo-400">{s}</span>;
+
+  const statusCards = [
+    { label: "LOCAL TIME", value: time, color: "text-indigo-300" },
+    { label: "STATUS", value: "AVAILABLE", color: "text-green-400", dot: true },
+    { label: "FOCUS", value: "AI/ML · Frontend", color: "text-white/70" },
+    { label: "MODE", value: "BUILD", color: "text-white/70" },
+  ];
 
   return (
     <div ref={containerRef}>
@@ -163,6 +200,8 @@ export default function TerminalHero() {
                 <span className="cursor text-indigo-400">▋</span>
               </div>
 
+              {/* ── ROLE STATEMENT ──────────────────────────────── */}
+
               <h1
                 className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase pt-6"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -180,6 +219,14 @@ export default function TerminalHero() {
                 <div className="about-command">
                   <span className="text-indigo-400">jay@system:~$</span>{" "}
                   <span className="text-white">about --me</span>
+                </div>
+                <div className="role-line flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm">
+                  <span className="text-indigo-400">role:</span>
+                  <span className="text-white/90">AI/ML Engineer</span>
+                  <span className="text-white/20">·</span>
+                  <span className="text-white/90">Frontend Development</span>
+                  <span className="text-white/20">·</span>
+                  <span className="text-green-400/80">Open to Internships</span>
                 </div>
 
                 <div className="about-divider h-px w-full bg-white/10" />
@@ -228,14 +275,15 @@ export default function TerminalHero() {
                   <span className="cursor-2 text-indigo-400">▋</span>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs mt-6 pt-4 border-t border-white/10">
-                  {[
-                    { label: "LOCAL TIME", value: time, color: "text-indigo-300" },
-                    { label: "STATUS", value: "AVAILABLE", color: "text-green-400", dot: true },
-                    { label: "FOCUS", value: "Web · Data Science · AI", color: "text-white/70" },
-                    { label: "MODE", value: "BUILD", color: "text-white/70" },
-                  ].map(({ label, value, color, dot }) => (
-                    <div key={label} className="status-card group hover:bg-white/5 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:border hover:border-white/20">
+                {/* ── STATUS BAR ─────────────────────────────────── */}
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs mt-6 pt-4 border-t border-white/10">
+
+                  {/* Regular status cards */}
+                  {statusCards.map(({ label, value, color, dot }) => (
+                    <div
+                      key={label}
+                      className="status-card group hover:bg-white/5 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:border hover:border-white/20"
+                    >
                       <p className="text-white/40 group-hover:text-white/60 transition-colors duration-300">{label}</p>
                       <p className={`${color} group-hover:opacity-80 transition-colors duration-300 font-semibold flex items-center gap-2`}>
                         {value}
@@ -243,6 +291,46 @@ export default function TerminalHero() {
                       </p>
                     </div>
                   ))}
+
+                  {/* ── RESUME CARD — stands out ─────────────────── */}
+                  <button
+                    onClick={handleResumeDownload}
+                    className="
+                      resume-card
+                      relative overflow-hidden
+                      p-3 rounded-lg
+                      border border-indigo-400/40
+                      bg-indigo-500/10
+                      text-left
+                      transition-all duration-300
+                      hover:scale-105
+                      hover:bg-indigo-500/20
+                      hover:border-indigo-400/70
+                      hover:shadow-lg hover:shadow-indigo-500/30
+                      active:scale-95
+                      group
+                      cursor-pointer
+                    "
+                  >
+                    {/* Animated shine sweep */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none" />
+
+                    <p className="text-indigo-300/70 group-hover:text-indigo-300 transition-colors duration-300 uppercase tracking-widest text-[10px] font-bold">
+                      RESUME
+                    </p>
+                    <p className="text-indigo-300 font-semibold flex items-center gap-1.5 mt-0.5">
+                      Download
+                      <svg
+                        className="w-3 h-3 transition-transform duration-300 group-hover:translate-y-0.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3" />
+                      </svg>
+                    </p>
+                  </button>
+
                 </div>
 
               </div>
@@ -271,7 +359,6 @@ export default function TerminalHero() {
           z-index: 1;
         }
 
-        /* Cursor blink — CSS instead of GSAP, runs off main thread */
         @media (prefers-reduced-motion: no-preference) {
           .cursor, .cursor-2 {
             animation: blink 1.2s ease-in-out infinite;
