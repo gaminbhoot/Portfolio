@@ -70,6 +70,12 @@ export default function TerminalHero() {
         { scale: 1, opacity: 1, duration: 0.4, stagger: 0.08, ease: "back.out(2)" },
         "-=0.8"
       );
+      tl.fromTo(
+        ".hero-word",
+        { opacity: 0, y: 30, rotateX: -20 },
+        { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.08, ease: "back.out(1.2)" },
+        "-=0.4"
+      );
       tl.fromTo(".command-line", { opacity: 0 }, { opacity: 1, duration: 0.4 })
         .to(".command-line", { x: "+=2", duration: 0.05, repeat: 2, yoyo: true, ease: "none" });
       tl.fromTo(
@@ -79,18 +85,11 @@ export default function TerminalHero() {
         "-=0.2"
       );
       tl.fromTo(
-        ".hero-word",
-        { opacity: 0, y: 30, rotateX: -20 },
-        { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.08, ease: "back.out(1.2)" },
-        "-=0.3"
-      );
-      tl.fromTo(
         ".status-card",
         { opacity: 0, y: 20, scale: 0.95 },
         { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.08, ease: "power2.out" },
         "-=0.5"
       );
-      // Resume card pops in last with extra emphasis
       tl.fromTo(
         ".resume-card",
         { opacity: 0, y: 20, scale: 0.9 },
@@ -145,7 +144,6 @@ export default function TerminalHero() {
         onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
       });
 
-      // Resume card subtle pulse to draw attention
       gsap.to(".resume-card", {
         boxShadow: "0 0 20px rgba(99,102,241,0.4)",
         repeat: 3,
@@ -194,16 +192,9 @@ export default function TerminalHero() {
             {/* ── BODY ────────────────────────────────────────────── */}
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
-              <div className="command-line">
-                <span className="text-indigo-400">jay@system:~$version</span>{" "}
-                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
-                <span className="cursor text-indigo-400">▋</span>
-              </div>
-
-              {/* ── ROLE STATEMENT ──────────────────────────────── */}
-
+              {/* ── HEADING FIRST — LCP element ─────────────────── */}
               <h1
-                className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase pt-6"
+                className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
                 <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
@@ -213,8 +204,15 @@ export default function TerminalHero() {
                 <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Shipping.</span>
               </h1>
 
+              {/* ── COMMAND LINE ────────────────────────────────── */}
+              <div className="command-line">
+                <span className="text-indigo-400">jay@system:~$version</span>{" "}
+                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
+                <span className="cursor text-indigo-400">▋</span>
+              </div>
+
               {/* ── ABOUT COMMAND OUTPUT ─────────────────────────── */}
-              <div ref={aboutOutputRef} className="pt-6 space-y-4">
+              <div ref={aboutOutputRef} className="pt-2 space-y-4">
 
                 <div className="about-command">
                   <span className="text-indigo-400">jay@system:~$</span>{" "}
@@ -278,7 +276,6 @@ export default function TerminalHero() {
                 {/* ── STATUS BAR ─────────────────────────────────── */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs mt-6 pt-4 border-t border-white/10">
 
-                  {/* Regular status cards */}
                   {statusCards.map(({ label, value, color, dot }) => (
                     <div
                       key={label}
@@ -292,7 +289,6 @@ export default function TerminalHero() {
                     </div>
                   ))}
 
-                  {/* ── RESUME CARD — stands out ─────────────────── */}
                   <button
                     onClick={handleResumeDownload}
                     className="
@@ -312,9 +308,7 @@ export default function TerminalHero() {
                       cursor-pointer
                     "
                   >
-                    {/* Animated shine sweep */}
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none" />
-
                     <p className="text-indigo-300/70 group-hover:text-indigo-300 transition-colors duration-300 uppercase tracking-widest text-[10px] font-bold">
                       RESUME
                     </p>
@@ -340,25 +334,6 @@ export default function TerminalHero() {
       </section>
 
       <style>{`
-        .terminal-shell {
-          background: rgba(0, 0, 0, 0.45);
-          position: relative;
-        }
-        .terminal-shell::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: inherit;
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          z-index: 0;
-          pointer-events: none;
-        }
-        .terminal-shell > * {
-          position: relative;
-          z-index: 1;
-        }
-
         @media (prefers-reduced-motion: no-preference) {
           .cursor, .cursor-2 {
             animation: blink 1.2s ease-in-out infinite;

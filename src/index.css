@@ -6,7 +6,6 @@
   white-space: pre-line;
 }
 
-
 * {
   margin: 0;
   padding: 0;
@@ -40,13 +39,14 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #64748b;
-
 }
+
 @media (hover: none) and (pointer: coarse) {
   * {
     cursor: auto;
-     }
+  }
 }
+
 /* Hide custom cursor by default on touch-only devices */
 @media (pointer: coarse) {
   .custom-cursor-class {
@@ -56,19 +56,23 @@ html {
 
 /* Ensure native cursor is visible if the custom one is hidden on mobile */
 @media (pointer: coarse) {
-  html, body {
+
+  html,
+  body {
     cursor: auto !important;
   }
 }
+
 /* 1. Default: Hide custom cursor on all touch devices */
 @media (pointer: coarse) {
-  .custom-cursor-wrapper, 
-  [data-testid="custom-cursor"] { 
-    display: none !important; 
+
+  .custom-cursor-wrapper,
+  [data-testid="custom-cursor"] {
+    display: none !important;
   }
-  
-  /* Ensure the standard mouse pointer is restored so the site is usable */
-  html, body {
+
+  html,
+  body {
     cursor: auto !important;
   }
 }
@@ -78,20 +82,47 @@ html {
   .custom-cursor-wrapper {
     display: block;
   }
-  
-  /* Hide the default system cursor ONLY when the custom one is active */
-  html, body {
+
+  html,
+  body {
     cursor: none;
   }
 }
+
 /* Hide scrollbar globally (but keep scroll functionality) */
-html, body {
+html,
+body {
   overflow-x: hidden;
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE / Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE / Edge */
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none;                  /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
+}
+
+/* ── Terminal shell — inlined here so it's available before React hydrates ── */
+.terminal-shell {
+  background: rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+
+.terminal-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.terminal-shell>* {
+  position: relative;
+  z-index: 1;
 }
