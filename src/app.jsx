@@ -53,10 +53,10 @@ function AppContent() {
   }, [isDesktop]);
 
   const dockItems = useMemo(() => [
-    { label: "Home",     icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
-    { label: "Projects", icon: <Folder  size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
-    { label: "Skills",   icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
-    { label: "Contact",  icon: <Mail    size={16} color="#ffffff" />, onClick: () => navigate("/contact") },
+    { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
+    { label: "Projects", icon: <Folder size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
+    { label: "Skills", icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
+    { label: "Contact", icon: <Mail size={16} color="#ffffff" />, onClick: () => navigate("/contact") },
   ], [navigate]);
 
   return (
@@ -99,11 +99,13 @@ function AppContent() {
         )}
       </div>
 
-      <GlassOverlay
-        tint="rgba(15, 15, 20, 0.6)"
-        blur={17}
-        opacity={0.75}
-      />
+      {isDesktop && (
+        <GlassOverlay
+          tint="rgba(15, 15, 20, 0.6)"
+          blur={17}
+          opacity={0.75}
+        />
+      )}
 
       <div className="relative z-20 min-h-screen pt-20 pb-48">
         <Suspense fallback={

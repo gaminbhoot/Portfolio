@@ -16,20 +16,21 @@ const CustomCursor = () => {
     window.addEventListener("mousemove", onMouseMove);
 
     const follow = () => {
-      // Smooth lag (lower = more lag)
       pos.current.x += (mouse.current.x - pos.current.x) * 0.12;
       pos.current.y += (mouse.current.y - pos.current.y) * 0.12;
 
       const x = pos.current.x;
       const y = pos.current.y;
 
-      // FIX: Added translate(-50%, -50%) to maintain centering 
-      // because inline styles overwrite the Tailwind classes
-      cursorRef.current.style.transform = 
-        `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      
-      dotRef.current.style.transform = 
-        `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%)`;
+      if (cursorRef.current) {
+        cursorRef.current.style.transform =
+          `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      }
+
+      if (dotRef.current) {
+        dotRef.current.style.transform =
+          `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%)`;
+      }
 
       requestAnimationFrame(follow);
     };

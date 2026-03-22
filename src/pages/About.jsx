@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-} from "framer-motion";
-import { cn } from "../lib/utils";
-import { Calendar } from "lucide-react";
+// import {
+//   motion,
+//   useScroll,
+//   useTransform,
+//   useSpring,
+// } from "framer-motion";
+// import { cn } from "../lib/utils";
+// import { Calendar } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -344,21 +344,21 @@ const About = () => {
       // Header animation
       gsap.fromTo(
         headerRef.current,
-        { 
-          opacity: 0, 
+        {
+          opacity: 0,
           y: -80,
           rotateX: -30,
           scale: 0.9,
-          filter: "blur(15px)" 
+          filter: "blur(15px)"
         },
-        { 
-          opacity: 1, 
+        {
+          opacity: 1,
           y: 0,
           rotateX: 0,
           scale: 1,
-          filter: "blur(0px)", 
-          duration: 1.4, 
-          ease: "power4.out" 
+          filter: "blur(0px)",
+          duration: 1.4,
+          ease: "power4.out"
         }
       );
 
@@ -381,34 +381,34 @@ const About = () => {
       gsap.fromTo(
         contentRef.current.querySelectorAll("p"),
         { opacity: 0, y: 40, filter: "blur(8px)" },
-        { 
-          opacity: 1, 
-          y: 0, 
+        {
+          opacity: 1,
+          y: 0,
           filter: "blur(0px)",
-          duration: 1, 
-          delay: 0.5, 
+          duration: 1,
+          delay: 0.5,
           stagger: 0.15,
-          ease: "power3.out" 
+          ease: "power3.out"
         }
       );
 
       // Profile card
       gsap.fromTo(
         cardRef.current,
-        { 
-          opacity: 0, 
-          x: 100, 
+        {
+          opacity: 0,
+          x: 100,
           rotateY: -45,
-          scale: 0.9 
+          scale: 0.9
         },
-        { 
-          opacity: 1, 
-          x: 0, 
+        {
+          opacity: 1,
+          x: 0,
           rotateY: 0,
-          scale: 1, 
-          duration: 1.4, 
-          delay: 0.7, 
-          ease: "back.out(1.4)" 
+          scale: 1,
+          duration: 1.4,
+          delay: 0.7,
+          ease: "back.out(1.4)"
         }
       );
 
@@ -469,20 +469,20 @@ const About = () => {
   */
 
   return (
-    <div 
-      ref={mainContainerRef} 
+    <div
+      ref={mainContainerRef}
       className="h-screen overflow-hidden text-white"
       style={{ perspective: "1500px" }}
     >
       {/* Top Section */}
       <section className="relative z-10 container mx-auto px-6 md:px-10 pt-20 pb-4">
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16 w-full">
-          
+
           <div ref={contentRef} className="flex-1 max-w-2xl">
-            <h1 
+            <h1
               ref={headerRef}
-              className="text-5xl md:text-6xl font-bold mb-6 uppercase tracking-tight" 
-              style={{ 
+              className="text-5xl md:text-6xl font-bold mb-6 uppercase tracking-tight"
+              style={{
                 fontFamily: "'Orbitron', sans-serif",
                 transformStyle: "preserve-3d"
               }}
@@ -491,9 +491,9 @@ const About = () => {
               <span className="text-indigo-400">ME</span>
             </h1>
 
-            <div 
+            <div
               ref={dividerRef}
-              className="mb-8 h-px w-full bg-white/10" 
+              className="mb-8 h-px w-full bg-white/10"
             />
 
             <p className="text-base md:text-m text-gray-300 leading-relaxed mb-6">
@@ -501,12 +501,12 @@ const About = () => {
             </p>
 
             <p className="text-base md:text-m text-gray-300 leading-relaxed">
-             My approach to development is from an engineering perspective, with an emphasis on simplicity over cleverness and principles over shortcuts. At the moment, I am improving my technical expertise and planning the transition from academically-focused projects to real-world systems and development environments.
+              My approach to development is from an engineering perspective, with an emphasis on simplicity over cleverness and principles over shortcuts. At the moment, I am improving my technical expertise and planning the transition from academically-focused projects to real-world systems and development environments.
             </p>
           </div>
-          
-          <div 
-            ref={cardRef} 
+
+          <div
+            ref={cardRef}
             className="flex-1 flex items-center justify-center lg:justify-end w-full"
             style={{ transformStyle: "preserve-3d" }}
           >
