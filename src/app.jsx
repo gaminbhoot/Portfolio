@@ -10,7 +10,7 @@ const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
 const ColorBends = lazy(() => import("./components/background/ColorBends"));
 
 const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
+// const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Skills = lazy(() => import("./pages/Skills"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -123,7 +123,7 @@ function AppContent() {
         }>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            {/* <Route path="/about" element={<About />} /> */}
             <Route path="/projects" element={<Projects />} />
             <Route path="/project-summary/:id" element={<ProjectSummary />} />
             <Route path="/project/:id" element={<ProjectDetail />} />
