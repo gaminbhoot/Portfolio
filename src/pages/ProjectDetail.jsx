@@ -332,7 +332,7 @@ export default function ProjectDetail() {
                   {!isImageFirst && !isTextOnly && (
                     <SectionImage src={section.image} alt={section.title} caption={section.caption} onOpen={setLightboxImage} eager={index === 0} />
                   )}
-
+{/* hello this is a test */}
                 </motion.section>
               );
             })}
