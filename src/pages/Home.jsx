@@ -192,7 +192,14 @@ export default function TerminalHero() {
             {/* ── BODY ────────────────────────────────────────────── */}
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
-              {/* ── HEADING FIRST — LCP element ─────────────────── */}
+              {/* ── COMMAND LINE MOVED ABOVE TAGLINE ────────────────── */}
+              <div className="command-line">
+                <span className="text-indigo-400">jay@system:~$version</span>{" "}
+                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
+                <span className="cursor text-indigo-400">▋</span>
+              </div>
+
+              {/* ── HEADING — LCP element ─────────────────── */}
               <h1
                 className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
@@ -203,13 +210,6 @@ export default function TerminalHero() {
                 <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
                 <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Shipping.</span>
               </h1>
-
-              {/* ── COMMAND LINE ────────────────────────────────── */}
-              <div className="command-line">
-                <span className="text-indigo-400">jay@system:~$version</span>{" "}
-                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
-                <span className="cursor text-indigo-400">▋</span>
-              </div>
 
               {/* ── ABOUT COMMAND OUTPUT ─────────────────────────── */}
               <div ref={aboutOutputRef} className="pt-2 space-y-4">
