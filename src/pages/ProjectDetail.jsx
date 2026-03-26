@@ -20,7 +20,6 @@ const AirPlayIcon = () => (
 
 function renderFormattedContent(text, isFirst = false) {
   if (!text || typeof text !== "string") return null;
-
   const itemRegex = /\(\d+\)\s*([^()]+)/g;
   const items = [];
   let match;
@@ -28,17 +27,11 @@ function renderFormattedContent(text, isFirst = false) {
     items.push(match[1].trim().replace(/,$/, ""));
 
   if (items.length === 0) {
+    const [first, ...rest] = text.split(/(?<=\.\s)/);
     return (
       <p>
-        {isFirst && (
-          <span
-            className="float-left text-[4.5rem] leading-[0.8] mr-3 mt-1 font-black text-indigo-400 select-none"
-            style={{ fontFamily: "'Orbitron', sans-serif" }}
-          >
-            {text[0]}
-          </span>
-        )}
-        {isFirst ? text.slice(1) : text}
+        {isFirst && <span className="float-left text-[4.5rem] leading-[0.8] mr-3 mt-1 font-black text-indigo-400" style={{ fontFamily: "'Orbitron', sans-serif" }}>{first[0]}</span>}
+        {isFirst ? first.slice(1) + " " + rest.join(" ") : text}
       </p>
     );
   }
@@ -52,7 +45,7 @@ function renderFormattedContent(text, isFirst = false) {
       <ul className="space-y-3 pl-6 border-l border-indigo-400/30">
         {items.map((item, i) => (
           <li key={i} className="flex gap-3">
-            <span className="text-indigo-400 font-mono shrink-0">{i + 1}.</span>
+            <span className="text-indigo-400 font-mono">{i + 1}.</span>
             <span>{item}</span>
           </li>
         ))}
@@ -65,178 +58,62 @@ function renderFormattedContent(text, isFirst = false) {
 function PullQuote({ text }) {
   return (
     <blockquote className="relative my-10 pl-6 border-l-2 border-indigo-400">
-      <span
-        className="absolute -top-5 -left-1 text-6xl text-indigo-400/25 font-black leading-none select-none"
-        style={{ fontFamily: "'Orbitron', sans-serif" }}
-      >"</span>
+      <span className="absolute -top-4 -left-1 text-6xl text-indigo-400/30 font-black leading-none select-none" style={{ fontFamily: "'Orbitron', sans-serif" }}>"</span>
       <p className="text-xl md:text-2xl font-light text-white/90 leading-relaxed italic">{text}</p>
     </blockquote>
   );
 }
 
 function SectionImage({ src, alt, caption, onOpen, eager }) {
-  if (!src) return null;
-  return (
+  return src ? (
     <div className="group relative -mx-4 md:-mx-10 mt-8">
       <div
         className="relative rounded-xl overflow-hidden h-64 md:h-[28rem] cursor-pointer"
         onClick={() => onOpen({ src, alt })}
       >
-        <img
-          src={src} alt={alt}
-          loading={eager ? "eager" : "lazy"}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        <img src={src} alt={alt} loading={eager ? "eager" : "lazy"} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
-            <div className="p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/30">
-              <ZoomIn size={32} className="text-white" />
-            </div>
+            <div className="p-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/30"><ZoomIn size={32} className="text-white" /></div>
           </div>
         </div>
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }}
-        />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
         <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 group-hover:w-16 group-hover:h-16 transition-all duration-500 pointer-events-none" />
       </div>
       {caption && (
         <p className="mt-3 ml-6 text-xs font-mono text-gray-400 border-l border-indigo-400/30 pl-3">{caption}</p>
       )}
     </div>
-  );
+  ) : null;
 }
 
 function ImageLightbox({ image, alt, onClose }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', onKey);
-    return () => { document.body.style.overflow = 'unset'; window.removeEventListener('keydown', onKey); };
+    const handleEscape = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleEscape);
+    return () => { document.body.style.overflow = 'unset'; window.removeEventListener('keydown', handleEscape); };
   }, [onClose]);
 
-  const corners = ['top-0 left-0 border-t-2 border-l-2', 'top-0 right-0 border-t-2 border-r-2', 'bottom-0 left-0 border-b-2 border-l-2', 'bottom-0 right-0 border-b-2 border-r-2'];
   return (
-    <motion.div
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
-      onClick={onClose}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" onClick={onClose}>
       <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-      <button onClick={onClose} className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group">
+      <button onClick={onClose} className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group" aria-label="Close lightbox">
         <X size={24} className="group-hover:rotate-90 transition-transform duration-300" />
       </button>
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
-        onClick={(e) => e.stopPropagation()}
-      >
+        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
         <img src={image} alt={alt} className="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
-        {corners.map((c, i) => <div key={i} className={`absolute ${c} w-16 h-16 border-indigo-400/60`} />)}
+        {[['top-0 left-0 border-t-2 border-l-2',''],['top-0 right-0 border-t-2 border-r-2',''],['bottom-0 left-0 border-b-2 border-l-2',''],['bottom-0 right-0 border-b-2 border-r-2','']].map(([pos], i) => (
+          <div key={i} className={`absolute ${pos} w-16 h-16 border-indigo-400/60`} />
+        ))}
       </motion.div>
-      <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-        Click anywhere or press ESC to close
-      </p>
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+        <p className="text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">Click anywhere or press ESC to close</p>
+      </div>
     </motion.div>
-  );
-}
-
-// Sidebar is fixed, outside the document flow entirely.
-// IntersectionObserver watches a sentinel at the bottom of the hero.
-// When hero exits viewport → sidebar fades in. Clean, no JS scroll math.
-function FloatingSidebar({ project, activeSection, hasLinks }) {
-  const [visible, setVisible] = useState(false);
-  const sentinelRef = useRef(null);
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <>
-      {/* Invisible sentinel pinned to the bottom of the hero */}
-      <div ref={sentinelRef} className="absolute top-[85vh] left-0 w-px h-px pointer-events-none" />
-
-      <motion.aside
-        initial={false}
-        animate={{ opacity: visible ? 1 : 0, x: visible ? 0 : -16, pointerEvents: visible ? 'auto' : 'none' }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="hidden lg:block fixed top-24 z-40"
-        style={{ left: 'max(1.5rem, calc((100vw - 80rem) / 2 + 1.5rem))', width: '16rem' }}
-      >
-        <Link to="/projects" className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-6 transition-all duration-300 hover:gap-3">
-          <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
-            <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
-          </div>
-          <span className="font-mono text-sm">Back to Projects</span>
-        </Link>
-
-        <div className="relative">
-          <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-indigo-500/20 rounded-lg blur-sm opacity-60" />
-          <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-indigo-500/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
-
-          <div className="relative bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
-            {hasLinks && (
-              <div>
-                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Quick Access</span>
-                </div>
-                <div className="space-y-2">
-                  {project.githubLink && (
-                    <motion.button onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-indigo-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
-                        <GitHubIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View on GitHub</span>
-                        <div className="ml-auto w-1 h-1 rounded-full bg-indigo-400/0 group-hover/btn:bg-indigo-400 transition-all duration-300" />
-                      </div>
-                    </motion.button>
-                  )}
-                  {project.prototypeLink && (
-                    <motion.button onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-purple-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
-                        <AirPlayIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View Prototype</span>
-                        <div className="ml-auto w-1 h-1 rounded-full bg-purple-400/0 group-hover/btn:bg-purple-400 transition-all duration-300" />
-                      </div>
-                    </motion.button>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {hasLinks && <div className="h-[1px] bg-gradient-to-r from-transparent via-indigo-400/25 to-transparent" />}
-
-            <div>
-              <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20">
-                <Eye size={12} className="text-indigo-400" />
-                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Contents</span>
-              </div>
-              <div className="space-y-0.5">
-                {project.sections.map((section, index) => (
-                  <a key={section.id} href={`#${section.id}`}
-                    className={`group/nav block py-2 px-3 rounded transition-all duration-300 ${activeSection === section.id ? "bg-indigo-400/10 text-indigo-400 font-semibold" : "text-gray-300 hover:text-gray-100 hover:bg-white/5"}`}>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono text-gray-500 group-hover/nav:text-gray-400 transition-colors">{String(index + 1).padStart(2, '0')}</span>
-                      <span className="text-xs flex-1 leading-snug">{section.title}</span>
-                      <ChevronRight size={12} className={`transition-transform duration-300 shrink-0 ${activeSection === section.id ? 'translate-x-0.5 opacity-100' : 'opacity-0 group-hover/nav:opacity-60'}`} />
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.aside>
-    </>
   );
 }
 
@@ -265,12 +142,12 @@ export default function ProjectDetail() {
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
-    const onMove = (e) => {
+    const handleMouseMove = (e) => {
       const rect = hero.getBoundingClientRect();
       setMousePosition({ x: (e.clientX - rect.left - rect.width / 2) / rect.width, y: (e.clientY - rect.top - rect.height / 2) / rect.height });
     };
-    hero.addEventListener('mousemove', onMove);
-    return () => hero.removeEventListener('mousemove', onMove);
+    hero.addEventListener('mousemove', handleMouseMove);
+    return () => hero.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const { scrollYProgress } = useScroll();
@@ -297,30 +174,27 @@ export default function ProjectDetail() {
         {lightboxImage && <ImageLightbox image={lightboxImage.src} alt={lightboxImage.alt} onClose={() => setLightboxImage(null)} />}
       </AnimatePresence>
 
+      {/* Background orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-indigo-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
         <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-purple-500/5 to-pink-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
       </div>
 
+      {/* Progress bar */}
       <motion.div style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[3px] origin-left z-50 shadow-lg shadow-indigo-500/50">
         <div className="w-full h-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500" />
       </motion.div>
 
-      {/* Floating sidebar lives outside the grid — fixed, no layout interference */}
-      <FloatingSidebar project={project} activeSection={activeSection} hasLinks={hasLinks} />
-
       {/* Hero */}
       <motion.div ref={heroRef} layoutId={`hero-image-${id}`} className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
+        <div className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
         <motion.img src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title}
           style={{ transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`, transition: 'transform 0.3s ease-out' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
-        <motion.div className="absolute inset-0 opacity-30 pointer-events-none"
-          animate={{ backgroundPosition: ['0% 0%', '0% 100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        <motion.div className="absolute inset-0 opacity-30 pointer-events-none" animate={{ backgroundPosition: ['0% 0%', '0% 100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.03) 50%, transparent 100%)', backgroundSize: '100% 200%' }} />
-        {['top-8 left-8 border-t-2 border-l-2', 'top-8 right-8 border-t-2 border-r-2', 'bottom-8 left-8 border-b-2 border-l-2', 'bottom-8 right-8 border-b-2 border-r-2'].map((pos, i) => (
+        {[['top-8 left-8 border-t-2 border-l-2'],['top-8 right-8 border-t-2 border-r-2'],['bottom-8 left-8 border-b-2 border-l-2'],['bottom-8 right-8 border-b-2 border-r-2']].map(([pos], i) => (
           <div key={i} className={`absolute ${pos} w-20 h-20 border-indigo-400/40 pointer-events-none`} />
         ))}
         <motion.div style={{ opacity }} className="absolute bottom-0 left-0 right-0 p-6 md:p-12 pointer-events-none">
@@ -344,51 +218,128 @@ export default function ProjectDetail() {
         </motion.div>
       </motion.div>
 
-      {/* Content — single reading column, padded left to clear the fixed sidebar */}
+      {/* Main Content Grid — items-start fixes sticky sidebar */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-24 relative z-10">
-        <div className="lg:pl-72">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-          <Link to="/projects" className="lg:hidden group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-12 transition-all duration-300 hover:gap-3">
-            <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="font-mono text-sm">Back</span>
-          </Link>
+          {/* Sidebar — self-start + sticky, no h-fit needed */}
+          <aside className="hidden lg:block lg:col-span-3 sticky top-24 self-start">
+            <Link to="/projects" className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-6 transition-all duration-300 hover:gap-3">
+              <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
+                <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
+              </div>
+              <span className="font-mono text-sm">Back to Projects</span>
+            </Link>
 
-          <div className="space-y-20 md:space-y-28 max-w-[65ch]">
+            <div className="relative">
+              <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-indigo-500/20 rounded-lg blur-sm opacity-60" />
+              <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-indigo-500/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
+              <div className="relative bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
+
+                {hasLinks && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Quick Access</span>
+                    </div>
+                    <div className="space-y-2">
+                      {project.githubLink && (
+                        <motion.button onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                          <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-indigo-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
+                            <GitHubIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors duration-300">View on GitHub</span>
+                            <div className="ml-auto w-1 h-1 rounded-full bg-indigo-400/0 group-hover/btn:bg-indigo-400 transition-all duration-300" />
+                          </div>
+                        </motion.button>
+                      )}
+                      {project.prototypeLink && (
+                        <motion.button onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
+                          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                          <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-purple-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
+                            <AirPlayIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors duration-300">View Prototype</span>
+                            <div className="ml-auto w-1 h-1 rounded-full bg-purple-400/0 group-hover/btn:bg-purple-400 transition-all duration-300" />
+                          </div>
+                        </motion.button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {hasLinks && <div className="h-[1px] bg-gradient-to-r from-transparent via-indigo-400/25 to-transparent" />}
+
+                <div>
+                  <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20">
+                    <Eye size={12} className="text-indigo-400" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Contents</span>
+                  </div>
+                  <div className="space-y-0.5">
+                    {project.sections.map((section, index) => (
+                      <a key={section.id} href={`#${section.id}`}
+                        className={`group/nav block py-2 px-3 rounded transition-all duration-300 ${activeSection === section.id ? "bg-indigo-400/10 text-indigo-400 font-semibold" : "text-gray-300 hover:text-gray-100 hover:bg-white/5"}`}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-mono text-gray-500 group-hover/nav:text-gray-400 transition-colors duration-200">{String(index + 1).padStart(2, '0')}</span>
+                          <span className="text-xs flex-1 leading-snug">{section.title}</span>
+                          <ChevronRight size={12} className={`transition-transform duration-300 shrink-0 ${activeSection === section.id ? 'translate-x-0.5 opacity-100' : 'opacity-0 group-hover/nav:opacity-60'}`} />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </aside>
+
+          {/* Main editorial content */}
+          <main className="lg:col-span-9 space-y-20 md:space-y-28">
+
+            <Link to="/projects" className="lg:hidden group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 transition-all duration-300 hover:gap-3">
+              <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" />
+              <span className="font-mono text-sm">Back</span>
+            </Link>
+
             {project.sections.map((section, index) => {
               const isImageFirst = section.layout === "image-first";
               const isTextOnly = section.layout === "text-only";
               return (
-                <motion.section key={section.id} id={section.id} className="scroll-mt-24"
+                <motion.section key={section.id} id={section.id} className="scroll-mt-24 max-w-[65ch]"
                   initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}>
 
+                  {/* Section label + title */}
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="h-[1px] w-8 bg-indigo-400 rounded-full" />
+                    <div className="h-[1px] w-8 bg-indigo-400" />
                     <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">{String(index + 1).padStart(2, '0')}</span>
                   </div>
                   <h2 className="text-xl md:text-2xl font-semibold text-white/90 mb-6 tracking-tight" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                     {section.title}
                   </h2>
 
-                  {isImageFirst && (
+                  {/* Image-first layout */}
+                  {isImageFirst && !isTextOnly && (
                     <SectionImage src={section.image} alt={section.title} caption={section.caption} onOpen={setLightboxImage} eager={index === 0} />
                   )}
 
-                  <div className={`text-base md:text-[1.05rem] leading-[1.9] text-gray-200/85 font-light ${isImageFirst ? 'mt-8' : ''}`}>
+                  {/* Body copy */}
+                  <div className="text-base md:text-[1.05rem] leading-[1.85] text-gray-200/90 font-light mt-6">
                     {renderFormattedContent(section.content, index === 0)}
                   </div>
 
+                  {/* Pull quote */}
                   {section.pullQuote && <PullQuote text={section.pullQuote} />}
 
+                  {/* Default / text-only image placement */}
                   {!isImageFirst && !isTextOnly && (
                     <SectionImage src={section.image} alt={section.title} caption={section.caption} onOpen={setLightboxImage} eager={index === 0} />
                   )}
+
                 </motion.section>
               );
             })}
 
+            {/* Next Project */}
             {nextProject && (
-              <motion.div className="pt-16 md:pt-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+              <motion.div className="pt-16 md:pt-24 mt-8" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
                 <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-indigo-400/50 to-transparent mb-12" />
                 <h3 className="text-xs font-mono text-gray-300 uppercase tracking-widest mb-6 flex items-center gap-2">
                   <ChevronRight size={14} />Next Project
@@ -411,7 +362,8 @@ export default function ProjectDetail() {
                 </Link>
               </motion.div>
             )}
-          </div>
+
+          </main>
         </div>
       </div>
     </div>
