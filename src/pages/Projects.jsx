@@ -20,26 +20,35 @@ const AirPlayIcon = () => (
   </svg>
 );
 
+// Evaluated once at module load — no re-renders, no useEffect, no setState.
+// (hover: none) targets any device incapable of true hover: phones, tablets, stylus-only.
+const IS_TOUCH_DEVICE =
+  typeof window !== "undefined" &&
+  window.matchMedia("(hover: none)").matches;
+
 export default function Projects() {
   const [hoveredId, setHoveredId] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef(null);
 
   useEffect(() => {
+    // Skip mouse tracking entirely on touch devices — no listener, no setState, no repaints
+    if (IS_TOUCH_DEVICE) return;
+
     const handleMouseMove = (e) => {
       if (gridRef.current) {
         const rect = gridRef.current.getBoundingClientRect();
         setMousePosition({
           x: e.clientX - rect.left,
-          y: e.clientY - rect.top
+          y: e.clientY - rect.top,
         });
       }
     };
 
     const grid = gridRef.current;
     if (grid) {
-      grid.addEventListener('mousemove', handleMouseMove);
-      return () => grid.removeEventListener('mousemove', handleMouseMove);
+      grid.addEventListener("mousemove", handleMouseMove);
+      return () => grid.removeEventListener("mousemove", handleMouseMove);
     }
   }, []);
 
@@ -47,30 +56,33 @@ export default function Projects() {
     if (!url) return;
     e.preventDefault();
     e.stopPropagation();
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
     <div className="min-h-screen pt-4 px-6 md:px-12 pb-20 relative overflow-hidden">
-      
-      {/* Animated background gradient orbs */}
+
+      {/* Animated background gradient orbs — mouse-tracking orb skipped on touch */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div 
-          className="absolute w-[600px] h-[600px] rounded-full blur-[100px] opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #71C4FF 0%, transparent 70%)',
-            left: `${mousePosition.x - 300}px`,
-            top: `${mousePosition.y - 300}px`,
-            transition: 'left 0.3s ease-out, top 0.3s ease-out'
-          }}
-        />
-        <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-purple-500/5 blur-[100px] animate-pulse" 
-          style={{ animationDuration: '8s' }} 
+        {!IS_TOUCH_DEVICE && (
+          <div
+            className="absolute w-[600px] h-[600px] rounded-full blur-[100px] opacity-10"
+            style={{
+              background: "radial-gradient(circle, #71C4FF 0%, transparent 70%)",
+              left: `${mousePosition.x - 300}px`,
+              top: `${mousePosition.y - 300}px`,
+              transition: "left 0.3s ease-out, top 0.3s ease-out",
+            }}
+          />
+        )}
+        <div
+          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-purple-500/5 blur-[100px] animate-pulse"
+          style={{ animationDuration: "8s" }}
         />
       </div>
 
       {/* Header */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -79,30 +91,24 @@ export default function Projects() {
         <div className="relative inline-block">
           <motion.div
             className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 via-indigo-500/10 to-purple-500/10 rounded-2xl blur-lg"
-            animate={{
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            animate={{ opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />
-          <h1 
+          <h1
             className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase relative"
-            style={{ 
+            style={{
               fontFamily: "'Orbitron', sans-serif",
-              background: 'linear-gradient(135deg, #ffffff 0%, #9c9dff 50%, #818cf8 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background: "linear-gradient(135deg, #ffffff 0%, #9c9dff 50%, #818cf8 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
-            Selected <span style={{ WebkitTextFillColor: '#818cf8' }}>Works</span>
+            Selected <span style={{ WebkitTextFillColor: "#818cf8" }}>Works</span>
           </h1>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="h-[2px] w-full relative overflow-hidden rounded-full"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -111,8 +117,8 @@ export default function Projects() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-400 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500 opacity-50 animate-shimmer" />
         </motion.div>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
@@ -124,7 +130,7 @@ export default function Projects() {
       </motion.div>
 
       {/* Grid */}
-      <div 
+      <div
         ref={gridRef}
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20 relative"
       >
@@ -133,33 +139,32 @@ export default function Projects() {
             key={project.id}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 0.7, 
+            transition={{
+              duration: 0.7,
               delay: 0.1 * index,
-              ease: [0.22, 1, 0.36, 1]
+              ease: [0.22, 1, 0.36, 1],
             }}
           >
             <Link to={`/project-summary/${project.id}`}>
-              <div 
+              <div
                 className="group cursor-pointer relative"
-                onMouseEnter={() => setHoveredId(project.id)}
-                onMouseLeave={() => setHoveredId(null)}
+                // Touch devices: no hover handlers → hoveredId stays null forever
+                // → all Framer Motion animate conditions that check hoveredId are always false
+                // → zero JS animation work on mobile
+                onMouseEnter={IS_TOUCH_DEVICE ? undefined : () => setHoveredId(project.id)}
+                onMouseLeave={IS_TOUCH_DEVICE ? undefined : () => setHoveredId(null)}
               >
-                
-                {/* Main card container */}
                 <div className="relative">
-                  
-                  {/* Image Wrapper with glass morphism */}
+
+                  {/* Image Wrapper */}
                   <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-[4/3] mb-6 shadow-2xl">
-                    
-                    {/* Gradient overlay removed - CRT glitch used instead */}
-                    
+
                     {/* Animated grain texture */}
-                    <div 
+                    <div
                       className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500"
                       style={{
                         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        backgroundSize: '200px 200px'
+                        backgroundSize: "200px 200px",
                       }}
                     />
 
@@ -170,87 +175,99 @@ export default function Projects() {
                       loading="lazy"
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-105 crt-img"
                     />
-                    
+
                     {/* Corner accent */}
                     <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-indigo-400/50 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
-                    
-                    {/* Scan line effect */}
-                    <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100"
-                      animate={hoveredId === project.id ? {
-                        backgroundPosition: ['0% 0%', '0% 100%']
-                      } : {}}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                      style={{
-                        background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.05) 50%, transparent 100%)',
-                        backgroundSize: '100% 200%'
-                      }}
-                    />
 
-                    {/* CRT Glitch overlay on hover */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-10 overflow-hidden" style={{ transition: 'opacity 0.15s ease' }}>
-                      <div className="absolute inset-0 crt-scanlines" />
-                      <div className="absolute inset-0 crt-bars" />
-                      <div className="absolute inset-0 crt-rgb-fringe" />
-                      <div className="absolute inset-0 crt-vignette" />
-                      <div className="absolute inset-0 crt-pixel-blocks" />
-                    </div>
+                    {/* Scan line motion — not rendered at all on touch */}
+                    {!IS_TOUCH_DEVICE && (
+                      <motion.div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                        animate={
+                          hoveredId === project.id
+                            ? { backgroundPosition: ["0% 0%", "0% 100%"] }
+                            : {}
+                        }
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        style={{
+                          background:
+                            "linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.05) 50%, transparent 100%)",
+                          backgroundSize: "100% 200%",
+                        }}
+                      />
+                    )}
 
-                    {/* GitHub + Prototype Buttons — stacked on right side */}
+                    {/* CRT Glitch overlay — not rendered at all on touch */}
+                    {!IS_TOUCH_DEVICE && (
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none z-10 overflow-hidden"
+                        style={{ transition: "opacity 0.15s ease" }}
+                      >
+                        <div className="absolute inset-0 crt-scanlines" />
+                        <div className="absolute inset-0 crt-bars" />
+                        <div className="absolute inset-0 crt-rgb-fringe" />
+                        <div className="absolute inset-0 crt-vignette" />
+                        <div className="absolute inset-0 crt-pixel-blocks" />
+                      </div>
+                    )}
+
+                    {/* GitHub + Prototype Buttons */}
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-10">
-                      
-                      {/* GitHub Button */}
                       {project.githubLink && (
                         <motion.button
                           onClick={(e) => handleLinkClick(e, project.githubLink)}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={hoveredId === project.id ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                          whileHover={{ scale: 1.15 }}
+                          // Touch: always visible. Desktop: fade in on hover.
+                          initial={IS_TOUCH_DEVICE ? false : { opacity: 0, x: 20 }}
+                          animate={
+                            IS_TOUCH_DEVICE
+                              ? { opacity: 1, x: 0 }
+                              : hoveredId === project.id
+                              ? { opacity: 1, x: 0 }
+                              : { opacity: 0, x: 20 }
+                          }
+                          whileHover={IS_TOUCH_DEVICE ? undefined : { scale: 1.15 }}
                           whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.05 }}
                           title="View GitHub Repo"
-                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                         >
                           <GitHubIcon />
                         </motion.button>
                       )}
 
-                      {/* Prototype / AirPlay Button */}
                       {project.prototypeLink && (
                         <motion.button
                           onClick={(e) => handleLinkClick(e, project.prototypeLink)}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={hoveredId === project.id ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-                          whileHover={{ scale: 1.15 }}
+                          initial={IS_TOUCH_DEVICE ? false : { opacity: 0, x: 20 }}
+                          animate={
+                            IS_TOUCH_DEVICE
+                              ? { opacity: 1, x: 0 }
+                              : hoveredId === project.id
+                              ? { opacity: 1, x: 0 }
+                              : { opacity: 0, x: 20 }
+                          }
+                          whileHover={IS_TOUCH_DEVICE ? undefined : { scale: 1.15 }}
                           whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.12 }}
                           title="View Prototype"
-                          className="project-link-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
                         >
                           <AirPlayIcon />
                         </motion.button>
                       )}
-
                     </div>
-
                   </div>
 
-                  {/* Text Info with enhanced styling */}
+                  {/* Text Info */}
                   <div className="flex justify-between items-start gap-4">
                     <div className="flex-1">
-                      <h3 
+                      <h3
                         className="text-2xl md:text-3xl font-bold text-white mb-2 transition-all duration-300 group-hover:tracking-wide"
-                        style={{
-                          fontFamily: "'Orbitron', sans-serif",
-                        }}
+                        style={{ fontFamily: "'Orbitron', sans-serif" }}
                       >
                         {project.title}
                       </h3>
-                      
+
                       <div className="flex items-center gap-3 mb-3">
                         <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-2 py-1 rounded border border-indigo-400/30 bg-indigo-400/5">
                           {project.category}
@@ -259,22 +276,18 @@ export default function Projects() {
                           {project.year}
                         </span>
                       </div>
-                      
-                      {/* Progress bar decoration */}
+
                       <div className="h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-transparent transition-all duration-700 rounded-full" />
                     </div>
-                    
-                    {/* Arrow button with enhanced effects */}
-                    <motion.div 
+
+                    <motion.div
                       className="relative flex-shrink-0"
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={IS_TOUCH_DEVICE ? undefined : { scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-full blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"
-                        style={{
-                          background: 'linear-gradient(135deg, #71C4FF, #60496e)'
-                        }}
+                        style={{ background: "linear-gradient(135deg, #71C4FF, #60496e)" }}
                       />
                       <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/5 backdrop-blur-sm group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-indigo-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
                         <ArrowUpRight size={20} strokeWidth={2.5} />
@@ -283,13 +296,12 @@ export default function Projects() {
                   </div>
 
                   {/* Index number watermark */}
-                  <div 
+                  <div
                     className="absolute -top-8 -left-4 text-[120px] font-black opacity-[0.15] group-hover:opacity-[0.20] transition-opacity duration-500 pointer-events-none select-none"
                     style={{ fontFamily: "'Orbitron', sans-serif" }}
                   >
-                    {String(index + 1).padStart(2, '0')}
+                    {String(index + 1).padStart(2, "0")}
                   </div>
-
                 </div>
               </div>
             </Link>
@@ -304,38 +316,36 @@ export default function Projects() {
         }
         .animate-shimmer { animation: shimmer 3s infinite; }
 
-        /* -- CRT Scanlines -- */
+        /* ── CRT Scanlines ── */
         .crt-scanlines {
           background: repeating-linear-gradient(
             to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(0, 0, 0, 0.13) 3px,
-            rgba(0, 0, 0, 0.13) 4px
+            transparent 0px, transparent 3px,
+            rgba(0,0,0,0.13) 3px, rgba(0,0,0,0.13) 4px
           );
           animation: crt-flicker 0.145s infinite steps(1);
           border-radius: inherit;
         }
 
-        /* -- Horizontal glitch bars -- */
+        /* ── Horizontal glitch bars ── */
         .crt-bars {
           background: transparent;
           animation: crt-bars 2.95s infinite steps(1);
           border-radius: inherit;
         }
 
-        /* -- RGB colour fringe on edges -- */
+        /* ── RGB colour fringe ── */
         .crt-rgb-fringe {
           box-shadow:
-            inset 2px 0 0 rgba(255, 30, 30, 0.07),
-            inset -2px 0 0 rgba(30, 180, 255, 0.07),
-            inset 0 2px 0 rgba(30, 255, 100, 0.04),
-            inset 0 -2px 0 rgba(255, 30, 180, 0.04);
+            inset 2px 0 0 rgba(255,30,30,0.07),
+            inset -2px 0 0 rgba(30,180,255,0.07),
+            inset 0 2px 0 rgba(30,255,100,0.04),
+            inset 0 -2px 0 rgba(255,30,180,0.04);
           animation: crt-rgb 2.2s infinite steps(1);
           border-radius: inherit;
         }
 
-        /* -- Edge vignette flicker -- */
+        /* ── Edge vignette flicker ── */
         .crt-vignette {
           background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.22) 100%);
           animation: crt-flicker 0.22s infinite steps(1);
@@ -379,7 +389,7 @@ export default function Projects() {
           100% { box-shadow: inset 2px 0 0 rgba(255,30,30,0.07), inset -2px 0 0 rgba(30,180,255,0.07), inset 0 2px 0 rgba(30,255,100,0.04), inset 0 -2px 0 rgba(255,30,180,0.04); }
         }
 
-        /* -- Pixel block glitch -- */
+        /* ── Pixel block glitch ── */
         .crt-pixel-blocks {
           animation: pixel-blocks 3.95s infinite steps(1);
           border-radius: inherit;
@@ -388,7 +398,6 @@ export default function Projects() {
 
         @keyframes pixel-blocks {
           0%   { background: transparent; }
-
           6%   {
             background:
               linear-gradient(90deg, transparent 12%, rgba(255,30,30,0.18) 12%, rgba(255,30,30,0.18) 22%, transparent 22%),
@@ -398,7 +407,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           9%   { background: transparent; }
-
           18%  {
             background:
               linear-gradient(90deg, transparent 35%, rgba(30,255,100,0.15) 35%, rgba(30,255,100,0.15) 48%, transparent 48%),
@@ -409,7 +417,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           21%  { background: transparent; }
-
           33%  {
             background:
               linear-gradient(90deg, transparent 50%, rgba(30,140,255,0.16) 50%, rgba(30,140,255,0.16) 65%, transparent 65%),
@@ -426,7 +433,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           38%  { background: transparent; }
-
           52%  {
             background:
               linear-gradient(90deg, transparent 8%,  rgba(255,30,30,0.14) 8%,  rgba(255,30,30,0.14) 18%, transparent 18%),
@@ -436,7 +442,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           55%  { background: transparent; }
-
           67%  {
             background:
               linear-gradient(90deg, transparent 30%, rgba(30,140,255,0.17) 30%, rgba(30,140,255,0.17) 50%, transparent 50%),
@@ -447,7 +452,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           70%  { background: transparent; }
-
           81%  {
             background:
               linear-gradient(90deg, transparent 42%, rgba(255,255,255,0.07) 42%, rgba(255,255,255,0.07) 58%, transparent 58%),
@@ -457,7 +461,6 @@ export default function Projects() {
             background-repeat: no-repeat;
           }
           83%  { background: transparent; }
-
           92%  {
             background:
               linear-gradient(90deg, transparent 65%, rgba(30,255,100,0.14) 65%, rgba(30,255,100,0.14) 80%, transparent 80%),
@@ -470,7 +473,7 @@ export default function Projects() {
           100% { background: transparent; }
         }
 
-                /* -- Chromatic Aberration on image hover -- */
+        /* ── Chromatic Aberration + image jitter (desktop only) ── */
         .crt-img {
           transition: filter 0.15s steps(2), transform 0.7s ease, brightness 0.7s ease;
         }
@@ -479,21 +482,22 @@ export default function Projects() {
         }
 
         @keyframes img-jitter {
-          0%   { transform: translate(0, 0) scale(1.1); }
-          8%   { transform: translate(-2px, 0.5px) scale(1.1); }
-          14%  { transform: translate(0, 0) scale(1.1); }
-          28%  { transform: translate(2px, -0.5px) scale(1.1); }
-          34%  { transform: translate(-1.5px, 0px) scale(1.1); }
-          38%  { transform: translate(0, 0) scale(1.1); }
-          55%  { transform: translate(1.5px, 0.5px) scale(1.1); }
-          61%  { transform: translate(0, 0) scale(1.1); }
-          74%  { transform: translate(-2px, -0.5px) scale(1.1); }
-          78%  { transform: translate(1px, 0px) scale(1.1); }
-          82%  { transform: translate(0, 0) scale(1.1); }
-          93%  { transform: translate(-1px, 0.5px) scale(1.1); }
-          97%  { transform: translate(0, 0) scale(1.1); }
-          100% { transform: translate(0, 0) scale(1.1); }
+          0%   { transform: translate(0,0) scale(1.1); }
+          8%   { transform: translate(-2px,0.5px) scale(1.1); }
+          14%  { transform: translate(0,0) scale(1.1); }
+          28%  { transform: translate(2px,-0.5px) scale(1.1); }
+          34%  { transform: translate(-1.5px,0) scale(1.1); }
+          38%  { transform: translate(0,0) scale(1.1); }
+          55%  { transform: translate(1.5px,0.5px) scale(1.1); }
+          61%  { transform: translate(0,0) scale(1.1); }
+          74%  { transform: translate(-2px,-0.5px) scale(1.1); }
+          78%  { transform: translate(1px,0) scale(1.1); }
+          82%  { transform: translate(0,0) scale(1.1); }
+          93%  { transform: translate(-1px,0.5px) scale(1.1); }
+          97%  { transform: translate(0,0) scale(1.1); }
+          100% { transform: translate(0,0) scale(1.1); }
         }
+
         @keyframes chroma-shift {
           0%   { filter: none; }
           8%   { filter: drop-shadow(2.5px 0 0 rgba(255,20,20,0.55)) drop-shadow(-2.5px 0 0 rgba(0,210,255,0.55)); }
@@ -511,11 +515,39 @@ export default function Projects() {
           100% { filter: none; }
         }
 
-                /* On mobile: always show the link buttons regardless of hover state */
-        @media (max-width: 767px) {
-          .project-link-btn {
-            opacity: 1 !important;
-            transform: translateX(0) !important;
+        /* =====================================================
+           MOBILE KILL SWITCH — @media (hover: none)
+           Targets any device without true hover capability.
+           CSS side: nukes every animation and GPU-heavy effect.
+           JS side: IS_TOUCH_DEVICE gates all event handlers
+           and conditionally renders the CRT DOM nodes away
+           entirely, so there is nothing to animate at all.
+           ===================================================== */
+        @media (hover: none) {
+          /* Stop every CRT keyframe */
+          .crt-scanlines,
+          .crt-bars,
+          .crt-rgb-fringe,
+          .crt-vignette,
+          .crt-pixel-blocks {
+            animation: none !important;
+          }
+
+          /* Stop chromatic aberration and jitter on image */
+          .crt-img,
+          .group:hover .crt-img {
+            animation: none !important;
+            filter: none !important;
+            /* Gentle scale on tap only — no jitter */
+            transform: scale(1) !important;
+          }
+
+          /* Release GPU compositor layers promoted for animation */
+          .crt-scanlines,
+          .crt-bars,
+          .crt-pixel-blocks,
+          .crt-img {
+            will-change: auto !important;
           }
         }
       `}</style>
