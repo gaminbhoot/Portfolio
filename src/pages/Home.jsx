@@ -1,10 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ── Module-level constants — evaluated once, never cause re-renders ──────────
+// (hover: none) catches phones + tablets reliably, same pattern as Projects.jsx
+const IS_TOUCH_DEVICE =
+  typeof window !== "undefined" &&
+  window.matchMedia("(hover: none)").matches;
+
+// Age is purely a function of today's date — stable for the entire session
+const getAge = () => {
+  const dob = new Date(2005, 5, 24);
+  const now = new Date();
+  let a = now.getFullYear() - dob.getFullYear();
+  const beforeBirthday =
+    now.getMonth() < dob.getMonth() ||
+    (now.getMonth() === dob.getMonth() && now.getDate() < dob.getDate());
+  if (beforeBirthday) a--;
+  return a;
+};
+const AGE = getAge();
 
 export default function TerminalHero() {
   const containerRef = useRef(null);
@@ -14,10 +33,13 @@ export default function TerminalHero() {
   const navigate = useNavigate();
 
   const [time, setTime] = useState(
-    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
   );
 
-  const [isDesktop, setIsDesktop] = useState(() => window.innerWidth >= 1024);
+  // isDesktop only needed for ProfileCard tilt — use matchMedia, not innerWidth
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches
+  );
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -26,17 +48,7 @@ export default function TerminalHero() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  const age = (() => {
-    const dob = new Date(2005, 5, 24);
-    const now = new Date();
-    let a = now.getFullYear() - dob.getFullYear();
-    const beforeBirthday =
-      now.getMonth() < dob.getMonth() ||
-      (now.getMonth() === dob.getMonth() && now.getDate() < dob.getDate());
-    if (beforeBirthday) a--;
-    return a;
-  })();
-
+  // Clock — 60s interval is fine, no change needed
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(
@@ -47,16 +59,19 @@ export default function TerminalHero() {
   }, []);
 
   const handleResumeDownload = () => {
-    const link = document.createElement('a');
-    link.href = '/JAY JOSHI RESUME.pdf';
-    link.download = 'JAY_JOSHI_RESUME.pdf';
+    // Use a persistent <a> rather than creating one per click
+    const link = document.createElement("a");
+    link.href = "/JAY JOSHI RESUME.pdf";
+    link.download = "JAY_JOSHI_RESUME.pdf";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      // ── TERMINAL ENTRANCE ─────────────────────────────────────────
+      // ── TERMINAL ENTRANCE ──────────────────────────────────────────
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       tl.fromTo(
@@ -97,7 +112,7 @@ export default function TerminalHero() {
         "-=0.3"
       );
 
-      // ── ABOUT OUTPUT – SCROLL TRIGGERED ──────────────────────────
+      // ── ABOUT OUTPUT – SCROLL TRIGGERED ───────────────────────────
       gsap.fromTo(".about-command",
         { opacity: 0, x: -20 },
         {
@@ -134,24 +149,40 @@ export default function TerminalHero() {
         }
       );
 
-      // ── SCROLL FX ─────────────────────────────────────────────────
-      ScrollTrigger.create({
-        trigger: terminalRef.current,
-        start: "top center", end: "bottom center",
-        onEnter: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
-        onLeave: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
-        onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)", duration: 0.5 }),
-        onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)", duration: 0.5 }),
-      });
+      // ── SCROLL GLOW — skip on touch (boxShadow forces repaint) ────
+      if (!IS_TOUCH_DEVICE) {
+        ScrollTrigger.create({
+          trigger: terminalRef.current,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => gsap.to(terminalRef.current, {
+            boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)",
+            duration: 0.5,
+          }),
+          onLeave: () => gsap.to(terminalRef.current, {
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
+            duration: 0.5,
+          }),
+          onEnterBack: () => gsap.to(terminalRef.current, {
+            boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)",
+            duration: 0.5,
+          }),
+          onLeaveBack: () => gsap.to(terminalRef.current, {
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
+            duration: 0.5,
+          }),
+        });
 
-      gsap.to(".resume-card", {
-        boxShadow: "0 0 20px rgba(99,102,241,0.4)",
-        repeat: 3,
-        yoyo: true,
-        duration: 1,
-        delay: 2,
-        ease: "power1.inOut",
-      });
+        // Resume card pulse — desktop only, it's a nice-to-have not critical UX
+        gsap.to(".resume-card", {
+          boxShadow: "0 0 20px rgba(99,102,241,0.4)",
+          repeat: 3,
+          yoyo: true,
+          duration: 1,
+          delay: 2,
+          ease: "power1.inOut",
+        });
+      }
 
     }, containerRef);
 
@@ -192,7 +223,6 @@ export default function TerminalHero() {
             {/* ── BODY ────────────────────────────────────────────── */}
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
-              {/* ── COMMAND LINE MOVED ABOVE TAGLINE ────────────────── */}
               <div className="command-line">
                 <span className="text-indigo-400">jay@system:~$version</span>{" "}
                 <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
@@ -233,7 +263,7 @@ export default function TerminalHero() {
 
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      <span>I'm a {hi(`${age} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
+                      <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
                       <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
                       <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
                       <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
@@ -326,7 +356,6 @@ export default function TerminalHero() {
                   </button>
 
                 </div>
-
               </div>
             </div>
           </div>
@@ -334,19 +363,29 @@ export default function TerminalHero() {
       </section>
 
       <style>{`
+        /*
+          breathe + breathe-subtle animate opacity only — compositor-friendly.
+          Gated behind prefers-reduced-motion as before.
+          On touch devices, status-card breathe is skipped — 4 simultaneous
+          infinite animations on low-end mobile GPUs adds up.
+        */
         @media (prefers-reduced-motion: no-preference) {
           .cursor, .cursor-2 {
             animation: blink 1.2s ease-in-out infinite;
           }
+          .hero-title {
+            animation: breathe-subtle 5s ease-in-out infinite;
+          }
+        }
+
+        /* status-card breathe only on devices that support hover (desktop) */
+        @media (prefers-reduced-motion: no-preference) and (hover: hover) {
           .status-card {
             animation: breathe 4.5s ease-in-out infinite;
           }
           .status-card:nth-child(2) { animation-delay: 0.6s; }
           .status-card:nth-child(3) { animation-delay: 1.2s; }
           .status-card:nth-child(4) { animation-delay: 1.8s; }
-          .hero-title {
-            animation: breathe-subtle 5s ease-in-out infinite;
-          }
         }
 
         @keyframes blink {
