@@ -5,7 +5,7 @@ import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 're
 
 import './Dock.css';
 
-function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize }) {
+function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize, label }) {
   const ref = useRef(null);
   const isHovered = useMotionValue(0);
 
@@ -21,7 +21,8 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
   const size = useSpring(targetSize, spring);
 
   return (
-    <motion.div
+    <motion.button
+      type="button"
       ref={ref}
       style={{
         width: size,
@@ -33,12 +34,10 @@ function DockItem({ children, className = '', onClick, mouseX, spring, distance,
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
       className={`dock-item ${className}`}
-      tabIndex={0}
-      role="button"
-      aria-haspopup="true"
+      aria-label={label}
     >
       {Children.map(children, child => cloneElement(child, { isHovered }))}
-    </motion.div>
+    </motion.button>
   );
 }
 
@@ -117,6 +116,7 @@ export default function Dock({
             key={index}
             onClick={item.onClick}
             className={item.className}
+            label={item.label}
             mouseX={mouseX}
             spring={spring}
             distance={distance}

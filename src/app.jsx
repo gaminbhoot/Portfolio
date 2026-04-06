@@ -61,6 +61,10 @@ function AppContent() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+
       {isDesktop && (
         <Suspense fallback={null}>
           <CustomCursor />
@@ -107,7 +111,7 @@ function AppContent() {
         />
       )}
 
-      <div className="relative z-20 min-h-screen pt-20 pb-48">
+      <main id="main-content" tabIndex={-1} className="relative z-20 min-h-screen pt-20 pb-48" role="main">
         <Suspense fallback={
           <div style={{
             display: 'flex',
@@ -134,7 +138,7 @@ function AppContent() {
             <Route path="*" element={<TokenOrNotFound />} />
           </Routes>
         </Suspense>
-      </div>
+      </main>
 
       <footer
         className="fixed bottom-0 left-0 w-full h-36 z-50 pointer-events-none flex items-end justify-center pb-4"
