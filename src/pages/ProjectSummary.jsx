@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projectsData } from "../data/projectsData";
 import { ArrowLeft, ExternalLink, Code2, Layers, Zap, ChevronRight, X, ZoomIn } from "lucide-react";
+import { usePageMeta } from "../lib/usePageMeta";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,6 +80,19 @@ function ImageLightbox({ image, alt, onClose }) {
 export default function ProjectSummary() {
   const { id } = useParams();
   const project = projectsData.find((p) => p.id === id);
+
+  usePageMeta({
+    title: project
+      ? `${project.title} | Project Summary | Jay Joshi`
+      : "Project Summary Not Found | Jay Joshi",
+    description:
+      project?.summary?.tagline ||
+      "Detailed project summary for Jay Joshi's engineering portfolio.",
+    path: `/project-summary/${id || ""}`,
+    image: project?.heroImage || project?.thumbnail || "/jay1.webp",
+    noindex: !project,
+  });
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);

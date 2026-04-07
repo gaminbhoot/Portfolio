@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Mail, Github, Linkedin, Send, MapPin, Clock, Briefcase, ChevronRight, Link2 } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { usePageMeta } from '../lib/usePageMeta';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,13 @@ const CONTACT_LINKS = [
 ];
 
 export default function Contact() {
+  usePageMeta({
+    title: 'Contact | Jay Joshi',
+    description:
+      'Get in touch with Jay Joshi for internships, hybrid roles, freelance projects, and technical collaboration.',
+    path: '/contact',
+  });
+
   const containerRef = useRef(null);
   const headerRef    = useRef(null);
   const formRef      = useRef(null);

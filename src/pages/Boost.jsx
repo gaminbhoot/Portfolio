@@ -1,8 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
+import { usePageMeta } from "../lib/usePageMeta";
 
 export default function Boost() {
+  usePageMeta({
+    title: "Access Restricted | Jay Joshi",
+    description: "Restricted route.",
+    path: "/boost",
+    noindex: true,
+  });
+
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const titleRef = useRef(null);

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
+import { usePageMeta } from "../lib/usePageMeta";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +27,13 @@ const getAge = () => {
 const AGE = getAge();
 
 export default function TerminalHero() {
+  usePageMeta({
+    title: "Jay Joshi | AI/ML Engineer & Frontend Developer",
+    description:
+      "AI/ML engineer and frontend developer building real-time vision systems, secure tools, and production-ready web experiences.",
+    path: "/",
+  });
+
   const containerRef = useRef(null);
   const terminalRef = useRef(null);
   const aboutOutputRef = useRef(null);

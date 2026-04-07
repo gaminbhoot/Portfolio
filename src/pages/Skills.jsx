@@ -2,10 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Terminal from "../components/Terminal";
+import { usePageMeta } from "../lib/usePageMeta";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Skills() {
+  usePageMeta({
+    title: "Skills | Jay Joshi",
+    description:
+      "Technical skills across AI/ML, computer vision, frontend engineering, and system design.",
+    path: "/skills",
+  });
+
   const containerRef = useRef(null);
   const headerRef = useRef(null);
   const terminalRef = useRef(null);

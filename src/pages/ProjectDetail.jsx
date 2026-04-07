@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { ArrowLeft, ChevronRight, Eye, X, ZoomIn, Menu } from "lucide-react";
+import { usePageMeta } from "../lib/usePageMeta";
 
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -288,6 +289,19 @@ function FloatingSidebar({ project, hasLinks }) {
 export default function ProjectDetail() {
   const { id } = useParams();
   const project = projectsData.find((p) => p.id === id);
+
+  usePageMeta({
+    title: project
+      ? `${project.title} | Case Study | Jay Joshi`
+      : "Project Not Found | Jay Joshi",
+    description:
+      project?.summary?.tagline ||
+      "In-depth project case study from Jay Joshi's engineering portfolio.",
+    path: `/project/${id || ""}`,
+    image: project?.heroImage || project?.thumbnail || "/jay1.webp",
+    noindex: !project,
+  });
+
   const [activeSection, setActiveSection] = useState("");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lightboxImage, setLightboxImage] = useState(null);

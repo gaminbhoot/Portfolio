@@ -1,4 +1,12 @@
+import { usePageMeta } from "../lib/usePageMeta";
+
 export default function NotFound() {
+  usePageMeta({
+    title: "404 | Page Not Found | Jay Joshi",
+    description: "The requested page could not be found.",
+    noindex: true,
+  });
+
   return (
     <div style={{
       display: 'flex',

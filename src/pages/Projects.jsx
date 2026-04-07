@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { ArrowUpRight, Folder } from "lucide-react";
+import { usePageMeta } from "../lib/usePageMeta";
 
 // GitHub SVG Icon
 const GitHubIcon = () => (
@@ -27,6 +28,13 @@ const IS_TOUCH_DEVICE =
   window.matchMedia("(hover: none)").matches;
 
 export default function Projects() {
+  usePageMeta({
+    title: "Projects | Jay Joshi",
+    description:
+      "Explore Jay Joshi's project portfolio in AI/ML systems, computer vision, and secure full-stack engineering.",
+    path: "/projects",
+  });
+
   const [hoveredId, setHoveredId] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef(null);
