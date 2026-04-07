@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useState, useEffect, useMemo } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -39,6 +39,16 @@ function TokenOrNotFound() {
   const isValidToken = token && token === storedToken;
 
   return isValidToken ? <Epoxy /> : <NotFound />;
+}
+
+function ScrollToTopOnRouteChange() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
 }
 
 function AppContent() {
@@ -161,6 +171,7 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTopOnRouteChange />
       <AppContent />
     </BrowserRouter>
   );
