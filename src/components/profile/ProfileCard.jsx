@@ -42,8 +42,14 @@ const ProfileCardComponent = ({
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
 
+  const prefersReducedMotion = typeof window !== 'undefined' 
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+    : false;
+  
+  const activeTilt = enableTilt && !prefersReducedMotion;
+
   const tiltEngine = useMemo(() => {
-    if (!enableTilt) return null;
+    if (!activeTilt) return null;
 
     let rafId = null;
     let running = false;
@@ -152,7 +158,7 @@ const ProfileCardComponent = ({
         lastTs = 0;
       }
     };
-  }, [enableTilt]);
+  }, [activeTilt]);
 
   const getOffsets = (evt, el) => {
     const rect = el.getBoundingClientRect();
@@ -230,7 +236,7 @@ const ProfileCardComponent = ({
   );
 
   useEffect(() => {
-    if (!enableTilt || !tiltEngine) return;
+    if (!activeTilt || !tiltEngine) return;
 
     const shell = shellRef.current;
     if (!shell) return;
@@ -280,7 +286,7 @@ const ProfileCardComponent = ({
       shell.classList.remove('entering');
     };
   }, [
-    enableTilt,
+    activeTilt,
     enableMobileTilt,
     tiltEngine,
     handlePointerMove,

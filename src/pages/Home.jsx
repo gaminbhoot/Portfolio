@@ -78,6 +78,15 @@ export default function TerminalHero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) {
+        gsap.set(terminalRef.current, { opacity: 1, scale: 1, rotateX: 0, y: 0 });
+        gsap.set([".terminal-dot", ".hero-word", ".command-line", ".role-line", ".status-card", ".resume-card", ".about-command", ".about-line", ".after-prompt"], { opacity: 1, scale: 1, x: 0, y: 0, rotateX: 0, filter: "blur(0px)" });
+        gsap.set(".about-divider", { scaleX: 1 });
+        gsap.set(cardRef.current, { opacity: 1, y: 0, scale: 1 });
+        return;
+      }
 
       // ── TERMINAL ENTRANCE ──────────────────────────────────────────
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
