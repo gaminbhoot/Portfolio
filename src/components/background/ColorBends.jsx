@@ -257,16 +257,41 @@ export default function ColorBends({
       window.addEventListener('resize', handleResize);
     }
 
-    // Pause / resume on tab visibility
-    const handleVisibility = () => {
+    let idleTimeout = null;
+
+    // Pause / resume on tab visibility or extended inactivity
+    const resumeAnimation = () => {
+      if (idleTimeout) window.clearTimeout(idleTimeout);
+      
+      if (!document.hidden && !rafRef.current) {
+        rafRef.current = requestAnimationFrame(loop);
+      }
+      
+      // Pause animation after 60 seconds of mouse/scroll/touch inactivity
+      idleTimeout = window.setTimeout(() => {
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+      }, 60000);
+    };
+
+    const checkVisibility = () => {
       if (document.hidden) {
-        if (rafRef.current) cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
+        if (idleTimeout) window.clearTimeout(idleTimeout);
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
       } else {
-        if (!rafRef.current) rafRef.current = requestAnimationFrame(loop);
+        resumeAnimation();
       }
     };
-    document.addEventListener('visibilitychange', handleVisibility);
+    
+    document.addEventListener('visibilitychange', checkVisibility);
+    window.addEventListener('mousemove', resumeAnimation, { passive: true });
+    window.addEventListener('touchstart', resumeAnimation, { passive: true });
+    window.addEventListener('scroll', resumeAnimation, { passive: true });
 
     const loop = () => {
       rafRef.current = requestAnimationFrame(loop);
@@ -297,21 +322,25 @@ export default function ColorBends({
     if (mobile && gpuTier <= 1) {
       if ('requestIdleCallback' in window) {
         idleCallbackRef.current = requestIdleCallback(
-          () => { rafRef.current = requestAnimationFrame(loop); },
+          () => { resumeAnimation(); },
           { timeout: 5000 }
         );
       } else {
         idleCallbackRef.current = setTimeout(
-          () => { rafRef.current = requestAnimationFrame(loop); },
+          () => { resumeAnimation(); },
           3000
         );
       }
     } else {
-      rafRef.current = requestAnimationFrame(loop);
+      resumeAnimation();
     }
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibility);
+      document.removeEventListener('visibilitychange', checkVisibility);
+      window.removeEventListener('mousemove', resumeAnimation);
+      window.removeEventListener('touchstart', resumeAnimation);
+      window.removeEventListener('scroll', resumeAnimation);
+      if (idleTimeout) window.clearTimeout(idleTimeout);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       if (idleCallbackRef.current !== null) {
         if ('requestIdleCallback' in window) cancelIdleCallback(idleCallbackRef.current);
