@@ -103,13 +103,11 @@ function AppContent() {
             <div style={{ width: '100%', height: '100%', background: '#000' }} />
           )
         ) : (
-          <div style={{
-            width: '100%',
-            height: '100%',
-            background: '#0a0a0a',
-            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
-            backgroundSize: '32px 32px',
-          }} />
+          <div className="mobile-creative-bg">
+            <div className="wireframe-shape shape-1" />
+            <div className="wireframe-shape shape-2" />
+            <div className="wireframe-shape shape-3" />
+          </div>
         )}
       </div>
 

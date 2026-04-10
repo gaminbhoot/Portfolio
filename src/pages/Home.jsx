@@ -168,28 +168,6 @@ export default function TerminalHero() {
 
       // ── SCROLL GLOW — skip on touch (boxShadow forces repaint) ────
       if (!IS_TOUCH_DEVICE) {
-        ScrollTrigger.create({
-          trigger: terminalRef.current,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => gsap.to(terminalRef.current, {
-            boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)",
-            duration: 0.5,
-          }),
-          onLeave: () => gsap.to(terminalRef.current, {
-            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
-            duration: 0.5,
-          }),
-          onEnterBack: () => gsap.to(terminalRef.current, {
-            boxShadow: "0 0 80px rgba(99,102,241,0.6), 0 0 40px rgba(168,85,247,0.4)",
-            duration: 0.5,
-          }),
-          onLeaveBack: () => gsap.to(terminalRef.current, {
-            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
-            duration: 0.5,
-          }),
-        });
-
         // Resume card pulse — desktop only, it's a nice-to-have not critical UX
         gsap.to(".resume-card", {
           boxShadow: "0 0 20px rgba(99,102,241,0.4)",

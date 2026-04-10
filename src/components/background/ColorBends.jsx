@@ -259,6 +259,31 @@ export default function ColorBends({
 
     let idleTimeout = null;
 
+    const loop = () => {
+      rafRef.current = requestAnimationFrame(loop);
+
+      // Frame throttling for low-tier hardware
+      frameCountRef.current += 1;
+      if (frameCountRef.current % throttle !== 0) return;
+
+      const dt      = clock.getDelta();
+      const elapsed = clock.elapsedTime;
+      material.uniforms.uTime.value = elapsed;
+
+      const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
+      const rad = (deg * Math.PI) / 180;
+      material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
+
+      if (!mobile) {
+        const cur = pointerCurrentRef.current;
+        const tgt = pointerTargetRef.current;
+        cur.lerp(tgt, Math.min(1, dt * pointerSmoothRef.current));
+        material.uniforms.uPointer.value.copy(cur);
+      }
+
+      renderer.render(scene, camera);
+    };
+
     // Pause / resume on tab visibility or extended inactivity
     const resumeAnimation = () => {
       if (idleTimeout) window.clearTimeout(idleTimeout);
@@ -293,31 +318,6 @@ export default function ColorBends({
     window.addEventListener('touchstart', resumeAnimation, { passive: true });
     window.addEventListener('scroll', resumeAnimation, { passive: true });
 
-    const loop = () => {
-      rafRef.current = requestAnimationFrame(loop);
-
-      // Frame throttling for low-tier hardware
-      frameCountRef.current += 1;
-      if (frameCountRef.current % throttle !== 0) return;
-
-      const dt      = clock.getDelta();
-      const elapsed = clock.elapsedTime;
-      material.uniforms.uTime.value = elapsed;
-
-      const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
-      const rad = (deg * Math.PI) / 180;
-      material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
-
-      if (!mobile) {
-        const cur = pointerCurrentRef.current;
-        const tgt = pointerTargetRef.current;
-        cur.lerp(tgt, Math.min(1, dt * pointerSmoothRef.current));
-        material.uniforms.uPointer.value.copy(cur);
-      }
-
-      renderer.render(scene, camera);
-    };
-
     // On low-tier mobile: wait for idle before starting
     if (mobile && gpuTier <= 1) {
       if ('requestIdleCallback' in window) {
@@ -341,7 +341,10 @@ export default function ColorBends({
       window.removeEventListener('touchstart', resumeAnimation);
       window.removeEventListener('scroll', resumeAnimation);
       if (idleTimeout) window.clearTimeout(idleTimeout);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
       if (idleCallbackRef.current !== null) {
         if ('requestIdleCallback' in window) cancelIdleCallback(idleCallbackRef.current);
         else clearTimeout(idleCallbackRef.current);
