@@ -7,7 +7,7 @@ import GlassOverlay from "./components/background/GlassOverlay";
 import Dock from "./components/dock/Dock";
 
 const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
-const ColorBends = lazy(() => import("./components/background/ColorBends"));
+// const ColorBends = lazy(() => import("./components/background/ColorBends"));
 
 const Home = lazy(() => import("./pages/Home"));
 // const About = lazy(() => import("./pages/About"));
@@ -83,39 +83,18 @@ function AppContent() {
 
       {/* Background */}
       <div className="fixed inset-0 z-0">
-        {isDesktop ? (
-          showBg ? (
-            <Suspense fallback={<div style={{ width: '100%', height: '100%', background: '#000' }} />}>
-              <ColorBends
-                colors={["#FF3131", "#FF5F1F", "#00FFFF", "#0000FF", "#000000", "#000000"]}
-                rotation={0}
-                speed={0.2}
-                scale={1.14}
-                frequency={1}
-                warpStrength={1.044}
-                mouseInfluence={1}
-                parallax={0.5}
-                noise={0.1}
-                transparent
-              />
-            </Suspense>
-          ) : (
-            <div style={{ width: '100%', height: '100%', background: '#000' }} />
-          )
-        ) : (
-          <div className="mobile-creative-bg">
-            <div className="wireframe-shape shape-1" />
-            <div className="wireframe-shape shape-2" />
-            <div className="wireframe-shape shape-3" />
-          </div>
-        )}
+        <div className="mobile-creative-bg">
+          <div className="wireframe-shape shape-1" />
+          <div className="wireframe-shape shape-2" />
+          <div className="wireframe-shape shape-3" />
+        </div>
       </div>
 
       {isDesktop && (
         <GlassOverlay
-          tint="rgba(15, 15, 20, 0.6)"
-          blur={17}
-          opacity={0.75}
+          tint="rgba(15, 15, 20, 0.45)"
+          blur={12}
+          opacity={0.55}
         />
       )}
 

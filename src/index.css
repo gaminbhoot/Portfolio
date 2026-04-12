@@ -193,7 +193,7 @@ body::-webkit-scrollbar {
 
 /* ── Terminal shell — inlined here so it's available before React hydrates ── */
 .terminal-shell {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.15);
   position: relative;
 }
 
@@ -202,8 +202,8 @@ body::-webkit-scrollbar {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 0;
   pointer-events: none;
 }

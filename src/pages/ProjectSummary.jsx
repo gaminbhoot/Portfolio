@@ -46,7 +46,7 @@ function ImageLightbox({ image, alt, onClose }) {
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
     >
-      <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-md" />
       <button
         onClick={onClose}
         className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
@@ -206,7 +206,7 @@ export default function ProjectSummary() {
             to="/projects"
             className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 transition-all duration-300 hover:gap-3"
           >
-            <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
+            <div className="p-2 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
               <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
             </div>
             <span className="font-mono text-sm">Back to Projects</span>
@@ -221,7 +221,7 @@ export default function ProjectSummary() {
           {project.githubLink && (
             <button
               onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-xs font-mono"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/[0.04] hover:border-white/30 transition-all duration-300 text-xs font-mono"
             >
               <GitHubIcon />
               <span>GitHub</span>
@@ -232,7 +232,7 @@ export default function ProjectSummary() {
           {project.prototypeLink && (
             <button
               onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-xs font-mono"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/[0.04] hover:border-white/30 transition-all duration-300 text-xs font-mono"
             >
               <AirPlayIcon />
               <span>Preview</span>
@@ -273,7 +273,7 @@ export default function ProjectSummary() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {summary.keyTechnologies.map((tech, index) => (
-                      <span key={index} className="tech-pill px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-200 text-xs font-mono hover:border-indigo-400/50 hover:bg-indigo-400/10 hover:text-indigo-300 hover:scale-110 transition-all duration-300 cursor-default">{tech}</span>
+                      <span key={index} className="tech-pill px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/10 text-gray-200 text-xs font-mono hover:border-indigo-400/50 hover:bg-indigo-400/10 hover:text-indigo-300 hover:scale-110 transition-all duration-300 cursor-default">{tech}</span>
                     ))}
                   </div>
                 </div>
@@ -341,7 +341,7 @@ export default function ProjectSummary() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {summary.technicalHighlights.map((highlight, index) => (
-                  <div key={index} className="tech-highlight-card relative group/card p-5 rounded-xl bg-gradient-to-br from-black/30 to-black/50 border border-white/10 hover:border-indigo-400/30 hover:bg-black/40 transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer" style={{ transformStyle: "preserve-3d" }}>
+                  <div key={index} className="tech-highlight-card relative group/card p-5 rounded-xl bg-gradient-to-br from-black/30 to-black/50 border border-white/10 hover:border-indigo-400/30 hover:bg-black/20 transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer" style={{ transformStyle: "preserve-3d" }}>
                     <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-600 border-2 border-gray-900 flex items-center justify-center shadow-lg group-hover/card:scale-110 group-hover/card:rotate-12 transition-transform duration-300">
                       <span className="text-white font-mono text-xs font-bold">{String(index + 1).padStart(2, '0')}</span>
                     </div>

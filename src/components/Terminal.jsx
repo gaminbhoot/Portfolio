@@ -34,8 +34,8 @@ export default function Terminal({
   /* =========================
      GLASS CONTROLS
      ========================= */
-  headerOpacity = 0.55,
-  bodyOpacity = 0.2,
+  headerOpacity = 0.25,
+  bodyOpacity = 0.15,
   tint = "neutral",
   mode = "dark",
 
@@ -72,7 +72,7 @@ export default function Terminal({
         relative w-full max-w-4xl mx-auto
         aspect-[16/9]              /* 🔑 16:9 RATIO LOCK */
         rounded-2xl border border-white/10
-        backdrop-blur-xl
+          backdrop-blur-[12px]
         shadow-2xl shadow-black/40
         overflow-hidden            /* keeps glass clean */
         ${className}

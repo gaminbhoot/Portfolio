@@ -438,7 +438,7 @@ export default function Contact() {
           transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
 
           /*
-            backdrop-filter reduced on touch — blur(12px) across multiple
+            backdrop-filter reduced on touch — blur(6px) across multiple
             stacked cards is one of the costliest mobile GPU operations.
             blur(6px) gives the same frosted feel at roughly half the fill cost.
           */
@@ -449,8 +449,8 @@ export default function Contact() {
         /* Restore full blur on desktop where GPU is adequate */
         @media (hover: hover) {
           .contact-glass-card {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
           }
         }
 
@@ -577,8 +577,8 @@ export default function Contact() {
         /* ── Submit Button ── */
         .contact-submit-btn {
           position: relative; width: 100%;
-          background: rgba(139,92,246,0.10);
-          backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+          background: rgba(139,92,246,0.05);
+          backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
           border: 1px solid rgba(255,255,255,0.12);
           border-radius: 12px;
           color: rgba(237,233,254,0.95);

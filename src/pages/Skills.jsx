@@ -320,7 +320,7 @@ export default function Skills() {
                               flex items-center gap-2
                               px-3 py-2.5
                               border border-white/10
-                              bg-white/5 backdrop-blur-md
+                              bg-white/5 backdrop-blur-sm
                               rounded-full
                               transition-all duration-300
                               hover:bg-white/10
@@ -352,7 +352,7 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ perspective: "1500px" }}>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-indigo-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-indigo-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-indigo-300 transition-colors duration-300">
@@ -365,7 +365,7 @@ export default function Skills() {
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-purple-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-purple-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">
@@ -378,7 +378,7 @@ export default function Skills() {
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-cyan-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-cyan-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">
@@ -391,7 +391,7 @@ export default function Skills() {
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 hover:border-green-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-green-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
             <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-green-300 transition-colors duration-300">
@@ -433,7 +433,7 @@ export default function Skills() {
             return (
               <div
                 key={index}
-                className={`cert-card group relative rounded-2xl border border-white/10 bg-black/30 backdrop-blur-md p-6 transition-all duration-500 hover:bg-black/40 ${colors.border} hover:scale-105 hover:-translate-y-2 hover:shadow-xl ${colors.shadow} overflow-hidden cursor-pointer`}
+                className={`cert-card group relative rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 ${colors.border} hover:scale-105 hover:-translate-y-2 hover:shadow-xl ${colors.shadow} overflow-hidden cursor-pointer`}
                 style={{ transformStyle: "preserve-3d" }}
                 onClick={() => handleSecretClick(`cert-${index}`)}
               >
@@ -461,8 +461,8 @@ export default function Skills() {
           <div ref={resumeButtonRef}>
             <button
               onClick={(e) => { handleResumeDownload(); handleSecretClick('resume'); }}
-              className="group relative px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden backdrop-blur-xl border border-white/10"
-              style={{ background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4))' }}
+              className="group relative px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden backdrop-blur-[12px] border border-white/10"
+              style={{ background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))' }}
             >
               <div className="absolute inset-0 rounded-2xl p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 blur-sm" />
