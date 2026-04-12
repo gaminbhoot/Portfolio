@@ -258,10 +258,11 @@ export default function TerminalHero() {
 
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
-                      <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, interested in {hi("intelligent systems")} and practical problem solving.</span>,
-                      <span>{hi("Theory. Structure. Execution.")} Turning ideas into working systems.</span>,
-                      <span>I prefer {hi("simplicity")} over cleverness, {hi("principles")} over shortcuts.</span>,
+                      <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, building in {hi("AI/ML")} and {hi("frontend engineering")}.</span>,
+                      <span>Shipped {hi("YOLOv8 + DeepSORT")} object tracking, a {hi("Groq-powered")} LLM chatbot, and a full {hi("compiler pipeline")} in Java.</span>,
+                      <span>Worked across {hi("DNNs")}, {hi("NLP pipelines")}, and {hi("LLM integrations")}.</span>,
                       <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
+                      <span>Comfortable across the stack — from {hi("computer vision pipelines")} to {hi("responsive frontend systems")}.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line">
                         <span className="text-indigo-400/70 mr-2 select-none">›</span>
