@@ -264,7 +264,7 @@ export default function Contact() {
 
         {/* ── RIGHT: INQUIRY FORM ── */}
         <div ref={formRef} className="lg:col-span-3 h-full">
-          <div className="contact-glass-card relative overflow-hidden h-full" style={{ background: 'rgba(0,0,0,0.6)' }}>
+          <div className="contact-glass-card relative overflow-hidden h-full" style={{ background: 'rgba(0,0,0,0.27)' }}>
 
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
 
@@ -431,7 +431,7 @@ export default function Contact() {
 
         /* ── Glass card ── */
         .contact-glass-card {
-          background: rgba(0,0,0,0.3);
+          background: rgba(0,0,0,0.2);
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 16px; padding: 24px;
           position: relative; z-index: 1;
@@ -461,7 +461,7 @@ export default function Contact() {
         */
         @media (hover: hover) {
           .contact-glass-card:hover {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.27);
             border-color: rgba(99,102,241,0.5);
             box-shadow: 0 20px 40px rgba(99,102,241,0.2);
             transform: translateY(-2px) scale(1.01);
