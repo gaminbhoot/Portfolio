@@ -51,8 +51,6 @@ export default function Contact() {
   const [formFocused,  setFormFocused]  = useState(null);
   const [submitted,    setSubmitted]    = useState(false);
   const [submitError,  setSubmitError]  = useState(false);
-  const [inquiryType,  setInquiryType]  = useState('');
-  const [customType,   setCustomType]   = useState('');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -128,17 +126,12 @@ export default function Contact() {
     gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
   }, []);
 
-  // Bug fix: inquiryType was missing from the deps array — stale closure meant
-  // the "other" branch would always read the initial empty string value.
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('.submit-btn');
     gsap.to(btn, { scale: 0.97, duration: 0.1, yoyo: true, repeat: 1 });
 
     const formData = new FormData(e.target);
-    if (inquiryType === 'other') {
-      formData.set('inquiry_type', customType);
-    }
 
     try {
       const response = await fetch('https://formspree.io/f/mnjgywzg', {
@@ -150,15 +143,13 @@ export default function Contact() {
         setSubmitError(false);
         setSubmitted(true);
         e.target.reset();
-        setInquiryType('');
-        setCustomType('');
       } else {
         setSubmitError(true);
       }
     } catch {
       setSubmitError(true);
     }
-  }, [inquiryType, customType]); // ← fixed: deps now match what the callback reads
+  }, []); // ← empty deps, no more customType dependency
 
   return (
     <div ref={containerRef} className="contact-page container mx-auto px-6 pt-2 pb-16 text-white relative overflow-hidden">
@@ -325,42 +316,6 @@ export default function Contact() {
                     <input type="email" name="email" required placeholder="email@example.com" className="contact-input"
                       onFocus={() => setFormFocused('email')} onBlur={() => setFormFocused(null)} />
                     <div className={`contact-input-line ${formFocused === 'email' ? 'contact-input-line-active' : ''}`} />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="form-row group relative">
-                    <label className="contact-label">
-                      <span className="text-indigo-400/60">›</span> Company
-                      {formFocused === 'company' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                    </label>
-                    <input type="text" name="company" placeholder="Google, Startup Inc." className="contact-input"
-                      onFocus={() => setFormFocused('company')} onBlur={() => setFormFocused(null)} />
-                    <div className={`contact-input-line ${formFocused === 'company' ? 'contact-input-line-active' : ''}`} />
-                  </div>
-
-                  <div className="form-row group relative">
-                    <label className="contact-label">
-                      <span className="text-indigo-400/60">›</span> Inquiry Type
-                      {formFocused === 'type' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                    </label>
-                    <select name="inquiry_type" className="contact-input contact-select"
-                      value={inquiryType} onChange={(e) => setInquiryType(e.target.value)}
-                      onFocus={() => setFormFocused('type')} onBlur={() => setFormFocused(null)}
-                    >
-                      <option value="" disabled>select --type</option>
-                      <option value="full-time">Full-time Role</option>
-                      <option value="internship">Internship</option>
-                      <option value="freelance">Freelance / Contract</option>
-                      <option value="collaboration">Collaboration</option>
-                      <option value="other">Other</option>
-                    </select>
-                    {inquiryType === 'other' && (
-                      <input type="text" name="custom_inquiry_type" placeholder="Enter your inquiry type"
-                        className="contact-input mt-3" value={customType}
-                        onChange={(e) => setCustomType(e.target.value)} />
-                    )}
-                    <div className={`contact-input-line ${formFocused === 'type' ? 'contact-input-line-active' : ''}`} />
                   </div>
                 </div>
 

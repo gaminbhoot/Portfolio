@@ -140,11 +140,12 @@ export default function Projects() {
       {/* Grid */}
       <div
         ref={gridRef}
-        className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20 relative"
+        className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 relative"
       >
         {projectsData.map((project, index) => (
           <motion.div
             key={project.id}
+            className="flex flex-col h-full"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -153,19 +154,19 @@ export default function Projects() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <Link to={`/project-summary/${project.id}`}>
+            <Link to={`/project-summary/${project.id}`} className="block h-full">
               <div
-                className="group cursor-pointer relative"
+                className="group cursor-pointer relative h-full flex flex-col"
                 // Touch devices: no hover handlers → hoveredId stays null forever
                 // → all Framer Motion animate conditions that check hoveredId are always false
                 // → zero JS animation work on mobile
                 onMouseEnter={IS_TOUCH_DEVICE ? undefined : () => setHoveredId(project.id)}
                 onMouseLeave={IS_TOUCH_DEVICE ? undefined : () => setHoveredId(null)}
               >
-                <div className="relative">
+                <div className="relative flex flex-col h-full">
 
                   {/* Image Wrapper */}
-                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-[4/3] mb-6 shadow-2xl">
+                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-[4/3] mb-6 shadow-2xl shrink-0">
 
                     {/* Animated grain texture */}
                     <div
@@ -267,16 +268,16 @@ export default function Projects() {
                   </div>
 
                   {/* Text Info */}
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="flex-1">
+                  <div className="flex justify-between items-start gap-4 flex-grow">
+                    <div className="flex-1 flex flex-col h-full">
                       <h3
-                        className="text-2xl md:text-3xl font-bold text-white mb-2 transition-all duration-300 group-hover:tracking-wide"
+                        className="text-2xl md:text-3xl font-bold text-white mb-2 transition-all duration-300 group-hover:tracking-wide flex-grow"
                         style={{ fontFamily: "'Orbitron', sans-serif" }}
                       >
                         {project.title}
                       </h3>
 
-                      <div className="flex items-center gap-3 mb-3">
+                      <div className="flex items-center gap-3 mb-3 mt-4 shrink-0">
                         <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-2 py-1 rounded border border-indigo-400/30 bg-indigo-400/5">
                           {project.category}
                         </span>
@@ -285,7 +286,7 @@ export default function Projects() {
                         </span>
                       </div>
 
-                      <div className="h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-transparent transition-all duration-700 rounded-full" />
+                      <div className="h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-transparent transition-all duration-700 rounded-full shrink-0" />
                     </div>
 
                     <motion.div

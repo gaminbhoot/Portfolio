@@ -243,5 +243,82 @@ export const projectsData = [
         content: "By making proof of erasure cryptographically verifiable, OctaWipe enables devices to be safely resold, refurbished, or recycled directly reducing unnecessary disposal. For enterprises, it cuts compliance risk during decommissioning. For individuals and e-waste handlers, it replaces anxiety with certainty. Future development targets policy-driven wipe recommendations, tighter ITSM integration, and support for mobile and IoT-class devices. The longer arc is a standardized trust layer for the entire device lifecycle from first boot to final wipe."
       }
     ]
+  },
+  {
+    id: "abhisar-llm",
+    title: "Abhisar: Groq-Powered LLM Product",
+    category: "Full-Stack AI Product",
+    year: "2024",
+    thumbnail: "/images/abhisar/thumb.webp",
+    heroImage: "/images/abhisar/hero.webp",
+    githubLink: "https://github.com/gaminbhoot/Abhisar",
+    prototypeLink: "https://abhisar.jayjoshi.online/",
+
+    summary: {
+      tagline: "A massively fast, user-facing conversational AI client powered by Groq and LLaMA models, wrapped in a responsive React frontend.",
+      keyTechnologies: [
+        "React for UI/UX",
+        "Groq API for inference",
+        "LLaMA 3 Models",
+        "Node.js Backend",
+        "REST API Integration",
+        "Tailwind CSS"
+      ],
+      technicalHighlights: [
+        { title: "Instant Inference", description: "Leveraged Groq's LPU architecture to achieve near-zero latency text generation inside a responsive Web App." },
+        { title: "Conversation State", description: "Built robust frontend state management to handle complex chat histories, streaming tokens, and prompt context windows." },
+        { title: "Product Thinking", description: "Designed an intuitive, accessible user interface optimized for high-speed engagement and real-world user adoption." }
+      ],
+      metrics: [
+        "Sub-100ms time to first token",
+        "Seamless state synchronization across conversational turns"
+      ],
+      architecture: "React Frontend → Node.js/Express Middleware → Groq API → LLaMA 3",
+      showcaseImages: []
+    },
+
+    sections: [
+      {
+        id: "overview",
+        title: "The Product",
+        content: "Abhisar is an applied AI web application designed to put ultra-fast inference directly into the hands of users. Unlike heavy, delayed APIs, utilizing the Groq integration enabled near-instantaneous responses, radically improving the user experience of interacting with LLMs."
+      }
+    ]
+  },
+  {
+    id: "java-compiler",
+    title: "Mini Compiler Pipeline",
+    category: "Systems & Tooling",
+    year: "2024",
+    thumbnail: "/images/compiler/thumb.webp",
+    heroImage: "/images/compiler/hero.webp",
+    githubLink: "https://github.com/gaminbhoot/compiler-pipeline",
+    
+    summary: {
+      tagline: "A custom language compiler built fully in Java, featuring robust lexical analysis, abstract syntax tree (AST) construction, and assembly generation.",
+      keyTechnologies: [
+        "Java",
+        "Lexer & Parser Architecture",
+        "AST Generation",
+        "Semantic Analysis",
+        "Code Generation"
+      ],
+      technicalHighlights: [
+        { title: "Lexical Analysis", description: "Engineered a robust scanner to tokenize source files, handling complex grammar rules, keywords, and punctuation operators." },
+        { title: "Parsing & AST", description: "Implemented a recursive descent parser to produce correct Abstract Syntax Trees capable of identifying syntactical errors precisely." },
+        { title: "Semantic Operations", description: "Handled scope validation, type checking, and operational precedence natively." }
+      ],
+      metrics: [],
+      architecture: "Source Code → Lexer → Parser → AST → Semantic Check → Code Gen",
+      showcaseImages: []
+    },
+
+    sections: [
+      {
+        id: "overview",
+        title: "Systems Engineering",
+        content: "Building a compiler from scratch provides unparalleled insight into how programming languages actually function. This project demonstrated low-level systems programming within Java, prioritizing strong software architecture and algorithmic thinking over pre-built libraries."
+      }
+    ]
   }
 ];

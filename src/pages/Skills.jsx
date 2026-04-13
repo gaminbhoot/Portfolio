@@ -147,53 +147,46 @@ export default function Skills() {
   const makeTiers = () => {
     const raw = [
       {
-        label: 'Proficient',
+        label: 'Primary',
         groups: [
           {
-            label: 'Data',
-            skills: ['Data Science · EDA', 'Python'],
-          },
-          {
-            label: 'Process',
-            skills: ['Project Development', 'Adaptability'],
-          },
-          {
-            label: 'Core',
-            skills: ['Git & GitHub'],
-          },
-        ],
-      },
-      {
-        label: 'Familiar',
-        groups: [
-          {
-            label: 'AI / ML',
-            skills: [
-              'OpenCV',
-              'YOLOv8',
-              'Deep SORT',
-              'NLP Frameworks',
-              'Ollama · vLLM · llama.cpp',
-              'NumPy · Pandas · Matplotlib · scikit-learn · Jupyter',
-            ],
+            label: 'AI / ML Base',
+            skills: ['Python', 'YOLOv8 & Computer Vision', 'Data Science & EDA', 'NLP Pipelines'],
           },
           {
             label: 'Frontend',
-            skills: [
-              'React · JavaScript · Vite',
-              'Tailwind CSS · HTML / CSS',
-              'Framer Motion · GSAP',
-              'Three.js',
-            ],
+            skills: ['React · JavaScript · Vite', 'Tailwind CSS'],
           },
           {
-            label: 'Backend',
-            skills: ['Flask', 'PHP', 'Java'],
+            label: 'Backend & Tooling',
+            skills: ['Flask', 'Java', 'Git & GitHub'],
           },
         ],
       },
       {
-        label: 'Exploring',
+        label: 'Working Knowledge',
+        groups: [
+          {
+            label: 'ML Tools',
+            skills: [
+              'OpenCV · Deep SORT',
+              'Ollama · vLLM · llama.cpp',
+              'NumPy · scikit-learn · Pandas',
+            ],
+          },
+          {
+            label: 'Web / Backend',
+            skills: [
+              'PHP',
+              'Framer Motion · GSAP',
+              'Three.js',
+              'HTML / Advanced CSS',
+            ],
+          },
+        ],
+      },
+      {
+        label: 'Learning',
         groups: [
           {
             label: 'AI / ML',

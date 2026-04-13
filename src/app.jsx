@@ -34,11 +34,20 @@ function useIsDesktop() {
 }
 
 function TokenOrNotFound() {
-  const { token } = useParams();
+  const { "*": splat } = useParams();
   const storedToken = sessionStorage.getItem('epoxyAccessToken');
-  const isValidToken = token && token === storedToken;
+  
+  // Only try to validate if they hit something that looks like an access token 
+  // (the math.random substrings are ~20-25 chars alphanumeric)
+  const isPossibleToken = splat && splat.length > 20 && /^[a-z0-9]+$/i.test(splat);
+  const isValidToken = isPossibleToken && splat === storedToken;
 
-  return isValidToken ? <Epoxy /> : <NotFound />;
+  if (isValidToken) {
+    return <Epoxy />;
+  }
+
+  // Any other URL just explicitly shows NotFound. No blank/broken pages.
+  return <NotFound />;
 }
 
 function ScrollToTopOnRouteChange() {
