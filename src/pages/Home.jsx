@@ -226,14 +226,17 @@ export default function TerminalHero() {
 
               {/* ── HEADING — LCP element ─────────────────── */}
               <h1
-                className="hero-title text-3xl md:text-5xl font-black tracking-tight uppercase"
+                className="hero-title text-2xl md:text-4xl lg:text-5xl font-black tracking-tight uppercase leading-tight"
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
-                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
-                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Learning.</span>
-                <br />
-                <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Still</span>{" "}
-                <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Shipping.</span>
+                <div>
+                  <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Building</span>{" "}
+                  <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">AI Systems</span>
+                </div>
+                <div className="mt-1 md:mt-2">
+                  <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">& Frontend</span>{" "}
+                  <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Experiences.</span>
+                </div>
               </h1>
 
               {/* ── ABOUT COMMAND OUTPUT ─────────────────────────── */}
@@ -259,10 +262,9 @@ export default function TerminalHero() {
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
                       <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, building in {hi("AI/ML")} and {hi("frontend engineering")}.</span>,
-                      <span>Shipped {hi("YOLOv8 + DeepSORT")} object tracking, a {hi("Groq-powered")} LLM chatbot, and a full {hi("compiler pipeline")} in Java.</span>,
-                      <span>Worked across {hi("DNNs")}, {hi("NLP pipelines")}, and {hi("LLM integrations")}.</span>,
-                      <span>Moving {hi("beyond academic projects")} into production ready systems.</span>,
-                      <span>Comfortable across the stack — from {hi("computer vision pipelines")} to {hi("responsive frontend systems")}.</span>,
+                      <span>Shipped a {hi("Groq-powered LLM")} product, a {hi("Java compiler")}, and {hi("YOLOv8 + DeepSORT")} models achieving {hi(">0.70 mAP")} confidence.</span>,
+                      <span>Focused on engineering maturity — building resilient systems with {hi("optimized vision pipelines")}, {hi("mobile kill-switches")}, and {hi("lazy loading")}.</span>,
+                      <span>Comfortable across the entire stack — from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line">
                         <span className="text-indigo-400/70 mr-2 select-none">›</span>
