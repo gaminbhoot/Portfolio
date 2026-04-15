@@ -248,51 +248,167 @@ export const projectsData = [
     id: "abhisar-llm",
     title: "Abhisar: Groq-Powered LLM Product",
     category: "Full-Stack AI Product",
-    year: "2024",
+    year: "2026",
     thumbnail: "/images/abhisar/thumb.webp",
     heroImage: "/images/abhisar/hero.webp",
     githubLink: "https://github.com/gaminbhoot/Abhisar",
     prototypeLink: "https://abhisar.jayjoshi.online/",
 
     summary: {
-      tagline: "A massively fast, user-facing conversational AI client powered by Groq and LLaMA models, wrapped in a responsive React frontend.",
+      tagline:
+        "A massively fast, user-facing conversational AI client powered by Groq and LLaMA models, wrapped in a responsive React frontend.",
+      projectMeta: {
+        role: "Founder-builder (product, frontend, backend integration)",
+        teamSize: "1",
+        duration: "Iterative product build",
+        status: "Live prototype",
+        audience:
+          "General users seeking fast, friendly conversational AI experiences",
+      },
       keyTechnologies: [
         "React for UI/UX",
         "Groq API for inference",
-        "LLaMA 3 Models",
-        "Node.js Backend",
-        "REST API Integration",
-        "Tailwind CSS"
+        "LLaMA 3 models",
+        "Node.js backend",
+        "REST API integration",
+        "Tailwind CSS",
       ],
       technicalHighlights: [
-        { title: "Instant Inference", description: "Leveraged Groq's LPU architecture to achieve near-zero latency text generation inside a responsive Web App." },
-        { title: "Conversation State", description: "Built robust frontend state management to handle complex chat histories, streaming tokens, and prompt context windows." },
-        { title: "Product Thinking", description: "Designed an intuitive, accessible user interface optimized for high-speed engagement and real-world user adoption." }
+        {
+          title: "Instant Inference",
+          description:
+            "Leveraged Groq's LPU architecture to achieve near-zero latency text generation inside a responsive web application.",
+        },
+        {
+          title: "Conversation State",
+          description:
+            "Built robust frontend state management to handle complex chat histories, streaming tokens, and prompt context windows.",
+        },
+        {
+          title: "Product Thinking",
+          description:
+            "Designed an intuitive, accessible user interface optimized for high-speed engagement and practical user adoption.",
+        },
+        {
+          title: "Resilient API Integration",
+          description:
+            "Implemented robust request handling, graceful fallbacks, and latency-conscious UX states for production-like reliability.",
+        },
+        {
+          title: "Memory and Session Design",
+          description:
+            "Structured conversation memory and context-window management to preserve relevant history while controlling token growth.",
+        },
       ],
       metrics: [
         "Sub-100ms time to first token",
-        "Seamless state synchronization across conversational turns"
+        "Seamless state synchronization across conversational turns",
+        "Responsive behavior across desktop and mobile layouts",
+        "Reduced perceived wait times via streaming-first UX",
       ],
-      architecture: "React Frontend → Node.js/Express Middleware → Groq API → LLaMA 3",
-      showcaseImages: []
+      architecture: "React Frontend -> Node.js/Express Middleware -> Groq API -> LLaMA 3",
+      myContributions: [
+        "Designed product direction and conversation UX philosophy",
+        "Built frontend architecture for stateful, streaming chat",
+        "Integrated backend middleware for model orchestration and API security boundaries",
+        "Implemented persistent chat memory and client-side experience polish",
+      ],
+      engineeringDecisions: [
+        "Used middleware layer to isolate provider concerns and simplify frontend logic",
+        "Prioritized low-latency interaction patterns over heavy feature bloat",
+        "Designed for iterative model/provider swaps with minimal UI disruption",
+      ],
+      testingAndValidation: [
+        "Conversation flow testing across long and short context windows",
+        "Latency profiling under different network conditions",
+        "UI responsiveness and mobile usability checks",
+      ],
+      deploymentAndOps: [
+        "Environment-based API configuration for secure deployment",
+        "Production-ready web deployment with static frontend hosting and API middleware",
+      ],
+      keyOutcomes: [
+        "Delivered a real user-facing LLM product with strong speed perception",
+        "Validated Groq-backed low-latency UX for consumer chat interactions",
+        "Established extensible architecture for multi-model expansion",
+      ],
+      showcaseImages: [
+        { image: "/images/abhisar/hero.webp", title: "Product Experience" },
+        { image: "/images/abhisar/thumb.webp", title: "UI Snapshot" },
+      ],
     },
 
     sections: [
       {
         id: "overview",
         title: "The Product",
-        content: "Abhisar is an applied AI web application designed to put ultra-fast inference directly into the hands of users. Unlike heavy, delayed APIs, utilizing the Groq integration enabled near-instantaneous responses, radically improving the user experience of interacting with LLMs."
-      }
-    ]
+        image: "/images/abhisar/overview.webp",
+        pullQuote:
+          "Speed is not just a performance metric. In conversational AI, it is the product experience.",
+        content:
+          "Abhisar is an applied AI web application designed to put ultra-fast inference directly into users' hands. Unlike heavy, delayed APIs, Groq integration enabled near-instant responses, dramatically improving the experience of everyday conversational AI.",
+      },
+      {
+        id: "problem",
+        title: "The Problem",
+        image: "/images/abhisar/problem.webp",
+        content:
+          "Most AI chat products feel computationally capable but experientially weak. Users tolerate delay, context drops, and UI friction because they have no better baseline. The project began with a product question rather than a model question: what would a conversational interface feel like if responsiveness, continuity, and emotional usability were treated as first-class constraints instead of afterthoughts? Abhisar was built as a practical answer to that question.",
+      },
+      {
+        id: "product-strategy",
+        title: "Product Strategy",
+        image: "/images/abhisar/strategy.webp",
+        content:
+          "The strategy aligned around three principles: speed as perceived trust, minimal interaction friction, and conversational continuity over feature clutter. Rather than overloading the interface with controls, the design favors flow: instant feedback, stable history behavior, and clear response states. The objective was not to simulate complexity but to preserve momentum so users stay in the conversation instead of managing the tool.",
+      },
+      {
+        id: "architecture",
+        title: "Architecture",
+        image: "/images/abhisar/architecture.webp",
+        content:
+          "The system is intentionally layered. React manages rendering and state transitions, the middleware tier manages API boundaries and provider orchestration, and Groq-backed LLaMA inference drives generation. This separation keeps the client predictable while preserving backend flexibility for provider swaps, model routing, and policy updates. Architectural modularity was prioritized early so product iteration could happen without repeated rewrites.",
+      },
+      {
+        id: "state-management",
+        title: "Conversation State",
+        image: "/images/abhisar/state.webp",
+        content:
+          "State management was the critical engineering layer. Streaming responses, request lifecycles, user edits, and historical context needed to remain coherent even under variable network conditions. The implementation tracks conversation turns with deterministic update rules so partial and final outputs never corrupt history. Context windows are managed deliberately to preserve semantic continuity while controlling latency and token growth.",
+      },
+      {
+        id: "latency",
+        title: "Latency Engineering",
+        image: "/images/abhisar/latency.webp",
+        content:
+          "Latency was treated as both infrastructure behavior and product psychology. Provider choice, streaming delivery, and immediate UI feedback loops were tuned together so users perceive momentum from the first interaction. Time to first token and time to usable response became practical product metrics, not hidden backend numbers. The outcome is a chat rhythm that feels conversational rather than request-response transactional.",
+      },
+      {
+        id: "results",
+        title: "Results",
+        image: "/images/abhisar/results.webp",
+        content:
+          "The product achieved fast response onset in favorable conditions and sustained stable multi-turn behavior under realistic usage. Session continuity remained reliable across longer interactions, and users experienced fewer interruptions from waiting states. Compared to traditional blocking-response interfaces, the streaming-first design substantially improved perceived speed and conversational flow, which directly supports retention and repeated use.",
+      },
+      {
+        id: "future",
+        title: "Future Scope",
+        image: "/images/abhisar/future.webp",
+        layout: "text-only",
+        content:
+          "Next iterations include intent-aware model routing, user-level memory controls, and stronger observability for response quality, cost, and latency outliers. The architecture is already prepared for multi-model orchestration and personalization layers. Long-term, the direction is an adaptive conversational platform where interface behavior and model selection co-evolve based on user context and interaction patterns.",
+      },
+    ],
   },
+      
   {
     id: "java-compiler",
     title: "Mini Compiler Pipeline",
     category: "Systems & Tooling",
-    year: "2024",
+    year: "2026",
     thumbnail: "/images/compiler/thumb.webp",
     heroImage: "/images/compiler/hero.webp",
-    githubLink: "https://github.com/gaminbhoot/compiler-pipeline",
+    githubLink: "https://github.com/gaminbhoot/mini_compiler",
     
     summary: {
       tagline: "A custom language compiler built fully in Java, featuring robust lexical analysis, abstract syntax tree (AST) construction, and assembly generation.",
@@ -320,5 +436,79 @@ export const projectsData = [
         content: "Building a compiler from scratch provides unparalleled insight into how programming languages actually function. This project demonstrated low-level systems programming within Java, prioritizing strong software architecture and algorithmic thinking over pre-built libraries."
       }
     ]
-  }
+  },
+  {
+  id: "sysaware-ml-optimizer",
+  title: "SysAware ML Optimizer",
+  category: "Machine Learning / Systems Engineering",
+  year: "2026",
+  thumbnail: "/images/sysaware/thumb.webp",
+  heroImage: "/images/sysaware/hero.webp",
+  githubLink: "https://github.com/gaminbhoot/sysaware-ml-optimizer",
+  
+  summary: {
+    tagline: "An advanced, hardware-aware tool designed to dynamically profile, compress, and accelerate PyTorch models based on the host system's physical capabilities.",
+    keyTechnologies: [
+      "Python 3.9+",
+      "PyTorch (CUDA & MPS Support)",
+      "Streamlit for rapid UX",
+      "Python tracemalloc & psutil",
+      "Subprocess & CLI Systems"
+    ],
+    technicalHighlights: [
+      { title: "Security-First Model Loading", description: "Mitigates arbitrary code execution vulnerabilities during serialization by strictly enforcing torch.load(..., weights_only=True) boundaries, protecting local environments from malicious payloads." },
+      { title: "Dynamic Hardware Tiering", description: "Replaces hardcoded tier rules with algorithmic checks mapping model sizes against accessible memory ratios, robustly shifting between CPU, GPU, and Apple Silicon MPS domains." },
+      { title: "Robust Benchmarking Mechanics", description: "Utilizes Python's 'tracemalloc' internally to measure actual intermediate tensors footprints seamlessly, cutting off benchmarks dynamically once inferences reach a tight coefficient of variance (CoV < 5%)." },
+      { title: "Expanded INT8 Quantization", description: "Automatically traverses nested layer blocks and dynamically compresses structural networks including Conv1d, Conv2d, Conv3d, LSTM, and GRU operations alongside standard Linear perceptrons." },
+      { title: "Intelligent Prompt Optimizer", description: "A decoupled heuristic compiler that evaluates instruction prompts natively, targeting and recursively stripping semantic stop-words while restructuring the remaining text into formatted templates." }
+    ],
+    metrics: [
+      "Hardware agnostic support: CPU, CUDA, and Apple Silicon MPS",
+      "Sub-5% Variance (CoV) tracking for dynamic micro-benchmarks",
+      "Format-compliant JSON runtime error envelopes",
+      "Optimized Disk-based state cloning to prevent OOM errors"
+    ],
+    architecture: "CLI / Streamlit GUI → Hardware Profiler → Model Estimator (Tracemalloc) → Strategy Engine → AutoTuner (INT8/FP16) → JSON Result Endpoint",
+    showcaseImages: []
+  },
+
+  sections: [
+    {
+      id: "overview",
+      title: "Overview",
+      image: "/images/sysaware/overview.webp",
+      content: "SysAware ML Optimizer bridges the gap between deep learning infrastructure and production optimization. Built as a comprehensive toolkit, it analyzes latency constraints, dynamically estimates intermediate activation footprints, and autotunes PyTorch models targeting INT8 or FP16 formats based on real-time hardware capabilities seamlessly across Windows, Linux, and macOS environments."
+    },
+    {
+      id: "problem",
+      title: "The Problem",
+      image: "/images/sysaware/problem.webp",
+      content: "Machine learning models are frequently deployed in heavily constrained environments. Static parameter counts fail to reflect actual memory limits because they blindside runtime gradients and expansive intermediate activation states. Furthermore, legacy model loading mechanisms invite critical security vulnerabilities via arbitrary code execution, and standard optimization cloning crashes constrained machines through exponential memory ballooning. A dynamic, resilient pipeline was needed."
+    },
+    {
+      id: "architecture",
+      title: "Core Architecture & Security",
+      image: "/images/sysaware/architecture.webp",
+      content: "Every optimization pass is driven by strict type contracts and modular decoupling. Security is treated as a first-class citizen unsafe deep copies were deprecated in favor of a disk-cached state load mechanism to prevent OOM exhaustion. Moreover, malicious payload injection via unpickling was mitigated outright by strictly enforcing 'weights_only=True' instantiation policies."
+    },
+    {
+      id: "benchmarking",
+      title: "Hardware Profiling & Benchmarking",
+      image: "/images/sysaware/benchmarking.webp",
+      content: "The profiler autonomously extracts comprehensive hardware topologies, surfacing system RAM, CUDA availability, and Apple Silicon MPS configurations. Rather than estimating execution via static parameter equations, SysAware measures real execution cost dynamically. It utilizes Python's native 'tracemalloc' directly wrapped around target prediction loops capturing exact memory footprints, persisting iterations exactly until variance stabilizes below 5%."
+    },
+    {
+      id: "optimization",
+      title: "Advanced Quantization & Prompt Engineering",
+      image: "/images/sysaware/optimization.webp",
+      content: "Beyond elementary linear blocks, the engine quantizes complex sequential layer paradigms safely, bringing Conv1d, Conv2d, Conv3d, LSTM, and GRU instances down to INT8. Adjacent to model optimization sits the Prompt Optimizer an algorithmic regex-bound engine scoring NLP instruction structures, automatically slicing semantic filler-words while yielding tactical templates optimized for downstream language execution."
+    },
+    {
+      id: "deployment",
+      title: "Enterprise Deployment",
+      image: "/images/sysaware/deployment.webp",
+      content: "SysAware was built to thrive within pipeline automation interfaces. The CLI envelope catches missing files or environment panics natively, encapsulating structural crashes into controlled HTTP 500-equivalent JSON payloads readable by CI runners. Conversely, human engagement happens seamlessly via its integrated Streamlit GUI, which incorporates aggressive stale-state invalidation hooks preventing latency when evaluating diverse model payloads iteratively."
+    }
+  ]
+}
 ];
