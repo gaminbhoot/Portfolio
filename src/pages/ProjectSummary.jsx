@@ -255,7 +255,76 @@ export default function ProjectSummary() {
                     <div className="w-8 h-[2px] bg-gradient-to-r from-indigo-400 to-transparent group-hover:w-12 transition-all duration-500" />
                     <span className="text-xs font-mono uppercase tracking-widest text-indigo-400 group-hover:text-indigo-300 transition-colors duration-300">Overview</span>
                   </div>
-                  <p className="text-lg md:text-xl text-white font-light leading-relaxed group-hover:text-gray-100 transition-colors duration-300">{summary.tagline}</p>
+                  <p className="text-lg md:text-xl text-white font-light leading-relaxed group-hover:text-gray-100 transition-colors duration-300 mb-6">{summary.tagline}</p>
+                  
+                  {/* Recruiter specific fast-facts table */}
+                  {summary.projectMeta && (
+                    <div className="grid grid-cols-2 gap-4 py-4 px-5 rounded-xl bg-white/[0.02] border border-white/10 mb-6">
+                      {summary.projectMeta.role && (
+                        <div>
+                          <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">My Role</p>
+                          <p className="text-sm text-gray-200">{summary.projectMeta.role}</p>
+                        </div>
+                      )}
+                      {summary.projectMeta.status && (
+                        <div>
+                          <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">Result / Status</p>
+                          <p className="text-sm text-gray-200">{summary.projectMeta.status}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {!summary.projectMeta && id === "ai-motion-tracker" && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-5 rounded-xl bg-white/[0.02] border border-white/10 mb-6 group-hover:bg-white/[0.04] transition-colors duration-300">
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Problem</p>
+                        <p className="text-sm text-gray-300 leading-snug">Legacy detection relies on background subtraction with zero cross-frame identity tracking.</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">My Role</p>
+                        <p className="text-sm text-white font-medium leading-snug">Sole Engineer (Architecture, ML pipeline, full-stack deployment)</p>
+                      </div>
+                      <div className="md:col-span-2 mt-1">
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Result</p>
+                        <p className="text-sm text-gray-300 leading-snug">Built a real-time YOLOv8 + Deep SORT tracking pipeline with spatial heatmap analytics streamed via Flask.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {!summary.projectMeta && id === "octawipe" && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-5 rounded-xl bg-white/[0.02] border border-white/10 mb-6 group-hover:bg-white/[0.04] transition-colors duration-300">
+                      <div className="md:col-span-2">
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Problem</p>
+                        <p className="text-sm text-gray-300 leading-snug">E-waste processing lacks verifiable, cross-platform drive wiping with cryptographic proof of destruction.</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">My Role</p>
+                        <p className="text-sm text-white font-medium leading-snug">Research & Frontend Developer</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Result</p>
+                        <p className="text-sm text-gray-300 leading-snug">Engineered a NIST/DoD-compliant sanitization system distributed via PXE network boot and Live USB.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {!summary.projectMeta && id === "sysaware-ml-optimizer" && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-5 rounded-xl bg-white/[0.02] border border-white/10 mb-6 group-hover:bg-white/[0.04] transition-colors duration-300">
+                      <div className="md:col-span-2">
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Problem</p>
+                        <p className="text-sm text-gray-300 leading-snug">Predicting raw memory footprints and dynamic latency bottlenecks for PyTorch models across heterogeneous hardware is highly inaccurate using static parameter estimations.</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">My Role</p>
+                        <p className="text-sm text-white font-medium leading-snug">Machine Learning Engineer (Optimization, Profiling, Toolkit dev)</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest mb-1.5">The Result</p>
+                        <p className="text-sm text-gray-300 leading-snug">Developed a dynamic quantizer and hardware profiler toolkit for fast, automated model translation to INT8/FP16 pipelines.</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 {summary.architecture && (
                   <div className="mb-6 pb-6 border-b border-white/10 group-hover:border-white/20 transition-colors duration-300">

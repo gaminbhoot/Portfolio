@@ -261,7 +261,7 @@ export const projectsData = [
         role: "Founder-builder (product, frontend, backend integration)",
         teamSize: "1",
         duration: "Iterative product build",
-        status: "Live prototype",
+        status: "Built an ultra-fast responsive React client powered by Groq's LPU and LLaMA 3.",
         audience:
           "General users seeking fast, friendly conversational AI experiences",
       },
