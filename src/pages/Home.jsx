@@ -250,9 +250,15 @@ export default function TerminalHero() {
                   <span className="text-indigo-400">role:</span>
                   <span className="text-white/90">AI/ML Engineer</span>
                   <span className="text-white/20">·</span>
-                  <span className="text-white/90">Frontend Development</span>
-                  <span className="text-white/20">·</span>
-                  <span className="text-green-400/80">Open to Internships</span>
+                  <span className="text-white/90">Frontend Developer</span>
+                </div>
+                
+                <div className="role-line flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs mt-2">
+                   <span className="flex h-1.5 w-1.5 relative">
+                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400"></span>
+                   </span>
+                   <span className="text-green-400/90 font-semibold tracking-wide">Available for Internships & Roles</span>
                 </div>
 
                 <div className="about-divider h-px w-full bg-white/10" />
@@ -266,11 +272,38 @@ export default function TerminalHero() {
                       <span>Focused on engineering maturity — building resilient systems with {hi("optimized vision pipelines")}, {hi("mobile kill-switches")}, and {hi("lazy loading")}.</span>,
                       <span>Comfortable across the entire stack — from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
                     ].map((line, i) => (
-                      <p key={i} className="about-line">
-                        <span className="text-indigo-400/70 mr-2 select-none">›</span>
+                      <p key={i} className="about-line flex items-start">
+                        <span className="text-indigo-400/70 mr-2 select-none mt-0.5">›</span>
                         <span className="text-white/80">{line}</span>
                       </p>
                     ))}
+                    
+                    <div className="about-line pt-6 block">
+                      <div className="mb-3">
+                        <span className="text-indigo-400 font-mono text-sm">jay@system:~$</span>{" "}
+                        <span className="text-white font-mono text-sm">connect</span>
+                      </div>
+                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-mono">
+                        <span 
+                          onClick={() => window.open('https://github.com/gaminbhoot', '_blank', 'noopener,noreferrer')} 
+                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
+                        >
+                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> GitHub
+                        </span>
+                        <span 
+                          onClick={handleResumeDownload} 
+                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[15px]"
+                        >
+                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Get Resume
+                        </span>
+                        <span 
+                          onClick={() => window.open('https://linkedin.com/in/gaminbhoot', '_blank', 'noopener,noreferrer')} 
+                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
+                        >
+                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> LinkedIn
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
                   <div
@@ -302,7 +335,7 @@ export default function TerminalHero() {
                 </div>
 
                 {/* ── STATUS BAR ─────────────────────────────────── */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs mt-6 pt-4 border-t border-white/10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mt-6 pt-4 border-t border-white/10">
 
                   {statusCards.map(({ label, value, color, dot }) => (
                     <div
@@ -316,42 +349,6 @@ export default function TerminalHero() {
                       </p>
                     </div>
                   ))}
-
-                  <button
-                    onClick={handleResumeDownload}
-                    className="
-                      resume-card
-                      relative overflow-hidden
-                      p-3 rounded-lg
-                      border border-indigo-400/40
-                      bg-indigo-500/10
-                      text-left
-                      transition-all duration-300
-                      hover:scale-105
-                      hover:bg-indigo-500/20
-                      hover:border-indigo-400/70
-                      hover:shadow-lg hover:shadow-indigo-500/30
-                      active:scale-95
-                      group
-                      cursor-pointer
-                    "
-                  >
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none" />
-                    <p className="text-indigo-300/70 group-hover:text-indigo-300 transition-colors duration-300 uppercase tracking-widest text-[10px] font-bold">
-                      RESUME
-                    </p>
-                    <p className="text-indigo-300 font-semibold flex items-center gap-1.5 mt-0.5">
-                      Download
-                      <svg
-                        className="w-3 h-3 transition-transform duration-300 group-hover:translate-y-0.5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3" />
-                      </svg>
-                    </p>
-                  </button>
 
                 </div>
               </div>
