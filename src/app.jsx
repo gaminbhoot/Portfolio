@@ -7,7 +7,6 @@ import GlassOverlay from "./components/background/GlassOverlay";
 import Dock from "./components/dock/Dock";
 
 const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
-// const ColorBends = lazy(() => import("./components/background/ColorBends"));
 
 const Home = lazy(() => import("./pages/Home"));
 // const About = lazy(() => import("./pages/About"));

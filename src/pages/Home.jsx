@@ -284,20 +284,26 @@ export default function TerminalHero() {
                         <span className="text-white font-mono text-sm">connect</span>
                       </div>
                       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-mono">
-                        <span 
-                          onClick={() => window.open('https://github.com/gaminbhoot', '_blank', 'noopener,noreferrer')} 
+                        <span
+                          onClick={() => window.open('mailto:jay05.joshi@gmail.com', '_self')}
+                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[15px]"
+                        >
+                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Email Me
+                        </span>
+                        <span
+                          onClick={() => window.open('https://github.com/gaminbhoot', '_blank', 'noopener,noreferrer')}
                           className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> GitHub
                         </span>
-                        <span 
-                          onClick={handleResumeDownload} 
+                        <span
+                          onClick={handleResumeDownload}
                           className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[15px]"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Get Resume
                         </span>
-                        <span 
-                          onClick={() => window.open('https://linkedin.com/in/gaminbhoot', '_blank', 'noopener,noreferrer')} 
+                        <span
+                          onClick={() => window.open('https://linkedin.com/in/gaminbhoot', '_blank', 'noopener,noreferrer')}
                           className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> LinkedIn
