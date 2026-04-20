@@ -268,8 +268,8 @@ export default function TerminalHero() {
                   <div className="flex-1 space-y-3 text-s leading-relaxed">
                     {[
                       <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, building in {hi("AI/ML")} and {hi("frontend engineering")}.</span>,
-                      <span>Shipped a {hi("Groq-powered LLM")} product, a {hi("Java compiler")}, and {hi("YOLOv8 + DeepSORT")} models achieving {hi(">0.70 mAP")} confidence.</span>,
-                      <span>Focused on engineering maturity — building resilient systems with {hi("optimized vision pipelines")}, {hi("mobile kill-switches")}, and {hi("lazy loading")}.</span>,
+                      <span>Shipped a {hi("Groq-powered LLM")} product, a {hi("Model optimizer")}, and {hi("YOLOv8 + DeepSORT")} models achieving {hi(">0.70 mAP")} confidence.</span>,
+                      <span>Focused on engineering maturity — building resilient systems with {hi("optimized pipelines")}, {hi("excellent performance")}, and {hi("good visuals")}.</span>,
                       <span>Comfortable across the entire stack — from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line flex items-start">
@@ -286,25 +286,25 @@ export default function TerminalHero() {
                       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-mono">
                         <span
                           onClick={() => window.open('mailto:jay05.joshi@gmail.com', '_self')}
-                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[15px]"
+                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Email Me
                         </span>
                         <span
                           onClick={() => window.open('https://github.com/gaminbhoot', '_blank', 'noopener,noreferrer')}
-                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
+                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> GitHub
                         </span>
                         <span
                           onClick={handleResumeDownload}
-                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[15px]"
+                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Get Resume
                         </span>
                         <span
                           onClick={() => window.open('https://linkedin.com/in/gaminbhoot', '_blank', 'noopener,noreferrer')}
-                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none"
+                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
                           <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> LinkedIn
                         </span>
