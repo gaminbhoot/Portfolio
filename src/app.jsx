@@ -4,9 +4,9 @@ import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import GlassOverlay from "./components/background/GlassOverlay";
-import Dock from "./components/dock/Dock";
 
 const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
+const Dock = lazy(() => import("./components/dock/Dock"));
 
 const Home = lazy(() => import("./pages/Home"));
 // const About = lazy(() => import("./pages/About"));
@@ -145,7 +145,9 @@ function AppContent() {
         }}
       >
         <div className="pointer-events-auto">
-          <Dock items={dockItems} />
+          <Suspense fallback={null}>
+            <Dock items={dockItems} />
+          </Suspense>
         </div>
       </footer>
       <SpeedInsights />
