@@ -1,9 +1,27 @@
 import React, { lazy, Suspense, useState, useEffect, useMemo } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-
 import GlassOverlay from "./components/background/GlassOverlay";
+
+const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
+
+// Idle wrapper to prevent main-thread blocking on initial load
+function IdleSpeedInsights() {
+  const [shouldRender, setShouldRender] = useState(false);
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => setShouldRender(true));
+    } else {
+      setTimeout(() => setShouldRender(true), 2000);
+    }
+  }, []);
+  if (!shouldRender) return null;
+  return (
+    <Suspense fallback={null}>
+      <SpeedInsights />
+    </Suspense>
+  );
+}
 
 const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
 const Dock = lazy(() => import("./components/dock/Dock"));
@@ -150,7 +168,7 @@ function AppContent() {
           </Suspense>
         </div>
       </footer>
-      <SpeedInsights />
+      <IdleSpeedInsights />
     </>
   );
 }

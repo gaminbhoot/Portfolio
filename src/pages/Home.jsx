@@ -134,35 +134,35 @@ export default function TerminalHero() {
         { opacity: 0, x: -20 },
         {
           opacity: 1, x: 0, duration: 0.5, ease: "power2.out",
-          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 85%", toggleActions: "play none none none" },
+          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 85%", toggleActions: "play none none none" }
         }
       );
       gsap.fromTo(".about-divider",
         { scaleX: 0, transformOrigin: "left" },
         {
           scaleX: 1, duration: 0.8, ease: "power2.inOut",
-          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 82%", toggleActions: "play none none none" },
+          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 82%", toggleActions: "play none none none" }
         }
       );
       gsap.fromTo(".about-line",
         { opacity: 0, x: -16, filter: "blur(3px)" },
         {
           opacity: 1, x: 0, filter: "blur(0px)", duration: 0.55, stagger: 0.13, ease: "power2.out",
-          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 78%", toggleActions: "play none none none" },
+          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 78%", toggleActions: "play none none none" }
         }
       );
       gsap.fromTo(cardRef.current,
         { opacity: 0, y: 30, scale: 0.95 },
         {
           opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "back.out(1.4)",
-          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 72%", toggleActions: "play none none none" },
+          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 72%", toggleActions: "play none none none" }
         }
       );
       gsap.fromTo(".after-prompt",
         { opacity: 0 },
         {
           opacity: 1, duration: 0.5, ease: "power2.out",
-          scrollTrigger: { trigger: ".after-prompt", start: "top 90%", toggleActions: "play none none none" },
+          scrollTrigger: { trigger: aboutOutputRef.current, start: "top 95%", toggleActions: "play none none none" }
         }
       );
 
