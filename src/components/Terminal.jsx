@@ -98,7 +98,7 @@ export default function Terminal({
           {title}
         </div>
 
-        <div className="text-[10px] text-white/40 font-mono hidden sm:block">
+        <div className="text-[10px] text-white/60 font-mono hidden sm:block">
           {subtitle}
         </div>
       </div>

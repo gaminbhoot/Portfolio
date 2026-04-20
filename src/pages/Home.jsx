@@ -210,7 +210,7 @@ export default function TerminalHero() {
                 <span className="terminal-dot h-3 w-3 rounded-full bg-yellow-400/70 hover:bg-yellow-400 transition-colors duration-300 hover:scale-110 hover:shadow-lg hover:shadow-yellow-400/50" />
                 <span className="terminal-dot h-3 w-3 rounded-full bg-green-500/70 hover:bg-green-500 transition-colors duration-300 hover:scale-110 hover:shadow-lg hover:shadow-green-500/50" />
               </div>
-              <span className="text-[10px] font-mono tracking-widest text-white/50 hover:text-white/80 transition-colors duration-300">
+              <span className="text-[10px] font-mono tracking-widest text-white/60 hover:text-white/80 transition-colors duration-300">
                 portfolio.boot
               </span>
             </div>
@@ -249,7 +249,7 @@ export default function TerminalHero() {
                 <div className="role-line flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm">
                   <span className="text-indigo-400">role:</span>
                   <span className="text-white/90">AI/ML Engineer</span>
-                  <span className="text-white/20">·</span>
+                  <span className="text-white/40">·</span>
                   <span className="text-white/90">Frontend Developer</span>
                 </div>
                 
@@ -348,7 +348,7 @@ export default function TerminalHero() {
                       key={label}
                       className="status-card group hover:bg-white/5 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:border hover:border-white/20"
                     >
-                      <p className="text-white/40 group-hover:text-white/60 transition-colors duration-300">{label}</p>
+                      <p className="text-white/60 group-hover:text-white/80 transition-colors duration-300">{label}</p>
                       <p className={`${color} group-hover:opacity-80 transition-colors duration-300 font-semibold flex items-center gap-2`}>
                         {value}
                         {dot && <span className="inline-block w-2 h-2 rounded-full bg-green-400 group-hover:animate-pulse" />}
