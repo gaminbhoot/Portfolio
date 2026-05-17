@@ -6,115 +6,87 @@ import { usePageMeta } from '../lib/usePageMeta';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Module-level constant — same pattern across all pages ─────────────────────
-const IS_TOUCH_DEVICE =
-  typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+// ── Constants & Helpers ──────────────────────────────────────────────────────
+const IS_TOUCH_DEVICE = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+const PREFERS_REDUCED_MOTION = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ── Static data — no deps, no reason to live inside the component ─────────────
 const CONTACT_LINKS = [
-  {
-    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com',
-    icon: <Mail size={18} />,
-    label: 'Email',
-    value: 'jay05.joshi@gmail.com',
-    note: 'Preferred channel',
-  },
-  {
-    href: 'https://linkedin.com/in/gaminbhoot',
-    icon: <Linkedin size={18} />,
-    label: 'LinkedIn',
-    value: 'linkedin.com/in/gaminbhoot',
-    note: 'Connect professionally',
-  },
-  {
-    href: 'https://github.com/gaminbhoot',
-    icon: <Github size={18} />,
-    label: 'GitHub',
-    value: 'github.com/gaminbhoot',
-    note: 'View my work',
-  },
+  { href: 'https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com', icon: <Mail size={18} />, label: 'Email', value: 'jay05.joshi@gmail.com', note: 'Preferred channel' },
+  { href: 'https://linkedin.com/in/gaminbhoot', icon: <Linkedin size={18} />, label: 'LinkedIn', value: 'linkedin.com/in/gaminbhoot', note: 'Connect professionally' },
+  { href: 'https://github.com/gaminbhoot', icon: <Github size={18} />, label: 'GitHub', value: 'github.com/gaminbhoot', note: 'View my work' },
 ];
 
+// ── Sub-Component: Input Field (Fixes focus logic & accessibility) ─────────────
+const ContactInput = ({ label, name, type = "text", placeholder, focused, onFocus, onBlur, isTextArea = false }) => {
+  const InputTag = isTextArea ? 'textarea' : 'input';
+  return (
+    <div className="form-row group relative">
+      <label className="contact-label">
+        <span className="text-indigo-400/60">›</span> {label}
+        {focused && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
+      </label>
+      <InputTag
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        className="contact-input"
+        onFocus={() => onFocus(name)}
+        onBlur={() => onBlur()}
+        {...(isTextArea ? { rows: 4 } : {})}
+      />
+      <div className={`contact-input-line ${focused ? 'contact-input-line-active' : ''}`} />
+    </div>
+  );
+};
+
+// ── Main Component ────────────────────────────────────────────────────────────
 export default function Contact() {
   usePageMeta({
     title: 'Contact | Jay Joshi',
-    description:
-      'Get in touch with Jay Joshi for internships, hybrid roles, freelance projects, and technical collaboration.',
+    description: 'Get in touch with Jay Joshi for internships, hybrid roles, freelance projects, and technical collaboration.',
     path: '/contact',
   });
 
   const containerRef = useRef(null);
-  const headerRef    = useRef(null);
-  const formRef      = useRef(null);
-  const infoRef      = useRef(null);
+  const headerRef = useRef(null);
+  const formRef = useRef(null);
+  const infoRef = useRef(null);
 
-  const [formFocused,  setFormFocused]  = useState(null);
-  const [submitted,    setSubmitted]    = useState(false);
-  const [submitError,  setSubmitError]  = useState(false);
+  const [formFocused, setFormFocused] = useState(null);
+  const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
+  // 1. Animations Logic
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo('.contact-badge',
-        { opacity: 0, y: -20 },
-        {
-          opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
-        }
-      );
-      gsap.fromTo('.contact-heading .word',
-        { opacity: 0, y: 80, rotationX: -60 },
-        {
-          opacity: 1, y: 0, rotationX: 0, duration: 1.2, stagger: 0.12, ease: 'power4.out',
-          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
-        }
-      );
-      gsap.fromTo('.contact-subtext',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1, y: 0, duration: 1, delay: 0.4, ease: 'power3.out',
-          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
-        }
-      );
-      gsap.fromTo('.header-divider',
-        { scaleX: 0, transformOrigin: 'left center' },
-        {
-          scaleX: 1, duration: 1.2, delay: 0.6, ease: 'power3.inOut',
-          scrollTrigger: { trigger: headerRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
-        }
-      );
-      gsap.fromTo('.info-card',
-        { opacity: 0, x: -50 },
-        {
-          opacity: 1, x: 0, duration: 1, stagger: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: infoRef.current, start: 'top 75%', toggleActions: 'play none none reverse' },
-        }
-      );
-      gsap.fromTo('.form-row',
-        { opacity: 0, x: 50, filter: 'blur(8px)' },
-        {
-          opacity: 1, x: 0, filter: 'blur(0px)', duration: 1, stagger: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: formRef.current, start: 'top 72%', toggleActions: 'play none none reverse' },
-        }
-      );
+      // If user prefers reduced motion, don't run heavy animations
+      if (PREFERS_REDUCED_MOTION) return;
 
-      // Orb parallax — skip on touch (blurred radial gradient + scrub = expensive repaint every scroll frame)
-      if (!IS_TOUCH_DEVICE) {
-        gsap.to('.contact-orb', {
-          y: -60,
-          scrollTrigger: {
-            trigger: containerRef.current, start: 'top bottom', end: 'bottom top', scrub: 2,
-          },
-        });
-      }
+      const tl = gsap.timeline();
+
+      // Header Animations
+      gsap.fromTo('.contact-badge', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: headerRef.current, start: 'top 80%' } });
+      gsap.fromTo('.contact-heading .word', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: 'power4.out', scrollTrigger: { trigger: headerRef.current, start: 'top 80%' } });
+      gsap.fromTo('.contact-subtext', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 0.2, scrollTrigger: { trigger: headerRef.current, start: 'top 80%' } });
+      gsap.fromTo('.header-divider', { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: 'power3.inOut', scrollTrigger: { trigger: headerRef.current, start: 'top 80%' } });
+
+      // Info & Form Stagger
+      gsap.fromTo('.info-card', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1, scrollTrigger: { trigger: infoRef.current, start: 'top 75%' } });
+      gsap.fromTo('.form-row', { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1, scrollTrigger: { trigger: formRef.current, start: 'top 72%' } });
+
+      // Orb Parallax
+      gsap.to('.contact-orb', {
+        y: -60,
+        scrollTrigger: { trigger: containerRef.current, start: 'top bottom', end: 'bottom top', scrub: 2 },
+      });
     }, containerRef);
 
-    return () => ctx.revert();
+    return () => ctx.revert(); // Proper cleanup
   }, []);
 
-  // Magnetic effect — only wired up via onMouseMove which never fires on touch,
-  // but keeping the guard explicit makes the intent clear
-  const handleMagneticEffect = useCallback((e, element) => {
-    if (IS_TOUCH_DEVICE) return;
+  // 2. Magnetic Effect Handlers
+  const handleMagneticEffect = useCallback((e) => {
+    if (IS_TOUCH_DEVICE || PREFERS_REDUCED_MOTION) return;
+    const element = e.currentTarget;
     const rect = element.getBoundingClientRect();
     const x = (e.clientX - (rect.left + rect.width / 2)) * 0.1;
     const y = (e.clientY - (rect.top + rect.height / 2)) * 0.1;
@@ -122,15 +94,16 @@ export default function Contact() {
   }, []);
 
   const handleMagneticReset = useCallback((element) => {
-    if (IS_TOUCH_DEVICE) return;
+    if (IS_TOUCH_DEVICE || PREFERS_REDUCED_MOTION) return;
     gsap.to(element, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.3)' });
   }, []);
 
-  const handleSubmit = useCallback(async (e) => {
+  // 3. Form Submission Logic
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('.submit-btn');
-    gsap.to(btn, { scale: 0.97, duration: 0.1, yoyo: true, repeat: 1 });
+    if (status === 'submitting') return;
 
+    setStatus('submitting');
     const formData = new FormData(e.target);
 
     try {
@@ -139,55 +112,46 @@ export default function Contact() {
         body: formData,
         headers: { Accept: 'application/json' },
       });
+
       if (response.ok) {
-        setSubmitError(false);
-        setSubmitted(true);
+        setStatus('success');
         e.target.reset();
       } else {
-        setSubmitError(true);
+        setStatus('error');
       }
-    } catch {
-      setSubmitError(true);
+    } catch (err) {
+      setStatus('error');
     }
-  }, []); // ← empty deps, no more customType dependency
+  };
 
   return (
     <div ref={containerRef} className="contact-page container mx-auto px-6 pt-2 pb-16 text-white relative overflow-hidden">
-
-      {/* ── Background ── */}
+      {/* Background Elements */}
       <div className="contact-noise-bg" />
       <div className="contact-orb" />
       <div className="contact-orb contact-orb-2" />
 
-      {/* ── HEADER ── */}
-      <div ref={headerRef} className="mb-12 relative">
-        <h1
-          className="contact-heading text-4xl md:text-6xl font-black tracking-tight leading-none mb-4 perspective-1000"
-          style={{ fontFamily: "'Orbitron', sans-serif" }}
-        >
+      {/* HEADER */}
+      <header ref={headerRef} className="mb-12 relative">
+        <h1 className="contact-heading text-4xl md:text-6xl font-black tracking-tight leading-none mb-4 perspective-1000" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           <span className="word inline-block">Let's</span>{' '}
           <span className="word inline-block">Work</span>{' '}
           <span className="word inline-block text-indigo-400">Together</span>
         </h1>
         <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
-          I'm open to hybrid roles, internships, and freelance projects. Reach out —
-          <span className="text-indigo-300 font-medium"> I'd be happy to connect</span>.
+          I'm open to hybrid roles, internships, and freelance projects. Reach out — <span className="text-indigo-300 font-medium"> I'd be happy to connect</span>.
         </p>
         <div className="header-divider mt-6 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/40 to-transparent" />
-      </div>
+      </header>
 
-      {/* ── MAIN GRID ── */}
+      {/* MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
-
-        {/* ── LEFT: INFO PANEL ── */}
+        
+        {/* LEFT PANEL */}
         <div ref={infoRef} className="lg:col-span-2 flex flex-col gap-4 h-full">
-
-          {/* Availability card */}
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap">
-                <Briefcase size={16} className="text-indigo-300" />
-              </div>
+              <div className="contact-icon-wrap"><Briefcase size={16} className="text-indigo-300" /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Current Status</span>
             </div>
             <div className="space-y-3">
@@ -199,19 +163,12 @@ export default function Contact() {
                 <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Role Type</span>
                 <span className="text-[13px] text-white/90 font-semibold">Hybrid / Internship</span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Start Date</span>
-                <span className="text-[13px] text-white/90 font-semibold">Within 2 weeks</span>
-              </div>
             </div>
           </div>
 
-          {/* Location & timezone */}
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap">
-                <MapPin size={16} className="text-indigo-300" />
-              </div>
+              <div className="contact-icon-wrap"><MapPin size={16} className="text-indigo-300" /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Location</span>
             </div>
             <p className="text-[15px] text-white font-bold leading-tight">Noida, India</p>
@@ -221,23 +178,14 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Direct contact links */}
           <div className="info-card contact-glass-card flex flex-col flex-1">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap">
-                <Link2 size={16} className="text-indigo-300" />
-              </div>
+              <div className="contact-icon-wrap"><Link2 size={16} className="text-indigo-300" /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Direct Channels</span>
             </div>
             <div className="space-y-1">
               {CONTACT_LINKS.map(({ href, icon, label, value, note }, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-link-row group"
-                >
+                <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="contact-link-row group">
                   <span className="contact-link-icon-wrap">{icon}</span>
                   <div className="flex-1 min-w-0 ml-3">
                     <p className="text-[10px] text-white/35 uppercase tracking-[0.15em] font-semibold mb-0.5">{label}</p>
@@ -253,102 +201,49 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* ── RIGHT: INQUIRY FORM ── */}
+        {/* RIGHT PANEL (FORM) */}
         <div ref={formRef} className="lg:col-span-3 h-full">
           <div className="contact-glass-card relative overflow-hidden h-full" style={{ background: 'rgba(0,0,0,0.27)' }}>
-
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
 
-            {submitted ? (
+            {status === 'success' ? (
               <div className="contact-success-msg">
-                <div className="contact-success-icon">
-                  <Send size={22} className="text-indigo-300" />
-                </div>
+                <div className="contact-success-icon"><Send size={22} className="text-indigo-300" /></div>
                 <p className="text-white font-semibold text-base mt-3">Message Received!</p>
-                <p className="text-white/50 text-sm mt-1">
-                  Thanks for reaching out — I'll get back to you shortly.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-6 px-5 py-2.5 rounded-lg border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 text-xs font-mono uppercase tracking-widest hover:bg-indigo-400/20 hover:border-indigo-400/50 hover:text-indigo-200 transition-all duration-300"
-                >
+                <p className="text-white/50 text-sm mt-1">Thanks for reaching out — I'll get back to you shortly.</p>
+                <button onClick={() => setStatus('idle')} className="mt-6 px-5 py-2.5 rounded-lg border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 text-xs font-mono uppercase tracking-widest hover:bg-indigo-400/20 transition-all">
                   ← Send another message
                 </button>
               </div>
-            ) : submitError ? (
+            ) : status === 'error' ? (
               <div className="contact-success-msg">
                 <div className="contact-success-icon" style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)' }}>
                   <Send size={22} className="text-red-400" />
                 </div>
                 <p className="text-white font-semibold text-base mt-3">Something went wrong.</p>
-                <p className="text-white/50 text-sm mt-1">
-                  Please email me directly at{' '}
-                  <a href="mailto:jay05.joshi@gmail.com" className="text-indigo-400 hover:text-indigo-300 transition-colors">
-                    jay05.joshi@gmail.com
-                  </a>
-                </p>
-                <button
-                  onClick={() => setSubmitError(false)}
-                  className="mt-6 px-5 py-2.5 rounded-lg border border-white/10 bg-white/5 text-white/50 text-xs font-mono uppercase tracking-widest hover:bg-white/10 hover:text-white/70 transition-all duration-300"
-                >
+                <button onClick={() => setStatus('idle')} className="mt-6 px-5 py-2.5 rounded-lg border border-white/10 bg-white/5 text-white/50 text-xs font-mono uppercase tracking-widest hover:bg-white/10 transition-all">
                   ← Try again
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full" style={{ gap: '1.25rem' }}>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="form-row group relative">
-                    <label className="contact-label">
-                      <span className="text-indigo-400/60">›</span> Name
-                      {formFocused === 'name' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                    </label>
-                    <input type="text" name="name" required placeholder="Full Name" className="contact-input"
-                      onFocus={() => setFormFocused('name')} onBlur={() => setFormFocused(null)} />
-                    <div className={`contact-input-line ${formFocused === 'name' ? 'contact-input-line-active' : ''}`} />
-                  </div>
-
-                  <div className="form-row group relative">
-                    <label className="contact-label">
-                      <span className="text-indigo-400/60">›</span> Email
-                      {formFocused === 'email' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                    </label>
-                    <input type="email" name="email" required placeholder="email@example.com" className="contact-input"
-                      onFocus={() => setFormFocused('email')} onBlur={() => setFormFocused(null)} />
-                    <div className={`contact-input-line ${formFocused === 'email' ? 'contact-input-line-active' : ''}`} />
-                  </div>
+                  <ContactInput label="Name" name="name" placeholder="Full Name" focused={formFocused === 'name'} onFocus={(v) => setFormFocused(v)} onBlur={() => setFormFocused(null)} />
+                  <ContactInput label="Email" name="email" type="email" placeholder="email@example.com" focused={formFocused === 'email'} onFocus={(v) => setFormFocused(v)} onBlur={() => setFormFocused(null)} />
                 </div>
-
-                <div className="form-row group relative">
-                  <label className="contact-label">
-                    <span className="text-indigo-400/60">›</span> Subject
-                    {formFocused === 'subject' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                  </label>
-                  <input type="text" name="subject" required placeholder="Frontend Engineer @ Acme Corp" className="contact-input"
-                    onFocus={() => setFormFocused('subject')} onBlur={() => setFormFocused(null)} />
-                  <div className={`contact-input-line ${formFocused === 'subject' ? 'contact-input-line-active' : ''}`} />
-                </div>
-
-                <div className="form-row group relative">
-                  <label className="contact-label">
-                    <span className="text-indigo-400/60">›</span> Message
-                    {formFocused === 'message' && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
-                  </label>
-                  <textarea name="message" rows="4" required placeholder="What are you building?"
-                    className="contact-input" style={{ resize: 'none' }}
-                    onFocus={() => setFormFocused('message')} onBlur={() => setFormFocused(null)} />
-                  <div className={`contact-input-line ${formFocused === 'message' ? 'contact-input-line-active' : ''}`} />
-                </div>
+                <ContactInput label="Subject" name="subject" placeholder="Frontend Engineer @ Acme Corp" focused={formFocused === 'subject'} onFocus={(v) => setFormFocused(v)} onBlur={() => setFormFocused(null)} />
+                <ContactInput label="Message" name="message" isTextArea={true} placeholder="What are you building?" focused={formFocused === 'message'} onFocus={(v) => setFormFocused(v)} onBlur={() => setFormFocused(null)} />
 
                 <div className="form-row pt-4 mt-auto">
                   <button
                     type="submit"
-                    className="submit-btn contact-submit-btn group"
-                    onMouseMove={IS_TOUCH_DEVICE ? undefined : (e) => handleMagneticEffect(e, e.currentTarget)}
-                    onMouseLeave={IS_TOUCH_DEVICE ? undefined : (e) => handleMagneticReset(e.currentTarget)}
+                    disabled={status === 'submitting'}
+                    className={`submit-btn contact-submit-btn group ${status === 'submitting' ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    onMouseMove={handleMagneticEffect}
+                    onMouseLeave={handleMagneticReset}
                   >
                     <span className="relative z-10 font-sans text-sm tracking-widest font-semibold uppercase flex items-center justify-center gap-3">
-                      Send Message
+                      {status === 'submitting' ? 'Sending...' : 'Send Message'}
                       <Send size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                     </span>
                     <div className="contact-submit-hover-state" />
@@ -361,221 +256,40 @@ export default function Contact() {
       </div>
 
       <style>{`
-        /* ── Background ── */
-        .contact-noise-bg {
-          position: fixed; inset: 0;
-          pointer-events: none; z-index: 0; opacity: 0.022;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-size: 200px 200px;
-        }
+        /* ── Background & Orbs ──────────────────────────────────────────────────── */
+        .contact-noise-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.022; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px 200px; }
+        .contact-orb { position: absolute; top: -160px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%); pointer-events: none; filter: blur(30px); }
+        .contact-orb-2 { top: auto; bottom: -200px; right: auto; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%); }
 
-        .contact-orb {
-          position: absolute; top: -160px; right: -200px;
-          width: 700px; height: 700px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%);
-          pointer-events: none; filter: blur(30px);
-        }
-        .contact-orb-2 {
-          top: auto; bottom: -200px; right: auto; left: -200px;
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%);
-        }
+        /* ── Glass Cards ───────────────────────────────────────────────────────── */
+        .contact-glass-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; position: relative; z-index: 1; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: all 0.3s ease; }
+        @media (hover: hover) { .contact-glass-card:hover { background: rgba(0,0,0,0.27); border-color: rgba(99,102,241,0.5); box-shadow: 0 20px 40px rgba(99,102,241,0.2); transform: translateY(-2px); } }
 
-        /* ── Heading ── */
-        .perspective-1000 { perspective: 1000px; }
+        /* ── Icon Wraps & Status ───────────────────────────────────────────────── */
+        .contact-icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.2); flex-shrink: 0; }
+        .contact-status-pill { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.06em; }
+        .contact-status-open { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: #86efac; }
 
-        /* ── Glass card ── */
-        .contact-glass-card {
-          background: rgba(0,0,0,0.2);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 16px; padding: 24px;
-          position: relative; z-index: 1;
-          transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
+        /* ── Links & Rows ──────────────────────────────────────────────────────── */
+        .contact-link-row { display: flex; align-items: center; padding: 10px; border-radius: 10px; border: 1px solid transparent; transition: all 0.2s ease; text-decoration: none; }
+        .contact-link-row:hover { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.15); }
+        .contact-link-icon-wrap { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.18); color: rgba(165,180,252,0.9); flex-shrink: 0; transition: all 0.2s; }
+        .contact-link-row:hover .contact-link-icon-wrap { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.3); }
 
-          /*
-            backdrop-filter reduced on touch — blur(6px) across multiple
-            stacked cards is one of the costliest mobile GPU operations.
-            blur(6px) gives the same frosted feel at roughly half the fill cost.
-          */
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
-        }
-
-        /* Restore full blur on desktop where GPU is adequate */
-        @media (hover: hover) {
-          .contact-glass-card {
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-          }
-        }
-
-        /*
-          Hover lift — desktop only.
-          On touch, :hover persists after tap-release and looks broken.
-          transform + box-shadow change also forces layout recalc on mobile.
-        */
-        @media (hover: hover) {
-          .contact-glass-card:hover {
-            background: rgba(0,0,0,0.27);
-            border-color: rgba(99,102,241,0.5);
-            box-shadow: 0 20px 40px rgba(99,102,241,0.2);
-            transform: translateY(-2px) scale(1.01);
-          }
-        }
-
-        /* ── Icon wrap ── */
-        .contact-icon-wrap {
-          width: 32px; height: 32px; border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
-          background: rgba(99,102,241,0.12);
-          border: 1px solid rgba(99,102,241,0.2);
-          flex-shrink: 0;
-        }
-
-        /* ── Status pill ── */
-        .contact-status-pill {
-          font-size: 10px; font-weight: 700; padding: 3px 10px;
-          border-radius: 999px; letter-spacing: 0.06em;
-        }
-        .contact-status-open {
-          background: rgba(74,222,128,0.1);
-          border: 1px solid rgba(74,222,128,0.25);
-          color: #86efac;
-        }
-
-        /* ── Contact link rows ── */
-        .contact-link-row {
-          display: flex; align-items: center;
-          padding: 10px; border-radius: 10px;
-          border: 1px solid transparent;
-          transition: background 0.2s ease, border-color 0.2s ease;
-          text-decoration: none;
-        }
-        .contact-link-row:hover {
-          background: rgba(99,102,241,0.08);
-          border-color: rgba(99,102,241,0.15);
-        }
-        .contact-link-icon-wrap {
-          width: 36px; height: 36px; border-radius: 9px;
-          display: flex; align-items: center; justify-content: center;
-          background: rgba(99,102,241,0.1);
-          border: 1px solid rgba(99,102,241,0.18);
-          color: rgba(165,180,252,0.9); flex-shrink: 0;
-          transition: background 0.2s, border-color 0.2s;
-        }
-        .contact-link-row:hover .contact-link-icon-wrap {
-          background: rgba(99,102,241,0.18);
-          border-color: rgba(99,102,241,0.3);
-        }
-
-        /* ── Form labels ── */
-        .contact-label {
-          display: flex; align-items: center; gap: 6px;
-          font-family: 'Courier New', Courier, monospace;
-          font-size: 11px; font-weight: 700;
-          text-transform: uppercase; letter-spacing: 0.18em;
-          color: rgba(255,255,255,0.5);
-          margin-bottom: 8px;
-          transition: color 0.3s;
-        }
-
-        /* ── Inputs ── */
-        .contact-input {
-          width: 100%;
-          background: transparent;
-          border: none;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
-          border-radius: 0;
-          padding: 8px 0;
-          outline: none;
-          color: rgba(255,255,255,0.95);
-          font-size: 15px;
-          font-family: 'Courier New', Courier, monospace;
-          transition: border-color 0.4s ease;
-        }
-        .contact-input::placeholder {
-          color: rgba(129,140,248,0.35);
-          font-family: 'Courier New', Courier, monospace;
-          font-style: italic; font-size: 13px;
-        }
-        .contact-input:focus {
-          border-bottom-color: rgba(129,140,248,0.6);
-          box-shadow: none; background: transparent;
-        }
-        .contact-input:-webkit-autofill,
-        .contact-input:-webkit-autofill:focus {
-          -webkit-text-fill-color: rgba(255,255,255,0.95) !important;
-          -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-          transition: background-color 5000s ease-in-out 0s !important;
-        }
-
-        /* ── Select ── */
-        .contact-select {
-          appearance: none; -webkit-appearance: none;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: right 16px center;
-          cursor: pointer;
-        }
-        .contact-select option {
-          background: #0f172a; color: #e2e8f0;
-          font-family: 'Courier New', Courier, monospace;
-        }
-
-        /* ── Input underline ── */
-        .contact-input-line {
-          height: 1px; background: rgba(99,102,241,0); margin-top: -1px;
-          transition: background 0.3s ease;
-        }
+        /* ── Form Styling ──────────────────────────────────────────────────────── */
+        .contact-label { display: flex; align-items: center; gap: 6px; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+        .contact-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0; outline: none; color: rgba(255,255,255,0.95); font-size: 15px; font-family: 'Courier New', Courier, monospace; transition: border-color 0.4s ease; }
+        .contact-input::placeholder { color: rgba(129,140,248,0.35); font-style: italic; font-size: 13px; }
+        .contact-input:focus { border-bottom-color: rgba(129,140,248,0.6); }
+        .contact-input-line { height: 1px; background: rgba(99,102,241,0); margin-top: -1px; transition: background 0.3s ease; }
         .contact-input-line-active { background: rgba(99,102,241,0.5); }
 
-        /* ── Submit Button ── */
-        .contact-submit-btn {
-          position: relative; width: 100%;
-          background: rgba(139,92,246,0.05);
-          backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.12);
-          border-radius: 12px;
-          color: rgba(237,233,254,0.95);
-          padding: 16px 24px; overflow: hidden; cursor: pointer;
-          box-shadow: 0 2px 12px rgba(139,92,246,0.18), inset 0 1px 0 rgba(255,255,255,0.12);
-          transition: all 0.25s ease;
-        }
-        .contact-submit-btn:hover {
-          transform: translateY(-1.5px);
-          background: rgba(139,92,246,0.14);
-          border-color: rgba(255,255,255,0.2);
-          box-shadow: 0 6px 20px rgba(139,92,246,0.28), inset 0 1px 0 rgba(255,255,255,0.16);
-        }
-        .contact-submit-btn::before {
-          content: ""; position: absolute; inset: 0; border-radius: inherit;
-          background: radial-gradient(circle at 30% 20%, rgba(167,139,250,0.25), transparent 65%);
-          opacity: 0.5; pointer-events: none;
-        }
-        .contact-submit-hover-state {
-          position: absolute; inset: 0;
-          background: rgba(255,255,255,0.04);
-          opacity: 0; transition: opacity 0.25s ease;
-        }
-        .contact-submit-btn:hover .contact-submit-hover-state { opacity: 1; }
-
-        /* ── Success / Error state ── */
-        .contact-success-msg {
-          display: flex; flex-direction: column; align-items: center; justify-content: center;
-          padding: 48px 24px; text-align: center;
-          animation: fade-in-up 0.5s ease;
-        }
-        @keyframes fade-in-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .contact-success-icon {
-          width: 56px; height: 56px; border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          background: rgba(99,102,241,0.12);
-          border: 1px solid rgba(99,102,241,0.3);
-          box-shadow: 0 0 24px rgba(99,102,241,0.2);
-        }
+        /* ── Button & Status ───────────────────────────────────────────────────── */
+        .contact-submit-btn { position: relative; width: 100%; background: rgba(139,92,246,0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: rgba(237,233,254,0.95); padding: 16px 24px; overflow: hidden; cursor: pointer; transition: all 0.25s ease; }
+        .contact-submit-btn:hover { transform: translateY(-1.5px); background: rgba(139,92,246,0.14); border-color: rgba(255,255,255,0.2); }
+        .contact-success-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; animation: fade-in-up 0.5s ease; }
+        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .contact-success-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); box-shadow: 0 0 24px rgba(99,102,241,0.2); }
       `}</style>
     </div>
   );
