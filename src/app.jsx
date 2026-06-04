@@ -1,11 +1,11 @@
 import React, { lazy, Suspense, useState, useEffect, useMemo } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
 import GlassOverlay from "./components/background/GlassOverlay";
+import CustomCursor from "./components/cursor/CustomCursor";
 
 // ── Lazy Imports ─────────────────────────────────────────────────────────────
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
-import CustomCursor from "./components/cursor/CustomCursor";
 const Dock = lazy(() => import("./components/dock/Dock"));
 const Home = lazy(() => import("./pages/Home"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -28,23 +28,7 @@ function useHasMounted() {
   return hasMounted;
 }
 
-/**
- * Detects if the user has a precise pointing device (Mouse/Trackpad).
- * This is better than width-based detection for tablet users.
- */
-function useIsMouseUser() {
-  const [isMouse, setIsMouse] = useState(false);
 
-  useEffect(() => {
-    const mq = window.matchMedia('(pointer: fine)');
-    setIsMouse(mq.matches);
-    const handler = (e) => setIsMouse(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
-  return isMouse;
-}
 
 /**
  * Detects if the screen width is desktop size.
@@ -86,7 +70,7 @@ function TokenRoute() {
 /**
  * Layout Wrapper to manage Background, Overlays, and Navigation structure.
  */
-function Layout({ children, isDesktop, isMouseUser }) {
+function Layout({ children, isDesktop }) {
   const navigate = useNavigate();
   const dockItems = useMemo(() => [
     { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
@@ -145,15 +129,14 @@ function Layout({ children, isDesktop, isMouseUser }) {
 
 function AppContent() {
   const isDesktop = useIsDesktop();
-  const isMouseUser = useIsMouseUser();
   const hasMounted = useHasMounted();
 
   // Post-mount check to prevent hydration mismatch
   if (!hasMounted) return null;
 
   return (
-    <Layout isDesktop={isDesktop} isMouseUser={isMouseUser}>
-      <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh] text-white/40">Loading...</div>}>
+    <Layout isDesktop={isDesktop}>
+      <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh] text-white/40 font-mono">Loading...</div>}>
         <Routes>
           {/* Standard Routes */}
           <Route path="/" element={<Home />} />
@@ -165,10 +148,7 @@ function AppContent() {
           <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
           <Route path="/boost" element={<Boost />} />
 
-          {/* Specialized Token Route: 
-              This replaces the generic "*" logic. 
-              Users typing /your-secret-token will be caught here. 
-          */}
+          {/* Specialized Token Route */}
           <Route path="/:token" element={<TokenRoute />} />
 
           {/* Catch-all for 404 */}
