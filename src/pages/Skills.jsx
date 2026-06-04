@@ -38,7 +38,7 @@ export default function Skills() {
     });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -282,8 +282,8 @@ export default function Skills() {
                 {/* Tier header */}
                 <div className="flex items-center justify-center gap-2 py-3 border-b border-white/10 shrink-0">
                   <span
-                    className="text-[10px] font-black uppercase tracking-[0.25em] text-indigo-400"
-                    style={{ fontFamily: "'Orbitron', sans-serif" }}
+                    className="text-[10px] font-black uppercase tracking-[0.25em]"
+                    style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--accent-color)" }}
                   >
                     {tier.label}
                   </span>
@@ -317,12 +317,12 @@ export default function Skills() {
                               rounded-full
                               transition-all duration-300
                               hover:bg-white/10
-                              hover:border-indigo-400/40
-                              hover:shadow-md hover:shadow-indigo-500/20
+                              hover:border-[var(--accent-color)]/40
+                              hover:shadow-md hover:shadow-[var(--accent-color)]/20
                               cursor-default
                             "
                           >
-                            <span className="text-[10px] font-mono text-indigo-400/70 shrink-0">
+                            <span className="text-[10px] font-mono shrink-0" style={{ color: "var(--accent-color)", opacity: 0.7 }}>
                               {String(skill.index).padStart(2, "0")}
                             </span>
                             <span className="text-xs font-medium tracking-wide text-white/90 leading-tight">
@@ -345,55 +345,55 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ perspective: "1500px" }}>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-indigo-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
-            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-indigo-300 transition-colors duration-300">
+            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
               Frontend Engineering
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
               My focus is on designing interfaces that have a sense of intentionality, not just in their looks, but also in their structure. I try to ensure that components have clear boundaries, the state changes in a logical fashion, and the motion helps to clarify the experience rather than confusing it.
             </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-700" />
+            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-purple-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
-            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">
+            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
               Motion & Interaction
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
               To me, animation is a communication tool. Transitions, the use of scroll, and timing are useful in guiding the user and making the interface feel more natural and responsive.
             </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-700" />
+            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-cyan-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
-            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">
+            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
               Applied AI & Logic
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
               My research in the area of artificial intelligence focuses on application, ie. trying to gain an understanding of the model, its failures, and its application to solve problems rather than just its potential.
             </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-cyan-400 to-blue-400 transition-all duration-700" />
+            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
           </div>
 
           <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-green-400/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/20"
+            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
             style={{ transformStyle: "preserve-3d", willChange: "transform" }}
           >
-            <h3 className="text-sm font-mono uppercase tracking-widest text-indigo-400 mb-3 group-hover:text-green-300 transition-colors duration-300">
+            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
               Engineering Mindset
             </h3>
             <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
               I value clarity over cleverness. In working with frontend code or model logic, I aim to build systems that are clear, easy to maintain, and flexible in the face of change.
             </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r from-green-400 to-emerald-400 transition-all duration-700" />
+            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
           </div>
 
         </div>

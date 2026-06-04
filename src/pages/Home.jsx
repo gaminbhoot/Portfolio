@@ -1,9 +1,10 @@
-import React, { useLayoutEffect, useRef, useState, useMemo, useEffect } from "react";
+import React, { useLayoutEffect, useRef, useState, useMemo, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
 import { usePageMeta } from "../lib/usePageMeta";
+import { ThemeContext } from "../app";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,6 +28,8 @@ const getAge = () => {
 const AGE = getAge();
 
 export default function TerminalHero() {
+  const { theme } = useContext(ThemeContext);
+
   usePageMeta({
     title: "Jay Joshi | AI/ML Engineer & Frontend Developer",
     description:
@@ -76,7 +79,7 @@ export default function TerminalHero() {
     document.body.removeChild(link);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -165,14 +168,23 @@ export default function TerminalHero() {
     return () => ctx.revert();
   }, []);
 
-  const hi = (s) => <span className="text-indigo-400">{s}</span>;
+  const hi = (s) => <span style={{ color: "var(--accent-color)" }}>{s}</span>;
 
   const statusCards = [
-    { label: "LOCAL TIME", value: time, color: "text-indigo-300" },
+    { label: "LOCAL TIME", value: time, color: "text-[var(--accent-color)]" },
     { label: "STATUS", value: "AVAILABLE", color: "text-green-400", dot: true },
     { label: "FOCUS", value: "AI/ML · Frontend", color: "text-white/70" },
     { label: "MODE", value: "BUILD", color: "text-white/70" },
   ];
+
+  const glowColorMap = {
+    glass: "rgba(99, 102, 241, 0.4)",
+    dracula: "rgba(255, 121, 198, 0.45)",
+    "one-dark": "rgba(97, 175, 239, 0.4)",
+    nord: "rgba(136, 192, 208, 0.45)",
+    synthwave: "rgba(255, 126, 219, 0.5)"
+  };
+  const profileGlow = glowColorMap[theme] || glowColorMap.glass;
 
   return (
     <div ref={containerRef}>
@@ -200,9 +212,9 @@ export default function TerminalHero() {
             <div className="px-6 py-8 font-mono text-sm md:text-base space-y-4">
 
               <div className="command-line">
-                <span className="text-indigo-400">jay@system:~$version</span>{" "}
+                <span style={{ color: "var(--accent-color)" }}>jay@system:~$version</span>{" "}
                 <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
-                <span className="cursor text-indigo-400">▋</span>
+                <span className="cursor" style={{ color: "var(--accent-color)" }}>▋</span>
               </div>
 
               {/* ── HEADING — LCP element ─────────────────── */}
@@ -211,12 +223,12 @@ export default function TerminalHero() {
                 style={{ fontFamily: "'Orbitron', sans-serif" }}
               >
                 <div>
-                  <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">Building</span>{" "}
-                  <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">AI Systems</span>
+                  <span className="hero-word inline-block hover:scale-105 transition-all duration-300 cursor-default" style={{ hoverColor: "var(--accent-color)" }}>Building</span>{" "}
+                  <span className="hero-word inline-block hover:scale-105 transition-all duration-300 cursor-default" style={{ color: "var(--accent-color)" }}>AI Systems</span>
                 </div>
                 <div className="mt-1 md:mt-2">
-                  <span className="hero-word inline-block hover:text-indigo-400 hover:scale-105 transition-all duration-300 cursor-default">& Frontend</span>{" "}
-                  <span className="hero-word inline-block text-indigo-400 hover:text-indigo-300 hover:scale-105 transition-all duration-300 cursor-default">Experiences.</span>
+                  <span className="hero-word inline-block hover:scale-105 transition-all duration-300 cursor-default" style={{ hoverColor: "var(--accent-color)" }}>& Frontend</span>{" "}
+                  <span className="hero-word inline-block hover:scale-105 transition-all duration-300 cursor-default" style={{ color: "var(--accent-color)" }}>Experiences.</span>
                 </div>
               </h1>
 
@@ -224,11 +236,11 @@ export default function TerminalHero() {
               <div ref={aboutOutputRef} className="pt-2 space-y-4">
 
                 <div className="about-command">
-                  <span className="text-indigo-400">jay@system:~$</span>{" "}
+                  <span style={{ color: "var(--accent-color)" }}>jay@system:~$</span>{" "}
                   <span className="text-white">about --me</span>
                 </div>
                 <div className="role-line flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm">
-                  <span className="text-indigo-400">role:</span>
+                  <span style={{ color: "var(--accent-color)" }}>role:</span>
                   <span className="text-white/90">AI/ML Engineer</span>
                   <span className="text-white/40">·</span>
                   <span className="text-white/90">Frontend Developer</span>
@@ -254,40 +266,42 @@ export default function TerminalHero() {
                       <span>Comfortable across the entire stack — from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line flex items-start">
-                        <span className="text-indigo-400/70 mr-2 select-none mt-0.5">›</span>
+                        <span style={{ color: "var(--accent-color)", opacity: 0.7 }} className="mr-2 select-none mt-0.5">›</span>
                         <span className="text-white/80">{line}</span>
                       </p>
                     ))}
                     
                     <div className="about-line pt-6 block">
                       <div className="mb-3">
-                        <span className="text-indigo-400 font-mono text-sm">jay@system:~$</span>{" "}
+                        <span style={{ color: "var(--accent-color)" }} className="font-mono text-sm">jay@system:~$</span>{" "}
                         <span className="text-white font-mono text-sm">connect</span>
                       </div>
                       <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-mono">
                         <span
                           onClick={() => window.open('mailto:jay05.joshi@gmail.com', '_self')}
-                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          className="hover:opacity-85 transition-opacity cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          style={{ color: "var(--accent-color)" }}
                         >
-                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Email Me
+                          <span style={{ color: "var(--accent-color)", opacity: 0.5 }} className="group-hover:opacity-100 transition-opacity">-</span> Email Me
                         </span>
                         <span
                           onClick={() => window.open('https://github.com/gaminbhoot', '_blank', 'noopener,noreferrer')}
-                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          className="text-white/80 hover:opacity-85 transition-opacity cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
-                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> GitHub
+                          <span style={{ color: "var(--accent-color)", opacity: 0.5 }} className="group-hover:opacity-100 transition-opacity">-</span> GitHub
                         </span>
                         <span
                           onClick={handleResumeDownload}
-                          className="text-indigo-300 hover:text-indigo-200 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          className="hover:opacity-85 transition-opacity cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          style={{ color: "var(--accent-color)" }}
                         >
-                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> Get Resume
+                          <span style={{ color: "var(--accent-color)", opacity: 0.5 }} className="group-hover:opacity-100 transition-opacity">-</span> Get Resume
                         </span>
                         <span
                           onClick={() => window.open('https://linkedin.com/in/gaminbhoot', '_blank', 'noopener,noreferrer')}
-                          className="text-white/80 hover:text-indigo-300 transition-colors cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
+                          className="text-white/80 hover:opacity-85 transition-opacity cursor-pointer flex items-center gap-1.5 group select-none font-semibold text-[17px]"
                         >
-                          <span className="text-indigo-400/50 group-hover:text-indigo-400 transition-colors">-</span> LinkedIn
+                          <span style={{ color: "var(--accent-color)", opacity: 0.5 }} className="group-hover:opacity-100 transition-opacity">-</span> LinkedIn
                         </span>
                       </div>
                     </div>
@@ -311,7 +325,7 @@ export default function TerminalHero() {
                       enableTilt={isDesktop}
                       onContactClick={() => navigate("/contact")}
                       showBehindGlow
-                      behindGlowColor="rgba(125, 190, 255, 0.4)"
+                      behindGlowColor={profileGlow}
                     />
                   </div>
                 </div>

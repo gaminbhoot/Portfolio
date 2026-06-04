@@ -22,7 +22,7 @@ const ContactInput = ({ label, name, type = "text", placeholder, focused, onFocu
   return (
     <div className="form-row group relative">
       <label className="contact-label">
-        <span className="text-indigo-400/60">›</span> {label}
+        <span style={{ color: "var(--accent-color)" }}>›</span> {label}
         {focused && <span className="text-green-400/70 normal-case tracking-normal ml-2 font-mono text-[10px]">(editing)</span>}
       </label>
       <InputTag
@@ -56,7 +56,7 @@ export default function Contact() {
   const [status, setStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
   // 1. Animations Logic
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
       // If user prefers reduced motion, don't run heavy animations
       if (PREFERS_REDUCED_MOTION) return;
@@ -136,12 +136,12 @@ export default function Contact() {
         <h1 className="contact-heading text-4xl md:text-6xl font-black tracking-tight leading-none mb-4 perspective-1000" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           <span className="word inline-block">Let's</span>{' '}
           <span className="word inline-block">Work</span>{' '}
-          <span className="word inline-block text-indigo-400">Together</span>
+          <span className="word inline-block" style={{ color: "var(--accent-color)" }}>Together</span>
         </h1>
         <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
-          I'm open to hybrid roles, internships, and freelance projects. Reach out — <span className="text-indigo-300 font-medium"> I'd be happy to connect</span>.
+          I'm open to hybrid roles, internships, and freelance projects. Reach out — <span className="font-medium" style={{ color: "var(--accent-hover, var(--accent-color))" }}> I'd be happy to connect</span>.
         </p>
-        <div className="header-divider mt-6 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/40 to-transparent" />
+        <div className="header-divider mt-6 h-px" style={{ background: "linear-gradient(to right, color-mix(in srgb, var(--accent-color) 60%, transparent), color-mix(in srgb, var(--accent-hover, var(--accent-color)) 40%, transparent), transparent)" }} />
       </header>
 
       {/* MAIN GRID */}
@@ -151,7 +151,7 @@ export default function Contact() {
         <div ref={infoRef} className="lg:col-span-2 flex flex-col gap-4 h-full">
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap"><Briefcase size={16} className="text-indigo-300" /></div>
+              <div className="contact-icon-wrap"><Briefcase size={16} style={{ color: "var(--accent-color)" }} /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Current Status</span>
             </div>
             <div className="space-y-3">
@@ -168,7 +168,7 @@ export default function Contact() {
 
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap"><MapPin size={16} className="text-indigo-300" /></div>
+              <div className="contact-icon-wrap"><MapPin size={16} style={{ color: "var(--accent-color)" }} /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Location</span>
             </div>
             <p className="text-[15px] text-white font-bold leading-tight">Noida, India</p>
@@ -180,7 +180,7 @@ export default function Contact() {
 
           <div className="info-card contact-glass-card flex flex-col flex-1">
             <div className="flex items-center gap-3 mb-5">
-              <div className="contact-icon-wrap"><Link2 size={16} className="text-indigo-300" /></div>
+              <div className="contact-icon-wrap"><Link2 size={16} style={{ color: "var(--accent-color)" }} /></div>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Direct Channels</span>
             </div>
             <div className="space-y-1">
@@ -192,8 +192,8 @@ export default function Contact() {
                     <p className="text-[13px] text-white/85 group-hover:text-white font-medium truncate transition-colors duration-200">{value}</p>
                   </div>
                   <div className="flex flex-col items-end shrink-0 ml-2">
-                    <span className="text-[10px] text-indigo-400/45 group-hover:text-indigo-300/75 transition-colors duration-200 text-right leading-tight">{note}</span>
-                    <ChevronRight size={12} className="text-white/20 group-hover:text-indigo-300/60 mt-1 transition-colors duration-200 group-hover:translate-x-0.5 transform" />
+                    <span className="contact-note-text text-[10px] transition-colors duration-200 text-right leading-tight">{note}</span>
+                    <ChevronRight size={12} className="contact-chevron mt-1 transition-all duration-200" />
                   </div>
                 </a>
               ))}
@@ -204,14 +204,22 @@ export default function Contact() {
         {/* RIGHT PANEL (FORM) */}
         <div ref={formRef} className="lg:col-span-3 h-full">
           <div className="contact-glass-card relative overflow-hidden h-full" style={{ background: 'rgba(0,0,0,0.27)' }}>
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)), transparent)" }} />
 
             {status === 'success' ? (
               <div className="contact-success-msg">
-                <div className="contact-success-icon"><Send size={22} className="text-indigo-300" /></div>
+                <div className="contact-success-icon"><Send size={22} style={{ color: "var(--accent-color)" }} /></div>
                 <p className="text-white font-semibold text-base mt-3">Message Received!</p>
                 <p className="text-white/50 text-sm mt-1">Thanks for reaching out — I'll get back to you shortly.</p>
-                <button onClick={() => setStatus('idle')} className="mt-6 px-5 py-2.5 rounded-lg border border-indigo-400/30 bg-indigo-400/10 text-indigo-300 text-xs font-mono uppercase tracking-widest hover:bg-indigo-400/20 transition-all">
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="mt-6 px-5 py-2.5 rounded-lg border text-xs font-mono uppercase tracking-widest hover:bg-[var(--accent-color)]/20 transition-all"
+                  style={{
+                    borderColor: "color-mix(in srgb, var(--accent-color) 30%, transparent)",
+                    backgroundColor: "color-mix(in srgb, var(--accent-color) 10%, transparent)",
+                    color: "var(--accent-color)"
+                  }}
+                >
                   ← Send another message
                 </button>
               </div>
@@ -258,38 +266,42 @@ export default function Contact() {
       <style>{`
         /* ── Background & Orbs ──────────────────────────────────────────────────── */
         .contact-noise-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.022; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px 200px; }
-        .contact-orb { position: absolute; top: -160px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%); pointer-events: none; filter: blur(30px); }
-        .contact-orb-2 { top: auto; bottom: -200px; right: auto; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 65%); }
+        .contact-orb { position: absolute; top: -160px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 7%, transparent) 0%, transparent 65%); pointer-events: none; filter: blur(30px); }
+        .contact-orb-2 { top: auto; bottom: -200px; right: auto; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 5%, transparent) 0%, transparent 65%); }
 
         /* ── Glass Cards ───────────────────────────────────────────────────────── */
         .contact-glass-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; position: relative; z-index: 1; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: all 0.3s ease; }
-        @media (hover: hover) { .contact-glass-card:hover { background: rgba(0,0,0,0.27); border-color: rgba(99,102,241,0.5); box-shadow: 0 20px 40px rgba(99,102,241,0.2); transform: translateY(-2px); } }
+        @media (hover: hover) { .contact-glass-card:hover { background: rgba(0,0,0,0.27); border-color: color-mix(in srgb, var(--accent-color) 50%, transparent); box-shadow: 0 20px 40px color-mix(in srgb, var(--accent-color) 20%, transparent); transform: translateY(-2px); } }
 
         /* ── Icon Wraps & Status ───────────────────────────────────────────────── */
-        .contact-icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.2); flex-shrink: 0; }
+        .contact-icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent); flex-shrink: 0; }
         .contact-status-pill { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.06em; }
         .contact-status-open { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: #86efac; }
 
         /* ── Links & Rows ──────────────────────────────────────────────────────── */
         .contact-link-row { display: flex; align-items: center; padding: 10px; border-radius: 10px; border: 1px solid transparent; transition: all 0.2s ease; text-decoration: none; }
-        .contact-link-row:hover { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.15); }
-        .contact-link-icon-wrap { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.18); color: rgba(165,180,252,0.9); flex-shrink: 0; transition: all 0.2s; }
-        .contact-link-row:hover .contact-link-icon-wrap { background: rgba(99,102,241,0.18); border-color: rgba(99,102,241,0.3); }
+        .contact-link-row:hover { background: color-mix(in srgb, var(--accent-color) 8%, transparent); border-color: color-mix(in srgb, var(--accent-color) 15%, transparent); }
+        .contact-link-icon-wrap { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 18%, transparent); color: var(--accent-color); flex-shrink: 0; transition: all 0.2s; }
+        .contact-link-row:hover .contact-link-icon-wrap { background: color-mix(in srgb, var(--accent-color) 18%, transparent); border-color: color-mix(in srgb, var(--accent-color) 30%, transparent); }
+        .contact-note-text { color: color-mix(in srgb, var(--accent-color) 45%, transparent); }
+        .contact-link-row:hover .contact-note-text { color: color-mix(in srgb, var(--accent-color) 75%, transparent) !important; }
+        .contact-chevron { color: rgba(255,255,255,0.2); }
+        .contact-link-row:hover .contact-chevron { color: var(--accent-color) !important; transform: translateX(2px); }
 
         /* ── Form Styling ──────────────────────────────────────────────────────── */
         .contact-label { display: flex; align-items: center; gap: 6px; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
         .contact-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0; outline: none; color: rgba(255,255,255,0.95); font-size: 15px; font-family: 'Courier New', Courier, monospace; transition: border-color 0.4s ease; }
-        .contact-input::placeholder { color: rgba(129,140,248,0.35); font-style: italic; font-size: 13px; }
-        .contact-input:focus { border-bottom-color: rgba(129,140,248,0.6); }
+        .contact-input::placeholder { color: color-mix(in srgb, var(--accent-color) 35%, transparent); font-style: italic; font-size: 13px; }
+        .contact-input:focus { border-bottom-color: color-mix(in srgb, var(--accent-color) 60%, transparent); }
         .contact-input-line { height: 1px; background: rgba(99,102,241,0); margin-top: -1px; transition: background 0.3s ease; }
-        .contact-input-line-active { background: rgba(99,102,241,0.5); }
+        .contact-input-line-active { background: color-mix(in srgb, var(--accent-color) 50%, transparent); }
 
         /* ── Button & Status ───────────────────────────────────────────────────── */
-        .contact-submit-btn { position: relative; width: 100%; background: rgba(139,92,246,0.05); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: rgba(237,233,254,0.95); padding: 16px 24px; overflow: hidden; cursor: pointer; transition: all 0.25s ease; }
-        .contact-submit-btn:hover { transform: translateY(-1.5px); background: rgba(139,92,246,0.14); border-color: rgba(255,255,255,0.2); }
+        .contact-submit-btn { position: relative; width: 100%; background: color-mix(in srgb, var(--accent-color) 5%, transparent); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: rgba(237,233,254,0.95); padding: 16px 24px; overflow: hidden; cursor: pointer; transition: all 0.25s ease; }
+        .contact-submit-btn:hover { transform: translateY(-1.5px); background: color-mix(in srgb, var(--accent-color) 14%, transparent); border-color: rgba(255,255,255,0.2); }
         .contact-success-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; animation: fade-in-up 0.5s ease; }
         @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .contact-success-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3); box-shadow: 0 0 24px rgba(99,102,241,0.2); }
+        .contact-success-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent); box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 20%, transparent); }
       `}</style>
     </div>
   );

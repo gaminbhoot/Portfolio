@@ -2,88 +2,113 @@
 
 :root {
   /* Default Theme: Frosted Glass */
-  --bg-color: rgba(5, 5, 8, 0.45);
-  --sidebar-bg: rgba(12, 12, 18, 0.55);
-  --activity-bg: rgba(6, 6, 10, 0.65);
-  --panel-bg: rgba(8, 8, 12, 0.75);
+  --bg-color: rgba(5, 5, 8, 0.35);
+  --sidebar-bg: rgba(12, 12, 18, 0.45);
+  --activity-bg: rgba(6, 6, 10, 0.55);
+  --panel-bg: rgba(8, 8, 12, 0.65);
   --active-tab-bg: rgba(255, 255, 255, 0.08);
   --inactive-tab-bg: rgba(255, 255, 255, 0.02);
-  --text-main: #e2e8f0;
+  --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --accent-color: #818cf8; /* Indigo */
+  --accent-color: #6366f1; /* Indigo */
+  --accent-hover: #4f46e5;
   --border-color: rgba(255, 255, 255, 0.08);
-  --editor-bg: rgba(10, 10, 15, 0.15);
-  --status-bg: rgba(6, 6, 10, 0.7);
+  --editor-bg: rgba(10, 10, 15, 0.1);
+  --status-bg: rgba(6, 6, 10, 0.6);
   --backdrop-blur: blur(12px);
-  --shadow-glow: none;
+  --shadow-glow: 0px 0px 15px rgba(99, 102, 241, 0.35);
+  --bg-gradient: radial-gradient(circle at top right, #0b0c16, #030305);
+  --bg-fallback: #030305;
+  --shape-color: rgba(99, 102, 241, 0.15);
+  --shape-shadow: rgba(99, 102, 241, 0.04);
 }
 
 [data-theme="dracula"] {
-  --bg-color: #282a36;
-  --sidebar-bg: #21222c;
-  --activity-bg: #191a21;
-  --panel-bg: #191a21;
-  --active-tab-bg: #44475a;
-  --inactive-tab-bg: #21222c;
+  --bg-color: rgba(40, 42, 54, 0.5);
+  --sidebar-bg: rgba(33, 34, 44, 0.65);
+  --activity-bg: rgba(25, 26, 33, 0.75);
+  --panel-bg: rgba(25, 26, 33, 0.7);
+  --active-tab-bg: rgba(189, 147, 249, 0.15);
+  --inactive-tab-bg: rgba(33, 34, 44, 0.3);
   --text-main: #f8f8f2;
   --text-muted: #6272a4;
-  --accent-color: #bd93f9;
-  --border-color: #44475a;
-  --editor-bg: #282a36;
-  --status-bg: #191a21;
-  --backdrop-blur: none;
-  --shadow-glow: none;
+  --accent-color: #ff79c6; /* Dracula Pink */
+  --accent-hover: #ff92df;
+  --border-color: rgba(189, 147, 249, 0.25);
+  --editor-bg: rgba(40, 42, 54, 0.2);
+  --status-bg: rgba(25, 26, 33, 0.75);
+  --backdrop-blur: blur(16px);
+  --shadow-glow: 0px 0px 15px rgba(255, 121, 198, 0.45);
+  --bg-gradient: radial-gradient(circle at bottom left, #282a36, #1c1d26);
+  --bg-fallback: #1e1f29;
+  --shape-color: rgba(189, 147, 249, 0.25);
+  --shape-shadow: rgba(189, 147, 249, 0.06);
 }
 
 [data-theme="one-dark"] {
-  --bg-color: #282c34;
-  --sidebar-bg: #21252b;
-  --activity-bg: #1e2227;
-  --panel-bg: #21252b;
-  --active-tab-bg: #383c44;
-  --inactive-tab-bg: #21252b;
+  --bg-color: rgba(40, 44, 52, 0.5);
+  --sidebar-bg: rgba(33, 37, 43, 0.65);
+  --activity-bg: rgba(30, 34, 39, 0.75);
+  --panel-bg: rgba(33, 37, 43, 0.7);
+  --active-tab-bg: rgba(97, 175, 239, 0.12);
+  --inactive-tab-bg: rgba(33, 37, 43, 0.3);
   --text-main: #abb2bf;
   --text-muted: #5c6370;
-  --accent-color: #61afef;
-  --border-color: #1e2227;
-  --editor-bg: #282c34;
-  --status-bg: #1e2227;
-  --backdrop-blur: none;
-  --shadow-glow: none;
+  --accent-color: #61afef; /* Vibrant Blue */
+  --accent-hover: #82bffa;
+  --border-color: rgba(97, 175, 239, 0.18);
+  --editor-bg: rgba(40, 44, 52, 0.2);
+  --status-bg: rgba(30, 34, 39, 0.75);
+  --backdrop-blur: blur(14px);
+  --shadow-glow: 0px 0px 12px rgba(97, 175, 239, 0.35);
+  --bg-gradient: radial-gradient(circle at center, #282c34, #1b1d23);
+  --bg-fallback: #21252b;
+  --shape-color: rgba(97, 175, 239, 0.2);
+  --shape-shadow: rgba(97, 175, 239, 0.05);
 }
 
 [data-theme="nord"] {
-  --bg-color: #2e3440;
-  --sidebar-bg: #242933;
-  --activity-bg: #2e3440;
-  --panel-bg: #242933;
-  --active-tab-bg: #3b4252;
-  --inactive-tab-bg: #242933;
+  --bg-color: rgba(46, 52, 64, 0.5);
+  --sidebar-bg: rgba(36, 41, 51, 0.65);
+  --activity-bg: rgba(46, 52, 64, 0.75);
+  --panel-bg: rgba(36, 41, 51, 0.7);
+  --active-tab-bg: rgba(136, 192, 208, 0.15);
+  --inactive-tab-bg: rgba(36, 41, 51, 0.3);
   --text-main: #d8dee9;
   --text-muted: #4c566a;
-  --accent-color: #88c0d0;
-  --border-color: #3b4252;
-  --editor-bg: #2e3440;
-  --status-bg: #242933;
-  --backdrop-blur: none;
-  --shadow-glow: none;
+  --accent-color: #88c0d0; /* Nord Frost Cyan */
+  --accent-hover: #a3be8c;
+  --border-color: rgba(136, 192, 208, 0.2);
+  --editor-bg: rgba(46, 52, 64, 0.2);
+  --status-bg: rgba(36, 41, 51, 0.75);
+  --backdrop-blur: blur(15px);
+  --shadow-glow: 0px 0px 12px rgba(136, 192, 208, 0.4);
+  --bg-gradient: radial-gradient(circle at top, #2e3440, #1f232b);
+  --bg-fallback: #242933;
+  --shape-color: rgba(136, 192, 208, 0.2);
+  --shape-shadow: rgba(136, 192, 208, 0.05);
 }
 
 [data-theme="synthwave"] {
-  --bg-color: #2b213a;
-  --sidebar-bg: #241b2f;
-  --activity-bg: #1d1526;
-  --panel-bg: #241b2f;
-  --active-tab-bg: #372948;
-  --inactive-tab-bg: #241b2f;
-  --text-main: #f0e6f6;
+  --bg-color: rgba(43, 33, 58, 0.5);
+  --sidebar-bg: rgba(36, 27, 47, 0.65);
+  --activity-bg: rgba(29, 21, 38, 0.75);
+  --panel-bg: rgba(36, 27, 47, 0.7);
+  --active-tab-bg: rgba(255, 126, 219, 0.15);
+  --inactive-tab-bg: rgba(36, 27, 47, 0.3);
+  --text-main: #f3e8ff;
   --text-muted: #84729c;
-  --accent-color: #ff7edb;
+  --accent-color: #ff7edb; /* Neon Pink */
+  --accent-hover: #ff9ee2;
   --border-color: rgba(255, 126, 219, 0.25);
-  --editor-bg: #2b213a;
-  --status-bg: #1d1526;
-  --backdrop-blur: none;
-  --shadow-glow: 0 0 10px rgba(255, 126, 219, 0.4);
+  --editor-bg: rgba(43, 33, 58, 0.2);
+  --status-bg: rgba(29, 21, 38, 0.75);
+  --backdrop-blur: blur(18px);
+  --shadow-glow: 0px 0px 20px rgba(255, 126, 219, 0.55);
+  --bg-gradient: radial-gradient(circle at bottom right, #2b213a, #130e19);
+  --bg-fallback: #1d1526;
+  --shape-color: rgba(255, 126, 219, 0.25);
+  --shape-shadow: rgba(255, 126, 219, 0.06);
 }
 
 /* Base Styles */

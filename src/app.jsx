@@ -1,12 +1,9 @@
-import React, { lazy, Suspense, useState, useEffect, useMemo } from 'react';
+import React, { lazy, Suspense, useState, useEffect, useMemo, createContext } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
-import { Home as HomeIcon, Folder, Mail, Settings } from 'lucide-react';
-import GlassOverlay from "./components/background/GlassOverlay";
-import CustomCursor from "./components/cursor/CustomCursor";
+import IdeLayout from "./components/layout/IdeLayout";
 
 // ── Lazy Imports ─────────────────────────────────────────────────────────────
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
-const Dock = lazy(() => import("./components/dock/Dock"));
 const Home = lazy(() => import("./pages/Home"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Skills = lazy(() => import("./pages/Skills"));
@@ -15,6 +12,7 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const ProjectSummary = lazy(() => import('./pages/ProjectSummary'));
 const Epoxy = lazy(() => import('./pages/Epoxy'));
 const Boost = lazy(() => import('./pages/Boost'));
+const Readme = lazy(() => import('./pages/Readme'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // ── Hooks ────────────────────────────────────────────────────────────────────
@@ -67,61 +65,28 @@ function TokenRoute() {
   return <NotFound />;
 }
 
-/**
- * Layout Wrapper to manage Background, Overlays, and Navigation structure.
- */
-function Layout({ children, isDesktop }) {
-  const navigate = useNavigate();
-  const dockItems = useMemo(() => [
-    { label: "Home", icon: <HomeIcon size={16} color="#ffffff" />, onClick: () => navigate("/") },
-    { label: "Projects", icon: <Folder size={16} color="#ffffff" />, onClick: () => navigate("/projects") },
-    { label: "Skills", icon: <Settings size={16} color="#ffffff" />, onClick: () => navigate("/skills") },
-    { label: "Contact", icon: <Mail size={16} color="#ffffff" />, onClick: () => navigate("/contact") },
-  ], [navigate]);
+// ── Theme State Context ──────────────────────────────────────────────────────
+export const ThemeContext = createContext({
+  theme: "glass",
+  setTheme: () => {},
+});
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("ide-theme") || "glass";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("ide-theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
-    <>
-      <a className="skip-link" href="#main-content">Skip to content</a>
-
-      {/* 1. Cursor: Desktop/Mouse custom cursor */}
-      <CustomCursor />
-
-      {/* 2. Background Layer */}
-      <div className="fixed inset-0 z-0">
-        <div className="mobile-creative-bg">
-          <div className="wireframe-shape shape-1" />
-          <div className="wireframe-shape shape-2" />
-          <div className="wireframe-shape shape-3" />
-        </div>
-      </div>
-
-      {/* 3. Overlay Layer */}
-      {isDesktop && (
-        <GlassOverlay tint="rgba(15, 15, 20, 0.45)" blur={12} opacity={0.55} />
-      )}
-
-      {/* 4. Content Layer */}
-      <main id="main-content" tabIndex={-1} className="relative z-20 min-h-screen pt-20 pb-48" role="main">
-        {children}
-      </main>
-
-      {/* 5. Navigation Layer */}
-      <footer
-        className="fixed bottom-0 left-0 w-full h-36 z-50 pointer-events-none flex items-end justify-center pb-4"
-        style={{
-          backdropFilter: 'blur(17px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          maskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
-        }}
-      >
-        <div className="pointer-events-auto">
-          <Suspense fallback={null}>
-            <Dock items={dockItems} />
-          </Suspense>
-        </div>
-      </footer>
-    </>
+    <ThemeContext.Provider value={value}>
+      {children}
+    </ThemeContext.Provider>
   );
 }
 
@@ -135,7 +100,7 @@ function AppContent() {
   if (!hasMounted) return null;
 
   return (
-    <Layout isDesktop={isDesktop}>
+    <IdeLayout isDesktop={isDesktop}>
       <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh] text-white/40 font-mono">Loading...</div>}>
         <Routes>
           {/* Standard Routes */}
@@ -147,6 +112,7 @@ function AppContent() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
           <Route path="/boost" element={<Boost />} />
+          <Route path="/readme" element={<Readme />} />
 
           {/* Specialized Token Route */}
           <Route path="/:token" element={<TokenRoute />} />
@@ -155,15 +121,16 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-    </Layout>
+    </IdeLayout>
   );
 }
 
 function App() {
   return (
     <BrowserRouter>
-      {/* ScrollToTop logic is best handled inside the App component or a dedicated wrapper */}
-      <AppContent />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

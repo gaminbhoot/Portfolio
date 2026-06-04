@@ -42,17 +42,34 @@ export default function Readme() {
           </ul>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation & Terminal Tips */}
         <div>
-          <h2 className="text-xl font-bold text-indigo-300 mt-6 mb-2">💻 Navigation via Terminal</h2>
+          <h2 className="text-xl font-bold text-indigo-300 mt-6 mb-2">💻 Interactive Terminal & Navigation Tips</h2>
           <p className="mb-3">
-            Since this portfolio is themed as an IDE workspace, you can navigate using the interactive terminal panel at the bottom of your screen. Click inside the terminal and type:
+            Since this portfolio is themed as an IDE workspace, you can navigate and query metadata using the interactive terminal panel at the bottom of your screen.
           </p>
-          <div className="bg-black/30 rounded-lg p-4 font-mono text-xs text-indigo-300 border border-white/5 space-y-1">
-            <p><span className="text-white/40">$</span> ls <span className="text-white/40"># List available workspace files</span></p>
-            <p><span className="text-white/40">$</span> cd projects <span className="text-white/40"># View my systems engineering case studies</span></p>
-            <p><span className="text-white/40">$</span> cd skills <span className="text-white/40"># View technical certifications & stack</span></p>
-            <p><span className="text-white/40">$</span> theme synthwave <span className="text-white/40"># Toggle color palettes (glass, dracula, one-dark, nord, synthwave)</span></p>
+          
+          <div className="bg-black/30 rounded-lg p-4 font-mono text-xs text-indigo-300 border border-white/5 space-y-1 mb-4">
+            <p><span className="text-white/40">$</span> ls <span className="text-white/40"># List all available files and pages</span></p>
+            <p><span className="text-white/40">$</span> cd projects <span className="text-white/40"># Navigate to Projects page</span></p>
+            <p><span className="text-white/40">$</span> cat README.md <span className="text-white/40"># Print this readme file in terminal history</span></p>
+            <p><span className="text-white/40">$</span> theme dracula <span className="text-white/40"># Instantly switch themes (glass, dracula, one-dark, nord, synthwave)</span></p>
+            <p><span className="text-white/40">$</span> neofetch <span className="text-white/40"># Display developer specifications and bio info</span></p>
+          </div>
+
+          <div className="space-y-2 text-sm border-l-2 border-indigo-500/30 pl-4 py-1">
+            <p>
+              💡 <strong className="text-indigo-200">History:</strong> Use the <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">ArrowUp</span> and <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">ArrowDown</span> keys to cycle through previously typed commands.
+            </p>
+            <p>
+              💡 <strong className="text-indigo-200">Terminal Toggle:</strong> Use the <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">Ctrl + `</span> shortcut or click the status bar terminal icon to collapse/restore the console panel.
+            </p>
+            <p>
+              💡 <strong className="text-indigo-200">Fast Shortcuts:</strong> Skip typing <span className="font-mono text-xs bg-white/5 px-1.5 py-0.5 rounded text-indigo-300">cd</span>! Simply type the file name directly (e.g. <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">skills</span> or <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">contact</span>) to navigate.
+            </p>
+            <p>
+              💡 <strong className="text-indigo-200">Clear Screen:</strong> Clean up your console stack at any time by typing <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">clear</span> or <span className="font-mono text-xs bg-white/5 px-1 py-0.5 rounded text-indigo-300">cls</span>.
+            </p>
           </div>
         </div>
 

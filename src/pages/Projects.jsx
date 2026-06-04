@@ -100,7 +100,7 @@ export default function Projects() {
       >
         <div className="relative inline-block">
           <motion.div
-            className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 via-indigo-500/10 to-purple-500/10 rounded-2xl blur-lg"
+            className="absolute -inset-4 bg-gradient-to-r from-cyan-500/10 via-[var(--accent-color)]/10 to-purple-500/10 rounded-2xl blur-lg"
             animate={{ opacity: [0.2, 0.4, 0.2] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -108,13 +108,13 @@ export default function Projects() {
             className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase relative"
             style={{
               fontFamily: "'Orbitron', sans-serif",
-              background: "linear-gradient(135deg, #ffffff 0%, #9c9dff 50%, #818cf8 100%)",
+              background: "linear-gradient(135deg, #ffffff 0%, var(--accent-hover, #4f46e5) 50%, var(--accent-color) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
             }}
           >
-            Selected <span style={{ WebkitTextFillColor: "#818cf8" }}>Works</span>
+            Selected <span style={{ WebkitTextFillColor: "var(--accent-color)" }}>Works</span>
           </h1>
         </div>
 
@@ -124,8 +124,8 @@ export default function Projects() {
           animate={{ scaleX: 1 }}
           transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-400 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500 opacity-50 animate-shimmer" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent-color)] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-color)] to-transparent opacity-50 animate-shimmer" />
         </motion.div>
 
         <motion.p
@@ -134,7 +134,7 @@ export default function Projects() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-6 text-gray-200 font-mono text-sm tracking-wider flex items-center gap-2"
         >
-          <Folder size={16} className="text-indigo-400" />
+          <Folder size={16} style={{ color: "var(--accent-color)" }} />
           Explore my carefully crafted projects
         </motion.p>
       </motion.div>
@@ -188,7 +188,7 @@ export default function Projects() {
                     />
 
                     {/* Corner accent */}
-                    <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-indigo-400/50 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
+                    <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-[var(--accent-color)]/50 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-16 group-hover:h-16" />
 
                     {/* Scan line motion — not rendered at all on touch */}
                     {!IS_TOUCH_DEVICE && (
@@ -202,7 +202,7 @@ export default function Projects() {
                         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                         style={{
                           background:
-                            "linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.05) 50%, transparent 100%)",
+                            "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--accent-color) 5%, transparent) 50%, transparent 100%)",
                           backgroundSize: "100% 200%",
                         }}
                       />
@@ -280,7 +280,14 @@ export default function Projects() {
                       </h3>
 
                       <div className="flex items-center gap-3 mb-3 mt-4 shrink-0">
-                        <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-2 py-1 rounded border border-indigo-400/30 bg-indigo-400/5">
+                        <span
+                          className="text-xs font-mono uppercase tracking-widest px-2 py-1 rounded border"
+                          style={{
+                            color: "var(--accent-color)",
+                            borderColor: "color-mix(in srgb, var(--accent-color) 30%, transparent)",
+                            backgroundColor: "color-mix(in srgb, var(--accent-color) 5%, transparent)",
+                          }}
+                        >
                           {project.category}
                         </span>
                         <span className="text-xs font-mono text-gray-200">
@@ -288,7 +295,7 @@ export default function Projects() {
                         </span>
                       </div>
 
-                      <div className="h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-transparent transition-all duration-700 rounded-full shrink-0" />
+                      <div className="h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-[var(--accent-color)] via-[var(--accent-hover,var(--accent-color))] to-transparent transition-all duration-700 rounded-full shrink-0" />
                     </div>
 
                     <motion.div
@@ -298,9 +305,9 @@ export default function Projects() {
                     >
                       <div
                         className="absolute inset-0 rounded-full blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"
-                        style={{ background: "linear-gradient(135deg, #71C4FF, #60496e)" }}
+                        style={{ background: "linear-gradient(135deg, var(--accent-color), var(--accent-hover, var(--accent-color)))" }}
                       />
-                      <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/[0.02] backdrop-blur-sm group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-indigo-600 group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
+                      <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/[0.02] backdrop-blur-sm group-hover:bg-gradient-to-br group-hover:from-[var(--accent-color)] group-hover:to-[var(--accent-hover,var(--accent-color))] group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
                         <ArrowUpRight size={20} strokeWidth={2.5} />
                       </div>
                     </motion.div>

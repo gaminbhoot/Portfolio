@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
@@ -23,16 +23,20 @@ import {
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
+import { ThemeContext } from "../../app";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./IdeLayout.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function IdeLayout({ children, isDesktop }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const viewportRef = useRef(null);
 
-  // ── Theme State ────────────────────────────────────────────────────────────
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("ide-theme") || "glass";
-  });
+  // ── Theme Context ──────────────────────────────────────────────────────────
+  const { theme, setTheme } = useContext(ThemeContext);
 
   // ── Layout Toggles ─────────────────────────────────────────────────────────
   const [explorerOpen, setExplorerOpen] = useState(true);
@@ -43,7 +47,8 @@ export default function IdeLayout({ children, isDesktop }) {
   // ── Terminal Shell Logic ───────────────────────────────────────────────────
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalLines, setTerminalLines] = useState([
-    { text: "Initializing portfolio shell...", type: "system" },
+    { text: "Initializing portfolio dev environment...", type: "system" },
+    { text: "[Vite] hot module replacement enabled", type: "muted" },
     { text: "Welcome to Jay Joshi's Portfolio Terminal v1.0.6", type: "system" },
     { text: "Type 'help' to see list of available commands.", type: "system" },
     { text: "", type: "system" }
@@ -61,8 +66,7 @@ export default function IdeLayout({ children, isDesktop }) {
     { name: "Projects.jsx", path: "/projects", icon: <Folder size={14} className="text-amber-400" /> },
     { name: "Skills.jsx", path: "/skills", icon: <Settings size={14} className="text-sky-400" /> },
     { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> },
-    { name: "README.md", path: "/readme", icon: <FileText size={14} className="text-gray-400" /> },
-    { name: "package.json", path: "/package", icon: <FileText size={14} className="text-red-400" /> }
+    { name: "README.md", path: "/readme", icon: <FileText size={14} className="text-gray-400" /> }
   ], []);
 
   // Compute active file based on URL path
@@ -94,11 +98,41 @@ export default function IdeLayout({ children, isDesktop }) {
     });
   }, [activeFile]);
 
-  // Set local storage and document attribute for theme
+  // Set default scroller for GSAP ScrollTrigger to the editor viewport
+  React.useLayoutEffect(() => {
+    if (viewportRef.current) {
+      ScrollTrigger.defaults({
+        scroller: viewportRef.current
+      });
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
-    localStorage.setItem("ide-theme", theme);
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    ScrollTrigger.refresh();
+  }, [location.pathname]);
+
+  // Simulate realistic compiler logs in terminal history on routing
+  useEffect(() => {
+    const isInitialLoad = terminalLines.length <= 6;
+    const compileTime = Math.floor(Math.random() * 50) + 20; // 20ms to 70ms
+
+    if (isInitialLoad) {
+      setTerminalLines(prev => [
+        ...prev,
+        { text: `[Vite] HMR connected`, type: "muted" },
+        { text: `[Server] compiled ${activeFile.name} successfully in ${compileTime}ms`, type: "system" },
+        { text: "", type: "system" }
+      ]);
+    } else {
+      setTerminalLines(prev => [
+        ...prev,
+        { text: `[Vite] routing to ${activeFile.path}...`, type: "muted" },
+        { text: `[Server] compiling ${activeFile.name}...`, type: "system" },
+        { text: `[Server] successfully bundled in ${compileTime}ms`, type: "system" },
+        { text: "", type: "system" }
+      ]);
+    }
+  }, [location.pathname]);
 
   // Terminal Auto Scroll
   useEffect(() => {
@@ -154,8 +188,9 @@ export default function IdeLayout({ children, isDesktop }) {
           { text: "Available commands:", type: "system" },
           { text: "  ls            - List files/pages in directory", type: "system" },
           { text: "  cd <page>     - Navigate to page (home, projects, skills, contact)", type: "system" },
-          { text: "  cat <file>    - Print file contents (README.md, package.json)", type: "system" },
+          { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
           { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave)", type: "system" },
+          { text: "  neofetch      - Display system info & stats", type: "system" },
           { text: "  clear         - Clear the screen", type: "system" },
           { text: "  epoxy         - Trigger secret admin sequence", type: "system" }
         ];
@@ -166,7 +201,7 @@ export default function IdeLayout({ children, isDesktop }) {
         output = [
           { text: "Directory: src/pages/", type: "system" },
           { text: "  Home.jsx        Projects.jsx    Skills.jsx    Contact.jsx", type: "system" },
-          { text: "  README.md       package.json", type: "system" }
+          { text: "  README.md", type: "system" }
         ];
         break;
 
@@ -188,9 +223,6 @@ export default function IdeLayout({ children, isDesktop }) {
         } else if (arg === "readme" || arg === "readme.md") {
           navigate("/readme");
           output = [{ text: "Navigating to README...", type: "system" }];
-        } else if (arg === "package" || arg === "package.json") {
-          navigate("/package");
-          output = [{ text: "Navigating to package.json...", type: "system" }];
         } else {
           output = [{ text: `Directory not found: '${arg}'`, type: "error" }];
         }
@@ -207,21 +239,6 @@ export default function IdeLayout({ children, isDesktop }) {
             { text: "CS Student | AI/ML & Frontend Engineer based in Noida, India.", type: "system" },
             { text: "Building real-time computer vision systems, optimized DNN pipelines,", type: "system" },
             { text: "and premium, dynamic user experiences with React, Tailwind, and GSAP.", type: "system" }
-          ];
-        } else if (arg === "package.json" || arg === "package") {
-          navigate("/package");
-          output = [
-            { text: "Reading package.json...", type: "system" },
-            { text: "{", type: "system" },
-            { text: '  "name": "jay-joshi-portfolio",', type: "system" },
-            { text: '  "dependencies": {', type: "system" },
-            { text: '    "react": "^18.2.0",', type: "system" },
-            { text: '    "react-router-dom": "^7.13.0",', type: "system" },
-            { text: '    "gsap": "^3.14.2",', type: "system" },
-            { text: '    "three": "^0.182.0",', type: "system" },
-            { text: '    "detect-gpu": "^5.0.70"', type: "system" },
-            { text: "  }", type: "system" },
-            { text: "}", type: "system" }
           ];
         } else {
           output = [{ text: `cat: File not found: '${arg}'`, type: "error" }];
@@ -260,12 +277,26 @@ export default function IdeLayout({ children, isDesktop }) {
             { text: "Your branch is up to date with 'origin/main'.", type: "system" },
             { text: "Changes not staged for commit:", type: "system" },
             { text: "  (use \"git add <file>...\" to update what will be committed)", type: "muted" },
-            { text: "  modified:   src/components/layout/IdeLayout.jsx (Theme: OK)", type: "bold" },
+            { text: "  modified:   src/app.jsx (Smart Navigation: OK)", type: "bold" },
             { text: "no changes added to commit (use \"git add\" and/or \"git commit -a\")", type: "system" }
           ];
         } else {
           output = [{ text: `git: Command option not implemented. Try 'git status'.`, type: "error" }];
         }
+        break;
+
+      case "neofetch":
+        output = [
+          { text: "visitor@jay-portfolio", type: "bold" },
+          { text: "---------------------", type: "muted" },
+          { text: "OS: React / Vite v7.3.1", type: "system" },
+          { text: "Kernel: Gemini-Agent-Antigravity", type: "system" },
+          { text: "Uptime: 100% stable", type: "system" },
+          { text: "Shell: portfolio-sh v1.0.6", type: "system" },
+          { text: "Theme: " + theme, type: "system" },
+          { text: "Focus: AI/ML · Frontend", type: "system" },
+          { text: "Status: Available for Internships", type: "system" }
+        ];
         break;
 
       default:
@@ -491,7 +522,7 @@ export default function IdeLayout({ children, isDesktop }) {
           </div>
 
           {/* Active File Viewport */}
-          <div className="editor-viewport relative z-10" id="ide-viewport">
+          <div ref={viewportRef} className="editor-viewport relative z-10" id="ide-viewport">
             {children}
           </div>
 
