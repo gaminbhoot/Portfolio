@@ -168,7 +168,7 @@ export default function Projects() {
                 <div className="relative flex flex-col h-full">
 
                   {/* Image Wrapper */}
-                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm aspect-[4/3] mb-6 shadow-2xl shrink-0">
+                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] aspect-[4/3] mb-6 shadow-2xl shrink-0">
 
                     {/* Animated grain texture */}
                     <div
@@ -240,7 +240,7 @@ export default function Projects() {
                           whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.05 }}
                           title="View GitHub Repo"
-                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] backdrop-blur-sm border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                         >
                           <GitHubIcon />
                         </motion.button>
@@ -261,7 +261,7 @@ export default function Projects() {
                           whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: 0.12 }}
                           title="View Prototype"
-                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] backdrop-blur-sm border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                         >
                           <AirPlayIcon />
                         </motion.button>
@@ -307,7 +307,7 @@ export default function Projects() {
                         className="absolute inset-0 rounded-full blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"
                         style={{ background: "linear-gradient(135deg, var(--accent-color), var(--accent-hover, var(--accent-color)))" }}
                       />
-                      <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/[0.02] backdrop-blur-sm group-hover:bg-gradient-to-br group-hover:from-[var(--accent-color)] group-hover:to-[var(--accent-hover,var(--accent-color))] group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
+                      <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/[0.02] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-color)] group-hover:to-[var(--accent-hover,var(--accent-color))] group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
                         <ArrowUpRight size={20} strokeWidth={2.5} />
                       </div>
                     </motion.div>
