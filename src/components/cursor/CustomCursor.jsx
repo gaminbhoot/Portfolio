@@ -21,16 +21,30 @@ const CustomCursor = () => {
     mouse.current = { x: startX, y: startY };
     pos.current = { x: startX, y: startY };
 
-    const onMouseMove = (e) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
+    let isAnimating = false;
 
     const follow = () => {
-      pos.current.x += (mouse.current.x - pos.current.x) * 0.12;
-      pos.current.y += (mouse.current.y - pos.current.y) * 0.12;
+      const dx = mouse.current.x - pos.current.x;
+      const dy = mouse.current.y - pos.current.y;
+
+      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        pos.current.x = mouse.current.x;
+        pos.current.y = mouse.current.y;
+        isAnimating = false;
+
+        if (cursorRef.current) {
+          cursorRef.current.style.transform =
+            `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`;
+        }
+        if (dotRef.current) {
+          dotRef.current.style.transform =
+            `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%)`;
+        }
+        return;
+      }
+
+      pos.current.x += dx * 0.12;
+      pos.current.y += dy * 0.12;
 
       if (cursorRef.current) {
         cursorRef.current.style.transform =
@@ -45,7 +59,23 @@ const CustomCursor = () => {
       rAFRef.current = requestAnimationFrame(follow);
     };
 
+    const onMouseMove = (e) => {
+      if (e.clientX === mouse.current.x && e.clientY === mouse.current.y) {
+        return;
+      }
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
+
+      if (!isAnimating) {
+        isAnimating = true;
+        follow();
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+
     // Start loop
+    isAnimating = true;
     follow();
 
     return () => {

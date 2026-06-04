@@ -41,6 +41,7 @@ const ProfileCardComponent = ({
 
   const enterTimerRef = useRef(null);
   const leaveRafRef = useRef(null);
+  const lastTargetRef = useRef({ x: 0, y: 0 });
 
   const prefersReducedMotion = typeof window !== 'undefined' 
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
@@ -170,6 +171,8 @@ const ProfileCardComponent = ({
       const shell = shellRef.current;
       if (!shell || !tiltEngine) return;
       const { x, y } = getOffsets(event, shell);
+      if (x === lastTargetRef.current.x && y === lastTargetRef.current.y) return;
+      lastTargetRef.current = { x, y };
       tiltEngine.setTarget(x, y);
     },
     [tiltEngine]

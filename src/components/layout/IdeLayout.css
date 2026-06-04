@@ -126,11 +126,7 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Glassmorphism theme styling fallback */
-.ide-glass {
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
-}
+
 
 .ide-workspace {
   display: flex;

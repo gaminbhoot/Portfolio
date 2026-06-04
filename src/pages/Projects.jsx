@@ -341,15 +341,19 @@ export default function Projects() {
             transparent 0px, transparent 3px,
             rgba(0,0,0,0.13) 3px, rgba(0,0,0,0.13) 4px
           );
-          animation: crt-flicker 0.145s infinite steps(1);
           border-radius: inherit;
+        }
+        .group:hover .crt-scanlines {
+          animation: crt-flicker 0.145s infinite steps(1);
         }
 
         /* ── Horizontal glitch bars ── */
         .crt-bars {
           background: transparent;
-          animation: crt-bars 2.95s infinite steps(1);
           border-radius: inherit;
+        }
+        .group:hover .crt-bars {
+          animation: crt-bars 2.95s infinite steps(1);
         }
 
         /* ── RGB colour fringe ── */
@@ -359,15 +363,19 @@ export default function Projects() {
             inset -2px 0 0 rgba(30,180,255,0.07),
             inset 0 2px 0 rgba(30,255,100,0.04),
             inset 0 -2px 0 rgba(255,30,180,0.04);
-          animation: crt-rgb 2.2s infinite steps(1);
           border-radius: inherit;
+        }
+        .group:hover .crt-rgb-fringe {
+          animation: crt-rgb 2.2s infinite steps(1);
         }
 
         /* ── Edge vignette flicker ── */
         .crt-vignette {
           background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.22) 100%);
-          animation: crt-flicker 0.22s infinite steps(1);
           border-radius: inherit;
+        }
+        .group:hover .crt-vignette {
+          animation: crt-flicker 0.22s infinite steps(1);
         }
 
         @keyframes crt-flicker {
@@ -409,9 +417,11 @@ export default function Projects() {
 
         /* ── Pixel block glitch ── */
         .crt-pixel-blocks {
-          animation: pixel-blocks 3.95s infinite steps(1);
           border-radius: inherit;
           opacity: 0.55;
+        }
+        .group:hover .crt-pixel-blocks {
+          animation: pixel-blocks 3.95s infinite steps(1);
         }
 
         @keyframes pixel-blocks {

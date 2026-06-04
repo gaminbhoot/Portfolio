@@ -15,8 +15,8 @@ const GlassOverlay = ({
         className="absolute inset-0"
         style={{
           backgroundColor: tint,
-          backdropFilter: `blur(${blur}px) saturate(120%)`,
-          WebkitBackdropFilter: `blur(${blur}px) saturate(120%)`,
+          backdropFilter: `var(--backdrop-blur, blur(12px)) saturate(120%)`,
+          WebkitBackdropFilter: `var(--backdrop-blur, blur(12px)) saturate(120%)`,
         }}
       />
 

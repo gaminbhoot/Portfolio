@@ -341,7 +341,7 @@ export default function IdeLayout({ children, isDesktop }) {
   };
 
   return (
-    <div className={`ide-container ide-glass`} data-theme={theme}>
+    <div className={`ide-container`} data-theme={theme}>
       {/* ── Background Layer ────────────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="mobile-creative-bg">

@@ -247,9 +247,8 @@ export default function TerminalHero() {
                 </div>
                 
                 <div className="role-line flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs mt-2">
-                   <span className="flex h-1.5 w-1.5 relative">
-                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400"></span>
+                   <span className="flex h-2 w-2 relative">
+                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
                    </span>
                    <span className="text-green-400/90 font-semibold tracking-wide">Available for Internships & Roles</span>
                 </div>
@@ -369,32 +368,11 @@ export default function TerminalHero() {
           .cursor, .cursor-2 {
             animation: blink 1.2s ease-in-out infinite;
           }
-          .hero-title {
-            animation: breathe-subtle 5s ease-in-out infinite;
-          }
-        }
-
-        /* status-card breathe only on devices that support hover (desktop) */
-        @media (prefers-reduced-motion: no-preference) and (hover: hover) {
-          .status-card {
-            animation: breathe 4.5s ease-in-out infinite;
-          }
-          .status-card:nth-child(2) { animation-delay: 0.6s; }
-          .status-card:nth-child(3) { animation-delay: 1.2s; }
-          .status-card:nth-child(4) { animation-delay: 1.8s; }
         }
 
         @keyframes blink {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0; }
-        }
-        @keyframes breathe {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.5; }
-        }
-        @keyframes breathe-subtle {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.92; }
         }
       `}</style>
     </div>
