@@ -259,7 +259,7 @@ export default function Skills() {
         <p className="desc-reveal mt-3 text-gray-200 max-w-3xl">
           A list of tools, technologies, and systems that I have personally used
         </p>
-        <div className="divider-reveal mt-6 h-px w-full bg-white/10" />
+        <div className="divider-reveal mt-6 h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent)" }} />
       </div>
 
       {/* Terminal Section */}
@@ -411,7 +411,7 @@ export default function Skills() {
           <p className="text-gray-200 max-w-2xl">
             Professional certifications and courses completed to validate and expand my technical expertise.
           </p>
-          <div className="mt-6 h-px w-full bg-white/10" />
+          <div className="mt-6 h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent)" }} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

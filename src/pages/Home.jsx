@@ -239,14 +239,14 @@ export default function TerminalHero() {
                   <span className="text-white/90">Frontend Developer</span>
                 </div>
                 
-                <div className="role-line flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs mt-2">
-                   <span className="flex h-2 w-2 relative">
-                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                <div className="inline-flex items-center gap-x-2.5 px-3 py-1 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-md text-[10px] tracking-wider uppercase font-semibold text-green-400 select-none shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+                   <span className="flex h-1.5 w-1.5 relative">
+                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
                    </span>
-                   <span className="text-green-400/90 font-semibold tracking-wide">Available for Internships & Roles</span>
+                   <span>Available for Internships & Roles</span>
                 </div>
 
-                <div className="about-divider h-px w-full bg-white/10" />
+                <div className="about-divider h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent)" }} />
 
                 <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 pt-1">
 
