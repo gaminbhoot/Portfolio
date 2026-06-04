@@ -72,14 +72,6 @@ export default function Readme() {
             </p>
           </div>
         </div>
-
-        {/* Easter Eggs */}
-        <div>
-          <h2 className="text-xl font-bold text-accent-hover mt-6 mb-2">🕵️ Easter Eggs</h2>
-          <p>
-            A security token-based admin view (<code className="text-accent-hover font-mono bg-white/5 px-1 py-0.5 rounded text-xs">Epoxy</code>) is hidden in the workspace. You can bypass the standard sequence by typing <code className="text-accent-hover font-mono bg-white/5 px-1 py-0.5 rounded text-xs">epoxy</code> in the terminal.
-          </p>
-        </div>
       </div>
     </div>
   );

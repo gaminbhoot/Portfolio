@@ -191,8 +191,7 @@ export default function IdeLayout({ children, isDesktop }) {
           { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
           { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave)", type: "system" },
           { text: "  neofetch      - Display system info & stats", type: "system" },
-          { text: "  clear         - Clear the screen", type: "system" },
-          { text: "  epoxy         - Trigger secret admin sequence", type: "system" }
+          { text: "  clear         - Clear the screen", type: "system" }
         ];
         break;
 
@@ -290,7 +289,7 @@ export default function IdeLayout({ children, isDesktop }) {
           { text: "visitor@jay-portfolio", type: "bold" },
           { text: "---------------------", type: "muted" },
           { text: "OS: React / Vite v7.3.1", type: "system" },
-          { text: "Kernel: Gemini-Agent-Antigravity", type: "system" },
+          { text: "Kernel: portfolio-kernel-x86_64", type: "system" },
           { text: "Uptime: 100% stable", type: "system" },
           { text: "Shell: portfolio-sh v1.0.6", type: "system" },
           { text: "Theme: " + theme, type: "system" },
