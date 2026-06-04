@@ -113,7 +113,7 @@ export default function Terminal({
         }}
       >
         {/* Prompt */}
-        <div className="mb-3 text-sm font-mono text-indigo-400">
+        <div className="mb-3 text-sm font-mono text-accent">
           <span className="text-green-400">➜</span>{" "}
           <span className="text-cyan-400">~/skills</span>{" "}
           <span className="text-white/60">$</span> list

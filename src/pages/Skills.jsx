@@ -417,7 +417,7 @@ export default function Skills() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {certifications.map((cert, index) => {
             const colorClasses = {
-              indigo: { border: 'hover:border-indigo-400/50', shadow: 'hover:shadow-indigo-500/20', gradient: 'from-indigo-400 to-indigo-600', text: 'text-indigo-400 group-hover:text-indigo-300' },
+              indigo: { border: 'hover:border-accent/50', shadow: 'hover:shadow-accent/20', gradient: 'from-accent to-accent-hover', text: 'text-accent group-hover:text-accent-hover' },
               purple: { border: 'hover:border-purple-400/50', shadow: 'hover:shadow-purple-500/20', gradient: 'from-purple-400 to-purple-600', text: 'text-purple-400 group-hover:text-purple-300' },
               cyan: { border: 'hover:border-cyan-400/50', shadow: 'hover:shadow-cyan-500/20', gradient: 'from-cyan-400 to-cyan-600', text: 'text-cyan-400 group-hover:text-cyan-300' },
             };
@@ -458,7 +458,7 @@ export default function Skills() {
               style={{ background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))' }}
             >
               <div className="absolute inset-0 rounded-2xl p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 blur-sm" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-accent to-purple-500 blur-sm" />
               </div>
               <span className="relative z-10 flex items-center gap-3">
                 <svg className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -470,7 +470,7 @@ export default function Skills() {
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               </div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 via-indigo-500/30 to-purple-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 via-accent/30 to-purple-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
               <div
                 className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 rounded-2xl pointer-events-none"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }}

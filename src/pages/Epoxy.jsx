@@ -107,16 +107,16 @@ export default function Epoxy({ adminAccess = false }) {
         }}
       >
         {/* Glow Effect */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 opacity-20 blur-2xl -z-10 rounded-3xl" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-accent via-purple-500 to-cyan-500 opacity-20 blur-2xl -z-10 rounded-3xl" />
 
         {/* Lock Icon */}
         <div className="flex justify-center mb-8">
           <div className="
             w-20 h-20 
             rounded-2xl 
-            bg-gradient-to-br from-indigo-500 to-purple-600
+            bg-gradient-to-br from-accent to-purple-600
             flex items-center justify-center
-            shadow-lg shadow-indigo-500/50
+            shadow-lg shadow-accent/50
             animate-pulse-slow
           ">
             <svg 
@@ -152,7 +152,7 @@ export default function Epoxy({ adminAccess = false }) {
           <div className="space-y-2">
             <label 
               htmlFor="answer1" 
-              className="block text-sm font-mono uppercase tracking-widest text-indigo-400"
+              className="block text-sm font-mono uppercase tracking-widest text-accent"
             >
               Who am I?
             </label>
@@ -175,9 +175,9 @@ export default function Epoxy({ adminAccess = false }) {
                 placeholder-gray-500
                 transition-all duration-300
                 focus:outline-none
-                focus:border-indigo-400/50
+                focus:border-accent/50
                 focus:bg-white/10
-                focus:shadow-lg focus:shadow-indigo-500/20
+                focus:shadow-lg focus:shadow-accent/20
               "
               placeholder="Enter your answer..."
               required
@@ -313,7 +313,7 @@ export default function Epoxy({ adminAccess = false }) {
           >
             {/* Gradient border glow */}
             <div className="absolute inset-0 rounded-xl p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-400 via-purple-500 to-cyan-400 blur-sm" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-accent via-purple-500 to-cyan-400 blur-sm" />
             </div>
 
             <span className="relative z-10 flex items-center justify-center gap-2" style={{ fontFamily: "'Orbitron', sans-serif" }}>
@@ -347,7 +347,7 @@ export default function Epoxy({ adminAccess = false }) {
             </div>
 
             {/* Outer glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/30 via-purple-500/30 to-cyan-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-accent/30 via-purple-500/30 to-cyan-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
           </button>
         </form>
 
@@ -357,7 +357,7 @@ export default function Epoxy({ adminAccess = false }) {
             onClick={() => navigate(-1)}
             className="
               text-sm text-gray-400 
-              hover:text-indigo-400 
+              hover:text-accent 
               transition-colors duration-300
               font-mono
             "
@@ -367,7 +367,7 @@ export default function Epoxy({ adminAccess = false }) {
         </div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+        <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-accent animate-pulse" />
         <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: '0.5s' }} />
       </div>
 

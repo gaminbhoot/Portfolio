@@ -62,7 +62,7 @@ export default function IdeLayout({ children, isDesktop }) {
   // ── Map Location to Workspace Files ────────────────────────────────────────
   // We represent routes as workspace files
   const files = useMemo(() => [
-    { name: "Home.jsx", path: "/", icon: <Home size={14} className="text-indigo-400" /> },
+    { name: "Home.jsx", path: "/", icon: <Home size={14} className="text-accent" /> },
     { name: "Projects.jsx", path: "/projects", icon: <Folder size={14} className="text-amber-400" /> },
     { name: "Skills.jsx", path: "/skills", icon: <Settings size={14} className="text-sky-400" /> },
     { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> },
@@ -371,7 +371,7 @@ export default function IdeLayout({ children, isDesktop }) {
           {activeFile.icon}
           {activeFile.name}
         </div>
-        <div onClick={() => setPanelOpen(!panelOpen)} className="text-indigo-400">
+        <div onClick={() => setPanelOpen(!panelOpen)} className="text-accent">
           <Terminal size={18} />
         </div>
       </div>
@@ -582,7 +582,7 @@ export default function IdeLayout({ children, isDesktop }) {
                     let className = "text-white/80";
                     if (line.type === "input") className = "text-amber-300 font-bold";
                     if (line.type === "error") className = "text-red-400 font-semibold";
-                    if (line.type === "system") className = "text-indigo-300";
+                    if (line.type === "system") className = "text-accent-hover";
                     if (line.type === "bold") className = "text-white font-bold text-[14px]";
                     if (line.type === "muted") className = "text-white/40";
                     return (
@@ -620,7 +620,7 @@ export default function IdeLayout({ children, isDesktop }) {
       {/* ── Status Bar ──────────────────────────────────────────────────────── */}
       <div className="status-bar relative z-20">
         <div className="status-section">
-          <div className="status-item bg-indigo-500 hover:bg-indigo-600 transition-colors text-white px-2 py-0.5 rounded-l flex items-center gap-1">
+          <div className="status-item bg-accent hover:bg-accent-hover transition-colors text-white px-2 py-0.5 rounded-l flex items-center gap-1">
             <GitBranch size={12} />
             <span>main</span>
           </div>

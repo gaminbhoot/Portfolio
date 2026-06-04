@@ -86,7 +86,7 @@ export default function Projects() {
           />
         )}
         <div
-          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-purple-500/5 blur-[100px] animate-pulse"
+          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-accent/5 to-purple-500/5 blur-[100px] animate-pulse"
           style={{ animationDuration: "8s" }}
         />
       </div>

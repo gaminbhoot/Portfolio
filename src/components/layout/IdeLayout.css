@@ -11,6 +11,7 @@
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --accent-color: #6366f1; /* Indigo */
+  --accent-rgb: 99, 102, 241;
   --accent-hover: #4f46e5;
   --border-color: rgba(255, 255, 255, 0.08);
   --editor-bg: rgba(10, 10, 15, 0.1);
@@ -33,6 +34,7 @@
   --text-main: #f8f8f2;
   --text-muted: #6272a4;
   --accent-color: #ff79c6; /* Dracula Pink */
+  --accent-rgb: 255, 121, 198;
   --accent-hover: #ff92df;
   --border-color: rgba(189, 147, 249, 0.25);
   --editor-bg: rgba(40, 42, 54, 0.2);
@@ -55,6 +57,7 @@
   --text-main: #abb2bf;
   --text-muted: #5c6370;
   --accent-color: #61afef; /* Vibrant Blue */
+  --accent-rgb: 97, 175, 239;
   --accent-hover: #82bffa;
   --border-color: rgba(97, 175, 239, 0.18);
   --editor-bg: rgba(40, 44, 52, 0.2);
@@ -77,6 +80,7 @@
   --text-main: #d8dee9;
   --text-muted: #4c566a;
   --accent-color: #88c0d0; /* Nord Frost Cyan */
+  --accent-rgb: 136, 192, 208;
   --accent-hover: #a3be8c;
   --border-color: rgba(136, 192, 208, 0.2);
   --editor-bg: rgba(46, 52, 64, 0.2);
@@ -99,6 +103,7 @@
   --text-main: #f3e8ff;
   --text-muted: #84729c;
   --accent-color: #ff7edb; /* Neon Pink */
+  --accent-rgb: 255, 126, 219;
   --accent-hover: #ff9ee2;
   --border-color: rgba(255, 126, 219, 0.25);
   --editor-bg: rgba(43, 33, 58, 0.2);

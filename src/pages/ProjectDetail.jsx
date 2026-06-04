@@ -33,7 +33,7 @@ function renderFormattedContent(text, isFirst = false) {
       <p>
         {isFirst && (
           <span
-            className="float-left text-[4.5rem] leading-[0.8] mr-3 mt-1 font-black text-indigo-400 select-none"
+            className="float-left text-[4.5rem] leading-[0.8] mr-3 mt-1 font-black text-accent select-none"
             style={{ fontFamily: "'Orbitron', sans-serif" }}
           >
             {text[0]}
@@ -50,10 +50,10 @@ function renderFormattedContent(text, isFirst = false) {
   return (
     <div className="space-y-5">
       {intro && <p>{intro}</p>}
-      <ul className="space-y-3 pl-6 border-l border-indigo-400/30">
+      <ul className="space-y-3 pl-6 border-l border-accent/30">
         {items.map((item, i) => (
           <li key={i} className="flex gap-3">
-            <span className="text-indigo-400 font-mono shrink-0">{i + 1}.</span>
+            <span className="text-accent font-mono shrink-0">{i + 1}.</span>
             <span>{item}</span>
           </li>
         ))}
@@ -65,9 +65,9 @@ function renderFormattedContent(text, isFirst = false) {
 
 function PullQuote({ text }) {
   return (
-    <blockquote className="relative my-10 pl-6 border-l-2 border-indigo-400">
+    <blockquote className="relative my-10 pl-6 border-l-2 border-accent">
       <span
-        className="absolute -top-5 -left-1 text-6xl text-indigo-400/25 font-black leading-none select-none"
+        className="absolute -top-5 -left-1 text-6xl text-accent/25 font-black leading-none select-none"
         style={{ fontFamily: "'Orbitron', sans-serif" }}
       >"</span>
       <p className="text-xl md:text-2xl font-light text-white/90 leading-relaxed italic">{text}</p>
@@ -99,10 +99,10 @@ function SectionImage({ src, alt, caption, onOpen, eager }) {
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }}
         />
-        <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-indigo-400/30 opacity-0 group-hover:opacity-100 group-hover:w-16 group-hover:h-16 transition-all duration-500 pointer-events-none" />
+        <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-accent/30 opacity-0 group-hover:opacity-100 group-hover:w-16 group-hover:h-16 transition-all duration-500 pointer-events-none" />
       </div>
       {caption && (
-        <p className="mt-3 ml-6 text-xs font-mono text-gray-400 border-l border-indigo-400/30 pl-3">{caption}</p>
+        <p className="mt-3 ml-6 text-xs font-mono text-gray-400 border-l border-accent/30 pl-3">{caption}</p>
       )}
     </div>
   );
@@ -134,7 +134,7 @@ function ImageLightbox({ image, alt, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <img src={image} alt={alt} className="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
-        {corners.map((c, i) => <div key={i} className={`absolute ${c} w-16 h-16 border-indigo-400/60`} />)}
+        {corners.map((c, i) => <div key={i} className={`absolute ${c} w-16 h-16 border-accent/60`} />)}
       </motion.div>
       <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
         Click anywhere or press ESC to close
@@ -151,7 +151,7 @@ function TableOfContentsMenu({ sections, activeSection }) {
     <div className="fixed top-6 left-6 z-[60]">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative flex items-center justify-center p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white shadow-xl hover:border-indigo-400/50 hover:bg-indigo-400/10 transition-all duration-300 z-50 group"
+        className="relative flex items-center justify-center p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white shadow-xl hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 z-50 group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -167,9 +167,9 @@ function TableOfContentsMenu({ sections, activeSection }) {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="absolute top-full left-0 mt-4 w-64 md:w-60 bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-2xl overflow-hidden flex flex-col"
           >
-            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20 shrink-0">
-              <Eye size={14} className="text-indigo-400" />
-              <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Contents</span>
+            <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20 shrink-0">
+              <Eye size={14} className="text-accent" />
+              <span className="text-[10px] font-mono uppercase tracking-widest text-accent/80">Contents</span>
             </div>
             
             {/* Added max-h, overflow-y-auto, and custom scrollbar classes here */}
@@ -181,12 +181,12 @@ function TableOfContentsMenu({ sections, activeSection }) {
                   onClick={() => setIsOpen(false)}
                   className={`group/nav block py-2.5 px-3 rounded transition-all duration-300 ${
                     activeSection === section.id
-                      ? "bg-indigo-400/15 text-indigo-300 font-semibold"
+                      ? "bg-accent/15 text-accent-hover font-semibold"
                       : "text-gray-300 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-500 group-hover/nav:text-indigo-400/70 transition-colors">
+                    <span className="text-xs font-mono text-gray-500 group-hover/nav:text-accent/70 transition-colors">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="text-sm flex-1 leading-snug">{section.title}</span>
@@ -194,7 +194,7 @@ function TableOfContentsMenu({ sections, activeSection }) {
                       size={14}
                       className={`transition-transform duration-300 shrink-0 ${
                         activeSection === section.id
-                          ? "translate-x-0.5 opacity-100 text-indigo-400"
+                          ? "translate-x-0.5 opacity-100 text-accent"
                           : "opacity-0 -translate-x-2 group-hover/nav:opacity-60 group-hover/nav:translate-x-0"
                       }`}
                     />
@@ -239,8 +239,8 @@ function FloatingSidebar({ project, hasLinks }) {
         className="hidden lg:block lg:col-span-3 sticky self-start"
         style={{ top: 'calc(50vh - 240px)' }}
       >
-        <Link to="/projects" className="group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-6 transition-all duration-300 hover:gap-3">
-          <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-indigo-400/50 group-hover:bg-indigo-400/10 transition-all duration-300">
+        <Link to="/projects" className="group inline-flex items-center gap-2 text-gray-200 hover:text-accent mb-6 transition-all duration-300 hover:gap-3">
+          <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-accent/50 group-hover:bg-accent/10 transition-all duration-300">
             <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
           </div>
           <span className="font-mono text-sm">Back to Projects</span>
@@ -248,22 +248,22 @@ function FloatingSidebar({ project, hasLinks }) {
 
         {hasLinks && (
           <div className="relative">
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-indigo-500/20 rounded-lg blur-sm opacity-60" />
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-indigo-500/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-accent/20 rounded-lg blur-sm opacity-60" />
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-accent/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
 
             <div className="relative bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
               <div>
-                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-indigo-400/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400/80">Quick Access</span>
+                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-accent/80">Quick Access</span>
                 </div>
                 <div className="space-y-2">
                   {project.githubLink && (
                     <motion.button onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-indigo-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-accent/40 group-hover/btn:bg-white/10 transition-all duration-300">
                         <GitHubIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View on GitHub</span>
-                        <div className="ml-auto w-1 h-1 rounded-full bg-indigo-400/0 group-hover/btn:bg-indigo-400 transition-all duration-300" />
+                        <div className="ml-auto w-1 h-1 rounded-full bg-accent/0 group-hover/btn:bg-accent transition-all duration-300" />
                       </div>
                     </motion.button>
                   )}
@@ -344,7 +344,7 @@ export default function ProjectDetail() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>Project not found</h2>
-        <Link to="/projects" className="text-indigo-400 hover:text-indigo-300 transition-colors">Return to Projects</Link>
+        <Link to="/projects" className="text-accent hover:text-accent-hover transition-colors">Return to Projects</Link>
       </div>
     </div>
   );
@@ -363,12 +363,12 @@ export default function ProjectDetail() {
       <TableOfContentsMenu sections={project.sections} activeSection={activeSection} />
 
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-indigo-500/5 to-indigo-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-accent/5 to-accent/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
         <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-purple-500/5 to-pink-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
       </div>
 
-      <motion.div style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[3px] origin-left z-50 shadow-lg shadow-indigo-500/50">
-        <div className="w-full h-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-purple-500" />
+      <motion.div style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[3px] origin-left z-50 shadow-lg shadow-accent/50">
+        <div className="w-full h-full bg-gradient-to-r from-accent via-accent to-purple-500" />
       </motion.div>
 
       {/* Hero */}
@@ -383,7 +383,7 @@ export default function ProjectDetail() {
           animate={{ backgroundPosition: ['0% 0%', '0% 100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.03) 50%, transparent 100%)', backgroundSize: '100% 200%' }} />
         {['top-8 left-8 border-t-2 border-l-2', 'top-8 right-8 border-t-2 border-r-2', 'bottom-8 left-8 border-b-2 border-l-2', 'bottom-8 right-8 border-b-2 border-r-2'].map((pos, i) => (
-          <div key={i} className={`absolute ${pos} w-20 h-20 border-indigo-400/40 pointer-events-none`} />
+          <div key={i} className={`absolute ${pos} w-20 h-20 border-accent/40 pointer-events-none`} />
         ))}
         <motion.div style={{ opacity }} className="absolute bottom-0 left-0 right-0 p-6 md:p-12 pointer-events-none">
           <div className="max-w-7xl mx-auto">
@@ -391,9 +391,9 @@ export default function ProjectDetail() {
               <div className="absolute -inset-6 bg-gradient-to-r from-black/60 via-black/40 to-transparent backdrop-blur-lg border border-white/10" />
               <div className="relative">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-3 py-1.5 rounded-full border border-indigo-400/30 bg-indigo-400/10 backdrop-blur-sm">{project.category}</span>
+                  <span className="text-xs font-mono text-accent uppercase tracking-widest px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 backdrop-blur-sm">{project.category}</span>
                   <span className="text-xs font-mono text-gray-200">{project.year}</span>
-                  <div className="flex-1 h-[1px] bg-gradient-to-r from-indigo-400/50 to-transparent" />
+                  <div className="flex-1 h-[1px] bg-gradient-to-r from-accent/50 to-transparent" />
                 </div>
                 <h1 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4"
                   style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -414,7 +414,7 @@ export default function ProjectDetail() {
 
           <main className="lg:col-span-9">
 
-          <Link to="/projects" className="lg:hidden group inline-flex items-center gap-2 text-gray-200 hover:text-indigo-400 mb-12 transition-all duration-300 hover:gap-3">
+          <Link to="/projects" className="lg:hidden group inline-flex items-center gap-2 text-gray-200 hover:text-accent mb-12 transition-all duration-300 hover:gap-3">
             <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" />
             <span className="font-mono text-sm">Back</span>
           </Link>
@@ -429,8 +429,8 @@ export default function ProjectDetail() {
                   viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}>
 
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="h-[1px] w-8 bg-indigo-400 rounded-full" />
-                    <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest">{String(index + 1).padStart(2, '0')}</span>
+                    <div className="h-[1px] w-8 bg-accent rounded-full" />
+                    <span className="text-[10px] font-mono text-accent uppercase tracking-widest">{String(index + 1).padStart(2, '0')}</span>
                   </div>
                   <h2 className="text-xl md:text-2xl font-semibold text-white/90 mb-6 tracking-tight" style={{ fontFamily: "'Orbitron', sans-serif" }}>
                     {section.title}
@@ -455,22 +455,22 @@ export default function ProjectDetail() {
 
             {nextProject && (
               <motion.div className="pt-16 md:pt-24" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-indigo-400/50 to-transparent mb-12" />
+                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-accent/50 to-transparent mb-12" />
                 <h3 className="text-xs font-mono text-gray-300 uppercase tracking-widest mb-6 flex items-center gap-2">
                   <ChevronRight size={14} />Next Project
                 </h3>
                 <Link to={`/project/${nextProject.id}`} className="group block">
                   <div className="relative">
-                    <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative">
                       <h4 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 transition-all duration-300 group-hover:tracking-wide"
                         style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                         {nextProject.title}
                       </h4>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest px-2 py-1 rounded border border-indigo-400/30 bg-indigo-400/5">{nextProject.category}</span>
+                        <span className="text-xs font-mono text-accent uppercase tracking-widest px-2 py-1 rounded border border-accent/30 bg-accent/5">{nextProject.category}</span>
                         <span className="text-xs font-mono text-gray-300">{nextProject.year}</span>
-                        <div className="flex-1 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-400 via-indigo-500 to-transparent transition-all duration-700 rounded-full" />
+                        <div className="flex-1 h-[2px] w-0 group-hover:w-full bg-gradient-to-r from-accent via-accent to-transparent transition-all duration-700 rounded-full" />
                       </div>
                     </div>
                   </div>

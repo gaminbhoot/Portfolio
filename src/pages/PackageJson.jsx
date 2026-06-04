@@ -45,13 +45,13 @@ export default function PackageJson() {
 }`;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto font-mono text-xs md:text-sm leading-relaxed text-indigo-300">
+    <div className="p-6 max-w-4xl mx-auto font-mono text-xs md:text-sm leading-relaxed text-accent-hover">
       <div className="border-b border-white/10 pb-3 mb-4 select-none">
         <span className="text-white/40 text-xs">src / package.json</span>
       </div>
       
       <div className="bg-black/35 rounded-lg border border-white/5 p-5 relative overflow-x-auto shadow-2xl">
-        <pre className="text-indigo-200">
+        <pre className="text-accent-hover">
           <code>
             {codeString.split("\n").map((line, idx) => (
               <div key={idx} className="flex hover:bg-white/5 px-2 rounded">

@@ -330,8 +330,8 @@ export default function TerminalHero() {
                 </div>
 
                 <div className="after-prompt pt-1">
-                  <span className="text-indigo-400">jay@system:~$</span>{" "}
-                  <span className="cursor-2 text-indigo-400">▋</span>
+                  <span className="text-accent">jay@system:~$</span>{" "}
+                  <span className="cursor-2 text-accent">▋</span>
                 </div>
 
                 {/* ── STATUS BAR ─────────────────────────────────── */}
