@@ -82,7 +82,7 @@ export default function TerminalHero() {
 
       if (prefersReducedMotion) {
         gsap.set(terminalRef.current, { opacity: 1, scale: 1, rotateX: 0, y: 0 });
-        gsap.set([".terminal-dot", ".hero-word", ".command-line", ".role-line", ".status-card", ".resume-card", ".about-command", ".about-line", ".after-prompt"], { opacity: 1, scale: 1, x: 0, y: 0, rotateX: 0, filter: "blur(0px)" });
+        gsap.set([".terminal-dot", ".hero-word", ".command-line", ".role-line", ".status-card", ".about-command", ".about-line", ".after-prompt"], { opacity: 1, scale: 1, x: 0, y: 0, rotateX: 0, filter: "blur(0px)" });
         gsap.set(".about-divider", { scaleX: 1 });
         gsap.set(cardRef.current, { opacity: 1, y: 0, scale: 1 });
         return;
@@ -122,12 +122,6 @@ export default function TerminalHero() {
         { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.08, ease: "power2.out" },
         "-=0.5"
       );
-      tl.fromTo(
-        ".resume-card",
-        { opacity: 0, y: 20, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.6)" },
-        "-=0.3"
-      );
 
       // ── ABOUT OUTPUT – SCROLL TRIGGERED ───────────────────────────
       gsap.fromTo(".about-command",
@@ -165,19 +159,6 @@ export default function TerminalHero() {
           scrollTrigger: { trigger: aboutOutputRef.current, start: "top 95%", toggleActions: "play none none none" }
         }
       );
-
-      // ── SCROLL GLOW — skip on touch (boxShadow forces repaint) ────
-      if (!IS_TOUCH_DEVICE) {
-        // Resume card pulse — desktop only, it's a nice-to-have not critical UX
-        gsap.to(".resume-card", {
-          boxShadow: "0 0 20px rgba(99,102,241,0.4)",
-          repeat: 3,
-          yoyo: true,
-          duration: 1,
-          delay: 2,
-          ease: "power1.inOut",
-        });
-      }
 
     }, containerRef);
 

@@ -303,9 +303,9 @@ export default function ProjectDetail() {
   });
 
   const [activeSection, setActiveSection] = useState("");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
+  const heroImageRef = useRef(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
@@ -325,8 +325,12 @@ export default function ProjectDetail() {
     const hero = heroRef.current;
     if (!hero) return;
     const onMove = (e) => {
-      const rect = hero.getBoundingClientRect();
-      setMousePosition({ x: (e.clientX - rect.left - rect.width / 2) / rect.width, y: (e.clientY - rect.top - rect.height / 2) / rect.height });
+      if (heroImageRef.current) {
+        const rect = hero.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        heroImageRef.current.style.transform = `translate3d(${x * 20}px, ${y * 20}px, 0) scale(1.1)`;
+      }
     };
     hero.addEventListener('mousemove', onMove);
     return () => hero.removeEventListener('mousemove', onMove);
@@ -371,8 +375,8 @@ export default function ProjectDetail() {
       <motion.div ref={heroRef} layoutId={`hero-image-${id}`} className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
-        <motion.img src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title}
-          style={{ transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`, transition: 'transform 0.3s ease-out' }} />
+        <motion.img ref={heroImageRef} src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title}
+          style={{ transform: 'translate3d(0px, 0px, 0px) scale(1.1)', transition: 'transform 0.3s ease-out', willChange: 'transform' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
         <motion.div className="absolute inset-0 opacity-30 pointer-events-none"

@@ -109,7 +109,7 @@ const ProfileCardComponent = ({
 
       const stillFar = Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05;
 
-      if (stillFar || document.hasFocus()) {
+      if (stillFar) {
         rafId = requestAnimationFrame(step);
       } else {
         running = false;
@@ -324,7 +324,7 @@ const ProfileCardComponent = ({
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}
                 loading="eager"
-                fetchPriority="high"
+                fetchpriority="high"
                 onError={e => {
                   const t = e.target;
                   t.style.display = 'none';

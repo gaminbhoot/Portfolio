@@ -93,9 +93,9 @@ export default function ProjectSummary() {
     noindex: !project,
   });
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
+  const heroImageRef = useRef(null);
   const containerRef = useRef(null);
   const overviewCardRef = useRef(null);
   const screenshotsCardRef = useRef(null);
@@ -119,9 +119,11 @@ export default function ProjectSummary() {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (heroRef.current) {
+      if (heroImageRef.current && heroRef.current) {
         const rect = heroRef.current.getBoundingClientRect();
-        setMousePosition({ x: (e.clientX - rect.left - rect.width / 2) / rect.width, y: (e.clientY - rect.top - rect.height / 2) / rect.height });
+        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        heroImageRef.current.style.transform = `translate3d(${x * 20}px, ${y * 20}px, 0) scale(1.1)`;
       }
     };
     const hero = heroRef.current;
@@ -171,7 +173,7 @@ export default function ProjectSummary() {
         className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden"
       >
         <div className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
-        <motion.img src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title} style={{ transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.1)`, transition: 'transform 0.3s ease-out' }} />
+        <motion.img ref={heroImageRef} src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title} style={{ transform: 'translate3d(0px, 0px, 0px) scale(1.1)', transition: 'transform 0.3s ease-out', willChange: 'transform' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
         <motion.div className="absolute inset-0 opacity-30 pointer-events-none" animate={{ backgroundPosition: ['0% 0%', '0% 100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.03) 50%, transparent 100%)', backgroundSize: '100% 200%' }} />

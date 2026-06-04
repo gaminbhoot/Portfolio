@@ -5,7 +5,7 @@ import GlassOverlay from "./components/background/GlassOverlay";
 
 // ── Lazy Imports ─────────────────────────────────────────────────────────────
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
-const CustomCursor = lazy(() => import("./components/cursor/CustomCursor"));
+import CustomCursor from "./components/cursor/CustomCursor";
 const Dock = lazy(() => import("./components/dock/Dock"));
 const Home = lazy(() => import("./pages/Home"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -99,12 +99,8 @@ function Layout({ children, isDesktop, isMouseUser }) {
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
 
-      {/* 1. Cursor: Only if desktop AND has a mouse (not a touch-screen laptop) */}
-      {isDesktop && isMouseUser && (
-        <Suspense fallback={null}>
-          <CustomCursor />
-        </Suspense>
-      )}
+      {/* 1. Cursor: Desktop/Mouse custom cursor */}
+      <CustomCursor />
 
       {/* 2. Background Layer */}
       <div className="fixed inset-0 z-0">
@@ -149,14 +145,14 @@ function Layout({ children, isDesktop, isMouseUser }) {
 
 function AppContent() {
   const isDesktop = useIsDesktop();
-  const isMouseUser = useIsDesktop(); // Note: In a real app, you'd use the hook defined above
+  const isMouseUser = useIsMouseUser();
   const hasMounted = useHasMounted();
 
   // Post-mount check to prevent hydration mismatch
   if (!hasMounted) return null;
 
   return (
-    <Layout isDesktop={isDesktop} isMouseUser={true}> {/* Pass actual mouse hook here */}
+    <Layout isDesktop={isDesktop} isMouseUser={isMouseUser}>
       <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh] text-white/40">Loading...</div>}>
         <Routes>
           {/* Standard Routes */}

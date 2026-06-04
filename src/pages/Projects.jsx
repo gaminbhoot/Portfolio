@@ -36,20 +36,19 @@ export default function Projects() {
   });
 
   const [hoveredId, setHoveredId] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const gridRef = useRef(null);
+  const orbRef = useRef(null);
 
   useEffect(() => {
     // Skip mouse tracking entirely on touch devices — no listener, no setState, no repaints
     if (IS_TOUCH_DEVICE) return;
 
     const handleMouseMove = (e) => {
-      if (gridRef.current) {
+      if (orbRef.current && gridRef.current) {
         const rect = gridRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top,
-        });
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        orbRef.current.style.transform = `translate3d(${x - 300}px, ${y - 300}px, 0)`;
       }
     };
 
@@ -74,12 +73,15 @@ export default function Projects() {
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {!IS_TOUCH_DEVICE && (
           <div
+            ref={orbRef}
             className="absolute w-[600px] h-[600px] rounded-full blur-[100px] opacity-10"
             style={{
               background: "radial-gradient(circle, #71C4FF 0%, transparent 70%)",
-              left: `${mousePosition.x - 300}px`,
-              top: `${mousePosition.y - 300}px`,
-              transition: "left 0.3s ease-out, top 0.3s ease-out",
+              left: "0px",
+              top: "0px",
+              transform: "translate3d(-300px, -300px, 0)",
+              transition: "transform 0.3s ease-out",
+              willChange: "transform",
             }}
           />
         )}
