@@ -128,8 +128,8 @@ export default function Boost() {
           className="absolute inset-0 opacity-20"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(99, 102, 241, 0.5) 2px, transparent 2px),
-              linear-gradient(90deg, rgba(99, 102, 241, 0.5) 2px, transparent 2px)
+              linear-gradient(rgba(var(--accent-rgb), 0.5) 2px, transparent 2px),
+              linear-gradient(90deg, rgba(var(--accent-rgb), 0.5) 2px, transparent 2px)
             `,
             backgroundSize: '60px 60px',
             animation: 'gridSlide 20s linear infinite'

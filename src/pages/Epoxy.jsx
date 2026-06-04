@@ -82,8 +82,8 @@ export default function Epoxy({ adminAccess = false }) {
           className="absolute inset-0 opacity-10"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(99, 102, 241, 0.3) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(99, 102, 241, 0.3) 1px, transparent 1px)
+              linear-gradient(rgba(var(--accent-rgb), 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(var(--accent-rgb), 0.3) 1px, transparent 1px)
             `,
             backgroundSize: '50px 50px'
           }}
@@ -103,7 +103,7 @@ export default function Epoxy({ adminAccess = false }) {
         `}
         style={{
           transformStyle: "preserve-3d",
-          boxShadow: "0 0 80px rgba(99, 102, 241, 0.3)"
+          boxShadow: "0 0 80px rgba(var(--accent-rgb), 0.3)"
         }}
       >
         {/* Glow Effect */}
@@ -308,7 +308,7 @@ export default function Epoxy({ adminAccess = false }) {
               border border-white/10
             "
             style={{
-              background: 'linear-gradient(145deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4))',
+              background: 'linear-gradient(145deg, rgba(var(--accent-rgb), 0.4), rgba(var(--accent-rgb), 0.1))',
             }}
           >
             {/* Gradient border glow */}
@@ -337,7 +337,7 @@ export default function Epoxy({ adminAccess = false }) {
             <div 
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"
               style={{
-                background: 'linear-gradient(145deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.2))',
+                background: 'linear-gradient(145deg, rgba(var(--accent-rgb), 0.1), rgba(var(--accent-rgb), 0.2))',
               }}
             />
             

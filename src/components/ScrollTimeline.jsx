@@ -224,11 +224,11 @@ export const ScrollTimeline = ({
                   transform: "translateX(-50%)",
                   borderRadius:
                     progressLineCap === "round" ? "9999px" : "0px",
-                  background: `linear-gradient(to bottom, #22d3ee, #6366f1, #a855f7)`,
+                  background: `linear-gradient(to bottom, #22d3ee, var(--accent-color), var(--accent-hover))`,
                   // Enhanced shadow for a constant glow effect along the path
                   boxShadow: `
-                    0 0 15px rgba(99,102,241,0.5),
-                    0 0 25px rgba(168,85,247,0.3)
+                    0 0 15px rgba(var(--accent-rgb), 0.5),
+                    0 0 25px rgba(var(--accent-rgb), 0.3)
                   `,
                 }}
               />
@@ -246,12 +246,12 @@ export const ScrollTimeline = ({
                   className="w-5 h-5 rounded-full" // Size of the comet core
                   style={{
                     background:
-                      "radial-gradient(circle, rgba(168,85,247,0.8) 0%, rgba(99,102,241,0.5) 40%, rgba(34,211,238,0) 70%)",
+                      "radial-gradient(circle, rgba(var(--accent-rgb), 0.8) 0%, rgba(var(--accent-rgb), 0.5) 40%, rgba(var(--accent-rgb), 0) 70%)",
                     // Intense, layered glow effect for the comet
                     boxShadow: `
-                      0 0 15px 4px rgba(168, 85, 247, 0.6),
-                      0 0 25px 8px rgba(99, 102, 241, 0.4),
-                      0 0 40px 15px rgba(34, 211, 238, 0.2)
+                      0 0 15px 4px rgba(var(--accent-rgb), 0.6),
+                      0 0 25px 8px rgba(var(--accent-rgb), 0.4),
+                      0 0 40px 15px rgba(var(--accent-rgb), 0.2)
                     `,
                   }}
                   animate={{

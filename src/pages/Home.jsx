@@ -177,14 +177,7 @@ export default function TerminalHero() {
     { label: "MODE", value: "BUILD", color: "text-white/70" },
   ];
 
-  const glowColorMap = {
-    glass: "rgba(99, 102, 241, 0.4)",
-    dracula: "rgba(255, 121, 198, 0.45)",
-    "one-dark": "rgba(97, 175, 239, 0.4)",
-    nord: "rgba(136, 192, 208, 0.45)",
-    synthwave: "rgba(255, 126, 219, 0.5)"
-  };
-  const profileGlow = glowColorMap[theme] || glowColorMap.glass;
+  const profileGlow = "rgba(var(--accent-rgb), 0.4)";
 
   return (
     <div ref={containerRef}>

@@ -40,7 +40,7 @@ export default function IdeLayout({ children, isDesktop }) {
 
   // ── Layout Toggles ─────────────────────────────────────────────────────────
   const [explorerOpen, setExplorerOpen] = useState(true);
-  const [panelOpen, setPanelOpen] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(false);
   const [panelState, setPanelState] = useState("normal"); // "normal", "maximized"
   const [mobileExplorerOpen, setMobileExplorerOpen] = useState(false);
 
@@ -620,7 +620,13 @@ export default function IdeLayout({ children, isDesktop }) {
       {/* ── Status Bar ──────────────────────────────────────────────────────── */}
       <div className="status-bar relative z-20">
         <div className="status-section">
-          <div className="status-item bg-accent hover:bg-accent-hover transition-colors text-white px-2 py-0.5 rounded-l flex items-center gap-1">
+          <div 
+            className="status-item-clickable flex items-center gap-1"
+            onClick={() => {
+              setPanelOpen(true);
+              executeCommand("git status");
+            }}
+          >
             <GitBranch size={12} />
             <span>main</span>
           </div>

@@ -128,9 +128,9 @@ export default function Skills() {
       ScrollTrigger.create({
         trigger: terminalRef.current,
         start: "top center", end: "bottom center",
-        onEnter: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(99, 102, 241, 0.5)", duration: 0.6 }),
+        onEnter: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(var(--accent-rgb), 0.5)", duration: 0.6 }),
         onLeave: () => gsap.to(terminalRef.current, { boxShadow: "none", duration: 0.6 }),
-        onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(99, 102, 241, 0.5)", duration: 0.6 }),
+        onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(var(--accent-rgb), 0.5)", duration: 0.6 }),
         onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "none", duration: 0.6 }),
       });
 
