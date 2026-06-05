@@ -80,7 +80,6 @@ function AppContent() {
           <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
           <Route path="/boost" element={<Boost />} />
 
-
           {/* Specialized Token Route */}
           <Route path="/:token" element={<TokenRoute />} />
 
