@@ -52,12 +52,7 @@ export function ImageLightbox({ image, alt, onClose }) {
 }
 
 export function BackgroundOrbs() {
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-accent/5 to-accent/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
-      <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-purple-500/5 to-pink-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
-    </div>
-  );
+  return null;
 }
 
 export function ProgressBar({ scaleX }) {

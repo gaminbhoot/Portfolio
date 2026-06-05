@@ -351,7 +351,7 @@ export default function Skills() {
           {PERSPECTIVE_CARDS.map((card) => (
             <div
               key={card.title}
-              className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
+              className="perspective-card group rounded-2xl border border-[var(--border-color,#161722)] bg-[var(--panel-bg,#0e0f14)] p-6 transition-all duration-500 hover:bg-[var(--sidebar-bg,#0f1015)] hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
               style={{ transformStyle: "preserve-3d", willChange: "transform" }}
             >
               <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
@@ -394,7 +394,7 @@ export default function Skills() {
             return (
               <div
                 key={index}
-                className={`cert-card group relative rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 ${colors.border} hover:scale-105 hover:-translate-y-2 hover:shadow-xl ${colors.shadow} overflow-hidden cursor-pointer`}
+                className={`cert-card group relative rounded-2xl border border-[var(--border-color,#161722)] bg-[var(--panel-bg,#0e0f14)] p-6 transition-all duration-500 hover:bg-[var(--sidebar-bg,#0f1015)] ${colors.border} hover:scale-105 hover:-translate-y-2 hover:shadow-xl ${colors.shadow} overflow-hidden cursor-pointer`}
                 style={{ transformStyle: "preserve-3d" }}
                 onClick={() => handleSecretClick(`cert-${index}`)}
               >
@@ -407,7 +407,6 @@ export default function Skills() {
                 <p className={`text-sm font-mono uppercase tracking-wider mb-1 ${colors.text} transition-colors duration-300`}>{cert.issuer}</p>
                 <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{cert.date}</p>
                 <div className={`mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r ${colors.gradient} transition-all duration-700`} />
-                <div className={`absolute -inset-1 bg-gradient-to-r ${colors.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10`} />
               </div>
             );
           })}
@@ -422,27 +421,14 @@ export default function Skills() {
           <div ref={resumeButtonRef}>
             <button
               onClick={(e) => { handleResumeDownload(); handleSecretClick('resume'); }}
-              className="group relative px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 overflow-hidden backdrop-blur-[12px] border border-white/10"
-              style={{ background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))' }}
+              className="group relative px-8 py-4 rounded-2xl font-bold text-white text-lg transition-all duration-300 hover:scale-110 active:scale-95 border border-[var(--border-color,#161722)] bg-[var(--panel-bg,#0e0f14)] hover:bg-[var(--sidebar-bg,#0f1015)] hover:border-accent"
             >
-              <div className="absolute inset-0 rounded-2xl p-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-accent to-purple-500 blur-sm" />
-              </div>
               <span className="relative z-10 flex items-center gap-3">
                 <svg className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span className="tracking-wide" style={{ fontFamily: "'Orbitron', sans-serif" }}>Download Resume</span>
               </span>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'linear-gradient(145deg, rgba(113, 196, 255, 0.15), rgba(96, 73, 110, 0.15))' }} />
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-              </div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 via-accent/30 to-purple-500/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
-              <div
-                className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-500 rounded-2xl pointer-events-none"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }}
-              />
             </button>
           </div>
         </div>

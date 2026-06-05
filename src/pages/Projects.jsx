@@ -58,27 +58,7 @@ export default function Projects() {
   return (
     <div className="min-h-screen pt-4 px-6 md:px-12 pb-20 relative overflow-hidden">
 
-      {/* Animated background gradient orbs — mouse-tracking orb skipped on touch */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {!IS_TOUCH_DEVICE && (
-          <div
-            ref={orbRef}
-            className="absolute w-[600px] h-[600px] rounded-full blur-[100px] opacity-10"
-            style={{
-              background: "radial-gradient(circle, #71C4FF 0%, transparent 70%)",
-              left: "0px",
-              top: "0px",
-              transform: "translate3d(-300px, -300px, 0)",
-              transition: "transform 0.3s ease-out",
-              willChange: "transform",
-            }}
-          />
-        )}
-        <div
-          className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-accent/5 to-purple-500/5 blur-[100px] animate-pulse"
-          style={{ animationDuration: "8s" }}
-        />
-      </div>
+      {/* Background orbs disabled for solid performance-first layout */}
 
       {/* Header */}
       <motion.div

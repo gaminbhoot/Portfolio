@@ -117,6 +117,16 @@ html {
   transition: background 0.4s ease, background-color 0.4s ease;
 }
 
+.mobile-creative-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
 /* Kinetic abstract wireframes */
 .wireframe-shape {
   position: absolute;
@@ -207,7 +217,7 @@ body::-webkit-scrollbar {
 
 /* ── Terminal shell — inlined here so it's available before React hydrates ── */
 .terminal-shell {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--panel-bg, #0e0f14);
   position: relative;
 }
 

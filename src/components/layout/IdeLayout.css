@@ -1,22 +1,23 @@
 /* IDE Layout CSS */
 
 :root {
-  /* Default Theme: Frosted Glass */
-  --bg-color: rgba(5, 5, 8, 0.35);
-  --sidebar-bg: rgba(12, 12, 18, 0.45);
-  --activity-bg: rgba(6, 6, 10, 0.55);
-  --panel-bg: rgba(8, 8, 12, 0.65);
-  --active-tab-bg: rgba(255, 255, 255, 0.08);
-  --inactive-tab-bg: rgba(255, 255, 255, 0.02);
+  /* Default Theme: Dark Solid */
+  --bg-color: #0b0c10;
+  --sidebar-bg: #0f1015;
+  --activity-bg: #07080b;
+  --panel-bg: #0e0f14;
+  --active-tab-bg: #0b0c10;
+  --inactive-tab-bg: #0f1015;
+  --tabs-bg: #07080b;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --accent-color: #6366f1; /* Indigo */
   --accent-rgb: 99, 102, 241;
   --accent-hover: #4f46e5;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --editor-bg: rgba(10, 10, 15, 0.1);
-  --status-bg: rgba(6, 6, 10, 0.6);
-  --backdrop-blur: blur(12px);
+  --border-color: #161722;
+  --editor-bg: #0b0c10;
+  --status-bg: #07080b;
+  --backdrop-blur: none;
   --shadow-glow: 0px 0px 15px rgba(99, 102, 241, 0.35);
   --bg-gradient: radial-gradient(circle at top right, #0b0c16, #030305);
   --bg-fallback: #030305;
@@ -25,21 +26,22 @@
 }
 
 [data-theme="dracula"] {
-  --bg-color: rgba(40, 42, 54, 0.5);
-  --sidebar-bg: rgba(33, 34, 44, 0.65);
-  --activity-bg: rgba(25, 26, 33, 0.75);
-  --panel-bg: rgba(25, 26, 33, 0.7);
-  --active-tab-bg: rgba(189, 147, 249, 0.15);
-  --inactive-tab-bg: rgba(33, 34, 44, 0.3);
+  --bg-color: #282a36;
+  --sidebar-bg: #21222c;
+  --activity-bg: #191a21;
+  --panel-bg: #191a21;
+  --active-tab-bg: #282a36;
+  --inactive-tab-bg: #21222c;
+  --tabs-bg: #191a21;
   --text-main: #f8f8f2;
   --text-muted: #6272a4;
   --accent-color: #ff79c6; /* Dracula Pink */
   --accent-rgb: 255, 121, 198;
   --accent-hover: #ff92df;
-  --border-color: rgba(189, 147, 249, 0.25);
-  --editor-bg: rgba(40, 42, 54, 0.2);
-  --status-bg: rgba(25, 26, 33, 0.75);
-  --backdrop-blur: blur(16px);
+  --border-color: #44475a;
+  --editor-bg: #282a36;
+  --status-bg: #191a21;
+  --backdrop-blur: none;
   --shadow-glow: 0px 0px 15px rgba(255, 121, 198, 0.45);
   --bg-gradient: radial-gradient(circle at bottom left, #282a36, #1c1d26);
   --bg-fallback: #1e1f29;
@@ -48,21 +50,22 @@
 }
 
 [data-theme="one-dark"] {
-  --bg-color: rgba(40, 44, 52, 0.5);
-  --sidebar-bg: rgba(33, 37, 43, 0.65);
-  --activity-bg: rgba(30, 34, 39, 0.75);
-  --panel-bg: rgba(33, 37, 43, 0.7);
-  --active-tab-bg: rgba(97, 175, 239, 0.12);
-  --inactive-tab-bg: rgba(33, 37, 43, 0.3);
+  --bg-color: #282c34;
+  --sidebar-bg: #21252b;
+  --activity-bg: #1e2227;
+  --panel-bg: #21252b;
+  --active-tab-bg: #282c34;
+  --inactive-tab-bg: #21252b;
+  --tabs-bg: #21252b;
   --text-main: #abb2bf;
   --text-muted: #5c6370;
   --accent-color: #61afef; /* Vibrant Blue */
   --accent-rgb: 97, 175, 239;
   --accent-hover: #82bffa;
-  --border-color: rgba(97, 175, 239, 0.18);
-  --editor-bg: rgba(40, 44, 52, 0.2);
-  --status-bg: rgba(30, 34, 39, 0.75);
-  --backdrop-blur: blur(14px);
+  --border-color: #181a1f;
+  --editor-bg: #282c34;
+  --status-bg: #1e2227;
+  --backdrop-blur: none;
   --shadow-glow: 0px 0px 12px rgba(97, 175, 239, 0.35);
   --bg-gradient: radial-gradient(circle at center, #282c34, #1b1d23);
   --bg-fallback: #21252b;
@@ -71,21 +74,22 @@
 }
 
 [data-theme="nord"] {
-  --bg-color: rgba(46, 52, 64, 0.5);
-  --sidebar-bg: rgba(36, 41, 51, 0.65);
-  --activity-bg: rgba(46, 52, 64, 0.75);
-  --panel-bg: rgba(36, 41, 51, 0.7);
-  --active-tab-bg: rgba(136, 192, 208, 0.15);
-  --inactive-tab-bg: rgba(36, 41, 51, 0.3);
+  --bg-color: #2e3440;
+  --sidebar-bg: #242933;
+  --activity-bg: #242933;
+  --panel-bg: #242933;
+  --active-tab-bg: #2e3440;
+  --inactive-tab-bg: #242933;
+  --tabs-bg: #242933;
   --text-main: #d8dee9;
   --text-muted: #4c566a;
   --accent-color: #88c0d0; /* Nord Frost Cyan */
   --accent-rgb: 136, 192, 208;
   --accent-hover: #a3be8c;
-  --border-color: rgba(136, 192, 208, 0.2);
-  --editor-bg: rgba(46, 52, 64, 0.2);
-  --status-bg: rgba(36, 41, 51, 0.75);
-  --backdrop-blur: blur(15px);
+  --border-color: #3b4252;
+  --editor-bg: #2e3440;
+  --status-bg: #242933;
+  --backdrop-blur: none;
   --shadow-glow: 0px 0px 12px rgba(136, 192, 208, 0.4);
   --bg-gradient: radial-gradient(circle at top, #2e3440, #1f232b);
   --bg-fallback: #242933;
@@ -94,21 +98,22 @@
 }
 
 [data-theme="synthwave"] {
-  --bg-color: rgba(43, 33, 58, 0.5);
-  --sidebar-bg: rgba(36, 27, 47, 0.65);
-  --activity-bg: rgba(29, 21, 38, 0.75);
-  --panel-bg: rgba(36, 27, 47, 0.7);
-  --active-tab-bg: rgba(255, 126, 219, 0.15);
-  --inactive-tab-bg: rgba(36, 27, 47, 0.3);
+  --bg-color: #2b213a;
+  --sidebar-bg: #241b2f;
+  --activity-bg: #1d1526;
+  --panel-bg: #241b2f;
+  --active-tab-bg: #2b213a;
+  --inactive-tab-bg: #241b2f;
+  --tabs-bg: #241b2f;
   --text-main: #f3e8ff;
   --text-muted: #84729c;
   --accent-color: #ff7edb; /* Neon Pink */
   --accent-rgb: 255, 126, 219;
   --accent-hover: #ff9ee2;
-  --border-color: rgba(255, 126, 219, 0.25);
-  --editor-bg: rgba(43, 33, 58, 0.2);
-  --status-bg: rgba(29, 21, 38, 0.75);
-  --backdrop-blur: blur(18px);
+  --border-color: #44355a;
+  --editor-bg: #2b213a;
+  --status-bg: #1d1526;
+  --backdrop-blur: none;
   --shadow-glow: 0px 0px 20px rgba(255, 126, 219, 0.55);
   --bg-gradient: radial-gradient(circle at bottom right, #2b213a, #130e19);
   --bg-fallback: #1d1526;
@@ -140,14 +145,13 @@
 /* Activity Bar (Icons on left) */
 .activity-bar {
   width: 48px;
-  background-color: rgba(var(--accent-rgb), 0.02);
-  backdrop-filter: blur(20px);
+  background-color: var(--activity-bg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 16px 0;
-  border-right: none;
+  border-right: 1px solid var(--border-color);
   z-index: 20;
 }
 
@@ -213,11 +217,10 @@
 /* Sidebar Explorer */
 .sidebar-explorer {
   width: 220px;
-  background-color: rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(20px);
+  background-color: var(--sidebar-bg);
   display: flex;
   flex-direction: column;
-  border-right: none;
+  border-right: 1px solid var(--border-color);
   overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), border 0.3s ease;
 }
@@ -306,10 +309,10 @@
 /* Tab Bar */
 .editor-tabs {
   height: 40px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--tabs-bg, var(--activity-bg));
   display: flex;
   align-items: flex-end;
-  border-bottom: none;
+  border-bottom: 1px solid var(--border-color);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -322,14 +325,14 @@
   display: flex;
   align-items: center;
   padding: 0 16px;
-  margin: 0 2px 0 2px;
+  margin: 0 1px 0 0;
   height: 32px;
   font-size: 12px;
   color: var(--text-muted);
-  background-color: transparent;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
+  background-color: var(--inactive-tab-bg);
+  border-right: 1px solid var(--border-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   cursor: pointer;
   gap: 8px;
   position: relative;
@@ -343,11 +346,10 @@
 }
 
 .editor-tab.active {
-  background-color: var(--bg-color);
+  background-color: var(--active-tab-bg, var(--bg-color));
   color: var(--text-main);
-  border: none;
+  border-right: 1px solid var(--border-color);
   font-weight: 500;
-  backdrop-filter: blur(10px);
 }
 
 .editor-tab.active::after {
@@ -408,9 +410,8 @@
 /* Bottom Panel (Terminal/Console) */
 .bottom-panel {
   height: 240px;
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(20px);
-  border-top: none;
+  background-color: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -428,8 +429,8 @@
 
 .panel-header {
   height: 36px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-bottom: none;
+  background-color: var(--tabs-bg, var(--activity-bg));
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -558,9 +559,8 @@
 /* Status Bar */
 .status-bar {
   height: 26px;
-  background-color: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(15px);
-  border-top: none;
+  background-color: var(--status-bg);
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -666,5 +666,12 @@
   
   .bottom-panel.expanded {
     height: calc(100vh - 64px);
+  }
+}
+
+/* Touch-device optimization: disable heavy backdrop blurs */
+@media (hover: none) {
+  :root, [data-theme="dracula"], [data-theme="one-dark"], [data-theme="nord"], [data-theme="synthwave"] {
+    --backdrop-blur: none !important;
   }
 }

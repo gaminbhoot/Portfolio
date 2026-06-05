@@ -341,20 +341,6 @@ export default function IdeLayout({ children, isDesktop }) {
 
   return (
     <div className={`ide-container`} data-theme={theme}>
-      {/* ── Background Layer ────────────────────────────────────────────────── */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="mobile-creative-bg">
-          <div className="wireframe-shape shape-1" />
-          <div className="wireframe-shape shape-2" />
-          <div className="wireframe-shape shape-3" />
-        </div>
-      </div>
-
-      {/* ── Glass Overlay Layer ──────────────────────────────────────────────── */}
-      {isDesktop && (
-        <GlassOverlay tint="rgba(15, 15, 20, 0.45)" blur={12} opacity={0.55} />
-      )}
-
       {/* ── Desktop UI Cursor ────────────────────────────────────────────────── */}
       <CustomCursor />
 
@@ -422,7 +408,7 @@ export default function IdeLayout({ children, isDesktop }) {
         {/* 2. Sidebar Explorer */}
         <div
           className={`sidebar-explorer ${
-            explorerOpen || (mobileExplorerOpen && !isDesktop) ? "" : "collapsed"
+            (isDesktop ? explorerOpen : mobileExplorerOpen) ? "" : "collapsed"
           }`}
         >
           <div className="sidebar-title select-none">

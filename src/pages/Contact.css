@@ -1,53 +1,33 @@
 /* src/pages/Contact.css */
 
-/* ── Background & Orbs ──────────────────────────────────────────────────── */
+/* ── Background & Orbs (Disabled for solid aesthetic) ──────────────────── */
 .contact-noise-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.022;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  display: none;
 }
 .contact-orb {
-  position: absolute;
-  top: -160px;
-  right: -200px;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 7%, transparent) 0%, transparent 65%);
-  pointer-events: none;
-  filter: blur(30px);
+  display: none;
 }
 .contact-orb-2 {
-  top: auto;
-  bottom: -200px;
-  right: auto;
-  left: -200px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 5%, transparent) 0%, transparent 65%);
+  display: none;
 }
 
-/* ── Glass Cards ───────────────────────────────────────────────────────── */
+/* ── Solid Theme Cards ─────────────────────────────────────────────────── */
 .contact-glass-card {
-  background: rgba(0,0,0,0.2);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--panel-bg, #0e0f14);
+  border: 1px solid var(--border-color, rgba(255,255,255,0.1));
   border-radius: 16px;
   padding: 24px;
   position: relative;
   z-index: 1;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition: all 0.3s ease;
 }
 @media (hover: hover) {
   .contact-glass-card:hover {
-    background: rgba(0,0,0,0.27);
-    border-color: color-mix(in srgb, var(--accent-color) 50%, transparent);
-    box-shadow: 0 20px 40px color-mix(in srgb, var(--accent-color) 20%, transparent);
+    background: var(--sidebar-bg, #0f1015);
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
   }
 }
@@ -169,9 +149,8 @@
 .contact-submit-btn {
   position: relative;
   width: 100%;
-  background: color-mix(in srgb, var(--accent-color) 5%, transparent);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--inactive-tab-bg, #0f1015);
+  border: 1px solid var(--border-color, rgba(255,255,255,0.12));
   border-radius: 12px;
   color: rgba(237,233,254,0.95);
   padding: 16px 24px;
@@ -181,8 +160,8 @@
 }
 .contact-submit-btn:hover {
   transform: translateY(-1.5px);
-  background: color-mix(in srgb, var(--accent-color) 14%, transparent);
-  border-color: rgba(255,255,255,0.2);
+  background: var(--sidebar-bg, #0f1015);
+  border-color: var(--accent-color);
 }
 .contact-success-msg {
   display: flex;

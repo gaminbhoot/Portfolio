@@ -231,11 +231,7 @@ export default function TerminalHero() {
                   <span className="text-white/40">·</span>
                   <span className="text-white/90">Frontend Developer</span>
                 </div>
-                
-                <div className="inline-flex items-center gap-x-2.5 px-3 py-1 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-md text-[10px] tracking-wider uppercase font-semibold text-green-400 select-none shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
-                   <span className="flex h-1.5 w-1.5 relative">
-                     <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-                   </span>
+                <div className="role-line font-mono text-xs text-green-400/90 font-semibold tracking-wide select-none mt-2">
                    <span>Available for Internships & Roles</span>
                 </div>
 

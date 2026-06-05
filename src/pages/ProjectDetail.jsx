@@ -112,7 +112,7 @@ function TableOfContentsMenu({ sections, activeSection }) {
     <div className="fixed top-6 left-6 z-[60]">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative flex items-center justify-center p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white shadow-xl hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 z-50 group"
+        className="relative flex items-center justify-center p-3 rounded-full bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] text-white shadow-xl hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 z-50 group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -126,7 +126,7 @@ function TableOfContentsMenu({ sections, activeSection }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-full left-0 mt-4 w-64 md:w-60 bg-gradient-to-br from-black/90 to-black/70 backdrop-blur-xl border border-white/10 rounded-xl p-4 shadow-2xl overflow-hidden flex flex-col"
+            className="absolute top-full left-0 mt-4 w-64 md:w-60 bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] rounded-xl p-4 shadow-2xl overflow-hidden flex flex-col"
           >
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20 shrink-0">
               <Eye size={14} className="text-accent" />
@@ -173,10 +173,8 @@ function TableOfContentsMenu({ sections, activeSection }) {
 function SidebarLinks({ project }) {
   return (
     <div className="relative">
-      <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-accent/20 rounded-lg blur-sm opacity-60" />
-      <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-accent/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
-
-      <div className="relative bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
+      {/* Glow borders removed for solid aesthetic */}
+      <div className="relative bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] rounded-lg p-4 space-y-4">
         <div>
           <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20">
             <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
@@ -269,16 +267,24 @@ export default function ProjectDetail() {
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      let current = "";
-      document.querySelectorAll("section[id]").forEach((s) => {
-        if (window.scrollY >= s.offsetTop - 200) current = s.getAttribute("id");
-      });
-      setActiveSection(current);
+    if (!project) return;
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px",
+      threshold: 0
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const sections = document.querySelectorAll("section[id]");
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [project]);
 
   useHeroParallax(heroRef, heroImageRef);
 

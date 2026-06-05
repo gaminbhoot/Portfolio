@@ -16,8 +16,8 @@ import { animateCardReveal, setupGlowOnScroll } from "../lib/gsapHelpers";
 function OverviewCard({ overviewCardRef, summary }) {
   return (
     <div ref={overviewCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
-      <div className="absolute -inset-4 bg-gradient-to-br from-accent/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-      <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-accent/40 hover:bg-black/50 hover:shadow-2xl hover:shadow-accent/10">
+      {/* Glow removed for solid aesthetic */}
+      <div className="relative h-full p-8 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] transition-all duration-500 hover:border-accent/40 hover:bg-[var(--sidebar-bg,#0f1015)] hover:shadow-2xl hover:shadow-accent/10">
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-transparent group-hover:w-12 transition-all duration-500" />
@@ -99,8 +99,8 @@ function ScreenshotsGrid({ screenshotsCardRef, showcaseImages, setLightboxImage 
   if (!showcaseImages || showcaseImages.length === 0) return null;
   return (
     <div ref={screenshotsCardRef} className="relative group parallax-card" style={{ transformStyle: "preserve-3d" }}>
-      <div className="absolute -inset-4 bg-gradient-to-br from-purple-500/10 to-accent/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-      <div className="relative h-full p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-purple-400/40">
+      {/* Glow removed for solid aesthetic */}
+      <div className="relative h-full p-8 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] transition-all duration-500 hover:border-purple-400/40">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-transparent" />
@@ -120,7 +120,7 @@ function ScreenshotsGrid({ screenshotsCardRef, showcaseImages, setLightboxImage 
                   </div>
                 </div>
               </div>
-              <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+              <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] flex items-center justify-center">
                 <span className="text-[10px] font-mono text-accent font-bold">{String(index + 1).padStart(2, '0')}</span>
               </div>
             </motion.div>
@@ -135,22 +135,21 @@ function TechnicalImplementation({ techCardRef, technicalHighlights }) {
   if (!technicalHighlights || technicalHighlights.length === 0) return null;
   return (
     <div ref={techCardRef} className="relative group parallax-card rounded-2xl" style={{ transformStyle: "preserve-3d" }}>
-      <div className="absolute -inset-4 bg-gradient-to-br from-accent/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-      <div className="relative p-8 rounded-2xl bg-gradient-to-br from-black/40 to-black/60 backdrop-blur-sm border border-white/20 transition-all duration-500 hover:border-accent/30">
+      {/* Glow removed for solid aesthetic */}
+      <div className="relative p-8 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] transition-all duration-500 hover:border-accent/30">
         <div className="flex items-center gap-2 mb-6">
           <Zap size={18} className="text-accent" />
           <h2 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>Technical Implementation</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {technicalHighlights.map((highlight, index) => (
-            <div key={index} className="tech-highlight-card relative group/card p-5 rounded-xl bg-gradient-to-br from-black/30 to-black/50 border border-white/10 hover:border-accent/30 hover:bg-black/20 transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer" style={{ transformStyle: "preserve-3d" }}>
+            <div key={index} className="tech-highlight-card relative group/card p-5 rounded-xl bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] hover:border-accent/40 hover:bg-[var(--active-tab-bg,#0b0c10)] transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer" style={{ transformStyle: "preserve-3d" }}>
               <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-accent to-accent-hover border-2 border-gray-900 flex items-center justify-center shadow-lg group-hover/card:scale-110 group-hover/card:rotate-12 transition-transform duration-300">
                 <span className="text-white font-mono text-xs font-bold">{String(index + 1).padStart(2, '0')}</span>
               </div>
               <h3 className="text-white font-semibold mb-2 mt-2 text-sm group-hover/card:text-accent-hover transition-colors duration-300">{highlight.title}</h3>
               <p className="text-gray-300 text-xs leading-relaxed group-hover/card:text-gray-200 transition-colors duration-300">{highlight.description}</p>
               <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-accent/20 group-hover/card:border-accent/60 group-hover/card:w-8 group-hover/card:h-8 transition-all duration-300" />
-              <div className="absolute -inset-1 bg-gradient-to-br from-accent/20 to-purple-500/20 opacity-0 group-hover/card:opacity-100 blur-xl transition-opacity duration-500 -z-10" />
             </div>
           ))}
         </div>
@@ -162,8 +161,8 @@ function TechnicalImplementation({ techCardRef, technicalHighlights }) {
 function CtaFooter({ projectId }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8, duration: 0.6 }} className="relative group">
-      <div className="absolute -inset-4 bg-gradient-to-br from-accent/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl" />
-      <div className="relative p-6 rounded-2xl bg-gradient-to-r from-accent/10 via-purple-500/10 to-accent/10 backdrop-blur-sm border border-white/20 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Glow removed for solid aesthetic */}
+      <div className="relative p-6 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-center md:text-left">
           <p className="text-white font-semibold mb-1">Ready for the deep dive?</p>
           <p className="text-gray-300 text-xs font-mono">Complete documentation with problem statement, design goals, and results</p>
@@ -174,7 +173,6 @@ function CtaFooter({ projectId }) {
           </div>
           <span className="relative font-mono text-sm uppercase tracking-wider">View Full Details</span>
           <ChevronRight size={18} className="relative group-hover/btn:translate-x-1 transition-transform duration-300" />
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-accent via-purple-400 to-accent rounded-xl opacity-0 group-hover/btn:opacity-50 blur transition-opacity duration-500 -z-10" />
         </Link>
       </div>
     </motion.div>
@@ -276,7 +274,7 @@ export default function ProjectSummary() {
           {project.githubLink && (
             <button
               onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/[0.04] hover:border-white/30 transition-all duration-300 text-xs font-mono"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-color,#161722)] bg-[var(--sidebar-bg,#0f1015)] text-gray-300 hover:text-white hover:bg-[var(--active-tab-bg,#0b0c10)] transition-all duration-300 text-xs font-mono"
             >
               <GitHubIcon />
               <span>GitHub</span>
@@ -287,7 +285,7 @@ export default function ProjectSummary() {
           {project.prototypeLink && (
             <button
               onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/15 bg-white/[0.02] backdrop-blur-sm text-gray-300 hover:text-white hover:bg-white/[0.04] hover:border-white/30 transition-all duration-300 text-xs font-mono"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-color,#161722)] bg-[var(--sidebar-bg,#0f1015)] text-gray-300 hover:text-white hover:bg-[var(--active-tab-bg,#0b0c10)] transition-all duration-300 text-xs font-mono"
             >
               <AirPlayIcon />
               <span>Preview</span>
