@@ -1,0 +1,22 @@
+/* src/pages/Home.css */
+/*
+  breathe + breathe-subtle animate opacity only — compositor-friendly.
+  Gated behind prefers-reduced-motion as before.
+  On touch devices, status-card breathe is skipped — 4 simultaneous
+  infinite animations on low-end mobile GPUs adds up.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .cursor,
+  .cursor-2 {
+    animation: blink 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}

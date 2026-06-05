@@ -9,11 +9,6 @@ const CustomCursor = () => {
   const rAFRef = useRef(null);
 
   useEffect(() => {
-    // Only track mouse cursor on devices with a fine pointer (mouse/trackpad)
-    const isFinePointer = window.matchMedia("(pointer: fine)").matches;
-    console.log("CustomCursor useEffect: matches (pointer: fine) =", isFinePointer);
-    if (!isFinePointer) return;
-
     console.log("CustomCursor: Starting mouse tracking loop");
     const startX = window.innerWidth / 2;
     const startY = window.innerHeight / 2;
@@ -81,14 +76,14 @@ const CustomCursor = () => {
       <div
         ref={cursorRef}
         className="custom-cursor-wrapper pointer-events-none fixed z-[9999] top-0 left-0
-                   w-6 h-6 rounded-full border border-white/40 hidden lg:block"
+                   w-6 h-6 rounded-full border border-white/40"
       />
 
       {/* Inner dot */}
       <div
         ref={dotRef}
         className="custom-cursor-wrapper pointer-events-none fixed z-[9999] top-0 left-0
-                   w-1 h-1 rounded-full bg-white hidden lg:block"
+                   w-1 h-1 rounded-full bg-white"
       />
     </>
   );

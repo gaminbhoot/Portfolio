@@ -3,6 +3,7 @@ import { Mail, Github, Linkedin, Send, MapPin, Clock, Briefcase, ChevronRight, L
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { usePageMeta } from '../lib/usePageMeta';
+import './Contact.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -263,46 +264,6 @@ export default function Contact() {
         </div>
       </div>
 
-      <style>{`
-        /* ── Background & Orbs ──────────────────────────────────────────────────── */
-        .contact-noise-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.022; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px 200px; }
-        .contact-orb { position: absolute; top: -160px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 7%, transparent) 0%, transparent 65%); pointer-events: none; filter: blur(30px); }
-        .contact-orb-2 { top: auto; bottom: -200px; right: auto; left: -200px; width: 500px; height: 500px; background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 5%, transparent) 0%, transparent 65%); }
-
-        /* ── Glass Cards ───────────────────────────────────────────────────────── */
-        .contact-glass-card { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; position: relative; z-index: 1; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: all 0.3s ease; }
-        @media (hover: hover) { .contact-glass-card:hover { background: rgba(0,0,0,0.27); border-color: color-mix(in srgb, var(--accent-color) 50%, transparent); box-shadow: 0 20px 40px color-mix(in srgb, var(--accent-color) 20%, transparent); transform: translateY(-2px); } }
-
-        /* ── Icon Wraps & Status ───────────────────────────────────────────────── */
-        .contact-icon-wrap { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 20%, transparent); flex-shrink: 0; }
-        .contact-status-pill { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.06em; }
-        .contact-status-open { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25); color: #86efac; }
-
-        /* ── Links & Rows ──────────────────────────────────────────────────────── */
-        .contact-link-row { display: flex; align-items: center; padding: 10px; border-radius: 10px; border: 1px solid transparent; transition: all 0.2s ease; text-decoration: none; }
-        .contact-link-row:hover { background: color-mix(in srgb, var(--accent-color) 8%, transparent); border-color: color-mix(in srgb, var(--accent-color) 15%, transparent); }
-        .contact-link-icon-wrap { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 10%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 18%, transparent); color: var(--accent-color); flex-shrink: 0; transition: all 0.2s; }
-        .contact-link-row:hover .contact-link-icon-wrap { background: color-mix(in srgb, var(--accent-color) 18%, transparent); border-color: color-mix(in srgb, var(--accent-color) 30%, transparent); }
-        .contact-note-text { color: color-mix(in srgb, var(--accent-color) 45%, transparent); }
-        .contact-link-row:hover .contact-note-text { color: color-mix(in srgb, var(--accent-color) 75%, transparent) !important; }
-        .contact-chevron { color: rgba(255,255,255,0.2); }
-        .contact-link-row:hover .contact-chevron { color: var(--accent-color) !important; transform: translateX(2px); }
-
-        /* ── Form Styling ──────────────────────────────────────────────────────── */
-        .contact-label { display: flex; align-items: center; gap: 6px; font-family: 'Courier New', Courier, monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-        .contact-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0; outline: none; color: rgba(255,255,255,0.95); font-size: 15px; font-family: 'Courier New', Courier, monospace; transition: border-color 0.4s ease; }
-        .contact-input::placeholder { color: color-mix(in srgb, var(--accent-color) 35%, transparent); font-style: italic; font-size: 13px; }
-        .contact-input:focus { border-bottom-color: color-mix(in srgb, var(--accent-color) 60%, transparent); }
-        .contact-input-line { height: 1px; background: rgba(99,102,241,0); margin-top: -1px; transition: background 0.3s ease; }
-        .contact-input-line-active { background: color-mix(in srgb, var(--accent-color) 50%, transparent); }
-
-        /* ── Button & Status ───────────────────────────────────────────────────── */
-        .contact-submit-btn { position: relative; width: 100%; background: color-mix(in srgb, var(--accent-color) 5%, transparent); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: rgba(237,233,254,0.95); padding: 16px 24px; overflow: hidden; cursor: pointer; transition: all 0.25s ease; }
-        .contact-submit-btn:hover { transform: translateY(-1.5px); background: color-mix(in srgb, var(--accent-color) 14%, transparent); border-color: rgba(255,255,255,0.2); }
-        .contact-success-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; animation: fade-in-up 0.5s ease; }
-        @keyframes fade-in-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .contact-success-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--accent-color) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent); box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 20%, transparent); }
-      `}</style>
     </div>
   );
 }

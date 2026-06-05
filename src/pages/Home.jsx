@@ -6,6 +6,7 @@ import ProfileCard from "../components/profile/ProfileCard";
 import { usePageMeta } from "../lib/usePageMeta";
 import { ThemeContext } from "../context/ThemeContext";
 import { useIsDesktop } from "../lib/useIsDesktop";
+import "./Home.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -342,24 +343,6 @@ export default function TerminalHero() {
         </div>
       </section>
 
-      <style>{`
-        /*
-          breathe + breathe-subtle animate opacity only — compositor-friendly.
-          Gated behind prefers-reduced-motion as before.
-          On touch devices, status-card breathe is skipped — 4 simultaneous
-          infinite animations on low-end mobile GPUs adds up.
-        */
-        @media (prefers-reduced-motion: no-preference) {
-          .cursor, .cursor-2 {
-            animation: blink 1.2s ease-in-out infinite;
-          }
-        }
-
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
-        }
-      `}</style>
     </div>
   );
 }
