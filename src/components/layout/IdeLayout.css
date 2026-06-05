@@ -1149,6 +1149,7 @@
   color: var(--text-main);
   font-family: inherit;
   font-size: inherit;
+  caret-color: var(--accent-color);
 }
 
 /* Status Bar */
