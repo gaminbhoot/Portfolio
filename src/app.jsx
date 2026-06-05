@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useState, useEffect, useMemo, createContext } fr
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import IdeLayout from "./components/layout/IdeLayout";
 import { ThemeProvider } from "./context/ThemeContext";
+import { useIsDesktop } from "./lib/useIsDesktop";
 
 // ── Lazy Imports ─────────────────────────────────────────────────────────────
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
@@ -29,23 +30,7 @@ function useHasMounted() {
 
 
 
-/**
- * Detects if the screen width is desktop size.
- * Useful for: Layout changes and visibility of large elements.
- */
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
 
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
-    setIsDesktop(mq.matches); // Set initial state after mount to avoid hydration errors
-    const handler = (e) => setIsDesktop(e.matches);
-    mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
-  }, []);
-
-  return isDesktop;
-}
 
 
 // ── Specialized Components ───────────────────────────────────────────────────

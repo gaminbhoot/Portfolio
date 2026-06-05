@@ -13,6 +13,11 @@ export const projectsData = [
 
     summary: {
       tagline: "Real-time surveillance system combining YOLOv8 detection, Deep SORT tracking, and motion heatmap analytics deployed via Flask web interface.",
+      projectMeta: {
+        problem: "Legacy detection relies on background subtraction with zero cross-frame identity tracking.",
+        role: "Sole Engineer (Architecture, ML pipeline, full-stack deployment)",
+        result: "Built a real-time YOLOv8 + Deep SORT tracking pipeline with spatial heatmap analytics streamed via Flask."
+      },
       keyTechnologies: [
         "YOLOv8 (nano) for object detection",
         "Deep SORT for multi-object tracking",
@@ -141,6 +146,11 @@ export const projectsData = [
 
     summary: {
       tagline: "Cross-platform data sanitization system with NIST/DoD compliance, bootable deployment, and blockchain-anchored verification certificates.",
+      projectMeta: {
+        problem: "E-waste processing lacks verifiable, cross-platform drive wiping with cryptographic proof of destruction.",
+        role: "Research & Frontend Developer",
+        result: "Engineered a NIST/DoD-compliant sanitization system distributed via PXE network boot and Live USB."
+      },
       keyTechnologies: [
         "shred, blkdiscard, nvme-cli for multi-method sanitization",
         "ATA Secure Erase & Cryptographic Erase",
@@ -412,6 +422,11 @@ export const projectsData = [
     
     summary: {
       tagline: "A custom language compiler built fully in Java, featuring robust lexical analysis, abstract syntax tree (AST) construction, and assembly generation.",
+      projectMeta: {
+        problem: "Understanding how programming languages function requires deep systems building rather than using pre-built library parsers.",
+        role: "Systems Programmer",
+        result: "Built a compiler pipeline from scratch in Java, demonstrating low-level lexical analysis and AST construction."
+      },
       keyTechnologies: [
         "Java",
         "Lexer & Parser Architecture",
@@ -448,6 +463,11 @@ export const projectsData = [
   
   summary: {
     tagline: "An advanced, hardware-aware tool designed to dynamically profile, compress, and accelerate PyTorch models based on the host system's physical capabilities.",
+    projectMeta: {
+      problem: "Predicting raw memory footprints and dynamic latency bottlenecks for PyTorch models across heterogeneous hardware is highly inaccurate using static parameter estimations.",
+      role: "Machine Learning Engineer (Optimization, Profiling, Toolkit dev)",
+      result: "Developed a dynamic quantizer and hardware profiler toolkit for fast, automated model translation to INT8/FP16 pipelines."
+    },
     keyTechnologies: [
       "Python 3.9+",
       "PyTorch (CUDA & MPS Support)",

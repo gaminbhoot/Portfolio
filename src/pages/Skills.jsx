@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Terminal from "../components/Terminal";
 import { usePageMeta } from "../lib/usePageMeta";
+import { animateCardReveal, setupGlowOnScroll } from "../lib/gsapHelpers";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,16 +111,7 @@ export default function Skills() {
         );
       }
 
-      gsap.utils.toArray(".cert-card").forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 40, rotateX: 15 },
-          {
-            opacity: 1, y: 0, rotateX: 0, duration: 0.8, delay: index * 0.1, ease: "back.out(1.2)",
-            scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none reverse" },
-          }
-        );
-      });
+      animateCardReveal(gsap, ".cert-card");
 
       if (resumeButtonRef.current) {
         gsap.fromTo(
@@ -144,14 +136,7 @@ export default function Skills() {
         });
       });
 
-      ScrollTrigger.create({
-        trigger: terminalRef.current,
-        start: "top center", end: "bottom center",
-        onEnter: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(var(--accent-rgb), 0.5)", duration: 0.6 }),
-        onLeave: () => gsap.to(terminalRef.current, { boxShadow: "none", duration: 0.6 }),
-        onEnterBack: () => gsap.to(terminalRef.current, { boxShadow: "0 0 60px rgba(var(--accent-rgb), 0.5)", duration: 0.6 }),
-        onLeaveBack: () => gsap.to(terminalRef.current, { boxShadow: "none", duration: 0.6 }),
-      });
+      setupGlowOnScroll(ScrollTrigger, gsap, terminalRef, "0 0 60px rgba(var(--accent-rgb), 0.5)");
 
     }, containerRef);
 

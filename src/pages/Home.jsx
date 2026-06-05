@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
 import { usePageMeta } from "../lib/usePageMeta";
 import { ThemeContext } from "../context/ThemeContext";
+import { useIsDesktop } from "../lib/useIsDesktop";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,16 +49,7 @@ export default function TerminalHero() {
   );
 
   // isDesktop only needed for ProfileCard tilt — use matchMedia, not innerWidth
-  const [isDesktop, setIsDesktop] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches
-  );
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const handler = (e) => setIsDesktop(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const isDesktop = useIsDesktop();
 
   // Clock — 60s interval is fine, no change needed
   useEffect(() => {

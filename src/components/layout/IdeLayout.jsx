@@ -177,6 +177,98 @@ export default function IdeLayout({ children, isDesktop }) {
   };
 
   // Terminal Command Execution
+  // Helper command handlers to resolve executeCommand complexity
+  const commandHandlers = useMemo(() => ({
+    help: () => [
+      { text: "Available commands:", type: "system" },
+      { text: "  ls            - List files/pages in directory", type: "system" },
+      { text: "  cd <page>     - Navigate to page (home, projects, skills, contact)", type: "system" },
+      { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
+      { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave)", type: "system" },
+      { text: "  neofetch      - Display system info & stats", type: "system" },
+      { text: "  clear         - Clear the screen", type: "system" }
+    ],
+    ls: () => [
+      { text: "Directory: src/pages/", type: "system" },
+      { text: "  Home.jsx        Projects.jsx    Skills.jsx    Contact.jsx", type: "system" }
+    ],
+    dir: () => commandHandlers.ls(),
+    cd: (arg) => {
+      if (!arg) return [{ text: "Usage: cd <page> (e.g. cd projects)", type: "error" }];
+      const target = arg.toLowerCase();
+      if (["home", "home.jsx", "/", ".."].includes(target)) {
+        navigate("/");
+        return [{ text: "Navigating to Home...", type: "system" }];
+      }
+      if (["projects", "projects.jsx"].includes(target)) {
+        navigate("/projects");
+        return [{ text: "Navigating to Projects...", type: "system" }];
+      }
+      if (["skills", "skills.jsx"].includes(target)) {
+        navigate("/skills");
+        return [{ text: "Navigating to Skills...", type: "system" }];
+      }
+      if (["contact", "contact.jsx"].includes(target)) {
+        navigate("/contact");
+        return [{ text: "Navigating to Contact...", type: "system" }];
+      }
+      return [{ text: `Directory not found: '${arg}'`, type: "error" }];
+    },
+    cat: (arg) => {
+      if (!arg) return [{ text: "Usage: cat <file> (e.g. cat README.md)", type: "error" }];
+      const target = arg.toLowerCase();
+      if (target === "readme.md" || target === "readme") {
+        return [
+          { text: "Reading README.md...", type: "system" },
+          { text: "# Jay Joshi - Portfolio", type: "bold" },
+          { text: "CS Student | AI/ML & Frontend Engineer based in Noida, India.", type: "system" },
+          { text: "Building real-time computer vision systems, optimized DNN pipelines,", type: "system" },
+          { text: "and premium, dynamic user experiences with React, Tailwind, and GSAP.", type: "system" }
+        ];
+      }
+      return [{ text: `cat: File not found: '${arg}'`, type: "error" }];
+    },
+    theme: (arg) => {
+      if (!arg) return [{ text: "Usage: theme <glass|dracula|one-dark|nord|synthwave>", type: "error" }];
+      if (["glass", "dracula", "one-dark", "nord", "synthwave"].includes(arg)) {
+        setTheme(arg);
+        return [{ text: `Theme successfully updated to '${arg}'!`, type: "system" }];
+      }
+      return [{ text: `Unknown theme: '${arg}'. Available themes: glass, dracula, one-dark, nord, synthwave`, type: "error" }];
+    },
+    epoxy: () => {
+      const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      sessionStorage.setItem('epoxyAccessToken', token);
+      setTimeout(() => { navigate(`/${token}`); }, 500);
+      return [{ text: "Bypassing protocols... Running Epoxy Auth Sequence", type: "system" }];
+    },
+    git: (arg) => {
+      if (arg === "status") {
+        return [
+          { text: "On branch main", type: "system" },
+          { text: "Your branch is up to date with 'origin/main'.", type: "system" },
+          { text: "Changes not staged for commit:", type: "system" },
+          { text: "  (use \"git add <file>...\" to update what will be committed)", type: "muted" },
+          { text: "  modified:   src/app.jsx (Smart Navigation: OK)", type: "bold" },
+          { text: "no changes added to commit (use \"git add\" and/or \"git commit -a\")", type: "system" }
+        ];
+      }
+      return [{ text: `git: Command option not implemented. Try 'git status'.`, type: "error" }];
+    },
+    neofetch: () => [
+      { text: "visitor@jay-portfolio", type: "bold" },
+      { text: "---------------------", type: "muted" },
+      { text: "OS: React / Vite v7.3.1", type: "system" },
+      { text: "Kernel: portfolio-kernel-x86_64", type: "system" },
+      { text: "Uptime: 100% stable", type: "system" },
+      { text: "Shell: portfolio-sh v1.0.6", type: "system" },
+      { text: "Theme: " + theme, type: "system" },
+      { text: "Focus: AI/ML · Frontend", type: "system" },
+      { text: "Status: Available for Internships", type: "system" }
+    ]
+  }), [navigate, setTheme, theme]);
+
+  // Terminal Command Execution
   const executeCommand = (cmdString) => {
     const trimmedCmd = cmdString.trim();
     if (!trimmedCmd) return;
@@ -192,136 +284,32 @@ export default function IdeLayout({ children, isDesktop }) {
     const cmd = parts[0];
     const arg = parts[1];
 
-    let output = [];
-
-    switch (cmd) {
-      case "help":
-        output = [
-          { text: "Available commands:", type: "system" },
-          { text: "  ls            - List files/pages in directory", type: "system" },
-          { text: "  cd <page>     - Navigate to page (home, projects, skills, contact)", type: "system" },
-          { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
-          { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave)", type: "system" },
-          { text: "  neofetch      - Display system info & stats", type: "system" },
-          { text: "  clear         - Clear the screen", type: "system" }
-        ];
-        break;
-
-      case "ls":
-      case "dir":
-        output = [
-          { text: "Directory: src/pages/", type: "system" },
-          { text: "  Home.jsx        Projects.jsx    Skills.jsx    Contact.jsx", type: "system" },
-          { text: "  README.md", type: "system" }
-        ];
-        break;
-
-      case "cd":
-        if (!arg) {
-          output = [{ text: "Usage: cd <page> (e.g. cd projects)", type: "error" }];
-        } else if (arg === "home" || arg === "home.jsx" || arg === "/" || arg === "..") {
-          navigate("/");
-          output = [{ text: "Navigating to Home...", type: "system" }];
-        } else if (arg === "projects" || arg === "projects.jsx") {
-          navigate("/projects");
-          output = [{ text: "Navigating to Projects...", type: "system" }];
-        } else if (arg === "skills" || arg === "skills.jsx") {
-          navigate("/skills");
-          output = [{ text: "Navigating to Skills...", type: "system" }];
-        } else if (arg === "contact" || arg === "contact.jsx") {
-          navigate("/contact");
-          output = [{ text: "Navigating to Contact...", type: "system" }];
-        } else if (arg === "readme" || arg === "readme.md") {
-          navigate("/readme");
-          output = [{ text: "Navigating to README...", type: "system" }];
-        } else {
-          output = [{ text: `Directory not found: '${arg}'`, type: "error" }];
-        }
-        break;
-
-      case "cat":
-        if (!arg) {
-          output = [{ text: "Usage: cat <file> (e.g. cat README.md)", type: "error" }];
-        } else if (arg === "readme.md" || arg === "readme") {
-          navigate("/readme");
-          output = [
-            { text: "Reading README.md...", type: "system" },
-            { text: "# Jay Joshi - Portfolio", type: "bold" },
-            { text: "CS Student | AI/ML & Frontend Engineer based in Noida, India.", type: "system" },
-            { text: "Building real-time computer vision systems, optimized DNN pipelines,", type: "system" },
-            { text: "and premium, dynamic user experiences with React, Tailwind, and GSAP.", type: "system" }
-          ];
-        } else {
-          output = [{ text: `cat: File not found: '${arg}'`, type: "error" }];
-        }
-        break;
-
-      case "theme":
-        if (!arg) {
-          output = [{ text: "Usage: theme <glass|dracula|one-dark|nord|synthwave>", type: "error" }];
-        } else if (["glass", "dracula", "one-dark", "nord", "synthwave"].includes(arg)) {
-          setTheme(arg);
-          output = [{ text: `Theme successfully updated to '${arg}'!`, type: "system" }];
-        } else {
-          output = [{ text: `Unknown theme: '${arg}'. Available themes: glass, dracula, one-dark, nord, synthwave`, type: "error" }];
-        }
-        break;
-
-      case "clear":
-      case "cls":
-        setTerminalLines([]);
-        setTerminalInput("");
-        return;
-
-      case "epoxy":
-      case "sudo epoxy":
-        output = [{ text: "Bypassing protocols... Running Epoxy Auth Sequence", type: "system" }];
-        const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        sessionStorage.setItem('epoxyAccessToken', token);
-        setTimeout(() => { navigate(`/${token}`); }, 500);
-        break;
-
-      case "git":
-        if (arg === "status") {
-          output = [
-            { text: "On branch main", type: "system" },
-            { text: "Your branch is up to date with 'origin/main'.", type: "system" },
-            { text: "Changes not staged for commit:", type: "system" },
-            { text: "  (use \"git add <file>...\" to update what will be committed)", type: "muted" },
-            { text: "  modified:   src/app.jsx (Smart Navigation: OK)", type: "bold" },
-            { text: "no changes added to commit (use \"git add\" and/or \"git commit -a\")", type: "system" }
-          ];
-        } else {
-          output = [{ text: `git: Command option not implemented. Try 'git status'.`, type: "error" }];
-        }
-        break;
-
-      case "neofetch":
-        output = [
-          { text: "visitor@jay-portfolio", type: "bold" },
-          { text: "---------------------", type: "muted" },
-          { text: "OS: React / Vite v7.3.1", type: "system" },
-          { text: "Kernel: portfolio-kernel-x86_64", type: "system" },
-          { text: "Uptime: 100% stable", type: "system" },
-          { text: "Shell: portfolio-sh v1.0.6", type: "system" },
-          { text: "Theme: " + theme, type: "system" },
-          { text: "Focus: AI/ML · Frontend", type: "system" },
-          { text: "Status: Available for Internships", type: "system" }
-        ];
-        break;
-
-      default:
-        // Check if command is simply a page name (e.g. typing "projects" to go to projects)
-        const fileMatch = files.find(f => f.name.toLowerCase().startsWith(cmd));
-        if (fileMatch) {
-          navigate(fileMatch.path);
-          output = [{ text: `Shortcut recognized. Navigating to ${fileMatch.name}...`, type: "system" }];
-        } else {
-          output = [{ text: `shell: Command not found: '${cmd}'. Type 'help' for options.`, type: "error" }];
-        }
+    if (cmd === "clear" || cmd === "cls") {
+      setTerminalLines([]);
+      setTerminalInput("");
+      return;
     }
 
-    setTerminalLines(prev => [...prev, ...output, { text: "", type: "system" }]);
+    let output = [];
+    const isEpoxy = cmd === "epoxy" || trimmedCmd.toLowerCase() === "sudo epoxy";
+    const handler = isEpoxy ? commandHandlers.epoxy : commandHandlers[cmd];
+
+    if (handler) {
+      output = handler(arg);
+    } else {
+      // Check if command is simply a page name (e.g. typing "projects" to go to projects)
+      const fileMatch = files.find(f => f.name.toLowerCase().startsWith(cmd));
+      if (fileMatch) {
+        navigate(fileMatch.path);
+        output = [{ text: `Shortcut recognized. Navigating to ${fileMatch.name}...`, type: "system" }];
+      } else {
+        output = [{ text: `shell: Command not found: '${cmd}'. Type 'help' for options.`, type: "error" }];
+      }
+    }
+
+    if (output) {
+      setTerminalLines(prev => [...prev, ...output, { text: "", type: "system" }]);
+    }
     setTerminalInput("");
   };
 
@@ -514,145 +502,183 @@ export default function IdeLayout({ children, isDesktop }) {
           </div>
 
           {/* Collapsible Panel (Terminal) */}
-          <div
-            className={`bottom-panel ${panelOpen ? "" : "collapsed"} ${
-              panelState === "maximized" ? "expanded" : ""
-            }`}
-          >
-            {/* Panel Header */}
-            <div className="panel-header" onClick={focusTerminal}>
-              <div className="panel-tabs">
-                <div className="panel-tab select-none">
-                  PROBLEMS <span className="panel-badge">0</span>
-                </div>
-                <div className="panel-tab active select-none">
-                  TERMINAL
-                </div>
-                <div className="panel-tab select-none">OUTPUT</div>
-                <div className="panel-tab select-none">DEBUG CONSOLE</div>
-              </div>
-
-              {/* Controls */}
-              <div className="panel-controls">
-                {panelState === "normal" ? (
-                  <div
-                    className="panel-control-btn"
-                    onClick={() => setPanelState("maximized")}
-                    title="Maximize Panel"
-                  >
-                    <Maximize2 size={13} />
-                  </div>
-                ) : (
-                  <div
-                    className="panel-control-btn"
-                    onClick={() => setPanelState("normal")}
-                    title="Restore Panel Size"
-                  >
-                    <Minimize2 size={13} />
-                  </div>
-                )}
-                <div
-                  className="panel-control-btn"
-                  onClick={() => setPanelOpen(false)}
-                  title="Close Panel"
-                >
-                  <X size={14} />
-                </div>
-              </div>
-            </div>
-
-            {/* Panel Body (Interactive shell) */}
-            <div className="panel-body" onClick={focusTerminal}>
-              <div className="ide-terminal-content">
-                <div className="terminal-history">
-                  {terminalLines.map((line, idx) => {
-                    let className = "text-white/80";
-                    if (line.type === "input") className = "text-amber-300 font-bold";
-                    if (line.type === "error") className = "text-red-400 font-semibold";
-                    if (line.type === "system") className = "text-accent-hover";
-                    if (line.type === "bold") className = "text-white font-bold text-[14px]";
-                    if (line.type === "muted") className = "text-white/40";
-                    return (
-                      <div key={idx} className={`terminal-line ${className}`}>
-                        {line.text}
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="terminal-input-row">
-                  <span className="terminal-prompt select-none">
-                    visitor@jay-portfolio:~$
-                  </span>
-                  <input
-                    ref={terminalInputRef}
-                    type="text"
-                    className="terminal-text-input"
-                    value={terminalInput}
-                    onChange={(e) => setTerminalInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                  />
-                </div>
-                <div ref={terminalEndRef} />
-              </div>
-            </div>
-          </div>
+          <IdeTerminal
+            panelOpen={panelOpen}
+            setPanelOpen={setPanelOpen}
+            panelState={panelState}
+            setPanelState={setPanelState}
+            terminalLines={terminalLines}
+            terminalInput={terminalInput}
+            setTerminalInput={setTerminalInput}
+            terminalInputRef={terminalInputRef}
+            terminalEndRef={terminalEndRef}
+            focusTerminal={focusTerminal}
+            handleKeyDown={handleKeyDown}
+          />
         </div>
       </div>
 
       {/* ── Status Bar ──────────────────────────────────────────────────────── */}
-      <div className="status-bar relative z-20">
-        <div className="status-section">
-          <div 
-            className="status-item-clickable flex items-center gap-1"
-            onClick={() => {
-              setPanelOpen(true);
-              executeCommand("git status");
-            }}
-          >
-            <GitBranch size={12} />
-            <span>main</span>
+      <IdeStatusBar
+        setPanelOpen={setPanelOpen}
+        executeCommand={executeCommand}
+        setTerminalLines={setTerminalLines}
+      />
+    </div>
+  );
+}
+
+function IdeTerminal({
+  panelOpen,
+  setPanelOpen,
+  panelState,
+  setPanelState,
+  terminalLines,
+  terminalInput,
+  setTerminalInput,
+  terminalInputRef,
+  terminalEndRef,
+  focusTerminal,
+  handleKeyDown,
+}) {
+  return (
+    <div
+      className={`bottom-panel ${panelOpen ? "" : "collapsed"} ${
+        panelState === "maximized" ? "expanded" : ""
+      }`}
+    >
+      {/* Panel Header */}
+      <div className="panel-header" onClick={focusTerminal}>
+        <div className="panel-tabs">
+          <div className="panel-tab select-none">
+            PROBLEMS <span className="panel-badge">0</span>
           </div>
-          <div
-            className="status-item text-red-400 hover:text-red-300"
-            onClick={() => {
-              setPanelOpen(true);
-              setTerminalLines(prev => [
-                ...prev,
-                { text: "Workspace Check: 0 Errors. All pipelines operational.", type: "system" },
-                { text: "", type: "system" }
-              ]);
-            }}
-          >
-            <AlertCircle size={12} />
-            <span>0</span>
-          </div>
-          <div className="status-item text-amber-400">
-            <HelpCircle size={12} />
-            <span>0</span>
-          </div>
+          <div className="panel-tab active select-none">TERMINAL</div>
+          <div className="panel-tab select-none">OUTPUT</div>
+          <div className="panel-tab select-none">DEBUG CONSOLE</div>
         </div>
 
-        <div className="status-section font-mono">
-          <div className="status-item hidden sm:flex">
-            <span>Ln 1, Col 1</span>
+        {/* Controls */}
+        <div className="panel-controls">
+          {panelState === "normal" ? (
+            <div
+              className="panel-control-btn"
+              onClick={() => setPanelState("maximized")}
+              title="Maximize Panel"
+            >
+              <Maximize2 size={13} />
+            </div>
+          ) : (
+            <div
+              className="panel-control-btn"
+              onClick={() => setPanelState("normal")}
+              title="Restore Panel Size"
+            >
+              <Minimize2 size={13} />
+            </div>
+          )}
+          <div
+            className="panel-control-btn"
+            onClick={() => setPanelOpen(false)}
+            title="Close Panel"
+          >
+            <X size={14} />
           </div>
-          <div className="status-item hidden md:flex">
-            <span>Spaces: 2</span>
+        </div>
+      </div>
+
+      {/* Panel Body (Interactive shell) */}
+      <div className="panel-body" onClick={focusTerminal}>
+        <div className="ide-terminal-content">
+          <div className="terminal-history">
+            {terminalLines.map((line, idx) => {
+              let className = "text-white/80";
+              if (line.type === "input") className = "text-amber-300 font-bold";
+              if (line.type === "error") className = "text-red-400 font-semibold";
+              if (line.type === "system") className = "text-accent-hover";
+              if (line.type === "bold") className = "text-white font-bold text-[14px]";
+              if (line.type === "muted") className = "text-white/40";
+              return (
+                <div key={idx} className={`terminal-line ${className}`}>
+                  {line.text}
+                </div>
+              );
+            })}
           </div>
-          <div className="status-item">
-            <span>UTF-8</span>
+
+          <div className="terminal-input-row">
+            <span className="terminal-prompt select-none">
+              visitor@jay-portfolio:~$
+            </span>
+            <input
+              ref={terminalInputRef}
+              type="text"
+              className="terminal-text-input"
+              value={terminalInput}
+              onChange={(e) => setTerminalInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+            />
           </div>
-          <div className="status-item">
-            <span>LF</span>
-          </div>
-          <div className="status-item status-item-clickable" onClick={() => setPanelOpen(true)}>
-            <span>React JSX</span>
-          </div>
+          <div ref={terminalEndRef} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IdeStatusBar({ setPanelOpen, executeCommand, setTerminalLines }) {
+  return (
+    <div className="status-bar relative z-20">
+      <div className="status-section">
+        <div 
+          className="status-item-clickable flex items-center gap-1"
+          onClick={() => {
+            setPanelOpen(true);
+            executeCommand("git status");
+          }}
+        >
+          <GitBranch size={12} />
+          <span>main</span>
+        </div>
+        <div
+          className="status-item text-red-400 hover:text-red-300"
+          onClick={() => {
+            setPanelOpen(true);
+            setTerminalLines(prev => [
+              ...prev,
+              { text: "Workspace Check: 0 Errors. All pipelines operational.", type: "system" },
+              { text: "", type: "system" }
+            ]);
+          }}
+        >
+          <AlertCircle size={12} />
+          <span>0</span>
+        </div>
+        <div className="status-item text-amber-400">
+          <HelpCircle size={12} />
+          <span>0</span>
+        </div>
+      </div>
+
+      <div className="status-section font-mono">
+        <div className="status-item hidden sm:flex">
+          <span>Ln 1, Col 1</span>
+        </div>
+        <div className="status-item hidden md:flex">
+          <span>Spaces: 2</span>
+        </div>
+        <div className="status-item">
+          <span>UTF-8</span>
+        </div>
+        <div className="status-item">
+          <span>LF</span>
+        </div>
+        <div className="status-item status-item-clickable" onClick={() => setPanelOpen(true)}>
+          <span>React JSX</span>
         </div>
       </div>
     </div>

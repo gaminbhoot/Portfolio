@@ -31,32 +31,20 @@ const CustomCursor = () => {
         pos.current.x = mouse.current.x;
         pos.current.y = mouse.current.y;
         isAnimating = false;
-
-        if (cursorRef.current) {
-          cursorRef.current.style.transform =
-            `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`;
-        }
-        if (dotRef.current) {
-          dotRef.current.style.transform =
-            `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%)`;
-        }
-        return;
+      } else {
+        pos.current.x += dx * 0.12;
+        pos.current.y += dy * 0.12;
+        rAFRef.current = requestAnimationFrame(follow);
       }
-
-      pos.current.x += dx * 0.12;
-      pos.current.y += dy * 0.12;
 
       if (cursorRef.current) {
         cursorRef.current.style.transform =
           `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) translate(-50%, -50%)`;
       }
-
       if (dotRef.current) {
         dotRef.current.style.transform =
           `translate3d(${mouse.current.x}px, ${mouse.current.y}px, 0) translate(-50%, -50%)`;
       }
-
-      rAFRef.current = requestAnimationFrame(follow);
     };
 
     const onMouseMove = (e) => {

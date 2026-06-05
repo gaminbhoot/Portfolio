@@ -5,16 +5,22 @@ import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "fra
 import { projectsData } from "../data/projectsData";
 import { ArrowLeft, ChevronRight, Eye, ZoomIn, Menu } from "lucide-react";
 import { usePageMeta } from "../lib/usePageMeta";
-import { GitHubIcon, AirPlayIcon, ImageLightbox, BackgroundOrbs, ProgressBar, ProjectBackButton } from "../components/project/ProjectCommon";
+import { GitHubIcon, AirPlayIcon, ImageLightbox, BackgroundOrbs, ProgressBar, ProjectBackButton, ProjectHero } from "../components/project/ProjectCommon";
+import { useHeroParallax } from "../lib/useHeroParallax";
 
-function renderFormattedContent(text, isFirst = false) {
-  if (!text || typeof text !== "string") return null;
-
+function parseSerializedList(text) {
   const itemRegex = /\(\d+\)\s*([^()]+)/g;
   const items = [];
   let match;
   while ((match = itemRegex.exec(text)) !== null)
     items.push(match[1].trim().replace(/,$/, ""));
+  return items;
+}
+
+function renderFormattedContent(text, isFirst = false) {
+  if (!text || typeof text !== "string") return null;
+
+  const items = parseSerializedList(text);
 
   if (items.length === 0) {
     return (
@@ -164,6 +170,44 @@ function TableOfContentsMenu({ sections, activeSection }) {
   );
 }
 
+function SidebarLinks({ project }) {
+  return (
+    <div className="relative">
+      <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-accent/20 rounded-lg blur-sm opacity-60" />
+      <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-accent/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
+
+      <div className="relative bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
+        <div>
+          <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20">
+            <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent/80">Quick Access</span>
+          </div>
+          <div className="space-y-2">
+            {project.githubLink && (
+              <motion.button onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-accent/40 group-hover/btn:bg-white/10 transition-all duration-300">
+                  <GitHubIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View on GitHub</span>
+                  <div className="ml-auto w-1 h-1 rounded-full bg-accent/0 group-hover/btn:bg-accent transition-all duration-300" />
+                </div>
+              </motion.button>
+            )}
+            {project.prototypeLink && (
+              <motion.button onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-purple-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
+                  <AirPlayIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View Prototype</span>
+                  <div className="ml-auto w-1 h-1 rounded-full bg-purple-400/0 group-hover/btn:bg-purple-400 transition-all duration-300" />
+                </div>
+              </motion.button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Sidebar is fixed, outside the document flow entirely.
 // IntersectionObserver watches a sentinel at the bottom of the hero.
 // When hero exits viewport → sidebar fades in. Clean, no JS scroll math.
@@ -195,42 +239,7 @@ function FloatingSidebar({ project, hasLinks }) {
         style={{ top: 'calc(50vh - 240px)' }}
       >
         <ProjectBackButton className="mb-6" />
-
-        {hasLinks && (
-          <div className="relative">
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/20 via-purple-500/20 to-accent/20 rounded-lg blur-sm opacity-60" />
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-gray-500/30 via-purple-500/30 to-accent/30 rounded-lg animate-pulse" style={{ animationDuration: '3s' }} />
-
-            <div className="relative bg-gradient-to-br from-black/80 to-black/60 backdrop-blur-md border border-white/10 rounded-lg p-4 space-y-4">
-              <div>
-                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-accent/80">Quick Access</span>
-                </div>
-                <div className="space-y-2">
-                  {project.githubLink && (
-                    <motion.button onClick={() => window.open(project.githubLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-accent/0 via-accent/10 to-accent/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-accent/40 group-hover/btn:bg-white/10 transition-all duration-300">
-                        <GitHubIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View on GitHub</span>
-                        <div className="ml-auto w-1 h-1 rounded-full bg-accent/0 group-hover/btn:bg-accent transition-all duration-300" />
-                      </div>
-                    </motion.button>
-                  )}
-                  {project.prototypeLink && (
-                    <motion.button onClick={() => window.open(project.prototypeLink, '_blank', 'noopener,noreferrer')} whileHover={{ scale: 1.02, x: 2 }} whileTap={{ scale: 0.98 }} className="w-full group/btn relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-purple-500/0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                      <div className="relative flex items-center gap-2.5 px-3 py-2.5 rounded bg-white/5 border border-white/10 group-hover/btn:border-purple-400/40 group-hover/btn:bg-white/10 transition-all duration-300">
-                        <AirPlayIcon /><span className="text-xs font-mono text-gray-200 group-hover/btn:text-white transition-colors">View Prototype</span>
-                        <div className="ml-auto w-1 h-1 rounded-full bg-purple-400/0 group-hover/btn:bg-purple-400 transition-all duration-300" />
-                      </div>
-                    </motion.button>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {hasLinks && <SidebarLinks project={project} />}
       </motion.aside>
     </>
   );
@@ -271,20 +280,7 @@ export default function ProjectDetail() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-    const onMove = (e) => {
-      if (heroImageRef.current) {
-        const rect = hero.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        heroImageRef.current.style.transform = `translate3d(${x * 20}px, ${y * 20}px, 0) scale(1.1)`;
-      }
-    };
-    hero.addEventListener('mousemove', onMove);
-    return () => hero.removeEventListener('mousemove', onMove);
-  }, []);
+  useHeroParallax(heroRef, heroImageRef);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
@@ -317,39 +313,13 @@ export default function ProjectDetail() {
       <ProgressBar scaleX={scaleX} />
 
       {/* Hero */}
-      <motion.div ref={heroRef} layoutId={`hero-image-${id}`} className="w-full h-[70vh] md:h-[85vh] relative z-0 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.04] z-10 pointer-events-none"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`, backgroundSize: '200px 200px' }} />
-        <motion.img ref={heroImageRef} src={project.heroImage || project.thumbnail} className="w-full h-full object-cover" alt={project.title}
-          style={{ transform: 'translate3d(0px, 0px, 0px) scale(1.1)', transition: 'transform 0.3s ease-out', willChange: 'transform' }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
-        <motion.div className="absolute inset-0 opacity-30 pointer-events-none"
-          animate={{ backgroundPosition: ['0% 0%', '0% 100%'] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(113, 196, 255, 0.03) 50%, transparent 100%)', backgroundSize: '100% 200%' }} />
-        {['top-8 left-8 border-t-2 border-l-2', 'top-8 right-8 border-t-2 border-r-2', 'bottom-8 left-8 border-b-2 border-l-2', 'bottom-8 right-8 border-b-2 border-r-2'].map((pos, i) => (
-          <div key={i} className={`absolute ${pos} w-20 h-20 border-accent/40 pointer-events-none`} />
-        ))}
-        <motion.div style={{ opacity }} className="absolute bottom-0 left-0 right-0 p-6 md:p-12 pointer-events-none">
-          <div className="max-w-7xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="relative">
-              <div className="absolute -inset-6 bg-gradient-to-r from-black/60 via-black/40 to-transparent backdrop-blur-lg border border-white/10" />
-              <div className="relative">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-mono text-accent uppercase tracking-widest px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 backdrop-blur-sm">{project.category}</span>
-                  <span className="text-xs font-mono text-gray-200">{project.year}</span>
-                  <div className="flex-1 h-[1px] bg-gradient-to-r from-accent/50 to-transparent" />
-                </div>
-                <h1 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4"
-                  style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  {project.title}
-                </h1>
-                {project.subtitle && <p className="text-lg md:text-xl text-gray-200 font-light max-w-3xl">{project.subtitle}</p>}
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </motion.div>
+      <ProjectHero
+        heroRef={heroRef}
+        heroImageRef={heroImageRef}
+        id={id}
+        project={project}
+        opacity={opacity}
+      />
 
       {/* Content grid — items-start is critical, lets sticky work inside a grid column */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-24 relative z-10">
