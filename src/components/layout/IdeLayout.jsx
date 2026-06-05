@@ -292,6 +292,12 @@ export default function IdeLayout({ children, isDesktop }) {
       { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
       { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave, grass, atomic, light)", type: "system" },
       { text: "  neofetch      - Display system info & stats", type: "system" },
+      { text: "  whoami        - Display current session info", type: "system" },
+      { text: "  ping <host>   - Test network latency", type: "system" },
+      { text: "  git status    - Check current repository status", type: "system" },
+      { text: "  joke          - Display a programming joke", type: "system" },
+      { text: "  skills        - Print technical skills sheet", type: "system" },
+      { text: "  weather [city]- Show current weather summary", type: "system" },
       { text: "  clear         - Clear the screen", type: "system" }
     ],
     ls: () => [
@@ -326,10 +332,20 @@ export default function IdeLayout({ children, isDesktop }) {
       if (target === "readme.md" || target === "readme") {
         return [
           { text: "Reading README.md...", type: "system" },
-          { text: "# Jay Joshi - Portfolio", type: "bold" },
-          { text: "CS Student | AI/ML & Frontend Engineer based in Noida, India.", type: "system" },
-          { text: "Building real-time computer vision systems, optimized DNN pipelines,", type: "system" },
-          { text: "and premium, dynamic user experiences with React, Tailwind, and GSAP.", type: "system" }
+          { text: "==============================================", type: "system" },
+          { text: " JAY JOSHI - WORKSPACE PORTFOLIO", type: "bold" },
+          { text: " AI/ML Engineer & Frontend Developer", type: "bold" },
+          { text: "==============================================", type: "system" },
+          { text: "CORE SYSTEMS INTERFACE: CLI TERMINAL", type: "bold" },
+          { text: "  Interactive IDE terminal utilities are active in this workspace.", type: "system" },
+          { text: "  Available commands:", type: "system" },
+          { text: "    help, ls, cd, cat, theme, neofetch, whoami, ping, git, joke, skills, weather", type: "system" },
+          { text: "", type: "system" },
+          { text: "  [SYSTEM DIAGNOSTICS WARNING]", type: "bold" },
+          { text: "    Certain unlisted developer testing utilities, emulator subsystems,", type: "system" },
+          { text: "    and classic hardware cheat codes remain active but hidden.", type: "system" },
+          { text: "    Try exploring shell arguments or inputting standard hardware patterns.", type: "system" },
+          { text: "==============================================", type: "system" }
         ];
       }
       return [{ text: `cat: File not found: '${arg}'`, type: "error" }];
@@ -1696,7 +1712,8 @@ function TerminalWordle({ onClose }) {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" || e.key.toLowerCase() === "q") {
+      // Only allow 'q' to quit if gameOver is true, so players can type 'q' in words like 'queue' or 'query'
+      if (e.key === "Escape" || (gameOver && e.key.toLowerCase() === "q")) {
         onClose();
         return;
       }
@@ -1779,7 +1796,7 @@ function TerminalWordle({ onClose }) {
         TERMLE: <span className="text-[var(--accent-color)] font-bold">5-Letter Word Guess</span>
       </div>
       <div className="absolute top-2 right-4 text-xs text-white/60">
-        ESC / Q to exit
+        {gameOver ? "ESC / Q to exit" : "ESC to exit"}
       </div>
 
       <div className="flex flex-col gap-1 mt-4">
