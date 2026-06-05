@@ -235,7 +235,7 @@ export default function TerminalHero() {
                    <span>Available for Internships & Roles</span>
                 </div>
 
-                <div className="about-divider h-px w-full" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent)" }} />
+                <div className="about-divider h-px w-full" />
 
                 <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 pt-1">
 

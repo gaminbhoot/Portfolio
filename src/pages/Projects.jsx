@@ -74,16 +74,16 @@ export default function Projects() {
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           />
           <h1
-            className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase relative"
+            className="projects-heading text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase relative"
             style={{
               fontFamily: "'Orbitron', sans-serif",
-              background: "linear-gradient(135deg, #ffffff 0%, var(--accent-hover, #4f46e5) 50%, var(--accent-color) 100%)",
+              background: "linear-gradient(135deg, var(--text-main, #ffffff) 0%, var(--accent-hover, #4f46e5) 60%, var(--accent-color) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
             }}
           >
-            Selected <span style={{ WebkitTextFillColor: "var(--accent-color)" }}>Works</span>
+            Selected Works
           </h1>
         </div>
 
@@ -137,7 +137,7 @@ export default function Projects() {
                 <div className="relative flex flex-col h-full">
 
                   {/* Image Wrapper */}
-                  <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] aspect-[4/3] mb-6 shadow-2xl shrink-0">
+                  <div className="project-image-wrap relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.07] to-white/[0.02] aspect-[4/3] mb-6 shadow-2xl shrink-0">
 
                     {/* Animated grain texture */}
                     <div
@@ -212,7 +212,7 @@ export default function Projects() {
                           whileTap={{ scale: 0.95 }}
                           transition={{ duration: 0.25, delay: btn.delay }}
                           title={btn.title}
-                          className="w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+                          className="project-icon-btn w-11 h-11 rounded-full flex items-center justify-center text-gray-200 hover:text-white bg-white/[0.02] border border-white/10 shadow-2xl hover:bg-white/5 hover:border-white/20 transition-all duration-300"
                         >
                           {btn.icon}
                         </motion.button>
@@ -224,8 +224,8 @@ export default function Projects() {
                   <div className="flex justify-between items-start gap-4 flex-grow">
                     <div className="flex-1 flex flex-col h-full">
                       <h3
-                        className="text-2xl md:text-3xl font-bold text-white mb-2 transition-all duration-300 group-hover:tracking-wide flex-grow"
-                        style={{ fontFamily: "'Orbitron', sans-serif" }}
+                        className="text-2xl md:text-3xl font-bold mb-2 transition-all duration-300 group-hover:tracking-wide flex-grow"
+                        style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--text-main)" }}
                       >
                         {project.title}
                       </h3>
@@ -235,13 +235,13 @@ export default function Projects() {
                           className="text-xs font-mono uppercase tracking-widest px-2 py-1 rounded border"
                           style={{
                             color: "var(--accent-color)",
-                            borderColor: "color-mix(in srgb, var(--accent-color) 30%, transparent)",
-                            backgroundColor: "color-mix(in srgb, var(--accent-color) 5%, transparent)",
+                            borderColor: "color-mix(in srgb, var(--accent-color) 40%, transparent)",
+                            backgroundColor: "color-mix(in srgb, var(--accent-color) 8%, transparent)",
                           }}
                         >
                           {project.category}
                         </span>
-                        <span className="text-xs font-mono text-gray-200">
+                        <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
                           {project.year}
                         </span>
                       </div>
@@ -258,7 +258,7 @@ export default function Projects() {
                         className="absolute inset-0 rounded-full blur-sm opacity-0 group-hover:opacity-50 transition-opacity duration-300"
                         style={{ background: "linear-gradient(135deg, var(--accent-color), var(--accent-hover, var(--accent-color)))" }}
                       />
-                      <div className="relative p-3 rounded-full border border-white/20 text-white/60 bg-white/[0.02] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-color)] group-hover:to-[var(--accent-hover,var(--accent-color))] group-hover:text-white group-hover:border-transparent transition-all duration-300 shadow-lg">
+                      <div className="project-arrow-btn relative p-3 rounded-full border transition-all duration-300 shadow-lg group-hover:border-transparent group-hover:bg-gradient-to-br group-hover:from-[var(--accent-color)] group-hover:to-[var(--accent-hover,var(--accent-color))] group-hover:text-white" style={{ borderColor: "var(--border-color)", color: "var(--text-muted)", background: "var(--surface-pill, rgba(255,255,255,0.02))" }}>
                         <ArrowUpRight size={20} strokeWidth={2.5} />
                       </div>
                     </motion.div>
@@ -266,8 +266,8 @@ export default function Projects() {
 
                   {/* Index number watermark */}
                   <div
-                    className="absolute -top-8 -left-4 text-[120px] font-black opacity-[0.15] group-hover:opacity-[0.20] transition-opacity duration-500 pointer-events-none select-none"
-                    style={{ fontFamily: "'Orbitron', sans-serif" }}
+                    className="watermark-number absolute -top-8 -left-4 text-[120px] font-black opacity-[0.15] group-hover:opacity-[0.20] transition-opacity duration-500 pointer-events-none select-none"
+                    style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--text-main)" }}
                   >
                     {String(index + 1).padStart(2, "0")}
                   </div>

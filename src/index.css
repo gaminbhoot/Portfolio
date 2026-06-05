@@ -101,10 +101,10 @@ html {
 :root {
   --bg-gradient: radial-gradient(circle at top right, #0b0c16, #030305);
   --bg-fallback: #030305;
-  --shape-color: rgba(99, 102, 241, 0.15);
-  --shape-shadow: rgba(99, 102, 241, 0.04);
-  --accent-color: #6366f1;
-  --accent-rgb: 99, 102, 241;
+  --shape-color: rgba(129, 140, 248, 0.15);
+  --shape-shadow: rgba(129, 140, 248, 0.04);
+  --accent-color: #818cf8;
+  --accent-rgb: 129, 140, 248;
 }
 
 .mobile-creative-bg {
@@ -197,6 +197,31 @@ html {
   body {
     cursor: none;
   }
+}
+
+/* 3. Custom Cursor Colors & Tinting */
+.custom-cursor-ring {
+  border: 1px solid rgba(156, 163, 175, 0.4); /* Fallback Grey */
+  border-color: rgba(var(--accent-rgb, 156, 163, 175), 0.5);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb, 156, 163, 175), 0.15);
+  transition: border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.custom-cursor-dot {
+  background-color: #9ca3af; /* Fallback Grey */
+  background-color: var(--accent-color, #9ca3af);
+  box-shadow: 0 0 6px rgba(var(--accent-rgb, 156, 163, 175), 0.3);
+  transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+[data-theme="light"] .custom-cursor-ring {
+  border-color: rgba(0, 0, 0, 0.35) !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .custom-cursor-dot {
+  background-color: #000000 !important;
+  box-shadow: none !important;
 }
 
 /* Hide scrollbar globally (but keep scroll functionality) */

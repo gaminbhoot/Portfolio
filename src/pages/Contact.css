@@ -112,7 +112,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.65);
   margin-bottom: 8px;
 }
 .contact-input {
@@ -128,7 +128,8 @@
   transition: border-color 0.4s ease;
 }
 .contact-input::placeholder {
-  color: color-mix(in srgb, var(--accent-color) 35%, transparent);
+  color: color-mix(in srgb, var(--accent-color) 40%, var(--text-muted));
+  opacity: 0.85;
   font-style: italic;
   font-size: 13px;
 }
@@ -192,4 +193,33 @@
   background: color-mix(in srgb, var(--accent-color) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent-color) 30%, transparent);
   box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+/* ── Light Theme Overrides ─────────────────────────────────────────────── */
+[data-theme="light"] .contact-label {
+  color: var(--text-muted, #5a6478);
+}
+
+[data-theme="light"] .contact-input {
+  color: var(--text-main, #1a1d23);
+  border-bottom-color: var(--border-color, #cdd1da);
+}
+
+[data-theme="light"] .contact-input::placeholder {
+  color: var(--text-muted, #5a6478);
+  opacity: 0.75;
+}
+
+[data-theme="light"] .contact-status-open {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #16a34a;
+}
+
+[data-theme="light"] .contact-chevron {
+  color: var(--text-muted, #5a6478);
+}
+
+[data-theme="light"] .contact-submit-btn {
+  color: var(--text-main, #1a1d23);
 }

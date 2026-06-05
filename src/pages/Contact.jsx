@@ -139,7 +139,7 @@ export default function Contact() {
           <span className="word inline-block">Work</span>{' '}
           <span className="word inline-block" style={{ color: "var(--accent-color)" }}>Together</span>
         </h1>
-        <p className="contact-subtext text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
+        <p className="contact-subtext text-white/70 text-base md:text-lg max-w-xl leading-relaxed">
           I'm open to hybrid roles, internships, and freelance projects. Reach out — <span className="font-medium" style={{ color: "var(--accent-hover, var(--accent-color))" }}> I'd be happy to connect</span>.
         </p>
         <div className="header-divider mt-6 h-px" style={{ background: "linear-gradient(to right, color-mix(in srgb, var(--accent-color) 60%, transparent), color-mix(in srgb, var(--accent-hover, var(--accent-color)) 40%, transparent), transparent)" }} />
@@ -153,15 +153,15 @@ export default function Contact() {
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap"><Briefcase size={16} style={{ color: "var(--accent-color)" }} /></div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Current Status</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">Current Status</span>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Employment</span>
+                <span className="text-[11px] text-white/60 uppercase tracking-[0.12em] font-medium">Employment</span>
                 <span className="contact-status-pill contact-status-open">Open to Work</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[11px] text-white/40 uppercase tracking-[0.12em] font-medium">Role Type</span>
+                <span className="text-[11px] text-white/60 uppercase tracking-[0.12em] font-medium">Role Type</span>
                 <span className="text-[13px] text-white/90 font-semibold">Hybrid / Internship</span>
               </div>
             </div>
@@ -170,26 +170,26 @@ export default function Contact() {
           <div className="info-card contact-glass-card">
             <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap"><MapPin size={16} style={{ color: "var(--accent-color)" }} /></div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Location</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">Location</span>
             </div>
             <p className="text-[15px] text-white font-bold leading-tight">Noida, India</p>
             <div className="flex items-center gap-2 mt-2">
-              <Clock size={12} className="text-white/30" />
-              <span className="text-[10px] text-white/35 tracking-wide">UTC +5:30 · IST</span>
+              <Clock size={12} className="text-white/50" />
+              <span className="text-[10px] text-white/55 tracking-wide">UTC +5:30 · IST</span>
             </div>
           </div>
 
           <div className="info-card contact-glass-card flex flex-col flex-1">
             <div className="flex items-center gap-3 mb-5">
               <div className="contact-icon-wrap"><Link2 size={16} style={{ color: "var(--accent-color)" }} /></div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/40">Direct Channels</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">Direct Channels</span>
             </div>
             <div className="space-y-1">
               {CONTACT_LINKS.map(({ href, icon, label, value, note }, i) => (
                 <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="contact-link-row group">
                   <span className="contact-link-icon-wrap">{icon}</span>
                   <div className="flex-1 min-w-0 ml-3">
-                    <p className="text-[10px] text-white/35 uppercase tracking-[0.15em] font-semibold mb-0.5">{label}</p>
+                    <p className="text-[10px] text-white/55 uppercase tracking-[0.15em] font-semibold mb-0.5">{label}</p>
                     <p className="text-[13px] text-white/85 group-hover:text-white font-medium truncate transition-colors duration-200">{value}</p>
                   </div>
                   <div className="flex flex-col items-end shrink-0 ml-2">
@@ -211,7 +211,7 @@ export default function Contact() {
               <div className="contact-success-msg">
                 <div className="contact-success-icon"><Send size={22} style={{ color: "var(--accent-color)" }} /></div>
                 <p className="text-white font-semibold text-base mt-3">Message Received!</p>
-                <p className="text-white/50 text-sm mt-1">Thanks for reaching out — I'll get back to you shortly.</p>
+                <p className="text-white/70 text-sm mt-1">Thanks for reaching out — I'll get back to you shortly.</p>
                 <button
                   onClick={() => setStatus('idle')}
                   className="mt-6 px-5 py-2.5 rounded-lg border text-xs font-mono uppercase tracking-widest hover:bg-[var(--accent-color)]/20 transition-all"

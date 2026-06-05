@@ -75,15 +75,15 @@ const CustomCursor = () => {
       {/* Outer ring */}
       <div
         ref={cursorRef}
-        className="custom-cursor-wrapper pointer-events-none fixed z-[9999] top-0 left-0
-                   w-6 h-6 rounded-full border border-white/40"
+        className="custom-cursor-wrapper custom-cursor-ring pointer-events-none fixed z-[9999] top-0 left-0
+                   w-6 h-6 rounded-full"
       />
 
       {/* Inner dot */}
       <div
         ref={dotRef}
-        className="custom-cursor-wrapper pointer-events-none fixed z-[9999] top-0 left-0
-                   w-1 h-1 rounded-full bg-white"
+        className="custom-cursor-wrapper custom-cursor-dot pointer-events-none fixed z-[9999] top-0 left-0
+                   w-1 h-1 rounded-full"
       />
     </>
   );

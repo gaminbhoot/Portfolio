@@ -184,7 +184,7 @@ export default function IdeLayout({ children, isDesktop }) {
       { text: "  ls            - List files/pages in directory", type: "system" },
       { text: "  cd <page>     - Navigate to page (home, projects, skills, contact)", type: "system" },
       { text: "  cat <file>    - Print file contents (README.md)", type: "system" },
-      { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave)", type: "system" },
+      { text: "  theme <name>  - Change theme (glass, dracula, one-dark, nord, synthwave, grass, atomic, light)", type: "system" },
       { text: "  neofetch      - Display system info & stats", type: "system" },
       { text: "  clear         - Clear the screen", type: "system" }
     ],
@@ -229,12 +229,12 @@ export default function IdeLayout({ children, isDesktop }) {
       return [{ text: `cat: File not found: '${arg}'`, type: "error" }];
     },
     theme: (arg) => {
-      if (!arg) return [{ text: "Usage: theme <glass|dracula|one-dark|nord|synthwave>", type: "error" }];
-      if (["glass", "dracula", "one-dark", "nord", "synthwave"].includes(arg)) {
+      if (!arg) return [{ text: "Usage: theme <glass|dracula|one-dark|nord|synthwave|grass|atomic|light>", type: "error" }];
+      if (["glass", "dracula", "one-dark", "nord", "synthwave", "grass", "atomic", "light"].includes(arg)) {
         setTheme(arg);
         return [{ text: `Theme successfully updated to '${arg}'!`, type: "system" }];
       }
-      return [{ text: `Unknown theme: '${arg}'. Available themes: glass, dracula, one-dark, nord, synthwave`, type: "error" }];
+      return [{ text: `Unknown theme: '${arg}'. Available themes: glass, dracula, one-dark, nord, synthwave, grass, atomic, light`, type: "error" }];
     },
     epoxy: () => {
       const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -397,6 +397,9 @@ export default function IdeLayout({ children, isDesktop }) {
                 { text: "  theme one-dark    - VS Code classic One Dark Pro", type: "system" },
                 { text: "  theme nord        - Sleek arctic theme", type: "system" },
                 { text: "  theme synthwave   - Cyberpunk glow theme", type: "system" },
+                { text: "  theme grass       - Emerald forest nature theme", type: "system" },
+                { text: "  theme atomic      - Futuristic tech neon theme", type: "system" },
+                { text: "  theme light       - Clean, high-contrast light theme", type: "system" },
                 { text: "", type: "system" }
               ]);
             }}
@@ -437,7 +440,7 @@ export default function IdeLayout({ children, isDesktop }) {
 
               {/* Tree Folder: pages */}
               <div className="ml-3">
-                <div className="tree-folder-header select-none text-[10px] text-white/50">
+                <div className="tree-folder-header select-none">
                   <ChevronDown size={10} />
                   <span>pages</span>
                 </div>
@@ -583,7 +586,7 @@ function IdeTerminal({
               if (line.type === "error") className = "text-red-400 font-semibold";
               if (line.type === "system") className = "text-accent-hover";
               if (line.type === "bold") className = "text-white font-bold text-[14px]";
-              if (line.type === "muted") className = "text-white/40";
+              if (line.type === "muted") className = "text-[color:var(--text-muted)]";
               return (
                 <div key={idx} className={`terminal-line ${className}`}>
                   {line.text}

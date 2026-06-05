@@ -23,7 +23,7 @@ function OverviewCard({ overviewCardRef, summary }) {
             <div className="w-8 h-[2px] bg-gradient-to-r from-accent to-transparent group-hover:w-12 transition-all duration-500" />
             <span className="text-xs font-mono uppercase tracking-widest text-accent group-hover:text-accent-hover transition-colors duration-300">Overview</span>
           </div>
-          <p className="text-lg md:text-xl text-white font-light leading-relaxed group-hover:text-gray-100 transition-colors duration-300 mb-6">{summary.tagline}</p>
+          <p className="text-lg md:text-xl font-light leading-relaxed mb-6" style={{ color: 'var(--text-main)' }}>{summary.tagline}</p>
           
           {summary.projectMeta && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 px-5 rounded-xl bg-white/[0.02] border border-white/10 mb-6 group-hover:bg-white/[0.04] transition-colors duration-300">
@@ -139,16 +139,16 @@ function TechnicalImplementation({ techCardRef, technicalHighlights }) {
       <div className="relative p-8 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] transition-all duration-500 hover:border-accent/30">
         <div className="flex items-center gap-2 mb-6">
           <Zap size={18} className="text-accent" />
-          <h2 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>Technical Implementation</h2>
+          <h2 className="text-xl md:text-2xl font-bold" style={{ fontFamily: "'Orbitron', sans-serif", color: 'var(--text-main)' }}>Technical Implementation</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {technicalHighlights.map((highlight, index) => (
             <div key={index} className="tech-highlight-card relative group/card p-5 rounded-xl bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] hover:border-accent/40 hover:bg-[var(--active-tab-bg,#0b0c10)] transition-all duration-300 hover:scale-105 hover:-translate-y-1 cursor-pointer" style={{ transformStyle: "preserve-3d" }}>
               <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-gradient-to-br from-accent to-accent-hover border-2 border-gray-900 flex items-center justify-center shadow-lg group-hover/card:scale-110 group-hover/card:rotate-12 transition-transform duration-300">
-                <span className="text-white font-mono text-xs font-bold">{String(index + 1).padStart(2, '0')}</span>
+                <span className="keep-white font-mono text-xs font-bold">{String(index + 1).padStart(2, '0')}</span>
               </div>
-              <h3 className="text-white font-semibold mb-2 mt-2 text-sm group-hover/card:text-accent-hover transition-colors duration-300">{highlight.title}</h3>
-              <p className="text-gray-300 text-xs leading-relaxed group-hover/card:text-gray-200 transition-colors duration-300">{highlight.description}</p>
+              <h3 className="font-semibold mb-2 mt-2 text-sm group-hover/card:text-accent-hover transition-colors duration-300" style={{ color: 'var(--text-main)' }}>{highlight.title}</h3>
+              <p className="text-xs leading-relaxed group-hover/card:opacity-90 transition-colors duration-300" style={{ color: 'var(--text-muted)' }}>{highlight.description}</p>
               <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-accent/20 group-hover/card:border-accent/60 group-hover/card:w-8 group-hover/card:h-8 transition-all duration-300" />
             </div>
           ))}
@@ -164,8 +164,8 @@ function CtaFooter({ projectId }) {
       {/* Glow removed for solid aesthetic */}
       <div className="relative p-6 rounded-2xl bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-center md:text-left">
-          <p className="text-white font-semibold mb-1">Ready for the deep dive?</p>
-          <p className="text-gray-300 text-xs font-mono">Complete documentation with problem statement, design goals, and results</p>
+          <p className="font-semibold mb-1" style={{ color: 'var(--text-main)' }}>Ready for the deep dive?</p>
+          <p className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>Complete documentation with problem statement, design goals, and results</p>
         </div>
         <Link to={`/project/${projectId}`} className="group/btn relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-accent to-accent-hover hover:from-accent hover:to-accent text-white font-semibold transition-all duration-300 shadow-lg shadow-accent/30 hover:shadow-accent/60 hover:shadow-xl hover:scale-110 active:scale-95 whitespace-nowrap overflow-hidden">
           <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700 rounded-xl">

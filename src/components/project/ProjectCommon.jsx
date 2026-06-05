@@ -65,7 +65,7 @@ export function ProgressBar({ scaleX }) {
 
 export function ProjectBackButton({ className = 'mb-6' }) {
   return (
-    <Link to="/projects" className={`group inline-flex items-center gap-2 text-gray-200 hover:text-accent transition-all duration-300 hover:gap-3 ${className}`}>
+    <Link to="/projects" className={`group inline-flex items-center gap-2 hover:text-accent transition-all duration-300 hover:gap-3 ${className}`} style={{ color: 'var(--text-muted)' }}>
       <div className="p-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm group-hover:border-accent/50 group-hover:bg-accent/10 transition-all duration-300">
         <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
       </div>
@@ -99,8 +99,8 @@ export function ProjectHero({ heroRef, heroImageRef, id, project, opacity }) {
                 <span className="text-xs font-mono text-gray-200">{project.year}</span>
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-accent/50 to-transparent" />
               </div>
-              <h1 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4" style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{project.title}</h1>
-              {project.subtitle && <p className="text-lg md:text-xl text-gray-200 font-light max-w-3xl">{project.subtitle}</p>}
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4" style={{ fontFamily: "'Orbitron', sans-serif", backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{project.title}</h1>
+              {project.subtitle && <p className="text-lg md:text-xl font-light max-w-3xl" style={{ color: 'rgba(255,255,255,0.85)' }}>{project.subtitle}</p>}
             </div>
           </motion.div>
         </div>

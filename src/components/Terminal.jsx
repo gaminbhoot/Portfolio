@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 /**
  * =========================================================
@@ -42,6 +42,24 @@ export default function Terminal({
   children,
   className = "",
 }) {
+  const ref = useRef(null);
+  const [isLight, setIsLight] = useState(false);
+
+  // Detect active theme via CSS variable — runs after mount and on theme change
+  useEffect(() => {
+    const check = () => {
+      const root = document.querySelector("[data-theme]") || document.documentElement;
+      const theme = root.getAttribute("data-theme") || "";
+      setIsLight(theme === "light");
+    };
+    check();
+    // Watch for attribute mutations (theme changes)
+    const observer = new MutationObserver(check);
+    const target = document.querySelector(".ide-container") || document.documentElement;
+    observer.observe(target, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
+
   /* =========================
      TINT COLOR MAP
      ========================= */
@@ -64,10 +82,19 @@ export default function Terminal({
     },
   };
 
-  const rgb = tintMap[tint]?.[mode] || tintMap.neutral.dark;
+  // In light mode, always use a light neutral tint so the terminal reads as
+  // a white surface card — not a dark glass slab on a white background.
+  const effectiveMode = isLight ? "light" : mode;
+  const effectiveTint = isLight ? "neutral" : tint;
+  const rgb = tintMap[effectiveTint]?.[effectiveMode] || tintMap.neutral.dark;
+
+  // Light mode uses higher opacity for solid, readable surfaces
+  const effectiveHeaderOpacity = isLight ? 0.08 : headerOpacity;
+  const effectiveBodyOpacity = isLight ? 0.92 : bodyOpacity;
 
   return (
     <div
+      ref={ref}
       className={`
         relative w-full max-w-4xl mx-auto
         aspect-[16/9]              /* 🔑 16:9 RATIO LOCK */
@@ -84,7 +111,7 @@ export default function Terminal({
       <div
         className="flex items-center justify-between px-3 py-2 border-b border-white/10"
         style={{
-          backgroundColor: `rgba(${rgb}, ${headerOpacity})`,
+          backgroundColor: `rgba(${rgb}, ${effectiveHeaderOpacity})`,
         }}
       >
         {/* Window dots */}
@@ -109,7 +136,7 @@ export default function Terminal({
       <div
         className="flex flex-col h-[calc(100%-40px)] px-4 py-4"
         style={{
-          backgroundColor: `rgba(${rgb}, ${bodyOpacity})`,
+          backgroundColor: `rgba(${rgb}, ${effectiveBodyOpacity})`,
         }}
       >
         {/* Prompt */}
@@ -127,3 +154,4 @@ export default function Terminal({
     </div>
   );
 }
+

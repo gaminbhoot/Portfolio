@@ -302,7 +302,7 @@ export default function Skills() {
                     <div key={groupIndex} className="mb-1">
                       {/* Group subheader */}
                       <div className="flex items-center gap-2 px-2 mb-2">
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/25 whitespace-nowrap">
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/55 whitespace-nowrap">
                           {group.label}
                         </span>
                         <div className="h-px flex-1 bg-white/5" />
@@ -326,10 +326,10 @@ export default function Skills() {
                               cursor-default
                             "
                           >
-                            <span className="text-[10px] font-mono shrink-0" style={{ color: "var(--accent-color)", opacity: 0.7 }}>
+                            <span className="text-[10px] font-mono shrink-0" style={{ color: "var(--accent-color)", opacity: 0.95 }}>
                               {String(skill.index).padStart(2, "0")}
                             </span>
-                            <span className="text-xs font-medium tracking-wide text-white/90 leading-tight">
+                            <span className="text-xs font-medium tracking-wide leading-tight" style={{ color: "var(--text-main)" }}>
                               {skill.label}
                             </span>
                           </div>

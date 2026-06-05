@@ -11,18 +11,25 @@
   --tabs-bg: #07080b;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --accent-color: #6366f1; /* Indigo */
-  --accent-rgb: 99, 102, 241;
-  --accent-hover: #4f46e5;
+  --accent-color: #818cf8; /* High-contrast Indigo 400 */
+  --accent-rgb: 129, 140, 248;
+  --accent-hover: #a5b4fc;
   --border-color: #161722;
   --editor-bg: #0b0c10;
   --status-bg: #07080b;
   --backdrop-blur: none;
-  --shadow-glow: 0px 0px 15px rgba(99, 102, 241, 0.35);
+  --shadow-glow: 0px 0px 15px rgba(129, 140, 248, 0.35);
   --bg-gradient: radial-gradient(circle at top right, #0b0c16, #030305);
   --bg-fallback: #030305;
-  --shape-color: rgba(99, 102, 241, 0.15);
-  --shape-shadow: rgba(99, 102, 241, 0.04);
+  --shape-color: rgba(129, 140, 248, 0.15);
+  --shape-shadow: rgba(129, 140, 248, 0.04);
+  /* Surface tokens — dark mode defaults */
+  --surface-card: rgba(255,255,255,0.04);
+  --surface-raised: rgba(255,255,255,0.06);
+  --surface-pill: rgba(255,255,255,0.05);
+  --surface-pill-hover: rgba(255,255,255,0.10);
+  --pill-border: rgba(255,255,255,0.10);
+  --pill-text: #f8fafc;
 }
 
 [data-theme="dracula"] {
@@ -34,7 +41,7 @@
   --inactive-tab-bg: #21222c;
   --tabs-bg: #191a21;
   --text-main: #f8f8f2;
-  --text-muted: #6272a4;
+  --text-muted: #a4b5e6; /* High-contrast Dracula Slate-Grey */
   --accent-color: #ff79c6; /* Dracula Pink */
   --accent-rgb: 255, 121, 198;
   --accent-hover: #ff92df;
@@ -58,7 +65,7 @@
   --inactive-tab-bg: #21252b;
   --tabs-bg: #21252b;
   --text-main: #abb2bf;
-  --text-muted: #5c6370;
+  --text-muted: #9da5b4; /* High-contrast One Dark Grey */
   --accent-color: #61afef; /* Vibrant Blue */
   --accent-rgb: 97, 175, 239;
   --accent-hover: #82bffa;
@@ -82,7 +89,7 @@
   --inactive-tab-bg: #242933;
   --tabs-bg: #242933;
   --text-main: #d8dee9;
-  --text-muted: #4c566a;
+  --text-muted: #9fb0c6; /* High-contrast Nord Grey */
   --accent-color: #88c0d0; /* Nord Frost Cyan */
   --accent-rgb: 136, 192, 208;
   --accent-hover: #a3be8c;
@@ -106,7 +113,7 @@
   --inactive-tab-bg: #241b2f;
   --tabs-bg: #241b2f;
   --text-main: #f3e8ff;
-  --text-muted: #84729c;
+  --text-muted: #b4a5cd; /* High-contrast Synthwave Purple-Grey */
   --accent-color: #ff7edb; /* Neon Pink */
   --accent-rgb: 255, 126, 219;
   --accent-hover: #ff9ee2;
@@ -120,6 +127,588 @@
   --shape-color: rgba(255, 126, 219, 0.25);
   --shape-shadow: rgba(255, 126, 219, 0.06);
 }
+
+[data-theme="grass"] {
+  --bg-color: #081a10; /* Forest Green */
+  --sidebar-bg: #05100a;
+  --activity-bg: #030805;
+  --panel-bg: #06120b;
+  --active-tab-bg: #081a10;
+  --inactive-tab-bg: #05100a;
+  --tabs-bg: #030805;
+  --text-main: #ecfdf5;
+  --text-muted: #6ee7b7; /* Emerald/Mint */
+  --accent-color: #34d399; /* Emerald Green */
+  --accent-rgb: 52, 211, 153;
+  --accent-hover: #10b981;
+  --border-color: #11321d;
+  --editor-bg: #081a10;
+  --status-bg: #030805;
+  --backdrop-blur: none;
+  --shadow-glow: 0px 0px 15px rgba(52, 211, 153, 0.35);
+  --bg-gradient: radial-gradient(circle at top right, #0a2717, #020604);
+  --bg-fallback: #020604;
+  --shape-color: rgba(52, 211, 153, 0.15);
+  --shape-shadow: rgba(52, 211, 153, 0.04);
+}
+
+[data-theme="atomic"] {
+  --bg-color: #1d1f21; /* High-tech Charcoal */
+  --sidebar-bg: #17181c;
+  --activity-bg: #121316;
+  --panel-bg: #17181c;
+  --active-tab-bg: #1d1f21;
+  --inactive-tab-bg: #17181c;
+  --tabs-bg: #121316;
+  --text-main: #e0e2e5;
+  --text-muted: #96a2b2;
+  --accent-color: #00ffcc; /* Atomic Cyan */
+  --accent-rgb: 0, 255, 204;
+  --accent-hover: #00ccff;
+  --border-color: #2d3139;
+  --editor-bg: #1d1f21;
+  --status-bg: #121316;
+  --backdrop-blur: none;
+  --shadow-glow: 0px 0px 15px rgba(0, 255, 204, 0.45);
+  --bg-gradient: radial-gradient(circle at bottom left, #23272d, #0d0f11);
+  --bg-fallback: #0d0f11;
+  --shape-color: rgba(0, 255, 204, 0.15);
+  --shape-shadow: rgba(0, 255, 204, 0.04);
+}
+
+[data-theme="light"] {
+  --bg-color: #f0f2f5;
+  --sidebar-bg: #e4e7ed;
+  --activity-bg: #d8dce6;
+  --panel-bg: #ffffff;
+  --active-tab-bg: #ffffff;
+  --inactive-tab-bg: #e8ebf1;
+  --tabs-bg: #d8dce6;
+  --text-main: #1a1d23;
+  --text-muted: #5a6478;
+  --accent-color: #2563eb;
+  --accent-rgb: 37, 99, 235;
+  --accent-hover: #1d4ed8;
+  --border-color: #cdd1da;
+  --editor-bg: #ffffff;
+  --status-bg: #2563eb;
+  --backdrop-blur: none;
+  --shadow-glow: 0px 4px 16px rgba(37, 99, 235, 0.15);
+  --bg-gradient: linear-gradient(160deg, #f8f9fc 0%, #eef1f7 100%);
+  --bg-fallback: #f0f2f5;
+  --shape-color: rgba(37, 99, 235, 0.06);
+  --shape-shadow: rgba(37, 99, 235, 0.02);
+  /* Light-specific surface tokens */
+  --surface-card: #ffffff;
+  --surface-raised: #f5f7fa;
+  --surface-pill: #eef1f7;
+  --surface-pill-hover: #e2e7f3;
+  --pill-border: #cdd3e0;
+  --pill-text: #1a1d23;
+}
+
+/* ── Light Theme: Text overrides ─────────────────────────────────────────── */
+/* All white/opacity text classes → text-main (dark) */
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-white\/90,
+[data-theme="light"] .text-white\/85,
+[data-theme="light"] .text-white\/80,
+[data-theme="light"] .text-white\/70,
+[data-theme="light"] .text-white\/60,
+[data-theme="light"] .text-white\/55,
+[data-theme="light"] .text-white\/50,
+[data-theme="light"] .text-gray-100,
+[data-theme="light"] .text-gray-200,
+[data-theme="light"] .text-gray-300 {
+  color: var(--text-main) !important;
+}
+
+/* Lower-opacity whites and gray-400+ → text-muted */
+[data-theme="light"] .text-white\/40,
+[data-theme="light"] .text-white\/35,
+[data-theme="light"] .text-white\/30,
+[data-theme="light"] .text-gray-400,
+[data-theme="light"] .text-gray-500 {
+  color: var(--text-muted) !important;
+}
+
+/* Tailwind fractional opacity modifiers (e.g. text-gray-200\/85) */
+[data-theme="light"] .text-gray-200\/85,
+[data-theme="light"] .text-gray-200\/80,
+[data-theme="light"] .text-gray-200\/70,
+[data-theme="light"] .text-gray-300\/85,
+[data-theme="light"] .text-gray-300\/80,
+[data-theme="light"] .text-gray-300\/70 {
+  color: var(--text-muted) !important;
+}
+
+/* ── Exceptions: Elements on colored/accent backgrounds keep white text ────── */
+/* Numbered badges (bg-gradient from-accent to-accent-hover circles) */
+[data-theme="light"] .bg-gradient-to-br.from-accent .text-white,
+[data-theme="light"] .bg-gradient-to-br.from-accent span.text-white {
+  color: #ffffff !important;
+}
+/* CTA buttons (bg-gradient-to-r from-accent) */
+[data-theme="light"] a.bg-gradient-to-r,
+[data-theme="light"] button.bg-gradient-to-r,
+[data-theme="light"] a.bg-gradient-to-r .text-white,
+[data-theme="light"] button.bg-gradient-to-r .text-white {
+  color: #ffffff !important;
+}
+/* Status bar is always accent-colored — keep white */
+[data-theme="light"] .status-bar,
+[data-theme="light"] .status-bar * {
+  color: #ffffff !important;
+}
+/* Any element explicitly marked to keep white text */
+[data-theme="light"] .keep-white,
+[data-theme="light"] .keep-white * {
+  color: #ffffff !important;
+}
+
+/* ── Light Theme: Background overrides ───────────────────────────────────── */
+[data-theme="light"] .bg-white\/5,
+[data-theme="light"] .bg-white\/\[0\.02\] {
+  background-color: var(--surface-pill) !important;
+  background: var(--surface-pill) !important;
+}
+
+[data-theme="light"] .hover\:bg-white\/10:hover {
+  background-color: var(--surface-pill-hover) !important;
+}
+
+/* ── Light Theme: Border overrides ───────────────────────────────────────── */
+[data-theme="light"] .border-white\/10,
+[data-theme="light"] .border-white\/20 {
+  border-color: var(--pill-border) !important;
+}
+
+/* ── Light Theme: Card / Component overrides ─────────────────────────────── */
+[data-theme="light"] .info-card {
+  background: var(--surface-card) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06) !important;
+}
+
+[data-theme="light"] .terminal-prompt {
+  color: var(--accent-color) !important;
+}
+
+[data-theme="light"] .tree-item:hover {
+  background-color: rgba(37, 99, 235, 0.06) !important;
+}
+
+[data-theme="light"] .editor-tab:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .status-item-clickable:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ── Light Theme: Contact form overrides ─────────────────────────────────── */
+[data-theme="light"] .contact-input {
+  color: var(--text-main) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+[data-theme="light"] .contact-input:focus {
+  border-bottom-color: var(--accent-color) !important;
+}
+
+[data-theme="light"] .contact-label {
+  color: var(--text-muted) !important;
+}
+
+/* The right form panel — override the hardcoded rgba(0,0,0,0.27) */
+[data-theme="light"] .contact-glass-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 12px 32px rgba(0,0,0,0.05) !important;
+}
+[data-theme="light"] .contact-glass-card:hover {
+  background: var(--surface-card) !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.12), 0 16px 40px rgba(0,0,0,0.08) !important;
+}
+
+[data-theme="light"] .contact-submit-btn {
+  background: var(--surface-pill) !important;
+  border-color: var(--pill-border) !important;
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .contact-submit-btn:hover {
+  background: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .contact-chevron {
+  color: var(--text-muted) !important;
+}
+
+/* ── Light Theme: Skills Terminal overrides ───────────────────────────────── */
+/* The Terminal component uses hardcoded rgb(20,20,25) — we override via CSS vars  */
+[data-theme="light"] .skills-terminal-wrap {
+  /* Signal to Terminal that it should render light */
+  --terminal-header-bg: rgba(37, 99, 235, 0.06);
+  --terminal-body-bg: rgba(255, 255, 255, 0.92);
+  --terminal-border: var(--border-color);
+}
+
+/* Terminal outer shell */
+[data-theme="light"] .rounded-3xl.overflow-hidden,
+[data-theme="light"] .rounded-2xl.border.border-white\/10 {
+  border-color: var(--border-color) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.07) !important;
+  backdrop-filter: none !important;
+}
+
+/* Skill pill rows inside Terminal */
+[data-theme="light"] .flex.items-center.gap-2.px-3.py-2\.5.border.border-white\/10 {
+  background: var(--surface-pill) !important;
+  border-color: var(--pill-border) !important;
+  color: var(--pill-text) !important;
+}
+
+[data-theme="light"] .flex.items-center.gap-2.px-3.py-2\.5:hover {
+  background: var(--surface-pill-hover) !important;
+  border-color: var(--accent-color) !important;
+}
+
+/* Tier column separators inside Terminal */
+[data-theme="light"] .border-b.border-white\/10 {
+  border-color: var(--border-color) !important;
+}
+
+/* Group subheader divider line */
+[data-theme="light"] .h-px.flex-1.bg-white\/5 {
+  background: var(--border-color) !important;
+}
+
+/* Tier column right-border */
+[data-theme="light"] [style*="border-right: 1px solid rgba(255,255,255,0.06)"] {
+  border-right-color: var(--border-color) !important;
+}
+
+/* Terminal title + subtitle text */
+[data-theme="light"] .text-white\/70.font-mono,
+[data-theme="light"] .text-white\/60.font-mono {
+  color: var(--text-muted) !important;
+}
+
+/* Terminal prompt line */
+[data-theme="light"] .text-cyan-400 {
+  color: var(--accent-color) !important;
+}
+[data-theme="light"] .text-white\/60:not(.font-mono) {
+  color: var(--text-muted) !important;
+}
+
+/* ── Light Theme: Projects page overrides ────────────────────────────────── */
+/* H1 gradient — in light mode, start from accent-hover so no dark navy is shown */
+[data-theme="light"] .projects-heading {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent-color) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Watermark index numbers */
+[data-theme="light"] .watermark-number {
+  color: var(--text-main) !important;
+  opacity: 0.08 !important;
+}
+
+/* Project card title */
+[data-theme="light"] .project-card-title {
+  color: var(--text-main) !important;
+}
+
+/* Project image card border + bg */
+[data-theme="light"] .project-image-wrap {
+  border-color: var(--border-color) !important;
+  background: var(--surface-raised) !important;
+}
+
+/* Arrow button on project cards */
+[data-theme="light"] .project-arrow-btn {
+  border-color: var(--border-color) !important;
+  background: var(--surface-pill) !important;
+  color: var(--text-muted) !important;
+}
+
+/* GitHub/Prototype icon buttons */
+[data-theme="light"] .project-icon-btn {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+/* Perspective cards on skills page */
+[data-theme="light"] .perspective-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.05) !important;
+}
+[data-theme="light"] .perspective-card:hover {
+  background: var(--surface-raised) !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 4px 16px rgba(37,99,235,0.12), 0 16px 40px rgba(0,0,0,0.08) !important;
+}
+[data-theme="light"] .perspective-card p {
+  color: var(--text-muted) !important;
+}
+[data-theme="light"] .perspective-card:hover p {
+  color: var(--text-main) !important;
+}
+
+/* Status bar in light mode — use accent color for clear visual separation */
+[data-theme="light"] .status-bar {
+  background: var(--accent-color) !important;
+  color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT THEME — PROJECT PAGES (ProjectDetail, ProjectSummary, ProjectCommon)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── ProjectCommon: Back button ──────────────────────────────────────────── */
+[data-theme="light"] .p-2.rounded-full.border.border-white\/10.bg-white\/5 {
+  background: var(--surface-pill) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ── ProjectCommon: Lightbox close button ────────────────────────────────── */
+[data-theme="light"] .fixed.inset-0.z-\[100\] button.rounded-full {
+  background: rgba(0,0,0,0.08) !important;
+  border-color: rgba(0,0,0,0.18) !important;
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectDetail: Section headings h2 ──────────────────────────────────── */
+[data-theme="light"] .scroll-mt-24 h2 {
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectDetail: Body paragraph text ─────────────────────────────────── */
+[data-theme="light"] .scroll-mt-24 div.font-light {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectDetail: PullQuote text ──────────────────────────────────────── */
+[data-theme="light"] blockquote p {
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectDetail: TOC button + nav ─────────────────────────────────────── */
+[data-theme="light"] .fixed.top-6.left-6 button {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .fixed.top-6.left-6 a.block {
+  color: var(--text-muted) !important;
+}
+[data-theme="light"] .fixed.top-6.left-6 a.block:hover {
+  background: var(--surface-pill-hover) !important;
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .fixed.top-6.left-6 div[class*="bg-"] {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ── ProjectDetail: Sidebar links (GitHub / Prototype) ───────────────────── */
+[data-theme="light"] .relative.flex.items-center.gap-2\.5.px-3.py-2\.5.rounded {
+  background: var(--surface-pill) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+}
+[data-theme="light"] .relative.flex.items-center.gap-2\.5.px-3.py-2\.5.rounded:hover {
+  background: var(--surface-pill-hover) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectDetail: Mobile back link + "Back to Projects" ────────────────── */
+[data-theme="light"] a.lg\:hidden.group {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectDetail: Next project title gradient (inline white→cyan) ─────── */
+/* We can't override inline style, so we override the h4 text inside .group.block */
+[data-theme="light"] .group.block h4[style*="WebkitTextFillColor"] {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent-color) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* ── ProjectDetail: "Next Project" label and year ────────────────────────── */
+[data-theme="light"] h3.text-xs.font-mono.text-gray-300,
+[data-theme="light"] span.text-xs.font-mono.text-gray-300 {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectSummary: OverviewCard tagline ────────────────────────────────── */
+[data-theme="light"] .relative.h-full.p-8.rounded-2xl p.text-lg,
+[data-theme="light"] .relative.h-full.p-8.rounded-2xl p.text-xl {
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectSummary: ProjectMeta sub-card ────────────────────────────────── */
+[data-theme="light"] .grid.grid-cols-1.md\:grid-cols-2.gap-4.py-4 {
+  background: var(--surface-raised) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* ── ProjectSummary: Architecture / My Role / Result text ───────────────── */
+[data-theme="light"] .relative.h-full.p-8.rounded-2xl p.text-sm.text-gray-300,
+[data-theme="light"] .relative.h-full.p-8.rounded-2xl p.text-sm.text-white,
+[data-theme="light"] .relative.h-full.p-8.rounded-2xl p.text-sm.text-gray-200 {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectSummary: Architecture / Metrics section borders ──────────────── */
+[data-theme="light"] .pb-6.border-b.border-white\/10,
+[data-theme="light"] .mt-6.pt-6.border-t.border-white\/10 {
+  border-color: var(--border-color) !important;
+}
+
+/* ── ProjectSummary: Tech pills ──────────────────────────────────────────── */
+[data-theme="light"] .tech-pill {
+  background: var(--surface-pill) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+}
+[data-theme="light"] .tech-pill:hover {
+  background: var(--surface-pill-hover) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+}
+
+/* ── ProjectSummary: Metrics bullet text ────────────────────────────────── */
+[data-theme="light"] .grid.grid-cols-1.gap-2 span.text-gray-300 {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectSummary: TechnicalImplementation heading ─────────────────────── */
+[data-theme="light"] .tech-highlight-card h3 {
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .tech-highlight-card p {
+  color: var(--text-muted) !important;
+}
+/* Number badge border — hardcoded border-gray-900 → use border-color */
+[data-theme="light"] .tech-highlight-card .absolute.-top-3.-left-3 {
+  border-color: var(--surface-card) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+}
+/* Section title */
+[data-theme="light"] .relative.p-8.rounded-2xl.bg-\[var\(--panel-bg\,\#0e0f14\)\] h2.text-white {
+  color: var(--text-main) !important;
+}
+
+/* ── ProjectSummary: CtaFooter ───────────────────────────────────────────── */
+[data-theme="light"] .relative.p-6.rounded-2xl p.text-white {
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .relative.p-6.rounded-2xl p.text-gray-300 {
+  color: var(--text-muted) !important;
+}
+
+/* ── ProjectSummary: GitHub / Preview action buttons ─────────────────────── */
+[data-theme="light"] button.inline-flex.items-center.gap-2.px-4.py-2.rounded-full {
+  color: var(--text-muted) !important;
+  border-color: var(--border-color) !important;
+  background: var(--surface-card) !important;
+}
+[data-theme="light"] button.inline-flex.items-center.gap-2.px-4.py-2.rounded-full:hover {
+  color: var(--text-main) !important;
+  background: var(--surface-pill-hover) !important;
+}
+
+/* ── ProjectSummary: Row divider between back and action buttons ─────────── */
+[data-theme="light"] .w-\[1px\].h-5.bg-white\/20 {
+  background: var(--border-color) !important;
+}
+
+/* ── Screenshot thumbnails border ────────────────────────────────────────── */
+[data-theme="light"] .screenshot-thumb {
+  border-color: var(--border-color) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT THEME — HOME PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Home: Status card labels + values ───────────────────────────────────── */
+[data-theme="light"] .status-card-label,
+[data-theme="light"] p.text-white\/60.group-hover\:text-white\/80 {
+  color: var(--text-muted) !important;
+}
+
+/* ── Home: About section divider line ────────────────────────────────────── */
+[data-theme="light"] .about-divider {
+  background: linear-gradient(to right, transparent, var(--border-color) 15%, var(--border-color) 85%, transparent) !important;
+}
+
+/* ── Home: Social links ──────────────────────────────────────────────────── */
+[data-theme="light"] .text-white\/80.hover\:opacity-85 {
+  color: var(--text-main) !important;
+}
+
+/* ── Home: Status card hover bg ──────────────────────────────────────────── */
+[data-theme="light"] .hover\:bg-white\/5 {
+  /* The hover:bg-white/5 Tailwind class → override with subtle raise */
+  --tw-bg-opacity: 1;
+}
+[data-theme="light"] div[class*="hover:bg-white/5"]:hover {
+  background-color: var(--surface-raised) !important;
+}
+[data-theme="light"] div[class*="hover:border-white/20"]:hover {
+  border-color: var(--accent-color) !important;
+}
+
+/* ── Home: Status card top border ────────────────────────────────────────── */
+[data-theme="light"] .border-t.border-white\/10 {
+  border-color: var(--border-color) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT THEME — CONTACT PAGE (supplementing existing overrides)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Contact: All white text in the info panel ───────────────────────────── */
+[data-theme="light"] .contact-page .text-white\/70,
+[data-theme="light"] .contact-page .text-white\/60,
+[data-theme="light"] .contact-page .text-white\/55,
+[data-theme="light"] .contact-page .text-white\/50,
+[data-theme="light"] .contact-page .text-white\/60,
+[data-theme="light"] .contact-page .text-white\/90,
+[data-theme="light"] .contact-page .text-white {
+  color: var(--text-main) !important;
+}
+[data-theme="light"] .contact-page .text-white\/40,
+[data-theme="light"] .contact-page .text-white\/35 {
+  color: var(--text-muted) !important;
+}
+
+/* ── Contact: Glass card background (hardcoded rgba(0,0,0,0.27)) ─────────── */
+[data-theme="light"] .contact-glass-card {
+  background: var(--surface-card) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 12px 32px rgba(0,0,0,0.05) !important;
+}
+
+/* ── Contact: Retry button ───────────────────────────────────────────────── */
+[data-theme="light"] button.border.border-white\/10.bg-white\/5.text-white\/50 {
+  border-color: var(--border-color) !important;
+  background: var(--surface-pill) !important;
+  color: var(--text-muted) !important;
+}
+
 
 /* Base Styles */
 .ide-container {
@@ -141,6 +730,12 @@
   flex: 1;
   overflow: hidden;
 }
+
+/* ── Home page: About section divider ─────────────────────────────────────── */
+.about-divider {
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.12) 15%, rgba(255,255,255,0.12) 85%, transparent);
+}
+
 
 /* Activity Bar (Icons on left) */
 .activity-bar {
@@ -671,7 +1266,7 @@
 
 /* Touch-device optimization: disable heavy backdrop blurs */
 @media (hover: none) {
-  :root, [data-theme="dracula"], [data-theme="one-dark"], [data-theme="nord"], [data-theme="synthwave"] {
+  :root, [data-theme="dracula"], [data-theme="one-dark"], [data-theme="nord"], [data-theme="synthwave"], [data-theme="grass"], [data-theme="atomic"], [data-theme="light"] {
     --backdrop-blur: none !important;
   }
 }

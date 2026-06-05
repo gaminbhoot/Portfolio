@@ -147,7 +147,7 @@ function TableOfContentsMenu({ sections, activeSection }) {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-500 group-hover/nav:text-accent/70 transition-colors">
+                    <span className="text-xs font-mono text-gray-400 group-hover/nav:text-accent/70 transition-colors">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span className="text-sm flex-1 leading-snug">{section.title}</span>
@@ -353,7 +353,7 @@ export default function ProjectDetail() {
                     <div className="h-[1px] w-8 bg-accent rounded-full" />
                     <span className="text-[10px] font-mono text-accent uppercase tracking-widest">{String(index + 1).padStart(2, '0')}</span>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-semibold text-white/90 mb-6 tracking-tight" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+                  <h2 className="text-xl md:text-2xl font-semibold mb-6 tracking-tight" style={{ fontFamily: "'Orbitron', sans-serif", color: "var(--text-main)" }}>
                     {section.title}
                   </h2>
 
@@ -361,7 +361,7 @@ export default function ProjectDetail() {
                     <SectionImage src={section.image} alt={section.title} caption={section.caption} onOpen={setLightboxImage} eager={index === 0} />
                   )}
 
-                  <div className={`text-base md:text-[1.05rem] leading-[1.9] text-gray-200/85 font-light ${isImageFirst ? 'mt-8' : ''}`}>
+                  <div className={`text-base md:text-[1.05rem] leading-[1.9] font-light ${isImageFirst ? 'mt-8' : ''}`} style={{ color: 'var(--text-muted)' }}>
                     {renderFormattedContent(section.content, index === 0)}
                   </div>
 
@@ -385,7 +385,7 @@ export default function ProjectDetail() {
                     <div className="absolute -inset-4 bg-gradient-to-r from-accent/10 to-purple-500/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative">
                       <h4 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 transition-all duration-300 group-hover:tracking-wide"
-                        style={{ fontFamily: "'Orbitron', sans-serif", background: 'linear-gradient(135deg, #ffffff 0%, #71C4FF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                        style={{ fontFamily: "'Orbitron', sans-serif", backgroundImage: 'linear-gradient(135deg, var(--text-main, #ffffff) 0%, var(--accent-hover, #4f46e5) 60%, var(--accent-color) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                         {nextProject.title}
                       </h4>
                       <div className="flex items-center gap-3">
