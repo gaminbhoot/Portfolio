@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useState, useEffect, useMemo, createContext } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import IdeLayout from "./components/layout/IdeLayout";
+import { ThemeProvider } from "./context/ThemeContext";
 
 // ── Lazy Imports ─────────────────────────────────────────────────────────────
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
@@ -12,7 +13,7 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const ProjectSummary = lazy(() => import('./pages/ProjectSummary'));
 const Epoxy = lazy(() => import('./pages/Epoxy'));
 const Boost = lazy(() => import('./pages/Boost'));
-const Readme = lazy(() => import('./pages/Readme'));
+
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // ── Hooks ────────────────────────────────────────────────────────────────────
@@ -66,29 +67,7 @@ function TokenRoute() {
 }
 
 // ── Theme State Context ──────────────────────────────────────────────────────
-export const ThemeContext = createContext({
-  theme: "glass",
-  setTheme: () => {},
-});
-
-export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("ide-theme") || "glass";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("ide-theme", theme);
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const value = useMemo(() => ({ theme, setTheme }), [theme]);
-
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
+// Moved to src/context/ThemeContext.jsx to break circular dependency cycles.
 
 // ── Main Application ─────────────────────────────────────────────────────────
 
@@ -112,7 +91,7 @@ function AppContent() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
           <Route path="/boost" element={<Boost />} />
-          <Route path="/readme" element={<Readme />} />
+
 
           {/* Specialized Token Route */}
           <Route path="/:token" element={<TokenRoute />} />

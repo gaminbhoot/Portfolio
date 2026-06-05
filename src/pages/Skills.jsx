@@ -6,6 +6,25 @@ import { usePageMeta } from "../lib/usePageMeta";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const PERSPECTIVE_CARDS = [
+  {
+    title: "Frontend Engineering",
+    description: "My focus is on designing interfaces that have a sense of intentionality, not just in their looks, but also in their structure. I try to ensure that components have clear boundaries, the state changes in a logical fashion, and the motion helps to clarify the experience rather than confusing it."
+  },
+  {
+    title: "Motion & Interaction",
+    description: "To me, animation is a communication tool. Transitions, the use of scroll, and timing are useful in guiding the user and making the interface feel more natural and responsive."
+  },
+  {
+    title: "Applied AI & Logic",
+    description: "My research in the area of artificial intelligence focuses on application, ie. trying to gain an understanding of the model, its failures, and its application to solve problems rather than just its potential."
+  },
+  {
+    title: "Engineering Mindset",
+    description: "I value clarity over cleverness. In working with frontend code or model logic, I aim to build systems that are clear, easy to maintain, and flexible in the face of change."
+  }
+];
+
 export default function Skills() {
   usePageMeta({
     title: "Skills | Jay Joshi",
@@ -344,57 +363,21 @@ export default function Skills() {
       <div className="max-w-5xl mx-auto mt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6" style={{ perspective: "1500px" }}>
 
-          <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
-            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-          >
-            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
-              Frontend Engineering
-            </h3>
-            <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              My focus is on designing interfaces that have a sense of intentionality, not just in their looks, but also in their structure. I try to ensure that components have clear boundaries, the state changes in a logical fashion, and the motion helps to clarify the experience rather than confusing it.
-            </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
-          </div>
-
-          <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
-            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-          >
-            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
-              Motion & Interaction
-            </h3>
-            <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              To me, animation is a communication tool. Transitions, the use of scroll, and timing are useful in guiding the user and making the interface feel more natural and responsive.
-            </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
-          </div>
-
-          <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
-            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-          >
-            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
-              Applied AI & Logic
-            </h3>
-            <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              My research in the area of artificial intelligence focuses on application, ie. trying to gain an understanding of the model, its failures, and its application to solve problems rather than just its potential.
-            </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
-          </div>
-
-          <div
-            className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
-            style={{ transformStyle: "preserve-3d", willChange: "transform" }}
-          >
-            <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
-              Engineering Mindset
-            </h3>
-            <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
-              I value clarity over cleverness. In working with frontend code or model logic, I aim to build systems that are clear, easy to maintain, and flexible in the face of change.
-            </p>
-            <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
-          </div>
+          {PERSPECTIVE_CARDS.map((card) => (
+            <div
+              key={card.title}
+              className="perspective-card group rounded-2xl border border-white/10 bg-black/10 backdrop-blur-sm p-6 transition-all duration-500 hover:bg-black/20 hover:border-[var(--accent-color)]/50 hover:scale-105 hover:-translate-y-2 hover:shadow-xl hover:shadow-[var(--accent-color)]/20"
+              style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+            >
+              <h3 className="text-sm font-mono uppercase tracking-widest mb-3 group-hover:text-white transition-colors duration-300" style={{ color: "var(--accent-color)" }}>
+                {card.title}
+              </h3>
+              <p className="text-gray-200 leading-relaxed group-hover:text-white transition-colors duration-300">
+                {card.description}
+              </p>
+              <div className="mt-4 h-1 w-0 group-hover:w-full transition-all duration-700" style={{ background: "linear-gradient(to right, var(--accent-color), var(--accent-hover, var(--accent-color)))" }} />
+            </div>
+          ))}
 
         </div>
       </div>

@@ -16,14 +16,13 @@ import {
   Minimize2,
   Maximize2,
   ChevronUp,
-  FileText,
   Coffee,
   AlertCircle,
   HelpCircle
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
-import { ThemeContext } from "../../app";
+import { ThemeContext } from "../../context/ThemeContext";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./IdeLayout.css";
@@ -65,8 +64,7 @@ export default function IdeLayout({ children, isDesktop }) {
     { name: "Home.jsx", path: "/", icon: <Home size={14} className="text-accent" /> },
     { name: "Projects.jsx", path: "/projects", icon: <Folder size={14} className="text-amber-400" /> },
     { name: "Skills.jsx", path: "/skills", icon: <Settings size={14} className="text-sky-400" /> },
-    { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> },
-    { name: "README.md", path: "/readme", icon: <FileText size={14} className="text-gray-400" /> }
+    { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> }
   ], []);
 
   // Compute active file based on URL path
@@ -97,6 +95,20 @@ export default function IdeLayout({ children, isDesktop }) {
       return [...prev, activeFile];
     });
   }, [activeFile]);
+
+  const renderTreeItem = (file) => (
+    <div
+      key={file.name}
+      onClick={() => {
+        navigate(file.path);
+        setMobileExplorerOpen(false);
+      }}
+      className={`tree-item ${activeFile.name === file.name ? "active" : ""}`}
+    >
+      {file.icon}
+      <span className="font-mono text-xs">{file.name}</span>
+    </div>
+  );
 
   // Set default scroller for GSAP ScrollTrigger to the editor viewport
   React.useLayoutEffect(() => {
@@ -458,37 +470,13 @@ export default function IdeLayout({ children, isDesktop }) {
 
                 {/* Main Pages files */}
                 <div className="ml-2 flex flex-col">
-                  {files.slice(0, 4).map(file => (
-                    <div
-                      key={file.name}
-                      onClick={() => {
-                        navigate(file.path);
-                        setMobileExplorerOpen(false);
-                      }}
-                      className={`tree-item ${activeFile.name === file.name ? "active" : ""}`}
-                    >
-                      {file.icon}
-                      <span className="font-mono text-xs">{file.name}</span>
-                    </div>
-                  ))}
+                  {files.slice(0, 4).map(renderTreeItem)}
                 </div>
               </div>
 
               {/* Extra files */}
               <div className="ml-3 mt-1">
-                {files.slice(4).map(file => (
-                  <div
-                    key={file.name}
-                    onClick={() => {
-                      navigate(file.path);
-                      setMobileExplorerOpen(false);
-                    }}
-                    className={`tree-item ${activeFile.name === file.name ? "active" : ""}`}
-                  >
-                    {file.icon}
-                    <span className="font-mono text-xs">{file.name}</span>
-                  </div>
-                ))}
+                {files.slice(4).map(renderTreeItem)}
               </div>
             </div>
           </div>

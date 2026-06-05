@@ -5,77 +5,11 @@ import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projectsData } from "../data/projectsData";
-import { ArrowLeft, ExternalLink, Code2, Layers, Zap, ChevronRight, X, ZoomIn } from "lucide-react";
+import { ExternalLink, Code2, Layers, Zap, ChevronRight, ZoomIn } from "lucide-react";
 import { usePageMeta } from "../lib/usePageMeta";
+import { GitHubIcon, AirPlayIcon, ImageLightbox, BackgroundOrbs, ProgressBar, ProjectBackButton } from "../components/project/ProjectCommon";
 
-gsap.registerPlugin(ScrollTrigger);
 
-// GitHub SVG Icon
-const GitHubIcon = () => (
-  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-    <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-  </svg>
-);
-
-// AirPlay SVG Icon
-const AirPlayIcon = () => (
-  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/>
-    <polygon points="12 15 17 21 7 21 12 15"/>
-  </svg>
-);
-
-// Lightbox Component
-function ImageLightbox({ image, alt, onClose }) {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    const handleEscape = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handleEscape);
-    return () => {
-      document.body.style.overflow = 'unset';
-      window.removeEventListener('keydown', handleEscape);
-    };
-  }, [onClose]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
-      onClick={onClose}
-    >
-      <div className="absolute inset-0 bg-black/95 backdrop-blur-md" />
-      <button
-        onClick={onClose}
-        className="absolute top-6 right-6 z-10 p-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
-        aria-label="Close lightbox"
-      >
-        <X size={24} className="group-hover:rotate-90 transition-transform duration-300" />
-      </button>
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img src={image} alt={alt} className="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
-        <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-accent/60" />
-        <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-accent/60" />
-        <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-accent/60" />
-        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-accent/60" />
-      </motion.div>
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
-        <p className="text-sm font-mono text-gray-300 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-          Click anywhere or press ESC to close
-        </p>
-      </div>
-    </motion.div>
-  );
-}
 
 export default function ProjectSummary() {
   const { id } = useParams();
@@ -155,16 +89,9 @@ export default function ProjectSummary() {
         )}
       </AnimatePresence>
 
-      {/* Animated background orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-accent/5 to-accent/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
-        <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-purple-500/5 to-pink-500/5 blur-[100px] animate-pulse" style={{ animationDuration: '8s', animationDelay: '1s' }} />
-      </div>
+      <BackgroundOrbs />
 
-      {/* Top Progress Bar */}
-      <motion.div style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[3px] origin-left z-50 shadow-lg shadow-accent/50">
-        <div className="w-full h-full bg-gradient-to-r from-accent via-accent to-purple-500" />
-      </motion.div>
+      <ProgressBar scaleX={scaleX} />
 
       {/* Hero Section */}
       <motion.div
@@ -204,15 +131,7 @@ export default function ProjectSummary() {
         
         {/* Back Button + Action Buttons Row */}
         <div className="flex items-center gap-3 mb-8 flex-wrap">
-          <Link
-            to="/projects"
-            className="group inline-flex items-center gap-2 text-gray-200 hover:text-accent transition-all duration-300 hover:gap-3"
-          >
-            <div className="p-2 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm group-hover:border-accent/50 group-hover:bg-accent/10 transition-all duration-300">
-              <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1" />
-            </div>
-            <span className="font-mono text-sm">Back to Projects</span>
-          </Link>
+          <ProjectBackButton className="mb-0" />
 
           {/* Divider */}
           {(project.githubLink || project.prototypeLink) && (

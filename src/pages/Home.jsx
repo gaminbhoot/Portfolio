@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "../components/profile/ProfileCard";
 import { usePageMeta } from "../lib/usePageMeta";
-import { ThemeContext } from "../app";
+import { ThemeContext } from "../context/ThemeContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
