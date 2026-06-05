@@ -14,6 +14,7 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const ProjectSummary = lazy(() => import('./pages/ProjectSummary'));
 const Epoxy = lazy(() => import('./pages/Epoxy'));
 const Boost = lazy(() => import('./pages/Boost'));
+const Readme = lazy(() => import('./pages/Readme'));
 
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -74,6 +75,8 @@ function AppContent() {
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/readme" element={<Readme />} />
+          <Route path="/README.md" element={<Readme />} />
           <Route path="/epoxy" element={<Epoxy adminAccess={true} />} />
           <Route path="/boost" element={<Boost />} />
 

@@ -18,7 +18,8 @@ import {
   ChevronUp,
   Coffee,
   AlertCircle,
-  HelpCircle
+  HelpCircle,
+  FileText
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
@@ -95,7 +96,7 @@ export default function IdeLayout({ children, isDesktop }) {
     } else if (parts.length === 2) {
       let options = [];
       if (cmd === "cd") {
-        options = ["home", "projects", "skills", "contact"];
+        options = ["home", "readme.md", "projects", "skills", "contact"];
       } else if (cmd === "theme") {
         options = ["glass", "dracula", "one-dark", "nord", "synthwave", "grass", "atomic", "light"];
       } else if (cmd === "cat") {
@@ -124,7 +125,8 @@ export default function IdeLayout({ children, isDesktop }) {
     { name: "Home.jsx", path: "/", icon: <Home size={14} className="text-accent" /> },
     { name: "Projects.jsx", path: "/projects", icon: <Folder size={14} className="text-amber-400" /> },
     { name: "Skills.jsx", path: "/skills", icon: <Settings size={14} className="text-sky-400" /> },
-    { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> }
+    { name: "Contact.jsx", path: "/contact", icon: <Mail size={14} className="text-emerald-400" /> },
+    { name: "README.md", path: "/readme", icon: <FileText size={14} className="text-sky-300" /> }
   ], []);
 
   // Compute active file based on URL path
@@ -301,8 +303,8 @@ export default function IdeLayout({ children, isDesktop }) {
       { text: "  clear         - Clear the screen", type: "system" }
     ],
     ls: () => [
-      { text: "Directory: src/pages/", type: "system" },
-      { text: "  Home.jsx        Projects.jsx    Skills.jsx    Contact.jsx", type: "system" }
+      { text: "Directory: workspace/", type: "system" },
+      { text: "  Home.jsx        README.md       Projects.jsx    Skills.jsx    Contact.jsx", type: "system" }
     ],
     dir: () => commandHandlers.ls(),
     cd: (arg) => {
@@ -311,6 +313,10 @@ export default function IdeLayout({ children, isDesktop }) {
       if (["home", "home.jsx", "/", ".."].includes(target)) {
         navigate("/");
         return [{ text: "Navigating to Home...", type: "system" }];
+      }
+      if (["readme", "readme.md"].includes(target)) {
+        navigate("/readme");
+        return [{ text: "Navigating to README.md...", type: "system" }];
       }
       if (["projects", "projects.jsx"].includes(target)) {
         navigate("/projects");
@@ -783,11 +789,11 @@ export default function IdeLayout({ children, isDesktop }) {
                   {files.slice(0, 4).map(renderTreeItem)}
                 </div>
               </div>
+            </div>
 
-              {/* Extra files */}
-              <div className="ml-3 mt-1">
-                {files.slice(4).map(renderTreeItem)}
-              </div>
+            {/* Extra/Root files */}
+            <div className="ml-3 mt-1 flex flex-col">
+              {files.slice(4).map(renderTreeItem)}
             </div>
           </div>
         </div>
