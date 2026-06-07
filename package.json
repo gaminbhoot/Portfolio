@@ -1,4 +1,9 @@
 {
+  "name": "jay-joshi-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio of Jay Joshi - AI/ML Engineer & Frontend Developer",
+  "author": "Jay Joshi",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
