@@ -19,11 +19,13 @@ import {
   Coffee,
   AlertCircle,
   HelpCircle,
-  FileText
+  FileText,
+  Bot
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
 import { ThemeContext } from "../../context/ThemeContext";
+import AiChatSidebar from "../chat/AiChatSidebar";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./IdeLayout.css";
@@ -43,6 +45,7 @@ export default function IdeLayout({ children, isDesktop }) {
   const [panelOpen, setPanelOpen] = useState(false);
   const [panelState, setPanelState] = useState("normal"); // "normal", "maximized"
   const [mobileExplorerOpen, setMobileExplorerOpen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   // ── Terminal Shell Logic ───────────────────────────────────────────────────
   const [terminalInput, setTerminalInput] = useState("");
@@ -802,26 +805,39 @@ export default function IdeLayout({ children, isDesktop }) {
         <div className="editor-area">
           {/* Tab bar */}
           <div className="editor-tabs">
-            {openTabs.map(tab => (
-              <div
-                key={tab.name}
-                onClick={() => navigate(tab.path)}
-                className={`editor-tab font-mono ${
-                  activeFile.name === tab.name ? "active" : ""
-                }`}
+            <div className="editor-tabs-scroll">
+              {openTabs.map(tab => (
+                <div
+                  key={tab.name}
+                  onClick={() => navigate(tab.path)}
+                  className={`editor-tab font-mono ${
+                    activeFile.name === tab.name ? "active" : ""
+                  }`}
+                >
+                  {tab.icon}
+                  <span>{tab.name}</span>
+                  {openTabs.length > 1 && (
+                    <span
+                      className="tab-close-btn ml-1"
+                      onClick={(e) => closeTab(e, tab)}
+                    >
+                      <X size={10} />
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Editor Actions Toolbar */}
+            <div className="editor-actions">
+              <button
+                className={`editor-action-btn ${chatOpen ? "active" : ""}`}
+                onClick={() => setChatOpen(!chatOpen)}
+                title="Toggle Copilot Chat"
               >
-                {tab.icon}
-                <span>{tab.name}</span>
-                {openTabs.length > 1 && (
-                  <span
-                    className="tab-close-btn ml-1"
-                    onClick={(e) => closeTab(e, tab)}
-                  >
-                    <X size={10} />
-                  </span>
-                )}
-              </div>
-            ))}
+                <Bot size={15} />
+              </button>
+            </div>
           </div>
 
           {/* Active File Viewport */}
@@ -846,6 +862,7 @@ export default function IdeLayout({ children, isDesktop }) {
             setTerminalMode={setTerminalMode}
           />
         </div>
+        <AiChatSidebar isOpen={chatOpen} onClose={() => setChatOpen(false)} />
       </div>
 
       {/* ── Status Bar ──────────────────────────────────────────────────────── */}
