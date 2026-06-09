@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { projectsData } from "../../data/projectsData";
 import {
   Home,
   Folder,
@@ -36,6 +37,65 @@ export default function IdeLayout({ children, isDesktop }) {
   const navigate = useNavigate();
   const location = useLocation();
   const viewportRef = useRef(null);
+
+  const match = location.pathname.match(/\/project\/([^/]+)/);
+  const projectId = match ? match[1] : null;
+  const project = useMemo(() => {
+    return projectId ? projectsData.find(p => p.id === projectId) : null;
+  }, [projectId]);
+
+  const [outlineOpen, setOutlineOpen] = useState(true);
+  const [activeSection, setActiveSection] = useState("");
+
+  // Track active section for Outline view on scroll
+  useEffect(() => {
+    if (!projectId) {
+      setActiveSection("");
+      return;
+    }
+
+    let observer;
+
+    const bindObserver = () => {
+      if (observer) observer.disconnect();
+
+      const observerOptions = {
+        root: null,
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0
+      };
+
+      const observerCallback = (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      };
+
+      observer = new IntersectionObserver(observerCallback, observerOptions);
+      const sections = document.querySelectorAll("section[id]");
+      sections.forEach((section) => observer.observe(section));
+    };
+
+    // Bind initially
+    bindObserver();
+
+    // Re-bind when mutations occur in the viewport (e.g. when Suspense lazy loading completes)
+    const viewportEl = document.querySelector('.editor-viewport');
+    let mutationObserver;
+    if (viewportEl) {
+      mutationObserver = new MutationObserver(() => {
+        bindObserver();
+      });
+      mutationObserver.observe(viewportEl, { childList: true, subtree: true });
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+      if (mutationObserver) mutationObserver.disconnect();
+    };
+  }, [projectId]);
 
   // ── Theme Context ──────────────────────────────────────────────────────────
   const { theme, setTheme } = useContext(ThemeContext);
@@ -799,6 +859,51 @@ export default function IdeLayout({ children, isDesktop }) {
               {files.slice(4).map(renderTreeItem)}
             </div>
           </div>
+
+          {/* Collapsible Outline Panel - displayed only on project detail pages */}
+          {project && (
+            <div className="sidebar-outline-section border-t border-[var(--border-color,#161722)] flex flex-col shrink-0">
+              <div 
+                className="sidebar-outline-header flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-white/5 select-none"
+                onClick={() => setOutlineOpen(!outlineOpen)}
+              >
+                <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-[var(--text-muted,#8f90a6)] font-bold">
+                  {outlineOpen ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                  <span>Outline: {project.title}</span>
+                </div>
+              </div>
+
+              {outlineOpen && (
+                <div className="sidebar-outline-items py-2 px-2 max-h-[35vh] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                  {project.sections.map((section, index) => {
+                    const isActive = activeSection === section.id;
+                    return (
+                      <div
+                        key={section.id}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const el = document.getElementById(section.id);
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }
+                        }}
+                        className={`sidebar-outline-item flex items-center gap-2.5 py-1.5 px-3 rounded text-xs font-mono cursor-pointer transition-all duration-200 ${
+                          isActive
+                            ? "bg-accent/10 text-accent font-semibold"
+                            : "text-[var(--text-muted,#8f90a6)] hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        <span className="text-[10px] text-gray-500 font-mono">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="truncate">{section.title}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* 3. Main Editor Area */}

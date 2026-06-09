@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import { projectsData } from "../data/projectsData";
-import { ArrowLeft, ChevronRight, Eye, ZoomIn, Menu } from "lucide-react";
+import { ArrowLeft, ChevronRight, Eye, ZoomIn, List, X } from "lucide-react";
 import { usePageMeta } from "../lib/usePageMeta";
 import { GitHubIcon, AirPlayIcon, ImageLightbox, BackgroundOrbs, ProgressBar, ProjectBackButton, ProjectHero } from "../components/project/ProjectCommon";
 import { useHeroParallax } from "../lib/useHeroParallax";
@@ -105,28 +105,57 @@ function SectionImage({ src, alt, caption, onOpen, eager }) {
 
 
 // Top-right Table of Contents with added scrollability to prevent overflow
-function TableOfContentsMenu({ sections, activeSection }) {
+function TableOfContentsMenu({ sections, activeSection, align = "center" }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const getPositionClasses = () => {
+    if (align === "right") return "right-0";
+    if (align === "left") return "left-0";
+    return "left-1/2";
+  };
+
+  const getInitialX = () => {
+    if (align === "center") return "-50%";
+    return 0;
+  };
+
+  const getTransformOrigin = () => {
+    if (align === "right") return "top right";
+    if (align === "left") return "top left";
+    return "top center";
+  };
+
   return (
-    <div className="fixed top-6 left-6 z-[60]">
+    <div className="relative">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative flex items-center justify-center p-3 rounded-full bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] text-white shadow-xl hover:border-accent/50 hover:bg-accent/10 transition-all duration-300 z-50 group"
+        className="relative flex items-center justify-center p-3 rounded-full backdrop-blur-md text-white shadow-xl transition-all duration-300 z-50 group"
+        style={{
+          border: '1px solid var(--btn-border, rgba(var(--accent-rgb), 0.25))',
+          backgroundColor: 'var(--btn-bg, rgba(var(--accent-rgb), 0.06))'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.setProperty('--btn-border', 'rgba(var(--accent-rgb), 0.45)');
+          e.currentTarget.style.setProperty('--btn-bg', 'rgba(var(--accent-rgb), 0.15)');
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.removeProperty('--btn-border');
+          e.currentTarget.style.removeProperty('--btn-bg');
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        {isOpen ? <X size={20} className="transition-transform duration-300 group-hover:rotate-90" /> : <Menu size={20} />}
+        {isOpen ? <X size={20} className="transition-transform duration-300 group-hover:rotate-90" /> : <List size={20} />}
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10, transformOrigin: "top left" }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            initial={{ opacity: 0, scale: 0.95, y: -10, x: getInitialX(), transformOrigin: getTransformOrigin() }}
+            animate={{ opacity: 1, scale: 1, y: 0, x: getInitialX() }}
+            exit={{ opacity: 0, scale: 0.95, y: -10, x: getInitialX() }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute top-full left-0 mt-4 w-64 md:w-60 bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] rounded-xl p-4 shadow-2xl overflow-hidden flex flex-col"
+            className={`absolute top-full mt-4 w-64 md:w-60 bg-[var(--sidebar-bg,#0f1015)] border border-[var(--border-color,#161722)] rounded-xl p-4 shadow-2xl overflow-hidden flex flex-col ${getPositionClasses()}`}
           >
             <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20 shrink-0">
               <Eye size={14} className="text-accent" />
@@ -177,7 +206,6 @@ function SidebarLinks({ project }) {
       <div className="relative bg-[var(--panel-bg,#0e0f14)] border border-[var(--border-color,#161722)] rounded-lg p-4 space-y-4">
         <div>
           <div className="flex items-center gap-2 mb-3 pb-2 border-b border-accent/20">
-            <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             <span className="text-[10px] font-mono uppercase tracking-widest text-accent/80">Quick Access</span>
           </div>
           <div className="space-y-2">
@@ -210,36 +238,13 @@ function SidebarLinks({ project }) {
 // IntersectionObserver watches a sentinel at the bottom of the hero.
 // When hero exits viewport → sidebar fades in. Clean, no JS scroll math.
 function FloatingSidebar({ project, hasLinks }) {
-  const [visible, setVisible] = useState(false);
-  const sentinelRef = useRef(null);
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <>
-      {/* Invisible sentinel pinned to the bottom of the hero */}
-      <div ref={sentinelRef} className="absolute top-[85vh] left-0 w-px h-px pointer-events-none" />
-
-      <motion.aside
-        initial={false}
-        animate={{ opacity: visible ? 1 : 0, x: visible ? 0 : -16, pointerEvents: visible ? 'auto' : 'none' }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="hidden lg:block lg:col-span-3 sticky self-start"
-        style={{ top: 'calc(50vh - 240px)' }}
-      >
-        <ProjectBackButton className="mb-6" />
-        {hasLinks && <SidebarLinks project={project} />}
-      </motion.aside>
-    </>
+    <aside
+      className="hidden lg:block lg:col-span-3 sticky top-28 self-start space-y-6"
+    >
+      <ProjectBackButton className="mb-6" />
+      {hasLinks && <SidebarLinks project={project} />}
+    </aside>
   );
 }
 
@@ -263,6 +268,21 @@ export default function ProjectDetail() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const heroRef = useRef(null);
   const heroImageRef = useRef(null);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const sentinelRef = useRef(null);
+
+
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSidebarVisible(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [project]);
 
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
@@ -308,11 +328,32 @@ export default function ProjectDetail() {
   return (
     <div className="min-h-screen pb-32 relative overflow-hidden">
 
+      {/* Invisible sentinel pinned to the bottom of the hero */}
+      <div ref={sentinelRef} className="absolute top-[115vh] left-0 w-px h-px pointer-events-none" />
+
       <AnimatePresence>
         {lightboxImage && <ImageLightbox image={lightboxImage.src} alt={lightboxImage.alt} onClose={() => setLightboxImage(null)} />}
       </AnimatePresence>
 
-      <TableOfContentsMenu sections={project.sections} activeSection={activeSection} />
+
+
+
+
+
+      {/* Mobile Table of Contents Menu (completely independent, persistent, loads on scroll) */}
+      <AnimatePresence>
+        {sidebarVisible && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden fixed top-16 right-6 pointer-events-auto z-[60] w-fit"
+          >
+            <TableOfContentsMenu sections={project.sections} activeSection={activeSection} align="right" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <BackgroundOrbs />
 
@@ -329,9 +370,13 @@ export default function ProjectDetail() {
 
       {/* Content grid — items-start is critical, lets sticky work inside a grid column */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-24 relative z-10">
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-          <FloatingSidebar project={project} hasLinks={hasLinks} />
+          <FloatingSidebar
+            project={project}
+            hasLinks={hasLinks}
+          />
 
           <main className="lg:col-span-9">
 
