@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { X, Send, Bot, User, Trash2 } from "lucide-react";
+import { X, Send, Sparkles, User, Trash2 } from "lucide-react";
 import "./AiChatSidebar.css";
 
 export default function AiChatSidebar({ isOpen, onClose }) {
@@ -140,7 +140,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
       {/* Header */}
       <div className="ai-chat-header">
         <div className="ai-chat-title">
-          <Bot size={16} />
+          <Sparkles size={16} />
           <span>PORTFOLIO COPILOT</span>
         </div>
         <div className="flex items-center gap-1">
@@ -163,7 +163,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
         {messages.map(msg => (
           <div key={msg.id} className={`ai-message-row ${msg.sender}`}>
             <div className="ai-avatar">
-              {msg.sender === "bot" ? <Bot size={13} /> : <User size={13} />}
+              {msg.sender === "bot" ? <Sparkles size={13} /> : <User size={13} />}
             </div>
             <div className="ai-bubble">
               {msg.isTyping && msg.text === "" ? (

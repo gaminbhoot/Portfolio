@@ -20,7 +20,7 @@ import {
   AlertCircle,
   HelpCircle,
   FileText,
-  Bot
+  PanelRight
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
@@ -835,7 +835,7 @@ export default function IdeLayout({ children, isDesktop }) {
                 onClick={() => setChatOpen(!chatOpen)}
                 title="Toggle Copilot Chat"
               >
-                <Bot size={15} />
+                <PanelRight size={15} />
               </button>
             </div>
           </div>
