@@ -7,7 +7,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
     {
       id: 1,
       sender: "bot",
-      text: "Hi! I'm Jay's Portfolio Copilot. Ask me anything about his projects, skills, education, or contact details!",
+      text: "Hi! I'm Jay's Portfolio Assistant. Ask me anything about his projects, skills, education, or contact details!",
       isTyping: false
     }
   ]);
@@ -73,20 +73,29 @@ export default function AiChatSidebar({ isOpen, onClose }) {
     let reply = "";
     const lower = userText.toLowerCase().trim();
     
-    if (lower.includes("project") || lower.includes("portfolio") || lower.includes("highlights") || lower.includes("build")) {
-      reply = "Jay has built several notable projects:\n\n1. **Abhisar**: A streaming LLM product powered by the Groq Inference Engine (React & Express).\n2. **SysAware ML Optimizer**: A PyTorch model quantization profiling wrapper.\n3. **Real-Time AI Surveillance**: A computer vision pipeline utilizing YOLOv8 & Deep SORT.\n4. **OctaWipe**: A storage sanitization tool compliant with DoD standards.\n\nSelect **Projects.jsx** in the sidebar to view detailed walkthroughs!";
-    } else if (lower.includes("skill") || lower.includes("stack") || lower.includes("technolog") || lower.includes("competenc")) {
-      reply = "Jay's core competencies include:\n\n* **AI/ML & Systems**: Python, PyTorch, YOLOv8, Deep SORT, OpenCV, model quantization.\n* **Frontend & Engineering**: React.js, JavaScript, Vite.js, Tailwind CSS, Vanilla CSS, GSAP, Three.js.\n\nSelect **Skills.jsx** in the sidebar to see his interactive skills sheet!";
-    } else if (lower.includes("contact") || lower.includes("email") || lower.includes("linkedin") || lower.includes("hire") || lower.includes("reach")) {
+    if (lower.includes("project") || lower.includes("portfolio") || lower.includes("highlights") || lower.includes("build") || lower.includes("code")) {
+      reply = "Jay has built several notable projects:\n\n1. **Abhisar**: A streaming LLM workspace powered by the Groq Inference Engine (React & Express).\n2. **SysAware ML Optimizer**: A hardware-aware PyTorch model quantization & benchmarking suite with a Streamlit GUI and full pytest coverage.\n3. **oss-hunter**: An autonomous open-source contribution agent built on Gemini CLI, running on a 24-hour loop with a semi-autonomous PR workflow.\n4. **Real-Time AI Surveillance**: An end-to-end computer vision pipeline utilizing YOLOv8 & DeepSORT.\n5. **OctaWipe**: A secure storage data sanitization tool compliant with DoD standards.\n\nSelect **Projects.jsx** in the sidebar to explore detailed walkthroughs!";
+    } else if (lower.includes("skill") || lower.includes("stack") || lower.includes("technolog") || lower.includes("competenc") || lower.includes("language")) {
+      reply = "Jay's core competencies include:\n\n* **AI/ML & Systems**: Python, PyTorch, YOLOv8, DeepSORT, OpenCV, model quantization, Streamlit.\n* **Frontend & Engineering**: React.js, JavaScript, TypeScript, Vite.js, Tailwind CSS, GSAP, Three.js.\n* **Tools & Databases**: Git, SQL, Docker, AppleScript/shell scripting, local LLM tooling (LM Studio, Ollama, MLX).\n\nSelect **Skills.jsx** in the sidebar to see his interactive skills matrix!";
+    } else if (lower.includes("contact") || lower.includes("email") || lower.includes("linkedin") || lower.includes("reach") || lower.includes("github")) {
       reply = "You can reach out to Jay directly:\n\n* **Email**: jay05.joshi@gmail.com\n* **LinkedIn**: linkedin.com/in/gaminbhoot\n* **GitHub**: github.com/gaminbhoot\n\nSelect **Contact.jsx** in the sidebar to open the contact form!";
     } else if (lower.includes("resume") || lower.includes("cv") || lower.includes("download")) {
       reply = "You can download Jay's resume in PDF format directly from the Home page or download it here: [JAY_JOSHI_RESUME.pdf](/JAY%20JOSHI%20RESUME.pdf).";
-    } else if (lower.includes("who") || lower.includes("about") || lower.includes("experience") || lower.includes("jay") || lower.includes("education")) {
-      reply = "Jay Joshi is a Computer Science undergraduate focused on production-oriented AI systems, deep learning optimizations, and frontend developer experiences. He is currently looking for AI/ML and Software Engineering internships! You can find his full credentials in the `README.md` file or explore his pages.";
+    } else if (lower.includes("education") || lower.includes("college") || lower.includes("university") || lower.includes("degree") || lower.includes("study") || lower.includes("school")) {
+      reply = "Jay's educational background includes:\n\n* **Amity University** (Noida): Bachelor's in Technology (B.Tech) in Computer Science (2023-2027).\n* **IIT Guwahati**: Minor in Data Science (2025-2026).\n* **Vishwa Bharati Public School** (Noida): Senior Secondary School (CBSE), class of 2023.";
+    } else if (lower.includes("open") || lower.includes("hire") || lower.includes("internship") || lower.includes("job") || lower.includes("role") || lower.includes("work") || lower.includes("available") || lower.includes("start")) {
+      reply = "Yes, Jay is actively open to job roles, internships, and contract work in AI/ML and software/frontend engineering! He can start working within **2 weeks** of receiving an offer and is fully open to relocation, hybrid, or remote setups.";
+    } else if (lower.includes("where") || lower.includes("from") || lower.includes("location") || lower.includes("located") || lower.includes("live") || lower.includes("place")) {
+      reply = "Jay is based in **Noida, India**, but he is fully open to **relocation** for matching job roles or internships.";
+    } else if (lower.includes("setup") || lower.includes("pc") || lower.includes("mac") || lower.includes("system") || lower.includes("terminal") || lower.includes("ide") || lower.includes("os") || lower.includes("hardware") || lower.includes("laptop")) {
+      reply = "Jay's personal development environment setup is:\n\n* **OS/Platform**: MacBook Pro (M5 Pro) under macOS, Windows (PowerShell scripting), and Fedora Workstation 44 (Linux systems/administration).\n* **IDE & Editors**: VS Code for lightweight scripts, Antigravity for agent tasks, and JetBrains IDEs or Neovim for larger backend pipelines.\n* **Terminal**: Zsh on macOS Terminal, PowerShell on Windows, and Bash on GNOME Terminal.";
+    } else if (lower.includes("philosophy") || lower.includes("style") || lower.includes("manner") || lower.includes("perfection") || lower.includes("leadership") || lower.includes("creative")) {
+      reply = "Jay operates with a deep commitment to **perfection**, ensuring his code and visual designs are built to a top-notch standard. He has a hands-on, test-driven working style (full pytest coverage on his ML tooling) and a strong interest in open-source contribution. When collaborating, he naturally takes charge of direction while remaining patient and supportive with his teammates.";
+    } else if (lower.includes("who") || lower.includes("about") || lower.includes("experience") || lower.includes("jay")) {
+      reply = "Jay Joshi is a Computer Science undergraduate focused on production-oriented AI systems, deep learning optimizations, and frontend developer experiences. He is currently looking for AI/ML and Software Engineering internships! You can explore his background and credentials directly on the **Home** workspace.";
     } else {
-      reply = "I'm Jay's Portfolio Copilot! I can help you review his credentials, search projects, or get his contact info. Try asking:\n\n* *'What projects did he build?'*\n* *'What are his skills?'*\n* *'How do I contact him?'*";
+      reply = "I'm Jay's Portfolio Assistant! I can help you review his credentials, search projects, or get his contact info. Try asking:\n\n* *'What projects did he build?'*\n* *'What are his skills?'*\n* *'Where did he do his education?'*\n* *'Is he open to job roles?'*";
     }
-
     const botMsgId = Date.now() + 1;
     setMessages(prev => [...prev, { id: botMsgId, sender: "bot", text: "", isTyping: true }]);
     
@@ -141,7 +150,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
       <div className="ai-chat-header">
         <div className="ai-chat-title">
           <Sparkles size={16} />
-          <span>PORTFOLIO COPILOT</span>
+          <span>PORTFOLIO ASSISTANT</span>
         </div>
         <div className="flex items-center gap-1">
           <button 
@@ -206,7 +215,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
           <input
             type="text"
             className="ai-chat-text-input"
-            placeholder={isBotTyping ? "Copilot is typing..." : "Ask Copilot a question..."}
+            placeholder={isBotTyping ? "Assistant is typing..." : "Ask Assistant a question..."}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}

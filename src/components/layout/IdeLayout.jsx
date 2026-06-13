@@ -938,7 +938,7 @@ export default function IdeLayout({ children, isDesktop }) {
               <button
                 className={`editor-action-btn ${chatOpen ? "active" : ""}`}
                 onClick={() => setChatOpen(!chatOpen)}
-                title="Toggle Copilot Chat"
+                title="Toggle Assistant Chat"
               >
                 <PanelRight size={15} />
               </button>
