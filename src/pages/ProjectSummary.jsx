@@ -306,7 +306,9 @@ export default function ProjectSummary() {
           <TechnicalImplementation techCardRef={techCardRef} technicalHighlights={summary.technicalHighlights} />
 
           {/* CTA Footer */}
-          <CtaFooter projectId={project.id} />
+          {project.sections && project.sections.length > 0 && (
+            <CtaFooter projectId={project.id} />
+          )}
 
         </motion.div>
       </div>

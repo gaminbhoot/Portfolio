@@ -259,7 +259,7 @@ export const projectsData = [
     title: "Abhisar: Groq-Powered LLM Product",
     category: "Full-Stack AI Product",
     year: "2026",
-    thumbnail: "/images/abhisar/thumb.webp",
+    thumbnail: "/images/abhisar/hero.webp",
     heroImage: "/images/abhisar/hero.webp",
     githubLink: "https://github.com/gaminbhoot/Abhisar",
     prototypeLink: "https://abhisar.jayjoshi.online/",
@@ -348,67 +348,6 @@ export const projectsData = [
       ],
     },
 
-    sections: [
-      {
-        id: "overview",
-        title: "The Product",
-        image: "/images/abhisar/overview.webp",
-        pullQuote:
-          "Speed is not just a performance metric. In conversational AI, it is the product experience.",
-        content:
-          "Abhisar is an applied AI web application designed to put ultra-fast inference directly into users' hands. Unlike heavy, delayed APIs, Groq integration enabled near-instant responses, dramatically improving the experience of everyday conversational AI.",
-      },
-      {
-        id: "problem",
-        title: "The Problem",
-        image: "/images/abhisar/problem.webp",
-        content:
-          "Most AI chat products feel computationally capable but experientially weak. Users tolerate delay, context drops, and UI friction because they have no better baseline. The project began with a product question rather than a model question: what would a conversational interface feel like if responsiveness, continuity, and emotional usability were treated as first-class constraints instead of afterthoughts? Abhisar was built as a practical answer to that question.",
-      },
-      {
-        id: "product-strategy",
-        title: "Product Strategy",
-        image: "/images/abhisar/strategy.webp",
-        content:
-          "The strategy aligned around three principles: speed as perceived trust, minimal interaction friction, and conversational continuity over feature clutter. Rather than overloading the interface with controls, the design favors flow: instant feedback, stable history behavior, and clear response states. The objective was not to simulate complexity but to preserve momentum so users stay in the conversation instead of managing the tool.",
-      },
-      {
-        id: "architecture",
-        title: "Architecture",
-        image: "/images/abhisar/architecture.webp",
-        content:
-          "The system is intentionally layered. React manages rendering and state transitions, the middleware tier manages API boundaries and provider orchestration, and Groq-backed LLaMA inference drives generation. This separation keeps the client predictable while preserving backend flexibility for provider swaps, model routing, and policy updates. Architectural modularity was prioritized early so product iteration could happen without repeated rewrites.",
-      },
-      {
-        id: "state-management",
-        title: "Conversation State",
-        image: "/images/abhisar/state.webp",
-        content:
-          "State management was the critical engineering layer. Streaming responses, request lifecycles, user edits, and historical context needed to remain coherent even under variable network conditions. The implementation tracks conversation turns with deterministic update rules so partial and final outputs never corrupt history. Context windows are managed deliberately to preserve semantic continuity while controlling latency and token growth.",
-      },
-      {
-        id: "latency",
-        title: "Latency Engineering",
-        image: "/images/abhisar/latency.webp",
-        content:
-          "Latency was treated as both infrastructure behavior and product psychology. Provider choice, streaming delivery, and immediate UI feedback loops were tuned together so users perceive momentum from the first interaction. Time to first token and time to usable response became practical product metrics, not hidden backend numbers. The outcome is a chat rhythm that feels conversational rather than request-response transactional.",
-      },
-      {
-        id: "results",
-        title: "Results",
-        image: "/images/abhisar/results.webp",
-        content:
-          "The product achieved fast response onset in favorable conditions and sustained stable multi-turn behavior under realistic usage. Session continuity remained reliable across longer interactions, and users experienced fewer interruptions from waiting states. Compared to traditional blocking-response interfaces, the streaming-first design substantially improved perceived speed and conversational flow, which directly supports retention and repeated use.",
-      },
-      {
-        id: "future",
-        title: "Future Scope",
-        image: "/images/abhisar/future.webp",
-        layout: "text-only",
-        content:
-          "Next iterations include intent-aware model routing, user-level memory controls, and stronger observability for response quality, cost, and latency outliers. The architecture is already prepared for multi-model orchestration and personalization layers. Long-term, the direction is an adaptive conversational platform where interface behavior and model selection co-evolve based on user context and interaction patterns.",
-      },
-    ],
   },
       
   {

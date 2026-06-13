@@ -312,7 +312,7 @@ export default function ProjectDetail() {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  if (!project) return (
+  if (!project || !project.sections || project.sections.length === 0) return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-white mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>Project not found</h2>
@@ -321,8 +321,9 @@ export default function ProjectDetail() {
     </div>
   );
 
-  const currentIndex = projectsData.findIndex((p) => p.id === id);
-  const nextProject = projectsData[(currentIndex + 1) % projectsData.length];
+  const projectsWithDetails = projectsData.filter((p) => p.sections && p.sections.length > 0);
+  const currentDetailIndex = projectsWithDetails.findIndex((p) => p.id === id);
+  const nextProject = currentDetailIndex !== -1 ? projectsWithDetails[(currentDetailIndex + 1) % projectsWithDetails.length] : null;
   const hasLinks = project.githubLink || project.prototypeLink;
 
   return (

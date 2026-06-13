@@ -12,6 +12,7 @@ const QUALITY_MAP = {
 
 const RESIZE_MAP = {
   'jay1.webp': { width: 376, withoutEnlargement: true },
+  'thumb.webp': { width: 800, withoutEnlargement: true },
 };
 
 function getAllImages(dir) {
@@ -33,10 +34,10 @@ console.log(`Found ${files.length} images to process...\n`);
 let converted = 0, skipped = 0, saved = 0;
 
 for (const file of files) {
-  const filename = basename(file);
   const outPath = join(dirname(file), basename(file, extname(file)) + '.webp');
-  const quality = QUALITY_MAP[filename] ?? DEFAULT_QUALITY;
-  const resizeOptions = RESIZE_MAP[filename];
+  const outFilename = basename(outPath);
+  const quality = QUALITY_MAP[outFilename] ?? DEFAULT_QUALITY;
+  const resizeOptions = RESIZE_MAP[outFilename];
 
   try {
     const inputSize = statSync(file).size;
