@@ -208,10 +208,20 @@ export default function ProjectSummary() {
   useEffect(() => {
     if (!project) return;
     const ctx = gsap.context(() => {
-      gsap.fromTo(overviewCardRef.current, { opacity: 0, y: 50, rotateX: 10 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: overviewCardRef.current, start: "top 80%", toggleActions: "play none none reverse" } });
-      gsap.fromTo(screenshotsCardRef.current, { opacity: 0, y: 50, rotateX: 10 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, delay: 0.2, ease: "power3.out", scrollTrigger: { trigger: screenshotsCardRef.current, start: "top 80%", toggleActions: "play none none reverse" } });
-      gsap.fromTo(overviewCardRef.current.querySelector(".tech-pill"), { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.5)", scrollTrigger: { trigger: overviewCardRef.current, start: "top 70%", toggleActions: "play none none reverse" } });
-      gsap.fromTo(screenshotsCardRef.current.querySelector(".screenshot-thumb"), { opacity: 0, scale: 0.9, rotateY: -15 }, { opacity: 1, scale: 1, rotateY: 0, duration: 0.6, ease: "back.out(1.3)", scrollTrigger: { trigger: screenshotsCardRef.current, start: "top 70%", toggleActions: "play none none reverse" } });
+      if (overviewCardRef.current) {
+        gsap.fromTo(overviewCardRef.current, { opacity: 0, y: 50, rotateX: 10 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: overviewCardRef.current, start: "top 80%", toggleActions: "play none none reverse" } });
+        const techPill = overviewCardRef.current.querySelector(".tech-pill");
+        if (techPill) {
+          gsap.fromTo(techPill, { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(1.5)", scrollTrigger: { trigger: overviewCardRef.current, start: "top 70%", toggleActions: "play none none reverse" } });
+        }
+      }
+      if (screenshotsCardRef.current) {
+        gsap.fromTo(screenshotsCardRef.current, { opacity: 0, y: 50, rotateX: 10 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, delay: 0.2, ease: "power3.out", scrollTrigger: { trigger: screenshotsCardRef.current, start: "top 80%", toggleActions: "play none none reverse" } });
+        const screenshotThumb = screenshotsCardRef.current.querySelector(".screenshot-thumb");
+        if (screenshotThumb) {
+          gsap.fromTo(screenshotThumb, { opacity: 0, scale: 0.9, rotateY: -15 }, { opacity: 1, scale: 1, rotateY: 0, duration: 0.6, ease: "back.out(1.3)", scrollTrigger: { trigger: screenshotsCardRef.current, start: "top 70%", toggleActions: "play none none reverse" } });
+        }
+      }
       animateCardReveal(gsap, ".tech-highlight-card");
       gsap.utils.toArray(".parallax-card").forEach((card, i) => { gsap.to(card, { scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 1 }, y: -20 * (i % 2 === 0 ? 1 : 0.8), ease: "none" }); });
       setupGlowOnScroll(ScrollTrigger, gsap, techCardRef);
