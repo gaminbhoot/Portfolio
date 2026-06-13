@@ -140,7 +140,7 @@ export default function Contact() {
           <span className="word inline-block" style={{ color: "var(--accent-color)" }}>Together</span>
         </h1>
         <p className="contact-subtext text-white/70 text-base md:text-lg max-w-xl leading-relaxed">
-          I'm open to hybrid roles, internships, and freelance projects. Reach out — <span className="font-medium" style={{ color: "var(--accent-hover, var(--accent-color))" }}> I'd be happy to connect</span>.
+          I'm open to hybrid roles, internships, and freelance projects. Reach out - <span className="font-medium" style={{ color: "var(--accent-hover, var(--accent-color))" }}> I'd be happy to connect</span>.
         </p>
         <div className="header-divider mt-6 h-px" style={{ background: "linear-gradient(to right, color-mix(in srgb, var(--accent-color) 60%, transparent), color-mix(in srgb, var(--accent-hover, var(--accent-color)) 40%, transparent), transparent)" }} />
       </header>
@@ -211,7 +211,7 @@ export default function Contact() {
               <div className="contact-success-msg">
                 <div className="contact-success-icon"><Send size={22} style={{ color: "var(--accent-color)" }} /></div>
                 <p className="text-white font-semibold text-base mt-3">Message Received!</p>
-                <p className="text-white/70 text-sm mt-1">Thanks for reaching out — I'll get back to you shortly.</p>
+                <p className="text-white/70 text-sm mt-1">Thanks for reaching out - I'll get back to you shortly.</p>
                 <button
                   onClick={() => setStatus('idle')}
                   className="mt-6 px-5 py-2.5 rounded-lg border text-xs font-mono uppercase tracking-widest hover:bg-[var(--accent-color)]/20 transition-all"

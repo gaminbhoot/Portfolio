@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: "Jay Joshi",
         short_name: "Jay Joshi",
-        description: "Jay Joshi — Frontend Developer & Designer.",
+        description: "Jay Joshi - Frontend Developer & Designer.",
         theme_color: "#000000",
         background_color: "#000000",
         display: "standalone",

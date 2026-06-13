@@ -136,7 +136,7 @@ export const projectsData = [
 
   {
     id: "octawipe",
-    title: "OctaWipe — Secure Data Sanitization",
+    title: "OctaWipe - Secure Data Sanitization",
     category: "System Security / Data Sanitization",
     year: "2025",
     thumbnail: "/images/octawipe/thumb.webp",

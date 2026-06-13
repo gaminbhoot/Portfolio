@@ -199,7 +199,7 @@ export default function TerminalHero() {
 
               <div className="command-line">
                 <span style={{ color: "var(--accent-color)" }}>jay@system:~$version</span>{" "}
-                <span className="text-white">v1.0.06 — stable. updates ongoing.</span>
+                <span className="text-white">v1.0.06 - stable. updates ongoing.</span>
                 <span className="cursor" style={{ color: "var(--accent-color)" }}>▋</span>
               </div>
 
@@ -243,8 +243,8 @@ export default function TerminalHero() {
                     {[
                       <span>I'm a {hi(`${AGE} year old`)} computer science student based in {hi("Noida")}, building in {hi("AI/ML")} and {hi("frontend engineering")}.</span>,
                       <span>Shipped a {hi("Groq-powered LLM")} product, a {hi("Model optimizer")}, and {hi("YOLOv8 + DeepSORT")} models achieving {hi(">0.70 mAP")} confidence.</span>,
-                      <span>Focused on engineering maturity — building resilient systems with {hi("optimized pipelines")}, {hi("excellent performance")}, and {hi("good visuals")}.</span>,
-                      <span>Comfortable across the entire stack — from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
+                      <span>Focused on engineering maturity - building resilient systems with {hi("optimized pipelines")}, {hi("excellent performance")}, and {hi("good visuals")}.</span>,
+                      <span>Comfortable across the entire stack - from {hi("DNN/NLP pipelines")} to {hi("responsive, accessible React frontends")}.</span>,
                     ].map((line, i) => (
                       <p key={i} className="about-line flex items-start">
                         <span style={{ color: "var(--accent-color)", opacity: 0.7 }} className="mr-2 select-none mt-0.5">›</span>

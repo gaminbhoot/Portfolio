@@ -233,7 +233,7 @@
 </h2>
 
 <ul style="color: #bbb; padding-left: 20px; line-height: 1.7; font-family: 'Inter', sans-serif; margin-top: 10px;">
-  <li style="margin-bottom: 8px;"><strong>Python for Data Science</strong> — NPTEL</li>
-  <li style="margin-bottom: 8px;"><strong>CCNA: Introduction to Networks</strong> — Cisco Networking Academy</li>
-  <li style="margin-bottom: 8px;"><strong>Data Science and Machine Learning</strong> — Masai X IIT Guwahati</li>
+  <li style="margin-bottom: 8px;"><strong>Python for Data Science</strong> - NPTEL</li>
+  <li style="margin-bottom: 8px;"><strong>CCNA: Introduction to Networks</strong> - Cisco Networking Academy</li>
+  <li style="margin-bottom: 8px;"><strong>Data Science and Machine Learning</strong> - Masai X IIT Guwahati</li>
 </ul>

@@ -3,22 +3,22 @@ import { usePageMeta } from "../lib/usePageMeta";
 import {
   FileText,
   User,
-  Terminal,
-  Cpu,
-  Layout,
-  Rocket,
   Settings,
-  Eye,
-  Shield,
+  Folder,
   Award,
+  Terminal,
+  Laptop,
+  Mail,
+  Github,
+  Linkedin,
   Info,
-  Folder
+  Crown
 } from "lucide-react";
 
 export default function Readme() {
   usePageMeta({
     title: "README.md | Jay Joshi",
-    description: "IDE-themed portfolio workspace README outlining executive summary, terminal commands, skills, and highlights.",
+    description: "A comprehensive professional summary workspace outlining personal setup, skills, projects, and certifications.",
     path: "/readme",
   });
 
@@ -41,27 +41,143 @@ export default function Readme() {
         <h1 className="font-bold text-3xl md:text-4xl tracking-wider mb-2 text-white" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           JAY JOSHI
         </h1>
-        <p className="text-sm md:text-base text-[var(--accent-color)] font-medium tracking-wide uppercase">
+        <p className="text-sm md:text-base text-[var(--accent-color)] font-medium tracking-wide uppercase mb-4">
           AI/ML Engineer &amp; Frontend Developer
         </p>
+
+        {/* Contact Links */}
+        <div className="flex flex-wrap justify-center gap-4 text-xs md:text-sm">
+          <a href="mailto:jay05.joshi@gmail.com" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-color)] bg-white/[0.02] text-white/75 hover:border-[var(--accent-color)]/55 hover:text-white transition-all">
+            <Mail size={14} className="text-[var(--accent-color)]" />
+            jay05.joshi@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-color)] bg-white/[0.02] text-white/75 hover:border-[var(--accent-color)]/55 hover:text-white transition-all">
+            <Linkedin size={14} className="text-[var(--accent-color)]" />
+            LinkedIn ↗
+          </a>
+          <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-color)] bg-white/[0.02] text-white/75 hover:border-[var(--accent-color)]/55 hover:text-white transition-all">
+            <Github size={14} className="text-[var(--accent-color)]" />
+            GitHub ↗
+          </a>
+        </div>
       </div>
 
       <hr className="border-0 border-t border-[var(--border-color)] my-8" />
 
-      {/* Executive Summary */}
+      {/* Personal Development Stack Section (FIRST SECTION) */}
       <section className="mb-8">
         <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-          <User size={20} />
-          Executive Summary
+          <Laptop size={20} />
+          Personal Development Stack
         </h2>
-        <p className="text-[var(--text-muted)] text-sm md:text-base leading-relaxed pl-1">
-          Computer Science undergraduate focused on building production-oriented AI systems and polished frontend experiences. Hands-on work spans real-time computer vision, secure systems tooling, LLM product development, and full-stack engineering. Prioritizes practical architecture, measurable performance, and explainable implementation over demo-only prototypes.
-        </p>
+        
+        <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-4">
+          <li>
+            <strong>Platform:</strong> MacBook Pro (M5 Pro) is my primary daily workhorse, handling heavy local compilation, AI/ML model prototyping, and WebGL rendering tasks with absolute ease. I am also highly proficient in Windows development workflows, system administration, and task automation. Additionally, I am currently exploring Fedora Workstation 44 to learn Linux directory structures, system kernels, package managers (dnf), and terminal administration.
+          </li>
+          <li>
+            <strong>Terminal:</strong> On macOS, I stick with the native macOS Terminal running Zsh. In my Windows workflow, I rely on PowerShell for advanced task scripting and server execution. Under Fedora, I explore the CLI using the default GNOME Terminal and Bash.
+          </li>
+          <li>
+            <strong>IDE:</strong> I use VS Code for lightweight frontend scripting and Antigravity for autonomous, agent-based sessions. For larger back-end pipelines or Python projects, I transition to JetBrains IDEs (like PyCharm/WebStorm), and I have also explored using Neovim in the terminal.
+          </li>
+        </ul>
       </section>
 
       <hr className="border-0 border-t border-[var(--border-color)] my-8" />
 
-      {/* Integrated Terminal Environment */}
+      {/* Summary Section */}
+      <section className="mb-8">
+        <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-6" style={{ fontFamily: "'Orbitron', sans-serif" }}>
+          <User size={20} />
+          Summary
+        </h2>
+        
+        <div className="space-y-6 pl-1">
+          {/* Executive Summary */}
+          <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-2">
+            <li>
+              Computer Science undergraduate building production-oriented AI models and polished creative web interfaces.
+            </li>
+            <li>
+              Hands-on work spanning real-time computer vision tracking, secure system sanitization, LLMs, and compiled languages.
+            </li>
+            <li>
+              Prioritizes practical code architecture, measurable performance, and explainable design patterns.
+            </li>
+          </ul>
+
+          {/* Technical Skillset Matrix */}
+          <div>
+            <h3 className="flex items-center gap-2 font-semibold text-sm md:text-base text-white mb-2">
+              <Settings size={16} className="text-[var(--accent-color)]" />
+              Technical Skillset
+            </h3>
+            <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-4">
+              <li>
+                <strong>Primary Core:</strong> Python (Data Science, EDA, Computer Vision, NLP), React (JS, Vite, Tailwind CSS), Flask backend setups, Java compiler design, and Git code management.
+              </li>
+              <li>
+                <strong>Working Knowledge:</strong> OpenCV and Deep SORT tracking models, local LLM architectures (Ollama, vLLM, llama.cpp), Pandas/NumPy analytics, PHP, GSAP and Framer Motion layouts, and Three.js WebGL rendering.
+              </li>
+              <li>
+                <strong>Currently Exploring:</strong> Hugging Face Transformers, Reinforcement Learning, TypeScript, FastAPI backend servers, Next.js, Docker containers, Kafka pipelines, and Linux administration.
+              </li>
+            </ul>
+          </div>
+
+          {/* Key Projects */}
+          <div>
+            <h3 className="flex items-center gap-2 font-semibold text-sm md:text-base text-white mb-2">
+              <Folder size={16} className="text-[var(--accent-color)]" />
+               Projects
+            </h3>
+            <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-2">
+              <li><strong>Real-Time AI Motion Tracker</strong> (Computer Vision / Systems Engineering)</li>
+              <li><strong>Abhisar LLM Workspace</strong> (Conversational AI / Full-Stack)</li>
+              <li><strong>SysAware ML Optimizer</strong> (Deep Learning Optimization Tooling)</li>
+              <li><strong>OctaWipe Sanitizer</strong> (Storage Security &amp; System Tools)</li>
+              <li><strong>Java Compiler Parser</strong> (Compiler Design)</li>
+            </ul>
+          </div>
+
+          {/* Certifications */}
+          <div>
+            <h3 className="flex items-center gap-2 font-semibold text-sm md:text-base text-white mb-2">
+              <Award size={16} className="text-[var(--accent-color)]" />
+              Certifications
+            </h3>
+            <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-2">
+              <li><strong>Python for Data Science</strong> - NPTEL</li>
+              <li><strong>CCNA: Introduction to Networks</strong> - Cisco</li>
+              <li><strong>Data Science and Machine Learning</strong> - Masai X IIT Guwahati</li>
+            </ul>
+          </div>
+
+          {/* Personal Note */}
+          <div>
+            <h3 className="flex items-center gap-2 font-semibold text-sm md:text-base text-white mb-2">
+              <Crown size={16} className="text-[var(--accent-color)]" />
+              A Personal Note
+            </h3>
+            <ul className="list-disc pl-5 text-sm md:text-base text-[var(--text-muted)] space-y-2">
+              <li>
+                <strong>A Standard of Excellence:</strong> I operate with a deep commitment to perfection, ensuring every line of code, visual layout, and development environment is built to a top-notch standard.
+              </li>
+              <li>
+                <strong>Creative Iteration:</strong> I find creative inspiration in the work of peers and industry leaders, analyzing what works well to refine, build upon, and integrate those concepts into my own systems.
+              </li>
+              <li>
+                <strong>Leadership &amp; Collaboration:</strong> I naturally transition into ownership roles where I can take charge of features and direction, paired with patience, support, and mentorship for my teammates.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <hr className="border-0 border-t border-[var(--border-color)] my-8" />
+
+      {/* Terminal Command Guide */}
       <section className="mb-8">
         <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
           <Terminal size={20} />
@@ -89,12 +205,6 @@ export default function Readme() {
                 { name: "cat <file>", desc: "Output specific file text into the console viewport.", ex: "cat README.md" },
                 { name: "theme <name>", desc: "Swap portfolio themes (glass, dracula, one-dark, nord, synthwave, grass, atomic, light).", ex: "theme synthwave" },
                 { name: "neofetch", desc: "Render host stats with custom ASCII graphics corresponding to the active theme.", ex: "neofetch" },
-                { name: "whoami", desc: "Query client agent, system details, local time, and authority role.", ex: "whoami" },
-                { name: "ping <host>", desc: "Simulate an ICMP network diagnostics roundtrip.", ex: "ping google.com" },
-                { name: "git status", desc: "Check current Git repository and HMR branch status.", ex: "git status" },
-                { name: "joke", desc: "Fetch a random development/programming joke.", ex: "joke" },
-                { name: "skills", desc: "Display core technical competencies inside a structured ASCII box table.", ex: "skills" },
-                { name: "weather <city>", desc: "Retrieve a mock meteorology report styled in 16-color ANSI formatting.", ex: "weather Noida" },
                 { name: "clear / cls", desc: "Flush output rows and reset shell lines.", ex: "clear" },
               ].map((cmd, idx) => (
                 <tr
@@ -119,121 +229,10 @@ export default function Readme() {
               System Diagnostics Warning
             </h4>
             <p className="text-[var(--text-muted)] text-xs md:text-sm leading-relaxed">
-              The terminal environment runs on a custom simulated kernel. Certain unlisted developer diagnostic utilities, retro emulator subsystems, and hardware cheat codes (such as Konami sequences) remain active but hidden. Try exploring shell arguments or inputting standard hardware patterns to trigger debugging modules.
+              The terminal environment runs on a custom simulated kernel. While the table above outlines the primary navigation utilities, several undocumented commands and retro hardware key sequences remain active. Exploring and testing different terminal prompts will uncover hidden diagnostic readouts, console widgets, and easter eggs.
             </p>
           </div>
         </div>
-      </section>
-
-      <hr className="border-0 border-t border-[var(--border-color)] my-8" />
-
-      {/* Core Skills */}
-      <section className="mb-8">
-        <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-6" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-          <Award size={20} />
-          Core Skills
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-1">
-          {/* AI/ML & Systems */}
-          <div className="bg-white/[0.01] border border-[var(--border-color)] rounded-xl p-5 shadow-lg">
-            <h3 className="flex items-center gap-2 font-bold text-white mb-4 text-sm md:text-base" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-              <Cpu size={18} className="text-[var(--accent-color)]" />
-              AI/ML &amp; Systems
-            </h3>
-            <ul className="list-disc pl-5 text-[var(--text-muted)] text-sm space-y-2.5">
-              <li>Python (PyTorch, OpenCV)</li>
-              <li>Real-time Computer Vision Pipelines (YOLOv8)</li>
-              <li>Multi-Object Tracking (Deep SORT, Kalman Filtering)</li>
-              <li>NLP and Conversational AI Architecture</li>
-              <li>Model Optimization &amp; Quantization (Linear, Conv, RNNs)</li>
-            </ul>
-          </div>
-
-          {/* Frontend & Engineering */}
-          <div className="bg-white/[0.01] border border-[var(--border-color)] rounded-xl p-5 shadow-lg">
-            <h3 className="flex items-center gap-2 font-bold text-white mb-4 text-sm md:text-base" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-              <Layout size={18} className="text-[var(--accent-color)]" />
-              Frontend &amp; Engineering
-            </h3>
-            <ul className="list-disc pl-5 text-[var(--text-muted)] text-sm space-y-2.5">
-              <li>React.js, JavaScript, Vite.js</li>
-              <li>Tailwind CSS, Vanilla CSS</li>
-              <li>High-performance Animations (GSAP, Framer Motion)</li>
-              <li>Three.js WebGL Integrations</li>
-              <li>Responsive, Accessible, and Semantic UX</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <hr className="border-0 border-t border-[var(--border-color)] my-8" />
-
-      {/* Project Highlights */}
-      <section className="mb-8">
-        <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-6" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-          <Folder size={20} />
-          Project Portfolio Highlights
-        </h2>
-
-        <div className="space-y-5 pl-1">
-          {[
-            {
-              title: "Abhisar: Groq-Powered LLM Product",
-              icon: <Rocket size={16} className="text-[var(--accent-color)]" />,
-              domain: "Conversational AI (Full-Stack)",
-              stack: "React, Node.js, Express, Groq Inference Engine",
-              achieve: "Streaming chat middleware optimized to deliver sub-100ms time to first token."
-            },
-            {
-              title: "SysAware ML Optimizer",
-              icon: <Settings size={16} className="text-[var(--accent-color)]" />,
-              domain: "Deep Learning Optimization Tooling",
-              stack: "Python, PyTorch, CUDA, MPS Core",
-              achieve: "Dynamic profiling wrapper supporting quantization pathways across Linear, Conv, and LSTM blocks."
-            },
-            {
-              title: "Real-Time AI Surveillance & Analytics",
-              icon: <Eye size={16} className="text-[var(--accent-color)]" />,
-              domain: "Computer Vision",
-              stack: "Python, YOLOv8, Deep SORT, Flask, OpenCV",
-              achieve: "Integrated detection + tracking pipeline delivering 12-18 FPS on mid-range hardware."
-            },
-            {
-              title: "OctaWipe: Secure Data Sanitization",
-              icon: <Shield size={16} className="text-[var(--accent-color)]" />,
-              domain: "Storage Security & System Tools",
-              stack: "C, Shell Scripting, PXE Boot protocols",
-              achieve: "Sanitization tooling compliant with NIST 800-88 and DoD 5220.22-M with hash signing."
-            }
-          ].map((project) => (
-            <div key={project.title} className="bg-white/[0.01] border border-[var(--border-color)]/60 rounded-xl p-5 hover:border-[var(--accent-color)]/40 transition-all duration-300 shadow-md">
-              <h3 className="flex items-center gap-2 font-bold text-white text-sm md:text-base mb-3" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-                {project.icon}
-                {project.title}
-              </h3>
-              <div className="text-xs md:text-sm text-[var(--text-muted)] space-y-1.5 ml-6">
-                <div><strong>Domain:</strong> {project.domain}</div>
-                <div><strong>Stack:</strong> {project.stack}</div>
-                <div className="text-white/80 mt-1"><strong>Key Achievement:</strong> {project.achieve}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <hr className="border-0 border-t border-[var(--border-color)] my-8" />
-
-      {/* Certifications */}
-      <section className="mb-8">
-        <h2 className="flex items-center gap-2.5 font-bold text-lg md:text-xl text-[var(--accent-color)] mb-4" style={{ fontFamily: "'Orbitron', sans-serif" }}>
-          <Award size={20} />
-          Certifications
-        </h2>
-        <ul className="list-disc pl-5 text-[var(--text-muted)] text-sm space-y-2.5 pl-6">
-          <li><strong>Python for Data Science</strong> — NPTEL</li>
-          <li><strong>CCNA: Introduction to Networks</strong> — Cisco Networking Academy</li>
-          <li><strong>Data Science and Machine Learning</strong> — Masai X IIT Guwahati</li>
-        </ul>
       </section>
     </div>
   );
