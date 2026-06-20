@@ -755,7 +755,7 @@ export default function IdeLayout({ children, isDesktop }) {
       <CustomCursor />
 
       {/* ── Interactive Constellation Background ──────────────────────────────── */}
-      <InteractiveConstellation />
+      {isDesktop && <InteractiveConstellation />}
 
       {/* ── Mobile top nav bar ───────────────────────────────────────────────── */}
       <div className="mobile-nav-bar relative z-20">

@@ -33,21 +33,21 @@
 }
 
 [data-theme="dracula"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(33, 34, 44, 0.4);
-  --activity-bg: rgba(25, 26, 33, 0.4);
-  --panel-bg: rgba(25, 26, 33, 0.4);
-  --active-tab-bg: rgba(40, 42, 54, 0.45);
-  --inactive-tab-bg: rgba(33, 34, 44, 0.25);
-  --tabs-bg: rgba(25, 26, 33, 0.25);
+  --bg-color: #282a36;
+  --sidebar-bg: #21222c;
+  --activity-bg: #191a21;
+  --panel-bg: #191a21;
+  --active-tab-bg: #282a36;
+  --inactive-tab-bg: #21222c;
+  --tabs-bg: #191a21;
   --text-main: #f8f8f2;
   --text-muted: #a4b5e6; /* High-contrast Dracula Slate-Grey */
   --accent-color: #ff79c6; /* Dracula Pink */
   --accent-rgb: 255, 121, 198;
   --accent-hover: #ff92df;
-  --border-color: rgba(68, 71, 90, 0.5);
-  --editor-bg: rgba(40, 42, 54, 0.3);
-  --status-bg: rgba(25, 26, 33, 0.5);
+  --border-color: #44475a;
+  --editor-bg: #282a36;
+  --status-bg: #191a21;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 15px rgba(255, 121, 198, 0.45);
   --bg-gradient: radial-gradient(circle at bottom left, #282a36, #1c1d26);
@@ -57,21 +57,21 @@
 }
 
 [data-theme="one-dark"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(33, 37, 43, 0.4);
-  --activity-bg: rgba(30, 34, 39, 0.4);
-  --panel-bg: rgba(33, 37, 43, 0.4);
-  --active-tab-bg: rgba(40, 44, 52, 0.45);
-  --inactive-tab-bg: rgba(33, 37, 43, 0.25);
-  --tabs-bg: rgba(33, 37, 43, 0.25);
+  --bg-color: #282c34;
+  --sidebar-bg: #21252b;
+  --activity-bg: #1e2227;
+  --panel-bg: #21252b;
+  --active-tab-bg: #282c34;
+  --inactive-tab-bg: #21252b;
+  --tabs-bg: #21252b;
   --text-main: #abb2bf;
   --text-muted: #9da5b4; /* High-contrast One Dark Grey */
   --accent-color: #61afef; /* Vibrant Blue */
   --accent-rgb: 97, 175, 239;
   --accent-hover: #82bffa;
-  --border-color: rgba(24, 26, 31, 0.5);
-  --editor-bg: rgba(40, 44, 52, 0.3);
-  --status-bg: rgba(30, 34, 39, 0.5);
+  --border-color: #181a1f;
+  --editor-bg: #282c34;
+  --status-bg: #1e2227;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 12px rgba(97, 175, 239, 0.35);
   --bg-gradient: radial-gradient(circle at center, #282c34, #1b1d23);
@@ -81,21 +81,21 @@
 }
 
 [data-theme="nord"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(36, 41, 51, 0.4);
-  --activity-bg: rgba(36, 41, 51, 0.4);
-  --panel-bg: rgba(36, 41, 51, 0.4);
-  --active-tab-bg: rgba(46, 52, 64, 0.45);
-  --inactive-tab-bg: rgba(36, 41, 51, 0.25);
-  --tabs-bg: rgba(36, 41, 51, 0.25);
+  --bg-color: #2e3440;
+  --sidebar-bg: #242933;
+  --activity-bg: #242933;
+  --panel-bg: #242933;
+  --active-tab-bg: #2e3440;
+  --inactive-tab-bg: #242933;
+  --tabs-bg: #242933;
   --text-main: #d8dee9;
   --text-muted: #9fb0c6; /* High-contrast Nord Grey */
   --accent-color: #88c0d0; /* Nord Frost Cyan */
   --accent-rgb: 136, 192, 208;
   --accent-hover: #a3be8c;
-  --border-color: rgba(59, 66, 82, 0.5);
-  --editor-bg: rgba(46, 52, 64, 0.3);
-  --status-bg: rgba(36, 41, 51, 0.5);
+  --border-color: #3b4252;
+  --editor-bg: #2e3440;
+  --status-bg: #242933;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 12px rgba(136, 192, 208, 0.4);
   --bg-gradient: radial-gradient(circle at top, #2e3440, #1f232b);
@@ -105,21 +105,21 @@
 }
 
 [data-theme="synthwave"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(36, 27, 47, 0.4);
-  --activity-bg: rgba(29, 21, 38, 0.4);
-  --panel-bg: rgba(36, 27, 47, 0.4);
-  --active-tab-bg: rgba(43, 33, 58, 0.45);
-  --inactive-tab-bg: rgba(36, 27, 47, 0.25);
-  --tabs-bg: rgba(36, 27, 47, 0.25);
+  --bg-color: #2b213a;
+  --sidebar-bg: #241b2f;
+  --activity-bg: #1d1526;
+  --panel-bg: #241b2f;
+  --active-tab-bg: #2b213a;
+  --inactive-tab-bg: #241b2f;
+  --tabs-bg: #241b2f;
   --text-main: #f3e8ff;
   --text-muted: #b4a5cd; /* High-contrast Synthwave Purple-Grey */
   --accent-color: #ff7edb; /* Neon Pink */
   --accent-rgb: 255, 126, 219;
   --accent-hover: #ff9ee2;
-  --border-color: rgba(68, 53, 90, 0.5);
-  --editor-bg: rgba(43, 33, 58, 0.3);
-  --status-bg: rgba(29, 21, 38, 0.5);
+  --border-color: #44355a;
+  --editor-bg: #2b213a;
+  --status-bg: #1d1526;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 20px rgba(255, 126, 219, 0.55);
   --bg-gradient: radial-gradient(circle at bottom right, #2b213a, #130e19);
@@ -129,21 +129,21 @@
 }
 
 [data-theme="grass"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(5, 16, 10, 0.4);
-  --activity-bg: rgba(3, 8, 5, 0.4);
-  --panel-bg: rgba(6, 18, 11, 0.4);
-  --active-tab-bg: rgba(8, 26, 16, 0.45);
-  --inactive-tab-bg: rgba(5, 16, 10, 0.25);
-  --tabs-bg: rgba(3, 8, 5, 0.25);
+  --bg-color: #081a10; /* Forest Green */
+  --sidebar-bg: #05100a;
+  --activity-bg: #030805;
+  --panel-bg: #06120b;
+  --active-tab-bg: #081a10;
+  --inactive-tab-bg: #05100a;
+  --tabs-bg: #030805;
   --text-main: #ecfdf5;
   --text-muted: #6ee7b7; /* Emerald/Mint */
   --accent-color: #34d399; /* Emerald Green */
   --accent-rgb: 52, 211, 153;
   --accent-hover: #10b981;
-  --border-color: rgba(17, 50, 29, 0.5);
-  --editor-bg: rgba(8, 26, 16, 0.3);
-  --status-bg: rgba(3, 8, 5, 0.5);
+  --border-color: #11321d;
+  --editor-bg: #081a10;
+  --status-bg: #030805;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 15px rgba(52, 211, 153, 0.35);
   --bg-gradient: radial-gradient(circle at top right, #0a2717, #020604);
@@ -153,21 +153,21 @@
 }
 
 [data-theme="atomic"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(23, 24, 28, 0.4);
-  --activity-bg: rgba(18, 19, 22, 0.4);
-  --panel-bg: rgba(23, 24, 28, 0.4);
-  --active-tab-bg: rgba(29, 31, 33, 0.45);
-  --inactive-tab-bg: rgba(23, 24, 28, 0.25);
-  --tabs-bg: rgba(18, 19, 22, 0.25);
+  --bg-color: #1d1f21; /* High-tech Charcoal */
+  --sidebar-bg: #17181c;
+  --activity-bg: #121316;
+  --panel-bg: #17181c;
+  --active-tab-bg: #1d1f21;
+  --inactive-tab-bg: #17181c;
+  --tabs-bg: #121316;
   --text-main: #e0e2e5;
   --text-muted: #96a2b2;
   --accent-color: #00ffcc; /* Atomic Cyan */
   --accent-rgb: 0, 255, 204;
   --accent-hover: #00ccff;
-  --border-color: rgba(45, 49, 57, 0.5);
-  --editor-bg: rgba(29, 31, 33, 0.3);
-  --status-bg: rgba(18, 19, 22, 0.5);
+  --border-color: #2d3139;
+  --editor-bg: #1d1f21;
+  --status-bg: #121316;
   --backdrop-blur: none;
   --shadow-glow: 0px 0px 15px rgba(0, 255, 204, 0.45);
   --bg-gradient: radial-gradient(circle at bottom left, #23272d, #0d0f11);
@@ -177,21 +177,21 @@
 }
 
 [data-theme="light"] {
-  --bg-color: transparent;
-  --sidebar-bg: rgba(228, 231, 237, 0.4);
-  --activity-bg: rgba(216, 220, 230, 0.4);
-  --panel-bg: rgba(255, 255, 255, 0.4);
-  --active-tab-bg: rgba(255, 255, 255, 0.45);
-  --inactive-tab-bg: rgba(232, 235, 241, 0.25);
-  --tabs-bg: rgba(216, 220, 230, 0.25);
+  --bg-color: #f0f2f5;
+  --sidebar-bg: #e4e7ed;
+  --activity-bg: #d8dce6;
+  --panel-bg: #ffffff;
+  --active-tab-bg: #ffffff;
+  --inactive-tab-bg: #e8ebf1;
+  --tabs-bg: #d8dce6;
   --text-main: #1a1d23;
   --text-muted: #5a6478;
   --accent-color: #2563eb;
   --accent-rgb: 37, 99, 235;
   --accent-hover: #1d4ed8;
-  --border-color: rgba(205, 209, 218, 0.5);
-  --editor-bg: rgba(255, 255, 255, 0.3);
-  --status-bg: rgba(37, 99, 235, 0.5);
+  --border-color: #cdd1da;
+  --editor-bg: #ffffff;
+  --status-bg: #2563eb;
   --backdrop-blur: none;
   --shadow-glow: 0px 4px 16px rgba(37, 99, 235, 0.15);
   --bg-gradient: linear-gradient(160deg, #f8f9fc 0%, #eef1f7 100%);
@@ -1324,5 +1324,99 @@
 @media (hover: none) {
   :root, [data-theme="dracula"], [data-theme="one-dark"], [data-theme="nord"], [data-theme="synthwave"], [data-theme="grass"], [data-theme="atomic"], [data-theme="light"] {
     --backdrop-blur: none !important;
+  }
+}
+
+/* Desktop-only Translucent Styles to showcase Interactive Constellation Background */
+@media (min-width: 1024px) {
+  [data-theme="dracula"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(33, 34, 44, 0.4);
+    --activity-bg: rgba(25, 26, 33, 0.4);
+    --panel-bg: rgba(25, 26, 33, 0.4);
+    --active-tab-bg: rgba(40, 42, 54, 0.45);
+    --inactive-tab-bg: rgba(33, 34, 44, 0.25);
+    --tabs-bg: rgba(25, 26, 33, 0.25);
+    --border-color: rgba(68, 71, 90, 0.5);
+    --editor-bg: rgba(40, 42, 54, 0.3);
+    --status-bg: rgba(25, 26, 33, 0.5);
+  }
+
+  [data-theme="one-dark"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(33, 37, 43, 0.4);
+    --activity-bg: rgba(30, 34, 39, 0.4);
+    --panel-bg: rgba(33, 37, 43, 0.4);
+    --active-tab-bg: rgba(40, 44, 52, 0.45);
+    --inactive-tab-bg: rgba(33, 37, 43, 0.25);
+    --tabs-bg: rgba(33, 37, 43, 0.25);
+    --border-color: rgba(24, 26, 31, 0.5);
+    --editor-bg: rgba(40, 44, 52, 0.3);
+    --status-bg: rgba(30, 34, 39, 0.5);
+  }
+
+  [data-theme="nord"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(36, 41, 51, 0.4);
+    --activity-bg: rgba(36, 41, 51, 0.4);
+    --panel-bg: rgba(36, 41, 51, 0.4);
+    --active-tab-bg: rgba(46, 52, 64, 0.45);
+    --inactive-tab-bg: rgba(36, 41, 51, 0.25);
+    --tabs-bg: rgba(36, 41, 51, 0.25);
+    --border-color: rgba(59, 66, 82, 0.5);
+    --editor-bg: rgba(46, 52, 64, 0.3);
+    --status-bg: rgba(36, 41, 51, 0.5);
+  }
+
+  [data-theme="synthwave"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(36, 27, 47, 0.4);
+    --activity-bg: rgba(29, 21, 38, 0.4);
+    --panel-bg: rgba(36, 27, 47, 0.4);
+    --active-tab-bg: rgba(43, 33, 58, 0.45);
+    --inactive-tab-bg: rgba(36, 27, 47, 0.25);
+    --tabs-bg: rgba(36, 27, 47, 0.25);
+    --border-color: rgba(68, 53, 90, 0.5);
+    --editor-bg: rgba(43, 33, 58, 0.3);
+    --status-bg: rgba(29, 21, 38, 0.5);
+  }
+
+  [data-theme="grass"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(5, 16, 10, 0.4);
+    --activity-bg: rgba(3, 8, 5, 0.4);
+    --panel-bg: rgba(6, 18, 11, 0.4);
+    --active-tab-bg: rgba(8, 26, 16, 0.45);
+    --inactive-tab-bg: rgba(5, 16, 10, 0.25);
+    --tabs-bg: rgba(3, 8, 5, 0.25);
+    --border-color: rgba(17, 50, 29, 0.5);
+    --editor-bg: rgba(8, 26, 16, 0.3);
+    --status-bg: rgba(3, 8, 5, 0.5);
+  }
+
+  [data-theme="atomic"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(23, 24, 28, 0.4);
+    --activity-bg: rgba(18, 19, 22, 0.4);
+    --panel-bg: rgba(23, 24, 28, 0.4);
+    --active-tab-bg: rgba(29, 31, 33, 0.45);
+    --inactive-tab-bg: rgba(23, 24, 28, 0.25);
+    --tabs-bg: rgba(18, 19, 22, 0.25);
+    --border-color: rgba(45, 49, 57, 0.5);
+    --editor-bg: rgba(29, 31, 33, 0.3);
+    --status-bg: rgba(18, 19, 22, 0.5);
+  }
+
+  [data-theme="light"] {
+    --bg-color: transparent;
+    --sidebar-bg: rgba(228, 231, 237, 0.4);
+    --activity-bg: rgba(216, 220, 230, 0.4);
+    --panel-bg: rgba(255, 255, 255, 0.4);
+    --active-tab-bg: rgba(255, 255, 255, 0.45);
+    --inactive-tab-bg: rgba(232, 235, 241, 0.25);
+    --tabs-bg: rgba(216, 220, 230, 0.25);
+    --border-color: rgba(205, 209, 218, 0.5);
+    --editor-bg: rgba(255, 255, 255, 0.3);
+    --status-bg: rgba(37, 99, 235, 0.5);
   }
 }
