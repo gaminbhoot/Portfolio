@@ -1,23 +1,23 @@
 /* IDE Layout CSS */
 
 :root {
-  /* Default Theme: Dark Solid */
-  --bg-color: #0b0c10;
-  --sidebar-bg: #0f1015;
-  --activity-bg: #07080b;
-  --panel-bg: #0e0f14;
-  --active-tab-bg: #0b0c10;
-  --inactive-tab-bg: #0f1015;
-  --tabs-bg: #07080b;
+  /* Default Theme: Transparent Glassmorphism */
+  --bg-color: transparent;
+  --sidebar-bg: rgba(15, 16, 21, 0.45);
+  --activity-bg: rgba(7, 8, 11, 0.5);
+  --panel-bg: rgba(14, 15, 20, 0.45);
+  --active-tab-bg: rgba(11, 12, 16, 0.4);
+  --inactive-tab-bg: rgba(15, 16, 21, 0.2);
+  --tabs-bg: rgba(7, 8, 11, 0.25);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --accent-color: #818cf8; /* High-contrast Indigo 400 */
   --accent-rgb: 129, 140, 248;
   --accent-hover: #a5b4fc;
-  --border-color: #161722;
-  --editor-bg: #0b0c10;
-  --status-bg: #07080b;
-  --backdrop-blur: none;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --editor-bg: rgba(11, 12, 16, 0.35);
+  --status-bg: rgba(7, 8, 11, 0.65);
+  --backdrop-blur: blur(20px);
   --shadow-glow: 0px 0px 15px rgba(129, 140, 248, 0.35);
   --bg-gradient: radial-gradient(circle at top right, #0b0c16, #030305);
   --bg-fallback: #030305;
@@ -716,13 +716,14 @@
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-  background-color: var(--bg-color);
+  background: var(--bg-gradient);
+  background-color: var(--bg-fallback);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   position: relative;
   z-index: 10;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 .ide-workspace {
@@ -748,6 +749,8 @@
   padding: 16px 0;
   border-right: 1px solid var(--border-color);
   z-index: 20;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .activity-icons-top {
@@ -818,6 +821,8 @@
   border-right: 1px solid var(--border-color);
   overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), border 0.3s ease;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .sidebar-explorer.collapsed {
@@ -899,6 +904,8 @@
   flex-direction: column;
   overflow: hidden;
   background-color: var(--editor-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 /* Tab Bar */
@@ -1054,6 +1061,8 @@
   overflow: hidden;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 15;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .bottom-panel.collapsed {
@@ -1207,6 +1216,8 @@
   color: var(--text-muted);
   user-select: none;
   z-index: 20;
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
 }
 
 .status-section {
@@ -1278,10 +1289,12 @@
     background-color: var(--sidebar-bg);
     border-bottom: 1px solid var(--border-color);
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     padding: 0 16px;
-    z-index: 25;
+    z-index: 20;
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
   }
 
   .mobile-menu-toggle {

@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import CustomCursor from "../cursor/CustomCursor";
 import GlassOverlay from "../background/GlassOverlay";
+import InteractiveConstellation from "../background/InteractiveConstellation";
 import { ThemeContext } from "../../context/ThemeContext";
 import AiChatSidebar from "../chat/AiChatSidebar";
 import { gsap } from "gsap";
@@ -745,6 +746,9 @@ export default function IdeLayout({ children, isDesktop }) {
     <div className={`ide-container`} data-theme={theme}>
       {/* ── Desktop UI Cursor ────────────────────────────────────────────────── */}
       <CustomCursor />
+
+      {/* ── Interactive Constellation Background ──────────────────────────────── */}
+      <InteractiveConstellation />
 
       {/* ── Mobile top nav bar ───────────────────────────────────────────────── */}
       <div className="mobile-nav-bar relative z-20">
