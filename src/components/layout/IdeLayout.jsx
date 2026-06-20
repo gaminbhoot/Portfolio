@@ -743,7 +743,14 @@ export default function IdeLayout({ children, isDesktop }) {
   };
 
   return (
-    <div className={`ide-container`} data-theme={theme}>
+    <div 
+      className={`ide-container`} 
+      data-theme={theme}
+      style={{
+        background: 'var(--bg-gradient)',
+        backgroundColor: 'var(--bg-fallback)',
+      }}
+    >
       {/* ── Desktop UI Cursor ────────────────────────────────────────────────── */}
       <CustomCursor />
 
@@ -969,6 +976,7 @@ export default function IdeLayout({ children, isDesktop }) {
             handleKeyDown={handleKeyDown}
             terminalMode={terminalMode}
             setTerminalMode={setTerminalMode}
+            theme={theme}
           />
         </div>
         <AiChatSidebar isOpen={chatOpen} onClose={() => setChatOpen(false)} />
@@ -979,6 +987,7 @@ export default function IdeLayout({ children, isDesktop }) {
         setPanelOpen={setPanelOpen}
         executeCommand={executeCommand}
         setTerminalLines={setTerminalLines}
+        theme={theme}
       />
     </div>
   );
@@ -998,6 +1007,7 @@ function IdeTerminal({
   handleKeyDown,
   terminalMode,
   setTerminalMode,
+  theme,
 }) {
   return (
     <div
@@ -1006,7 +1016,10 @@ function IdeTerminal({
       }`}
     >
       {/* Panel Header */}
-      <div className="panel-header" onClick={focusTerminal}>
+      <div 
+        className="panel-header" 
+        onClick={focusTerminal}
+      >
         <div className="panel-tabs">
           <div className="panel-tab select-none">
             PROBLEMS <span className="panel-badge">0</span>
@@ -1106,7 +1119,7 @@ function IdeTerminal({
   );
 }
 
-function IdeStatusBar({ setPanelOpen, executeCommand, setTerminalLines }) {
+function IdeStatusBar({ setPanelOpen, executeCommand, setTerminalLines, theme }) {
   return (
     <div className="status-bar relative z-20">
       <div className="status-section">

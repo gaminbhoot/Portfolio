@@ -34,10 +34,10 @@ const InteractiveConstellation = () => {
 
     // Track state configuration
     const settings = {
-      particleCount: 80,
+      particleCount: 100,
       maxDistance: 120, // Max distance between connected particles
       mouseRadius: 160,  // Proximity radius for mouse interaction
-      particleSpeed: 0.6,
+      particleSpeed: 0.8,
     };
 
     const mouse = {
@@ -54,7 +54,7 @@ const InteractiveConstellation = () => {
         this.y = Math.random() * h;
         this.vx = (Math.random() - 0.5) * settings.particleSpeed;
         this.vy = (Math.random() - 0.5) * settings.particleSpeed;
-        this.radius = Math.random() * 2 + 1.5;
+        this.radius = Math.random() * 2.5 + 2; // 2px to 4.5px
       }
 
       update(w, h) {
@@ -70,7 +70,7 @@ const InteractiveConstellation = () => {
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${accentRgbRef.current}, 0.45)`;
+        ctx.fillStyle = `rgba(${accentRgbRef.current}, 0.6)`; // More opaque particles
         ctx.fill();
       }
     }
@@ -111,7 +111,7 @@ const InteractiveConstellation = () => {
             ctx.beginPath();
             // Fades out lines as they approach edge of interactive radius
             const opacity = 1 - distMouse / settings.mouseRadius;
-            ctx.strokeStyle = `rgba(${accentRgbRef.current}, ${opacity * 0.4})`;
+            ctx.strokeStyle = `rgba(${accentRgbRef.current}, ${opacity * 0.65})`; // Enhanced line opacity
             ctx.lineWidth = 1.2;
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(mouse.x, mouse.y);
@@ -129,7 +129,7 @@ const InteractiveConstellation = () => {
           if (dist < settings.maxDistance) {
             ctx.beginPath();
             const opacity = 1 - dist / settings.maxDistance;
-            ctx.strokeStyle = `rgba(${accentRgbRef.current}, ${opacity * 0.15})`;
+            ctx.strokeStyle = `rgba(${accentRgbRef.current}, ${opacity * 0.3})`; // Enhanced line opacity
             ctx.lineWidth = 0.8;
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -177,7 +177,6 @@ const InteractiveConstellation = () => {
     <canvas
       ref={canvasRef}
       className="pointer-events-none absolute inset-0 h-full w-full z-0"
-      style={{ mixBlendMode: theme === 'light' ? 'multiply' : 'screen' }}
     />
   );
 };
