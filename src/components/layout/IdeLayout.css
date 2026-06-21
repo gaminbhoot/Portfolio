@@ -1053,6 +1053,7 @@
 
 /* Bottom Panel (Terminal/Console) */
 .bottom-panel {
+  position: relative;
   height: 240px;
   background-color: var(--panel-bg);
   border-top: 1px solid var(--border-color);
@@ -1063,6 +1064,22 @@
   z-index: 15;
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+/* Resize Handle for dragging terminal height */
+.terminal-resize-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  cursor: row-resize;
+  z-index: 50;
+  transition: background-color 0.2s ease;
+}
+
+.terminal-resize-handle:hover {
+  background-color: var(--accent-color);
 }
 
 .bottom-panel.collapsed {
@@ -1265,6 +1282,14 @@
 }
 
 @media (max-width: 1023px) {
+  /* Prevent clashing text overlaps by making drawer panels opaque on mobile */
+  .sidebar-explorer,
+  .bottom-panel,
+  .mobile-nav-bar,
+  .ai-chat-sidebar {
+    background-color: var(--bg-fallback) !important;
+  }
+
   .activity-bar {
     display: none;
   }

@@ -108,6 +108,42 @@ export default function IdeLayout({ children, isDesktop }) {
   const [mobileExplorerOpen, setMobileExplorerOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
 
+  // ── Terminal Resizing Logic ───────────────────────────────────────────────
+  const [terminalHeight, setTerminalHeight] = useState(240);
+  const [isResizing, setIsResizing] = useState(false);
+
+  const startResize = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  useEffect(() => {
+    if (!isResizing) {
+      document.body.style.cursor = '';
+      return;
+    }
+
+    document.body.style.cursor = 'row-resize';
+    const handleMouseMove = (e) => {
+      const newHeight = window.innerHeight - e.clientY - 22;
+      const clampedHeight = Math.max(80, Math.min(newHeight, window.innerHeight * 0.8));
+      setTerminalHeight(clampedHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      document.body.style.cursor = '';
+    };
+  }, [isResizing]);
+
   // ── Terminal Shell Logic ───────────────────────────────────────────────────
   const [terminalInput, setTerminalInput] = useState("");
   const [terminalLines, setTerminalLines] = useState([
@@ -977,6 +1013,10 @@ export default function IdeLayout({ children, isDesktop }) {
             terminalMode={terminalMode}
             setTerminalMode={setTerminalMode}
             theme={theme}
+            terminalHeight={terminalHeight}
+            isResizing={isResizing}
+            startResize={startResize}
+            isDesktop={isDesktop}
           />
         </div>
         <AiChatSidebar isOpen={chatOpen} onClose={() => setChatOpen(false)} />
@@ -1008,13 +1048,28 @@ function IdeTerminal({
   terminalMode,
   setTerminalMode,
   theme,
+  terminalHeight,
+  isResizing,
+  startResize,
+  isDesktop,
 }) {
   return (
     <div
-      className={`bottom-panel ${panelOpen ? "" : "collapsed"} ${
-        panelState === "maximized" ? "expanded" : ""
-      }`}
+      className={`bottom-panel ${panelOpen ? (panelState === "maximized" ? "expanded" : "") : "collapsed"}`}
+      style={isDesktop ? {
+        height: panelOpen 
+          ? (panelState === "maximized" ? "calc(100vh - 66px)" : `${terminalHeight}px`) 
+          : 0,
+        transition: isResizing ? 'none' : 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      } : {}}
     >
+      {/* Drag Resize Handle */}
+      {panelOpen && panelState !== "maximized" && isDesktop && (
+        <div 
+          className="terminal-resize-handle"
+          onMouseDown={startResize}
+        />
+      )}
       {/* Panel Header */}
       <div 
         className="panel-header" 
