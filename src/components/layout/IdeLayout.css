@@ -1297,8 +1297,8 @@
   .sidebar-explorer {
     position: absolute;
     left: 0;
-    top: 38px;
-    height: calc(100vh - 64px);
+    top: 0;
+    height: 100%;
     z-index: 30;
     width: 230px;
     box-shadow: 10px 0 35px rgba(0, 0, 0, 0.6);
