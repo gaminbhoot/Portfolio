@@ -11,6 +11,7 @@ export default function MinimalHome() {
   });
 
   const [formStatus, setFormStatus] = useState("idle");
+  const [hovered, setHovered] = useState(null);
   const [secretClicks, setSecretClicks] = useState([]);
   const secretCode = ["hero", "projects", "skill-0", "skill-2", "skill-1"];
 
@@ -43,120 +44,116 @@ export default function MinimalHome() {
     } catch { setFormStatus("error"); }
   };
 
-  // Map projectsData to bencodes shape
-  const bencodesProjects = projectsData.map((p, i) => ({
+  // Bencodes projects mapped to your data — keep 5 but in bencodes list style
+  const rows = projectsData.map((p, i) => ({
     number: String(i + 1).padStart(2, "0"),
-    title: p.title,
-    category: p.category.split("/")[0].trim(),
+    title: p.title.replace(" - Secure Data Sanitization", "").replace(" - ", " ").replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace("Abhisar: Groq-Powered LLM Product", "Abhisar"),
+    category: i === 0 ? "Computer Vision / Systems" : i === 1 ? "System Security" : i === 2 ? "Full-Stack AI Product" : i === 3 ? "Systems & Tooling" : "Machine Learning",
     image: p.thumbnail,
-    id: p.id,
+    full: p.category,
   }));
 
+  // For exact screenshot match, override first 4 titles to match bencodes typography demo if you want 1:1
+  // Keep your titles but style exactly like MeetMate/fishtrack/TCG-Home/Portfolio
+
   return (
-    <div className="bg-[var(--dark)] text-white overflow-x-hidden">
-      {/* ——— LANDING HERO ——— exact bencodes: w-screen min-h-screen, radial bg, centered quote */}
+    <div className="bg-white text-black overflow-x-hidden">
+      {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
-        {/* landing.webp as subtle background image like bencodes */}
         <img src="/landing.webp" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-[0.06] pointer-events-none" />
-        <div className="relative z-10 max-w-[1000px] px-4 w-full">
-          <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-center md:text-left" onClick={() => handleSecretClick("hero")}>
+        <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
+          <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-white" onClick={() => handleSecretClick("hero")}>
             I believe in building
             <br />
             <span className="text-[var(--gray-1)]">AI systems & frontend</span> experiences that solve real problems.
           </h1>
-          <div className="mt-[10vh] max-sm:mt-10">
-            <p className="text-gray-3 poppins-light-italic ml-2 mb-1 select-none text-sm">This is me.</p>
+          <div className="mt-[10vh] max-w-[500px] mx-auto">
+            <p className="text-gray-3 poppins-light-italic mb-1 select-none text-sm">This is me.</p>
             <hr className="bg-[var(--gray-3)] origin-left w-full border-none h-px" />
-            <p className="mt-4 max-w-[500px] text-[var(--gray-1)] poppins-light leading-[123%]">
-              20-year-old Computer Science student from Noida, building in AI/ML and frontend engineering. Shipped a Groq-powered LLM, a model optimizer, and YOLOv8 + DeepSORT pipelines.
+            <p className="mt-4 text-[var(--gray-1)] poppins-light leading-[123%] text-sm text-center">
+              20-year-old CS student from Noida. Groq LLM, YOLOv8 + DeepSORT, OctaWipe.
             </p>
-            <div className="mt-8 flex gap-4">
-              <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex px-6 py-3 bg-white text-black rounded-full poppins-regular hover:bg-[var(--light)] transition-colors text-sm">
-                View Projects
-              </a>
-              <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex px-6 py-3 border border-white/20 rounded-full poppins-regular hover:bg-white hover:text-black transition-colors text-sm">
-                Contact
-              </a>
-            </div>
           </div>
         </div>
-        {/* scroll indicator like bencodes subtle */}
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-          <span className="text-xs tracking-widest uppercase poppins-light">Scroll</span>
+          <span className="text-xs tracking-widest uppercase poppins-light text-white">Scroll</span>
           <div className="w-px h-12 bg-[var(--gray-3)]" />
         </div>
       </section>
 
-      {/* ——— ABOUT ME ——— bencodes About section */}
-      <section id="about" className="w-screen min-h-screen flex justify-center items-center px-4 py-24 border-t border-[var(--gray-4)]">
-        <div className="max-w-[1000px] w-full">
-          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">About Me</h2>
-          <div className="max-w-[500px] mx-auto space-y-4 text-[var(--gray-1)] poppins-light leading-[123%] text-center">
-            <p>Computer Science undergraduate building production-oriented AI models and polished web experiences. Prioritizes practical architecture, measurable performance, and explainable design.</p>
-            <p>Hands-on: real-time YOLOv8 + DeepSORT tracking, secure sanitization (OctaWipe), Groq LLM product (Abhisar), and a Java compiler pipeline.</p>
-            <div className="pt-8 flex flex-wrap justify-center gap-2">
-              {["Python", "React", "YOLOv8", "Tailwind", "Flask", "Java"].map((s) => (
-                <span key={s} onClick={() => handleSecretClick(`skill-${s}`)} className="px-3 py-1.5 rounded-full border border-[var(--gray-4)] text-sm poppins-light hover:border-[var(--gray-1)] hover:text-white transition-colors cursor-pointer" style={{ color: "var(--gray-1)" }}>{s}</span>
+      {/* ——— ABOUT ——— keep minimal but not in screenshots, so slim */}
+      <section id="about" className="bg-[var(--dark)] text-white w-screen flex justify-center items-center px-4 py-20 border-t border-[var(--gray-4)]">
+        <div className="max-w-[1000px] w-full text-center">
+          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] mb-8">About Me</h2>
+          <p className="max-w-[600px] mx-auto text-[var(--gray-1)] poppins-light leading-relaxed">
+            CS undergraduate building production AI and polished frontends. Practical architecture, measurable perf, explainable design.
+          </p>
+        </div>
+      </section>
+
+      {/* ——— PROJECTS ——— EXACT bencodes: white, Selected Projects, text rows + hover preview */}
+      <section id="projects" className="w-screen bg-white text-black py-24 px-4">
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
+
+          <div className="relative" onMouseLeave={() => setHovered(null)}>
+            {/* Hover preview — exact bencodes: floating card centered, rounded-xl, overflow-hidden */}
+            {hovered !== null && (
+              <div className="pointer-events-none hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black" style={{ transform: `translate(-50%, -50%)` }}>
+                <img src={rows[hovered].image} alt="" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+              </div>
+            )}
+
+            <div className="space-y-0">
+              {rows.map((r, idx) => (
+                <div
+                  key={idx}
+                  onMouseEnter={() => setHovered(idx)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={() => handleSecretClick("projects")}
+                  className="group relative flex items-center justify-between py-12 border-t border-black/20 last:border-b cursor-pointer"
+                  style={{ borderColor: hovered === idx ? "black" : "rgba(0,0,0,0.2)" }}
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-sm poppins-light" style={{ color: hovered === idx ? "black" : "#888" }}>{r.number}</span>
+                    <h3 className={`text-5xl max-sm:text-[8vw] tracking-tight transition-all ${hovered !== null && hovered !== idx ? "opacity-30" : "opacity-100"}`} style={{ fontFamily: hovered === idx ? "Poppins, sans-serif" : "Khula, sans-serif", fontWeight: hovered === idx ? 500 : 400, color: hovered === idx ? "black" : hovered !== null ? "#888" : "black" }}>
+                      {r.title}
+                    </h3>
+                  </div>
+                  <span className={`hidden md:block text-sm poppins-light whitespace-nowrap ml-8 transition-colors ${hovered !== null && hovered !== idx ? "opacity-30" : "opacity-100"}`} style={{ color: hovered === idx ? "black" : "#666" }}>
+                    {r.category}
+                  </span>
+                  {/* Mobile category below */}
+                  <span className="md:hidden absolute bottom-3 right-0 text-xs poppins-light" style={{ color: "#888" }}>{r.category}</span>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ——— PROJECTS ——— exact bencodes: Selected Projects, grid-cols-2 gap-y-32 */}
-      <section id="projects" className="w-screen min-h-screen py-24 px-4" style={{ backgroundColor: "var(--dark)" }}>
-        <div className="max-w-screen-md mx-auto">
-          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">Selected Projects</h2>
-          <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-6 gap-y-32 justify-items-center" onClick={() => handleSecretClick("projects")}>
-            {bencodesProjects.map((Q) => (
-              <div key={Q.id} className="w-80 max-sm:w-[80vw] flex flex-col gap-y-4 items-center group cursor-pointer">
-                <div className="w-80 max-sm:w-[80vw] aspect-[77/44] overflow-hidden rounded-xl bg-[var(--gray-4)]">
-                  <img
-                    src={Q.image}
-                    alt={Q.title}
-                    width={320}
-                    height={180}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                  />
-                </div>
-                <div className="w-full flex flex-col gap-2">
-                  <div className="flex justify-between items-start">
-                    <h3 className="khula-semibold text-lg leading-tight pr-2">{Q.title}</h3>
-                    <span className="text-sm poppins-light" style={{ color: "var(--gray-2)" }}>{Q.number}</span>
-                  </div>
-                  <p className="poppins-extralight text-base pr-2 group-hover:text-[var(--gray-2)] group-hover:pr-4 transition-all" style={{ color: "var(--gray-1)" }}>{Q.category}</p>
-                  <hr className="w-full border-[var(--gray-1)] group-hover:border-[var(--gray-4)] transition-colors" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ——— SKILLS ——— bencodes-like, but using pills with gray palette */}
-      <section id="skills" className="w-screen py-24 px-4 border-t border-[var(--gray-4)]">
+      {/* ——— SKILLS ——— keep but slim, white bg like projects */}
+      <section id="skills" className="w-screen bg-white text-black py-16 px-4 border-t border-black/10">
         <div className="max-w-[1000px] mx-auto">
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">Skills</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-[1000px] mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
               { label: "Primary", items: ["Python", "YOLOv8 & Computer Vision", "React · Vite", "Tailwind CSS", "Flask", "Java"] },
-              { label: "Working Knowledge", items: ["OpenCV · Deep SORT", "Ollama · vLLM", "NumPy · Pandas", "PHP", "GSAP · Framer", "Three.js"] },
+              { label: "Working", items: ["OpenCV · Deep SORT", "Ollama · vLLM", "NumPy · Pandas", "PHP", "GSAP · Framer", "Three.js"] },
               { label: "Learning", items: ["Hugging Face", "Reinforcement Learning", "TypeScript", "FastAPI", "Next.js", "Docker · K8s"] },
             ].map((tier, idx) => (
-              <div key={idx} className="space-y-4">
-                <h3 className="khula-light text-lg" style={{ color: "var(--gray-1)" }}>{tier.label}</h3>
+              <div key={idx} className="space-y-3">
+                <h3 className="khula-light text-sm tracking-widest uppercase" style={{ color: "#666" }}>{tier.label}</h3>
                 <div className="flex flex-wrap gap-2">
                   {tier.items.map((s) => (
-                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-sm poppins-light" style={{ borderColor: "var(--gray-4)", color: "var(--gray-1)" }}>{s}</span>
+                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-xs poppins-light cursor-pointer" style={{ borderColor: "#e5e7eb", color: "#111" }}>{s}</span>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-          {/* hidden cert clicks for Easter egg */}
-          <div className="opacity-0 h-0 overflow-hidden">
+          <div className="opacity-0 h-0 overflow-hidden" aria-hidden>
             <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
             <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
             <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
@@ -164,52 +161,33 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— CONTACT ——— exact bencodes contact-bg with blurred blobs */}
-      <section id="contact" className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden py-24 px-4 contact-bg">
-        <div className="max-w-[1000px] w-full grid md:grid-cols-2 gap-12 items-start relative z-10">
-          <div>
-            <h2 className="khula-semibold text-5xl md:text-[80px] leading-none tracking-[calc(-1rem*0.03)]" style={{ color: "var(--dark)" }}>Let&apos;s talk.</h2>
-            <p className="mt-8 text-gray-600 poppins-light max-w-[390px]">Open to hybrid roles, internships, and freelance. Based in Noida, India.</p>
-            <div className="mt-12 space-y-4 poppins-light">
-              <a href="mailto:jay05.joshi@gmail.com" className="flex gap-2 text-sm hover:underline" style={{ color: "var(--dark)" }}>jay05.joshi@gmail.com</a>
-              <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex gap-2 text-sm hover:underline">github.com/gaminbhoot</a>
-              <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex gap-2 text-sm hover:underline">linkedin.com/in/gaminbhoot</a>
-            </div>
+      {/* ——— CONTACT ——— EXACT bencodes: Want to collaborate? Let's have a chat! + Email/LinkedIn pills + bb */}
+      <section id="contact" className="relative w-screen bg-white text-black py-24 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[70vh]">
+        {/* blurred blobs bottom */}
+        <div className="pointer-events-none absolute bottom-0 left-0 w-[600px] h-[400px] bg-[#b1afff]/30 blur-[100px] rounded-full translate-y-1/3 -translate-x-1/4" />
+        <div className="pointer-events-none absolute bottom-0 right-0 w-[600px] h-[400px] bg-[#bbe9ff]/30 blur-[100px] rounded-full translate-y-1/3 translate-x-1/4" />
+        <div className="relative z-10 w-full max-w-[800px] mx-auto text-center">
+          <p className="poppins-semibold text-lg" style={{ color: "#666" }}>Want to collaborate?</p>
+          <h2 className="khula-bold text-6xl md:text-7xl tracking-tight mt-2" style={{ color: "black" }}>Let&apos;s have a chat!</h2>
+          <div className="mt-10 flex justify-center gap-4">
+            <a href="mailto:jay05.joshi@gmail.com" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black poppins-regular text-sm hover:bg-black hover:text-white transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7L22 6"/></svg>
+              Email
+            </a>
+            <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black poppins-regular text-sm hover:bg-black hover:text-white transition-colors">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
           </div>
-          <div className="bg-white rounded-2xl p-6 border border-[var(--gray-1)]">
-            {formStatus === "success" ? (
-              <div className="py-12 text-center">
-                <p className="khula-semibold text-lg">Message received!</p>
-                <p className="poppins-light text-sm mt-2" style={{ color: "var(--gray-2)" }}>I&apos;ll get back to you shortly.</p>
-                <button onClick={() => setFormStatus("idle")} className="mt-6 px-6 py-2 rounded-full border poppins-regular text-sm">Send another</button>
-              </div>
-            ) : formStatus === "error" ? (
-              <div className="py-12 text-center">
-                <p className="khula-semibold">Something went wrong.</p>
-                <button onClick={() => setFormStatus("idle")} className="mt-6 px-6 py-2 rounded-full border poppins-regular text-sm">Try again</button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <label className="space-y-1">
-                    <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Name</span>
-                    <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black" />
-                  </label>
-                  <label className="space-y-1">
-                    <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Email</span>
-                    <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black" />
-                  </label>
-                </div>
-                <label className="space-y-1 block">
-                  <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Message</span>
-                  <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black resize-none" />
-                </label>
-                <button disabled={formStatus === "submitting"} className="w-full h-11 rounded-full bg-black text-white poppins-regular hover:bg-[var(--gray-4)] transition-colors text-sm">
-                  {formStatus === "submitting" ? "Sending…" : "Send Message"}
-                </button>
-              </form>
-            )}
+          <div className="mt-16">
+            <p className="khula-bold text-xl">bb</p>
+            <p className="poppins-light" style={{ color: "black" }}>Jay Joshi</p>
+            <p className="text-xs poppins-light mt-1" style={{ color: "#888" }}>Portfolio — AI/ML & Frontend</p>
           </div>
+          <p className="mt-12 text-xs poppins-light max-w-[500px] mx-auto leading-relaxed" style={{ color: "#888" }}>
+            © {new Date().getFullYear()} Jay Joshi. All rights reserved. Location: Noida, India.<br />
+            This site showcases my personal projects and professional work. Content may not be used without permission.
+          </p>
         </div>
       </section>
     </div>
