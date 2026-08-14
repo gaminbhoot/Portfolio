@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
+import CurveWipe from "../components/CurveWipe";
 
 export default function MinimalHome() {
   usePageMeta({
@@ -15,6 +17,8 @@ export default function MinimalHome() {
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [modalStatus, setModalStatus] = useState("idle");
   const [hovered, setHovered] = useState(null);
+  const [wipeActive, setWipeActive] = useState(false);
+  const navigate = useNavigate();
   const [direction, setDirection] = useState(0);
   const prevHoveredRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -43,6 +47,18 @@ export default function MinimalHome() {
       setHovered(idx);
     }
   };
+
+  const handleProjectClick = (id) => {
+    // Save scroll position to restore on close (not top)
+    sessionStorage.setItem("projectsScrollY", String(window.scrollY));
+    setWipeActive(true);
+    setTimeout(() => navigate(`/project/${id}`), 620);
+  };
+
+  useEffect(() => {
+    const y = sessionStorage.getItem("projectsScrollY");
+    if (y) setTimeout(() => window.scrollTo(0, parseInt(y, 10)), 30);
+  }, []);
 
   const handleSecretClick = (id) => {
     setSecretClicks((prev) => {
@@ -104,6 +120,7 @@ export default function MinimalHome() {
 
   // Bencodes projects mapped to your data — keep 5 but in bencodes list style
   const rows = projectsData.map((p, i) => ({
+    id: p.id,
     number: String(i + 1).padStart(2, "0"),
     title: p.title.replace(" - Secure Data Sanitization", "").replace(" - ", " ").replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace("Abhisar: Groq-Powered LLM Product", "Abhisar"),
     category: i === 0 ? "Computer Vision / Systems" : i === 1 ? "System Security" : i === 2 ? "Full-Stack AI Product" : i === 3 ? "Systems & Tooling" : "Machine Learning",
@@ -197,7 +214,7 @@ export default function MinimalHome() {
                 <div
                   key={idx}
                   onMouseEnter={() => handleHover(idx)}
-                  onClick={() => handleSecretClick("projects")}
+                  onClick={() => handleProjectClick(r.id)}
                   className="group relative flex items-center justify-between py-12 border-t border-black/20 last:border-b cursor-pointer"
                   style={{ borderColor: hovered === idx ? "black" : "rgba(0,0,0,0.2)" }}
                 >
@@ -277,6 +294,8 @@ export default function MinimalHome() {
         </div>
       </section>
 
+      <CurveWipe isVisible={wipeActive} />
+
       {/* ——— EMAIL MODAL ——— same Formspree fields, smooth pop like bencodes preview */}
       <AnimatePresence>
         {emailModalOpen && (
@@ -325,20 +344,20 @@ export default function MinimalHome() {
                       <div className="grid grid-cols-2 gap-4">
                         <label className="space-y-1.5">
                           <span className="text-xs poppins-light" style={{ color: "#666" }}>Name</span>
-                          <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                          <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-black/10 bg-[#f8f9fb] px-3.5 py-3 text-sm poppins-light placeholder:text-black/40 focus:outline-none focus:border-black focus:bg-white focus:ring-1 focus:ring-black" />
                         </label>
                         <label className="space-y-1.5">
                           <span className="text-xs poppins-light" style={{ color: "#666" }}>Email</span>
-                          <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                          <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-black/10 bg-[#f8f9fb] px-3.5 py-3 text-sm poppins-light placeholder:text-black/40 focus:outline-none focus:border-black focus:bg-white focus:ring-1 focus:ring-black" />
                         </label>
                       </div>
                       <label className="space-y-1.5 block">
                         <span className="text-xs poppins-light" style={{ color: "#666" }}>Subject</span>
-                        <input name="subject" placeholder="Frontend Engineer @ Acme" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                        <input name="subject" placeholder="Frontend Engineer @ Acme" className="w-full rounded-xl border border-black/10 bg-[#f8f9fb] px-3.5 py-3 text-sm poppins-light placeholder:text-black/40 focus:outline-none focus:border-black focus:bg-white focus:ring-1 focus:ring-black" />
                       </label>
                       <label className="space-y-1.5 block">
                         <span className="text-xs poppins-light" style={{ color: "#666" }}>Message</span>
-                        <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black resize-none" />
+                        <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-black/10 bg-[#f8f9fb] px-3.5 py-3 text-sm poppins-light placeholder:text-black/40 focus:outline-none focus:border-black focus:bg-white focus:ring-1 focus:ring-black resize-none" />
                       </label>
                       <div className="flex gap-3 pt-2">
                         <button type="button" onClick={() => setEmailModalOpen(false)} className="flex-1 h-11 rounded-full border border-black/15 poppins-regular text-sm hover:bg-black/5 transition-colors">Cancel</button>
