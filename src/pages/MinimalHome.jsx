@@ -5,6 +5,10 @@ import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
 
+// Track if this is the first mount since document load (full page load vs SPA back)
+// Module-level → resets only on hard refresh, persists across SPA navigations
+let isFirstHomeMount = true;
+
 export default function MinimalHome() {
   const [asciiArt, setAsciiArt] = React.useState("");
   React.useEffect(() => {
@@ -53,15 +57,42 @@ export default function MinimalHome() {
   };
 
   const handleProjectClick = (id) => {
-    // Save scroll position to restore on close (not top)
+    // Save scroll position to restore when coming back from project
     sessionStorage.setItem("projectsScrollY", String(window.scrollY));
+    sessionStorage.setItem("shouldRestoreScroll", "true");
     setWipeActive(true);
     setTimeout(() => navigate(`/project/${id}`), 620);
   };
 
   useEffect(() => {
+    // Prevent browser's own scroll restoration from fighting us
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // First mount since document load = hard refresh / direct visit → always top
+    // Clears any stale position from a previous tab session
+    if (isFirstHomeMount) {
+      isFirstHomeMount = false;
+      sessionStorage.removeItem("projectsScrollY");
+      sessionStorage.removeItem("shouldRestoreScroll");
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Subsequent mounts = SPA navigation back from /project/:id → restore
+    const shouldRestore = sessionStorage.getItem("shouldRestoreScroll");
     const y = sessionStorage.getItem("projectsScrollY");
-    if (y) setTimeout(() => window.scrollTo(0, parseInt(y, 10)), 30);
+    if (shouldRestore && y) {
+      setTimeout(() => window.scrollTo(0, parseInt(y, 10)), 40);
+      sessionStorage.removeItem("projectsScrollY");
+      sessionStorage.removeItem("shouldRestoreScroll");
+    } else {
+      // Stale value without flag — clean it
+      if (y) sessionStorage.removeItem("projectsScrollY");
+      if (shouldRestore) sessionStorage.removeItem("shouldRestoreScroll");
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   const handleSecretClick = (id) => {
@@ -108,6 +139,16 @@ export default function MinimalHome() {
     } catch { setModalStatus("error"); }
   };
 
+  // Age from DOB 24-06-2005 — auto-updates
+  const getAge = () => {
+    const dob = new Date(2005, 5, 24); // 24 June 2005 (month 0-indexed)
+    const now = new Date();
+    let age = now.getFullYear() - dob.getFullYear();
+    const m = now.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+    return age;
+  };
+
   // Close modal on Escape + lock scroll
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") setEmailModalOpen(false); };
@@ -140,7 +181,7 @@ export default function MinimalHome() {
       {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         {asciiArt && (
-          <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.22] text-[16px] leading-[13px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.85)" }} aria-hidden>{asciiArt}</pre>
+          <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.18] text-[11px] leading-[15px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.24)" }} aria-hidden>{asciiArt}</pre>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none" />
         <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
@@ -153,7 +194,7 @@ export default function MinimalHome() {
             <p className="text-gray-3 poppins-light-italic mb-1 select-none text-sm">This is me.</p>
             <hr className="bg-[var(--gray-3)] origin-left w-full border-none h-px" />
             <p className="mt-4 text-[var(--gray-1)] poppins-light leading-[123%] text-sm text-center">
-              20-year-old CS student from Noida. Groq LLM, YOLOv8 + DeepSORT, OctaWipe.
+              {getAge()}-year-old CS student from Noida. Groq LLM, YOLOv8 + DeepSORT, OctaWipe.
             </p>
           </div>
         </div>
@@ -294,10 +335,6 @@ export default function MinimalHome() {
             <p className="poppins-light" style={{ color: "black" }}>Jay Joshi</p>
             <p className="text-xs poppins-light mt-1" style={{ color: "#888" }}>Portfolio — AI/ML & Frontend</p>
           </div>
-          <p className="mt-12 text-xs poppins-light max-w-[500px] mx-auto leading-relaxed" style={{ color: "#888" }}>
-            © {new Date().getFullYear()} Jay Joshi. All rights reserved. Location: Noida, India.<br />
-            This site showcases my personal projects and professional work. Content may not be used without permission.
-          </p>
         </div>
       </section>
 
@@ -372,7 +409,6 @@ export default function MinimalHome() {
                           {modalStatus === "submitting" ? "Sending…" : "Send Message"}
                         </button>
                       </div>
-                      <p className="text-xs poppins-light text-center" style={{ color: "#888" }}>Powered by Formspree — same as the contact form</p>
                     </form>
                   )}
                 </div>

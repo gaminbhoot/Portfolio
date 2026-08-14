@@ -134,7 +134,7 @@ export default function MinimalLayout({ children }) {
             </div>
           </div>
           <div className="px-[15%] max-sm:mx-[5%] pb-12">
-            <p className="text-sm text-gray-600 poppins-light">© {new Date().getFullYear()} Jay Joshi</p>
+            <p className="text-sm text-gray-600 poppins-light">© Jay Joshi</p>
           </div>
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function MinimalLayout({ children }) {
 
       <footer className="border-t border-[var(--gray-4)] py-8 bg-[var(--dark)]">
         <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm" style={{ color: "var(--gray-1)" }}>
-          <span className="poppins-light">© {new Date().getFullYear()} Jay Joshi. Built with care.</span>
+          <span className="poppins-light">© Jay Joshi</span>
           <div className="flex items-center gap-6 poppins-light">
             <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
             <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>

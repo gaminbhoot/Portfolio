@@ -79,7 +79,7 @@ export default function MinimalProject() {
             <p className="text-xs tracking-widest uppercase poppins-light" style={{ color: "#888" }}>Description</p>
             <hr className="mt-2 border-white/20" />
             <p className="mt-6 text-sm leading-relaxed poppins-light" style={{ color: "rgba(255,255,255,0.85)" }}>
-              {project.summary?.technicalHighlights?.[0]?.description || description || "Minimal case study for this project. Built with care and shipped with performance in mind."}
+              {project.summary?.technicalHighlights?.[0]?.description || description || "Minimal case study for this project."}
             </p>
             {project.githubLink && (
               <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex text-sm underline poppins-light" style={{ color: "#888" }}>View Github →</a>

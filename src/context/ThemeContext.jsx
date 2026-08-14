@@ -15,6 +15,7 @@ export function ThemeProvider({ children }) {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
+
   const value = useMemo(() => ({ theme, setTheme }), [theme]);
 
   return (
