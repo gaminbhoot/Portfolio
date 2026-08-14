@@ -140,7 +140,7 @@ export default function MinimalHome() {
       {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         {asciiArt && (
-          <pre className="absolute inset-0 flex items-start justify-center pointer-events-none select-none overflow-hidden pt-8 opacity-[0.13] text-[8px] leading-[8px] tracking-[-0.02em] font-mono whitespace-pre max-h-screen overflow-hidden" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.05, 1.05)" }} aria-hidden>{asciiArt}</pre>
+          <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.22] text-[16px] leading-[13px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.85)" }} aria-hidden>{asciiArt}</pre>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none" />
         <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
