@@ -124,30 +124,39 @@ export default function MinimalHome() {
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
 
           <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
-            {/* Hover preview — follows cursor with spring + directional page turn like bencodes (01→02 page up, 02→01 page down) */}
-            <AnimatePresence mode="wait" custom={direction}>
+            {/* Hover preview — window fixed, content pages inside like bencodes */}
+            <AnimatePresence>
               {hovered !== null && (
                 <motion.div
-                  key={hovered}
-                  custom={direction}
-                  variants={{
-                    enter: (dir) => ({ opacity: 0, y: dir > 0 ? -28 : dir < 0 ? 28 : 12, scale: 0.96 }),
-                    center: { opacity: 1, y: 0, scale: 1 },
-                    exit: (dir) => ({ opacity: 0, y: dir > 0 ? 28 : dir < 0 ? -28 : 12, scale: 0.96 }),
-                  }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
+                  key="preview-window"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.85 }}
                   className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
                   style={{ left: springX, top: springY }}
                 >
-                  <img
-                    src={rows[hovered].image}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                  <div className="relative w-full h-full overflow-hidden">
+                    <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+                      <motion.img
+                        key={hovered}
+                        custom={direction}
+                        variants={{
+                          enter: (dir) => ({ y: dir > 0 ? -40 : dir < 0 ? 40 : 0, opacity: 0 }),
+                          center: { y: 0, opacity: 1 },
+                          exit: (dir) => ({ y: dir > 0 ? 40 : dir < 0 ? -40 : 0, opacity: 0 }),
+                        }}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{ type: "spring", stiffness: 360, damping: 30, mass: 0.9 }}
+                        src={rows[hovered].image}
+                        alt=""
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
