@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 
 export default function MinimalLayout({ children }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [konami, setKonami] = useState([]);
 
-  // Hidden Konami: ↑↑↓↓←→←→ba still works on minimal branch
   useEffect(() => {
     const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
     const handler = (e) => {
@@ -24,105 +23,103 @@ export default function MinimalLayout({ children }) {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  const navLinks = [
-    { href: "#projects", label: "Projects" },
-    { href: "#skills", label: "Skills" },
-    { href: "#contact", label: "Contact" },
-  ];
-
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    setMobileOpen(false);
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    history.replaceState(null, "", href);
+  const handleNav = (id) => {
+    setMenuOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
   };
 
+  // Lock scroll when menu open like bencodes
+  useEffect(() => {
+    if (menuOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white selection:bg-white selection:text-black flex flex-col">
-      {/* Skip link */}
+    <div className="min-h-screen bg-[var(--dark)] text-white selection:bg-white selection:text-black flex flex-col" style={{ backgroundColor: "var(--dark)" }}>
       <a href="#main" className="skip-link">Skip to main content</a>
 
-      {/* Header — exact bencodes: sticky, border, backdrop-blur */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#0a0a0f]/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-6xl px-6 flex h-16 items-center justify-between">
-          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="font-bold tracking-tight text-white hover:opacity-80 transition-opacity" style={{ fontFamily: "'Inter', sans-serif" }}>
-            <span className="text-lg">JJ</span>
-            <span className="ml-2 text-sm font-medium text-white/60 hidden sm:inline">Jay Joshi</span>
-          </a>
+      {/* Fixed menu button — exact bencodes: top-6 right-6 / right-16 */}
+      <button
+        onClick={() => setMenuOpen(!menuOpen)}
+        className="fixed top-6 right-6 z-40 px-4 py-2 text-xl poppins-regular flex items-center gap-2"
+        style={{ color: menuOpen ? "var(--dark)" : "var(--light)" }}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+      >
+        {!menuOpen && <span className="hidden md:inline">menu</span>}
+        <span className="inline-flex h-8 w-8 items-center justify-center">
+          {menuOpen ? <X size={28} strokeWidth={1.5} /> : (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M4 12h16M4 6h16M4 18h16" />
+            </svg>
+          )}
+        </span>
+      </button>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={(e) => handleNavClick(e, l.href)}
-                className="text-sm text-white/60 hover:text-white transition-colors"
-              >
-                {l.label}
-              </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={(e) => handleNavClick(e, "#contact")}
-              className="ml-2 inline-flex h-9 items-center rounded-full bg-white px-5 text-sm font-medium text-black hover:bg-white/90 transition-colors"
-            >
-              Contact
-            </a>
-          </nav>
-
-          {/* Mobile toggle */}
-          <button
-            type="button"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((v) => !v)}
-            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70"
-          >
-            {mobileOpen ? <X size={16} /> : <Menu size={16} />}
-          </button>
-        </div>
-
-        {/* Mobile nav */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-white/[0.08] bg-[#0a0a0f]">
-            <nav className="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-1">
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={(e) => handleNavClick(e, l.href)}
-                  className="rounded-lg px-3 py-2.5 text-sm text-white/70 hover:bg-white/[0.06] hover:text-white transition-colors"
-                >
-                  {l.label}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, "#contact")}
-                className="mt-2 inline-flex h-10 items-center justify-center rounded-full bg-white text-sm font-medium text-black"
-              >
-                Contact me
-              </a>
-            </nav>
+      {/* Menu overlay — exact bencodes drawer */}
+      <div className={`fixed inset-0 z-50 bg-white text-black transition-all duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`} aria-hidden={!menuOpen}>
+        <div className="h-full flex flex-col">
+          <div className="flex justify-end p-6">
+            <button onClick={() => setMenuOpen(false)} className="p-2" aria-label="Close">
+              <X size={32} strokeWidth={1.5} />
+            </button>
           </div>
-        )}
-      </header>
+          <div className="flex flex-grow flex-row max-sm:flex-col-reverse items-start justify-between w-full px-[15%] max-sm:mx-[5%] gap-12">
+            {/* Social */}
+            <div className="space-y-4">
+              <h3 className="text-lg khula-light">Social</h3>
+              <ul className="space-y-2">
+                {[
+                  { name: "LinkedIn", link: "https://linkedin.com/in/gaminbhoot" },
+                  { name: "Github", link: "https://github.com/gaminbhoot" },
+                  { name: "Email", link: "mailto:jay05.joshi@gmail.com" },
+                ].map((o) => (
+                  <li key={o.name}>
+                    <a href={o.link} target={o.link.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="hover:underline text-xl poppins-light">
+                      {o.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Menu */}
+            <div className="space-y-4">
+              <h3 className="text-lg khula-light">Menu</h3>
+              <ul className="space-y-2">
+                {[
+                  { name: "About Me", id: "about" },
+                  { name: "Projects", id: "projects" },
+                  { name: "Contact", id: "contact" },
+                ].map((o) => (
+                  <li key={o.id}>
+                    <a href={`#${o.id}`} onClick={(e) => { e.preventDefault(); handleNav(o.id); }} className="hover:underline text-xl poppins-light">
+                      {o.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="px-[15%] max-sm:mx-[5%] pb-12">
+            <p className="text-sm text-gray-600 poppins-light">© {new Date().getFullYear()} Jay Joshi</p>
+          </div>
+        </div>
+      </div>
 
       <main id="main" className="flex-1">
         {children}
       </main>
 
-      {/* Footer — minimal, exact bencodes */}
-      <footer className="border-t border-white/[0.08] py-8">
-        <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/40">
-          <span>© {new Date().getFullYear()} Jay Joshi. Built with care.</span>
-          <div className="flex items-center gap-6">
-            <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
-            <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-            <a href="mailto:jay05.joshi@gmail.com" className="hover:text-white transition-colors">Email</a>
+      <footer className="border-t border-[var(--gray-4)] py-8 bg-[var(--dark)]">
+        <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm" style={{ color: "var(--gray-1)" }}>
+          <span className="poppins-light">© {new Date().getFullYear()} Jay Joshi. Built with care.</span>
+          <div className="flex items-center gap-6 poppins-light">
+            <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
+            <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
+            <a href="mailto:jay05.joshi@gmail.com" className="hover:underline">Email</a>
           </div>
         </div>
       </footer>

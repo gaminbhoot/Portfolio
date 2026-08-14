@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
-import { ArrowUpRight, Mail, Github, Linkedin, MapPin } from "lucide-react";
 
 export default function MinimalHome() {
   usePageMeta({
-    title: "Jay Joshi | AI/ML Engineer & Frontend Developer",
+    title: "Portfolio | Jay Joshi",
     description: "Explore my projects, skills, and professional journey. Available for new opportunities and collaborations.",
     path: "/",
-    image: "/jay1.webp",
+    image: "https://www.bencodes.de/img/portfolio/landing.webp",
   });
 
-  const [formStatus, setFormStatus] = useState("idle"); // idle | submitting | success | error
+  const [formStatus, setFormStatus] = useState("idle");
   const [secretClicks, setSecretClicks] = useState([]);
   const secretCode = ["hero", "projects", "skill-0", "skill-2", "skill-1"];
 
@@ -40,254 +39,172 @@ export default function MinimalHome() {
         body: formData,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
-        setFormStatus("success");
-        e.target.reset();
-      } else setFormStatus("error");
-    } catch {
-      setFormStatus("error");
-    }
+      if (res.ok) { setFormStatus("success"); e.target.reset(); } else setFormStatus("error");
+    } catch { setFormStatus("error"); }
   };
 
+  // Map projectsData to bencodes shape
+  const bencodesProjects = projectsData.map((p, i) => ({
+    number: String(i + 1).padStart(2, "0"),
+    title: p.title,
+    category: p.category.split("/")[0].trim(),
+    image: p.thumbnail,
+    id: p.id,
+  }));
+
   return (
-    <div className="bg-[#0a0a0f] text-white">
-      {/* ——— HERO ——— 92vh, 48/52 grid, exact bencodes */}
-      <section className="mx-auto max-w-6xl px-6 pt-10 pb-16 md:pt-16 md:pb-24">
-        <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12 items-center min-h-[72vh]">
-          {/* Left */}
-          <div className="space-y-6" onClick={() => handleSecretClick("hero")}>
-            <p className="text-sm tracking-widest text-white/40 uppercase">Available for new opportunities</p>
-            <h1 className="text-4xl md:text-5xl lg:text-[52px] font-semibold leading-[1.05] tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Jay Joshi
-              <span className="block text-white/60 font-normal text-[0.68em] mt-2 tracking-normal">AI/ML Engineer & Frontend Developer</span>
-            </h1>
-            <p className="max-w-xl text-white/60 leading-relaxed">
-              20-year-old Computer Science student building AI systems and polished frontend experiences. Shipped a Groq-powered LLM, a model optimizer, and YOLOv8 + DeepSORT pipelines.
+    <div className="bg-[var(--dark)] text-white overflow-x-hidden">
+      {/* ——— LANDING HERO ——— exact bencodes: w-screen min-h-screen, radial bg, centered quote */}
+      <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
+        {/* landing.webp as subtle background image like bencodes */}
+        <img src="/landing.webp" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-[0.06] pointer-events-none" />
+        <div className="relative z-10 max-w-[1000px] px-4 w-full">
+          <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-center md:text-left" onClick={() => handleSecretClick("hero")}>
+            I believe in building
+            <br />
+            <span className="text-[var(--gray-1)]">AI systems & frontend</span> experiences that solve real problems.
+          </h1>
+          <div className="mt-[10vh] max-sm:mt-10">
+            <p className="text-gray-3 poppins-light-italic ml-2 mb-1 select-none text-sm">This is me.</p>
+            <hr className="bg-[var(--gray-3)] origin-left w-full border-none h-px" />
+            <p className="mt-4 max-w-[500px] text-[var(--gray-1)] poppins-light leading-[123%]">
+              20-year-old Computer Science student from Noida, building in AI/ML and frontend engineering. Shipped a Groq-powered LLM, a model optimizer, and YOLOv8 + DeepSORT pipelines.
             </p>
-            <p className="max-w-xl text-sm text-white/40 leading-relaxed">
-              Explore my projects, skills, and professional journey. Available for new opportunities and collaborations.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-2">
-              <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex h-11 items-center rounded-full bg-white px-6 text-sm font-medium text-black hover:bg-white/90 transition-colors">
+            <div className="mt-8 flex gap-4">
+              <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex px-6 py-3 bg-white text-black rounded-full poppins-regular hover:bg-[var(--light)] transition-colors text-sm">
                 View Projects
               </a>
-              <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex h-11 items-center rounded-full border border-white/15 px-6 text-sm font-medium text-white hover:bg-white/5 transition-colors">
-                Contact me
+              <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="inline-flex px-6 py-3 border border-white/20 rounded-full poppins-regular hover:bg-white hover:text-black transition-colors text-sm">
+                Contact
               </a>
             </div>
-            <div className="flex items-center gap-4 pt-4 text-sm text-white/40">
-              <span className="inline-flex items-center gap-2"><MapPin size={14} /> Noida, India</span>
-              <span className="h-3 w-px bg-white/15" />
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-500" /> Open to work</span>
-            </div>
           </div>
-
-          {/* Right — landing.webp hero, exact bencodes: rounded-2xl, aspect 4/3, border */}
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] aspect-[4/3]">
-              <img
-                src="/jay1.webp"
-                alt="Jay Joshi"
-                width={800}
-                height={600}
-                fetchPriority="high"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-              {/* subtle grain like bencodes subtle overlay */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-            </div>
-            {/* bencodes-like floating accent blur */}
-            <div className="pointer-events-none absolute -z-10 -right-6 -bottom-6 h-32 w-32 rounded-full bg-white/5 blur-2xl" />
-          </div>
+        </div>
+        {/* scroll indicator like bencodes subtle */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <span className="text-xs tracking-widest uppercase poppins-light">Scroll</span>
+          <div className="w-px h-12 bg-[var(--gray-3)]" />
         </div>
       </section>
 
-      {/* ——— PROJECTS ——— lg:3 grid, exact bencodes card */}
-      <section id="projects" className="mx-auto max-w-6xl px-6 py-16 md:py-20 border-t border-white/[0.06]">
-        <div className="mb-10 flex items-end justify-between gap-6">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Selected Works</h2>
-            <p className="mt-2 text-sm text-white/50">A few projects I've built — real-time vision, secure tools, LLM product.</p>
-          </div>
-          <span className="hidden sm:inline text-xs tracking-widest text-white/30 uppercase">{projectsData.length} projects</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" onClick={() => handleSecretClick("projects")}>
-          {projectsData.map((p) => (
-            <div
-              key={p.id}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] hover:border-white/15 transition-colors flex flex-col"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden bg-white/[0.02]">
-                <img
-                  src={p.thumbnail}
-                  alt={p.title}
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 inline-flex items-center rounded-full border border-white/15 bg-black/30 backdrop-blur px-2.5 py-1 text-[11px] tracking-wide text-white/70">
-                  {p.category}
-                </div>
-                <span className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-black opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowUpRight size={16} />
-                </span>
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-base font-semibold leading-tight line-clamp-2">{p.title}</h3>
-                <p className="mt-2 text-sm text-white/50 line-clamp-2">{p.summary?.tagline || p.category}</p>
-                <div className="mt-4 flex items-center gap-2 text-xs text-white/30">
-                  <span>{p.year}</span>
-                  <span>·</span>
-                  <span className="truncate">{p.category.split("/")[0].trim()}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ——— SKILLS ——— pills, flat, exact bencodes */}
-      <section id="skills" className="mx-auto max-w-6xl px-6 py-16 md:py-20 border-t border-white/[0.06]">
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Skills</h2>
-        <p className="mt-2 text-sm text-white/50 max-w-2xl">Tools I use to ship — AI/ML, frontend, and systems.</p>
-
-        <div className="mt-10 grid md:grid-cols-3 gap-8">
-          {[
-            {
-              label: "Primary",
-              groups: [
-                { title: "AI / ML", items: ["Python", "YOLOv8 & Computer Vision", "Data Science & EDA", "NLP Pipelines"] },
-                { title: "Frontend", items: ["React · JavaScript · Vite", "Tailwind CSS"] },
-                { title: "Backend", items: ["Flask", "Java", "Git & GitHub"] },
-              ],
-            },
-            {
-              label: "Working Knowledge",
-              groups: [
-                { title: "ML Tools", items: ["OpenCV · Deep SORT", "Ollama · vLLM · llama.cpp", "NumPy · scikit-learn · Pandas"] },
-                { title: "Web", items: ["PHP", "Framer Motion · GSAP", "Three.js", "HTML / Advanced CSS"] },
-              ],
-            },
-            {
-              label: "Learning",
-              groups: [
-                { title: "AI / ML", items: ["Hugging Face Transformers", "Reinforcement Learning"] },
-                { title: "Dev", items: ["TypeScript", "FastAPI", "Next.js"] },
-                { title: "Infrastructure", items: ["Docker", "Kafka", "Kubernetes", "Linux"] },
-              ],
-            },
-          ].map((tier, ti) => (
-            <div key={ti} className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
-              <p className="text-xs tracking-[0.18em] text-white/30 uppercase">{tier.label}</p>
-              <div className="mt-6 space-y-6">
-                {tier.groups.map((g) => (
-                  <div key={g.title}>
-                    <p className="text-xs font-medium tracking-wide text-white/50 uppercase">{g.title}</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {g.items.map((s, si) => (
-                        <span
-                          key={si}
-                          onClick={() => handleSecretClick(`skill-${ti}-${si}`)}
-                          className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/70 hover:bg-white/[0.08] hover:text-white transition-colors cursor-pointer"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* hidden skill pills for secret sequence (header→terminal→cert-0→cert-2→cert-1 mapped to hero→projects→skill-0→skill-2→skill-1) */}
-        <div className="mt-6 flex gap-2 opacity-0 pointer-events-none select-none h-0 overflow-hidden" aria-hidden>
-          <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
-          <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
-          <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
-        </div>
-      </section>
-
-      {/* ——— ABOUT ——— compact, from Readme */}
-      <section id="about" className="mx-auto max-w-6xl px-6 py-16 md:py-20 border-t border-white/[0.06]">
-        <div className="max-w-3xl">
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">About</h2>
-          <div className="mt-6 space-y-4 text-white/60 leading-relaxed">
-            <p>Computer Science undergraduate at 20, building production-oriented AI models and polished web experiences. Prioritizes practical architecture, measurable performance, and explainable design.</p>
+      {/* ——— ABOUT ME ——— bencodes About section */}
+      <section id="about" className="w-screen min-h-screen flex justify-center items-center px-4 py-24 border-t border-[var(--gray-4)]">
+        <div className="max-w-[1000px] w-full">
+          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">About Me</h2>
+          <div className="max-w-[500px] mx-auto space-y-4 text-[var(--gray-1)] poppins-light leading-[123%] text-center">
+            <p>Computer Science undergraduate building production-oriented AI models and polished web experiences. Prioritizes practical architecture, measurable performance, and explainable design.</p>
             <p>Hands-on: real-time YOLOv8 + DeepSORT tracking, secure sanitization (OctaWipe), Groq LLM product (Abhisar), and a Java compiler pipeline.</p>
-            <ul className="list-disc pl-5 space-y-2 text-sm">
-              <li>MacBook Pro is daily driver; fluent in Windows + Fedora (Linux, dnf, Bash).</li>
-              <li>Terminal: macOS Zsh, PowerShell on Windows, GNOME Terminal on Fedora.</li>
-              <li>IDE: VS Code + Antigravity (agent sessions), JetBrains for Python, Neovim in terminal.</li>
-            </ul>
+            <div className="pt-8 flex flex-wrap justify-center gap-2">
+              {["Python", "React", "YOLOv8", "Tailwind", "Flask", "Java"].map((s) => (
+                <span key={s} onClick={() => handleSecretClick(`skill-${s}`)} className="px-3 py-1.5 rounded-full border border-[var(--gray-4)] text-sm poppins-light hover:border-[var(--gray-1)] hover:text-white transition-colors cursor-pointer" style={{ color: "var(--gray-1)" }}>{s}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ——— CONTACT ——— minimal, Formspree, exact bencodes */}
-      <section id="contact" className="mx-auto max-w-6xl px-6 py-16 md:py-20 border-t border-white/[0.06]">
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
+      {/* ——— PROJECTS ——— exact bencodes: Selected Projects, grid-cols-2 gap-y-32 */}
+      <section id="projects" className="w-screen min-h-screen py-24 px-4" style={{ backgroundColor: "var(--dark)" }}>
+        <div className="max-w-screen-md mx-auto">
+          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">Selected Projects</h2>
+          <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-6 gap-y-32 justify-items-center" onClick={() => handleSecretClick("projects")}>
+            {bencodesProjects.map((Q) => (
+              <div key={Q.id} className="w-80 max-sm:w-[80vw] flex flex-col gap-y-4 items-center group cursor-pointer">
+                <div className="w-80 max-sm:w-[80vw] aspect-[77/44] overflow-hidden rounded-xl bg-[var(--gray-4)]">
+                  <img
+                    src={Q.image}
+                    alt={Q.title}
+                    width={320}
+                    height={180}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                  <div className="flex justify-between items-start">
+                    <h3 className="khula-semibold text-lg leading-tight pr-2">{Q.title}</h3>
+                    <span className="text-sm poppins-light" style={{ color: "var(--gray-2)" }}>{Q.number}</span>
+                  </div>
+                  <p className="poppins-extralight text-base pr-2 group-hover:text-[var(--gray-2)] group-hover:pr-4 transition-all" style={{ color: "var(--gray-1)" }}>{Q.category}</p>
+                  <hr className="w-full border-[var(--gray-1)] group-hover:border-[var(--gray-4)] transition-colors" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ——— SKILLS ——— bencodes-like, but using pills with gray palette */}
+      <section id="skills" className="w-screen py-24 px-4 border-t border-[var(--gray-4)]">
+        <div className="max-w-[1000px] mx-auto">
+          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">Skills</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-[1000px] mx-auto">
+            {[
+              { label: "Primary", items: ["Python", "YOLOv8 & Computer Vision", "React · Vite", "Tailwind CSS", "Flask", "Java"] },
+              { label: "Working Knowledge", items: ["OpenCV · Deep SORT", "Ollama · vLLM", "NumPy · Pandas", "PHP", "GSAP · Framer", "Three.js"] },
+              { label: "Learning", items: ["Hugging Face", "Reinforcement Learning", "TypeScript", "FastAPI", "Next.js", "Docker · K8s"] },
+            ].map((tier, idx) => (
+              <div key={idx} className="space-y-4">
+                <h3 className="khula-light text-lg" style={{ color: "var(--gray-1)" }}>{tier.label}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {tier.items.map((s) => (
+                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-sm poppins-light" style={{ borderColor: "var(--gray-4)", color: "var(--gray-1)" }}>{s}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* hidden cert clicks for Easter egg */}
+          <div className="opacity-0 h-0 overflow-hidden">
+            <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
+            <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
+            <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ——— CONTACT ——— exact bencodes contact-bg with blurred blobs */}
+      <section id="contact" className="relative w-screen min-h-screen flex items-center justify-center overflow-hidden py-24 px-4 contact-bg">
+        <div className="max-w-[1000px] w-full grid md:grid-cols-2 gap-12 items-start relative z-10">
           <div>
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Let&apos;s Work Together</h2>
-            <p className="mt-3 text-white/50 leading-relaxed">Open to hybrid roles, internships, and freelance. Reach out — happy to connect.</p>
-            <div className="mt-8 space-y-3 text-sm">
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jay05.joshi@gmail.com" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]"><Mail size={14} /></span>
-                jay05.joshi@gmail.com
-              </a>
-              <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]"><Github size={14} /></span>
-                github.com/gaminbhoot
-              </a>
-              <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white transition-colors">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]"><Linkedin size={14} /></span>
-                linkedin.com/in/gaminbhoot
-              </a>
-              <span className="flex items-center gap-3 text-white/40">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]"><MapPin size={14} /></span>
-                Noida, India · IST UTC+5:30
-              </span>
+            <h2 className="khula-semibold text-5xl md:text-[80px] leading-none tracking-[calc(-1rem*0.03)]" style={{ color: "var(--dark)" }}>Let&apos;s talk.</h2>
+            <p className="mt-8 text-gray-600 poppins-light max-w-[390px]">Open to hybrid roles, internships, and freelance. Based in Noida, India.</p>
+            <div className="mt-12 space-y-4 poppins-light">
+              <a href="mailto:jay05.joshi@gmail.com" className="flex gap-2 text-sm hover:underline" style={{ color: "var(--dark)" }}>jay05.joshi@gmail.com</a>
+              <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex gap-2 text-sm hover:underline">github.com/gaminbhoot</a>
+              <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="flex gap-2 text-sm hover:underline">linkedin.com/in/gaminbhoot</a>
             </div>
           </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 md:p-7">
+          <div className="bg-white rounded-2xl p-6 border border-[var(--gray-1)]">
             {formStatus === "success" ? (
-              <div className="py-10 text-center">
-                <p className="font-medium">Message received!</p>
-                <p className="mt-2 text-sm text-white/50">Thanks — I&apos;ll get back to you shortly.</p>
-                <button onClick={() => setFormStatus("idle")} className="mt-6 rounded-full border border-white/15 px-5 py-2.5 text-xs tracking-wide uppercase hover:bg-white/5 transition-colors">Send another</button>
+              <div className="py-12 text-center">
+                <p className="khula-semibold text-lg">Message received!</p>
+                <p className="poppins-light text-sm mt-2" style={{ color: "var(--gray-2)" }}>I&apos;ll get back to you shortly.</p>
+                <button onClick={() => setFormStatus("idle")} className="mt-6 px-6 py-2 rounded-full border poppins-regular text-sm">Send another</button>
               </div>
             ) : formStatus === "error" ? (
-              <div className="py-10 text-center">
-                <p className="font-medium">Something went wrong.</p>
-                <button onClick={() => setFormStatus("idle")} className="mt-6 rounded-full border border-white/15 px-5 py-2.5 text-xs tracking-wide uppercase hover:bg-white/5 transition-colors">Try again</button>
+              <div className="py-12 text-center">
+                <p className="khula-semibold">Something went wrong.</p>
+                <button onClick={() => setFormStatus("idle")} className="mt-6 px-6 py-2 rounded-full border poppins-regular text-sm">Try again</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <label className="space-y-2">
-                    <span className="text-xs tracking-wide text-white/50 uppercase">Name</span>
-                    <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:bg-white/[0.06]" />
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="space-y-1">
+                    <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Name</span>
+                    <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black" />
                   </label>
-                  <label className="space-y-2">
-                    <span className="text-xs tracking-wide text-white/50 uppercase">Email</span>
-                    <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:bg-white/[0.06]" />
+                  <label className="space-y-1">
+                    <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Email</span>
+                    <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black" />
                   </label>
                 </div>
-                <label className="space-y-2 block">
-                  <span className="text-xs tracking-wide text-white/50 uppercase">Subject</span>
-                  <input name="subject" placeholder="Frontend Engineer @ Acme" className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:bg-white/[0.06]" />
+                <label className="space-y-1 block">
+                  <span className="text-xs poppins-light" style={{ color: "var(--gray-2)" }}>Message</span>
+                  <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-[var(--gray-1)] px-3 py-3 text-sm poppins-light focus:outline-none focus:border-black resize-none" />
                 </label>
-                <label className="space-y-2 block">
-                  <span className="text-xs tracking-wide text-white/50 uppercase">Message</span>
-                  <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-white/20 focus:bg-white/[0.06] resize-none" />
-                </label>
-                <button disabled={formStatus === "submitting"} className="inline-flex w-full h-11 items-center justify-center rounded-full bg-white text-sm font-medium text-black hover:bg-white/90 transition-colors disabled:opacity-60">
+                <button disabled={formStatus === "submitting"} className="w-full h-11 rounded-full bg-black text-white poppins-regular hover:bg-[var(--gray-4)] transition-colors text-sm">
                   {formStatus === "submitting" ? "Sending…" : "Send Message"}
                 </button>
               </form>

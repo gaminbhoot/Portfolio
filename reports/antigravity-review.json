@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T10:02:10.047Z",
+  "generatedAt": "2026-08-14T10:09:48.085Z",
   "branch": "redesign/bencodes-type",
   "rubric": ".antigravity/rubric.md",
   "criteria": [
@@ -36,7 +36,7 @@
       "weight": 2,
       "score": 5,
       "notes": [
-        "gz ~122KB, vendor-three gone"
+        "gz ~121KB, vendor-three gone"
       ]
     },
     {
