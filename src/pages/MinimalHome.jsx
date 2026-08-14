@@ -139,9 +139,8 @@ export default function MinimalHome() {
     <div className="bg-white text-black overflow-x-hidden">
       {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
-        <img src="/landing.webp" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-[0.06] pointer-events-none" />
         {asciiArt && (
-          <pre className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden p-2 opacity-[0.20] text-[12px] leading-[10px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.45, 1.95)" }} aria-hidden>{asciiArt}</pre>
+          <pre className="absolute inset-0 flex items-start justify-center pointer-events-none select-none overflow-hidden pt-8 opacity-[0.13] text-[8px] leading-[8px] tracking-[-0.02em] font-mono whitespace-pre max-h-screen overflow-hidden" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.05, 1.05)" }} aria-hidden>{asciiArt}</pre>
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none" />
         <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
