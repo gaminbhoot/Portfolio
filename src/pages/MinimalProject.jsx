@@ -41,7 +41,7 @@ export default function MinimalProject() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Reverse wipe on close — curve goes DOWN (not up) */}
+      {/* Reverse wipe on close — curve stays UPRIGHT while going DOWN */}
       <motion.div
         initial={{ y: "-100%" }}
         animate={{ y: closing ? "0%" : "-100%" }}
@@ -49,7 +49,7 @@ export default function MinimalProject() {
         className="fixed inset-0 z-[100] pointer-events-none bg-black"
         style={{ display: closing ? "block" : "none" }}
       >
-        <div className="absolute -bottom-[80px] left-0 w-full h-[80px] overflow-hidden rotate-180">
+        <div className="absolute -bottom-[80px] left-0 w-full h-[80px] overflow-hidden">
           <svg viewBox="0 0 1440 80" className="w-full h-full" preserveAspectRatio="none">
             <path d="M0,80 Q720,0 1440,80 L1440,80 L0,80 Z" fill="black" />
           </svg>
