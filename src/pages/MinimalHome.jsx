@@ -125,7 +125,7 @@ export default function MinimalHome() {
 
           <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
             {/* Hover preview — follows cursor with spring + directional page turn like bencodes (01→02 page up, 02→01 page down) */}
-            <AnimatePresence mode="popLayout" custom={direction}>
+            <AnimatePresence mode="wait" custom={direction}>
               {hovered !== null && (
                 <motion.div
                   key={hovered}
@@ -142,14 +142,9 @@ export default function MinimalHome() {
                   className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
                   style={{ left: springX, top: springY }}
                 >
-                  <motion.img
-                    key={hovered}
+                  <img
                     src={rows[hovered].image}
                     alt=""
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.18 }}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
