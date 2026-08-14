@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 
@@ -13,11 +14,17 @@ export default function MinimalHome() {
   const [formStatus, setFormStatus] = useState("idle");
   const [hovered, setHovered] = useState(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 300, damping: 30, mass: 0.8 });
+  const springY = useSpring(mouseY, { stiffness: 300, damping: 30, mass: 0.8 });
   const [secretClicks, setSecretClicks] = useState([]);
   const secretCode = ["hero", "projects", "skill-0", "skill-2", "skill-1"];
 
   const handleMouseMove = (e) => {
     setMousePos({ x: e.clientX, y: e.clientY });
+    mouseX.set(e.clientX + 24);
+    mouseY.set(e.clientY - 140);
   };
 
   const handleSecretClick = (id) => {
@@ -102,16 +109,32 @@ export default function MinimalHome() {
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
 
           <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => setHovered(null)}>
-            {/* Hover preview — follows cursor like bencodes */}
-            {hovered !== null && (
-              <div
-                className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
-                style={{ left: mousePos.x + 24, top: mousePos.y - 140, transform: "translate(0, 0)" }}
-              >
-                <img src={rows[hovered].image} alt="" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
-              </div>
-            )}
+            {/* Hover preview — follows cursor with spring + smooth pop like bencodes */}
+            <AnimatePresence>
+              {hovered !== null && (
+                <motion.div
+                  key={hovered}
+                  initial={{ opacity: 0, scale: 0.92, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: 12 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 28, mass: 0.9 }}
+                  className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
+                  style={{ left: springX, top: springY }}
+                >
+                  <motion.img
+                    key={hovered}
+                    src={rows[hovered].image}
+                    alt=""
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.22 }}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             <div className="space-y-0">
               {rows.map((r, idx) => (
