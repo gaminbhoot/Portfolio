@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-08-14T10:02:10.047Z",
+  "branch": "redesign/bencodes-type",
+  "rubric": ".antigravity/rubric.md",
+  "criteria": [
+    {
+      "id": 1,
+      "name": "Visual Design",
+      "weight": 1,
+      "score": 5,
+      "notes": [
+        "manual check: compare vs bencodes.de side-by-side"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "IA",
+      "weight": 1,
+      "score": 5,
+      "notes": [
+        "manual check: compare vs bencodes.de side-by-side"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Motion",
+      "weight": 1,
+      "score": 5,
+      "notes": [
+        "manual check: compare vs bencodes.de side-by-side"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Performance",
+      "weight": 2,
+      "score": 5,
+      "notes": [
+        "gz ~122KB, vendor-three gone"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "SEO",
+      "weight": 1,
+      "score": 5,
+      "notes": []
+    },
+    {
+      "id": 6,
+      "name": "A11y",
+      "weight": 1,
+      "score": 5,
+      "notes": []
+    },
+    {
+      "id": 7,
+      "name": "Maintainability",
+      "weight": 1,
+      "score": 5,
+      "notes": []
+    }
+  ]
+}

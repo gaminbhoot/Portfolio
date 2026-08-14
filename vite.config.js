@@ -13,8 +13,8 @@ export default defineConfig({
         name: "Jay Joshi",
         short_name: "Jay Joshi",
         description: "Jay Joshi - Frontend Developer & Designer.",
-        theme_color: "#000000",
-        background_color: "#000000",
+        theme_color: "#050816",
+        background_color: "#050816",
         display: "standalone",
       },
       workbox: {
@@ -43,7 +43,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-three": ["three"],
           "vendor-framer": ["framer-motion"],
           "vendor-lucide": ["lucide-react"],
         },

@@ -231,7 +231,7 @@ export default function Skills() {
 
   const handleResumeDownload = () => {
     const link = document.createElement('a');
-    link.href = '/JAY JOSHI RESUME.pdf';
+    link.href = '/jay-joshi-resume.pdf';
     link.download = 'JAY_JOSHI_RESUME.pdf';
     link.click();
   };
