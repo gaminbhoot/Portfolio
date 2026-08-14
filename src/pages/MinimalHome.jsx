@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
@@ -13,6 +13,8 @@ export default function MinimalHome() {
 
   const [formStatus, setFormStatus] = useState("idle");
   const [hovered, setHovered] = useState(null);
+  const [direction, setDirection] = useState(0);
+  const prevHoveredRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -25,6 +27,19 @@ export default function MinimalHome() {
     setMousePos({ x: e.clientX, y: e.clientY });
     mouseX.set(e.clientX + 24);
     mouseY.set(e.clientY - 140);
+  };
+
+  const handleHover = (idx) => {
+    if (idx !== hovered) {
+      const prev = prevHoveredRef.current;
+      if (prev !== null && idx !== null) {
+        setDirection(idx > prev ? 1 : -1);
+      } else {
+        setDirection(0);
+      }
+      prevHoveredRef.current = idx;
+      setHovered(idx);
+    }
   };
 
   const handleSecretClick = (id) => {
@@ -108,16 +123,22 @@ export default function MinimalHome() {
         <div className="max-w-[900px] mx-auto">
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
 
-          <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => setHovered(null)}>
-            {/* Hover preview — follows cursor with spring + smooth pop like bencodes */}
-            <AnimatePresence>
+          <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
+            {/* Hover preview — follows cursor with spring + directional page turn like bencodes (01→02 page up, 02→01 page down) */}
+            <AnimatePresence mode="popLayout" custom={direction}>
               {hovered !== null && (
                 <motion.div
                   key={hovered}
-                  initial={{ opacity: 0, scale: 0.92, y: 12 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.92, y: 12 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 28, mass: 0.9 }}
+                  custom={direction}
+                  variants={{
+                    enter: (dir) => ({ opacity: 0, y: dir > 0 ? -28 : dir < 0 ? 28 : 12, scale: 0.96 }),
+                    center: { opacity: 1, y: 0, scale: 1 },
+                    exit: (dir) => ({ opacity: 0, y: dir > 0 ? 28 : dir < 0 ? -28 : 12, scale: 0.96 }),
+                  }}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.85 }}
                   className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
                   style={{ left: springX, top: springY }}
                 >
@@ -128,7 +149,7 @@ export default function MinimalHome() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22 }}
+                    transition={{ duration: 0.18 }}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
@@ -140,8 +161,7 @@ export default function MinimalHome() {
               {rows.map((r, idx) => (
                 <div
                   key={idx}
-                  onMouseEnter={() => setHovered(idx)}
-                  onMouseLeave={() => setHovered(null)}
+                  onMouseEnter={() => handleHover(idx)}
                   onClick={() => handleSecretClick("projects")}
                   className="group relative flex items-center justify-between py-12 border-t border-black/20 last:border-b cursor-pointer"
                   style={{ borderColor: hovered === idx ? "black" : "rgba(0,0,0,0.2)" }}
