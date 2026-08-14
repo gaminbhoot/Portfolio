@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
@@ -12,6 +12,8 @@ export default function MinimalHome() {
   });
 
   const [formStatus, setFormStatus] = useState("idle");
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [modalStatus, setModalStatus] = useState("idle");
   const [hovered, setHovered] = useState(null);
   const [direction, setDirection] = useState(0);
   const prevHoveredRef = useRef(null);
@@ -70,6 +72,35 @@ export default function MinimalHome() {
       if (res.ok) { setFormStatus("success"); e.target.reset(); } else setFormStatus("error");
     } catch { setFormStatus("error"); }
   };
+
+  const handleModalSubmit = async (e) => {
+    e.preventDefault();
+    if (modalStatus === "submitting") return;
+    setModalStatus("submitting");
+    const formData = new FormData(e.target);
+    try {
+      const res = await fetch("https://formspree.io/f/mnjgywzg", {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) { setModalStatus("success"); e.target.reset(); } else setModalStatus("error");
+    } catch { setModalStatus("error"); }
+  };
+
+  // Close modal on Escape + lock scroll
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setEmailModalOpen(false); };
+    if (emailModalOpen) {
+      window.addEventListener("keydown", onKey);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      // reset modal status when closed
+      if (modalStatus === "success" || modalStatus === "error") setTimeout(() => setModalStatus("idle"), 300);
+    }
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [emailModalOpen, modalStatus]);
 
   // Bencodes projects mapped to your data — keep 5 but in bencodes list style
   const rows = projectsData.map((p, i) => ({
@@ -225,10 +256,10 @@ export default function MinimalHome() {
           <p className="poppins-semibold text-lg" style={{ color: "#666" }}>Want to collaborate?</p>
           <h2 className="khula-bold text-6xl md:text-7xl tracking-tight mt-2" style={{ color: "black" }}>Let&apos;s have a chat!</h2>
           <div className="mt-10 flex justify-center gap-4">
-            <a href="mailto:jay05.joshi@gmail.com" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black poppins-regular text-sm hover:bg-black hover:text-white transition-colors">
+            <button onClick={() => setEmailModalOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black poppins-regular text-sm hover:bg-black hover:text-white transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7L22 6"/></svg>
               Email
-            </a>
+            </button>
             <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black poppins-regular text-sm hover:bg-black hover:text-white transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
               LinkedIn
@@ -245,6 +276,85 @@ export default function MinimalHome() {
           </p>
         </div>
       </section>
+
+      {/* ——— EMAIL MODAL ——— same Formspree fields, smooth pop like bencodes preview */}
+      <AnimatePresence>
+        {emailModalOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              onClick={() => setEmailModalOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 16 }}
+              transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.9 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              onClick={() => setEmailModalOpen(false)}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden"
+              >
+                <div className="flex items-center justify-between px-6 py-4 border-b border-black/10">
+                  <h3 className="khula-semibold text-lg">Send a message</h3>
+                  <button onClick={() => setEmailModalOpen(false)} className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-black/5 transition-colors" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                  </button>
+                </div>
+                <div className="p-6">
+                  {modalStatus === "success" ? (
+                    <div className="py-8 text-center">
+                      <p className="khula-semibold text-lg">Message sent!</p>
+                      <p className="poppins-light text-sm mt-2" style={{ color: "#666" }}>Thanks — I&apos;ll get back to you shortly.</p>
+                      <button onClick={() => { setEmailModalOpen(false); setTimeout(() => setModalStatus("idle"), 300); }} className="mt-6 px-6 py-2.5 rounded-full bg-black text-white poppins-regular text-sm hover:bg-black/90 transition-colors">Close</button>
+                    </div>
+                  ) : modalStatus === "error" ? (
+                    <div className="py-8 text-center">
+                      <p className="khula-semibold">Something went wrong.</p>
+                      <p className="poppins-light text-sm mt-2" style={{ color: "#666" }}>Please try again or email directly.</p>
+                      <button onClick={() => setModalStatus("idle")} className="mt-6 px-6 py-2.5 rounded-full border border-black poppins-regular text-sm">Try again</button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleModalSubmit} className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <label className="space-y-1.5">
+                          <span className="text-xs poppins-light" style={{ color: "#666" }}>Name</span>
+                          <input name="name" required placeholder="Full Name" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                        </label>
+                        <label className="space-y-1.5">
+                          <span className="text-xs poppins-light" style={{ color: "#666" }}>Email</span>
+                          <input name="email" type="email" required placeholder="email@example.com" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                        </label>
+                      </div>
+                      <label className="space-y-1.5 block">
+                        <span className="text-xs poppins-light" style={{ color: "#666" }}>Subject</span>
+                        <input name="subject" placeholder="Frontend Engineer @ Acme" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black" />
+                      </label>
+                      <label className="space-y-1.5 block">
+                        <span className="text-xs poppins-light" style={{ color: "#666" }}>Message</span>
+                        <textarea name="message" required rows={4} placeholder="What are you building?" className="w-full rounded-xl border border-black/15 px-3.5 py-3 text-sm poppins-light placeholder:text-black/30 focus:outline-none focus:border-black focus:ring-1 focus:ring-black resize-none" />
+                      </label>
+                      <div className="flex gap-3 pt-2">
+                        <button type="button" onClick={() => setEmailModalOpen(false)} className="flex-1 h-11 rounded-full border border-black/15 poppins-regular text-sm hover:bg-black/5 transition-colors">Cancel</button>
+                        <button disabled={modalStatus === "submitting"} className="flex-1 h-11 rounded-full bg-black text-white poppins-regular text-sm hover:bg-black/90 transition-colors disabled:opacity-60">
+                          {modalStatus === "submitting" ? "Sending…" : "Send Message"}
+                        </button>
+                      </div>
+                      <p className="text-xs poppins-light text-center" style={{ color: "#888" }}>Powered by Formspree — same as the contact form</p>
+                    </form>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
