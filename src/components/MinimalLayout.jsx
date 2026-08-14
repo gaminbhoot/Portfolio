@@ -1,9 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
+import Lenis from "lenis";
 
 export default function MinimalLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [konami, setKonami] = useState([]);
+  const lenisRef = useRef(null);
+
+  // Lenis smooth scroll — exact bencodes oomph
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+    lenisRef.current = lenis;
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
@@ -27,14 +49,22 @@ export default function MinimalLayout({ children }) {
     setMenuOpen(false);
     setTimeout(() => {
       const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (el) {
+        if (lenisRef.current) lenisRef.current.scrollTo(el, { offset: -20 });
+        else el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }, 300);
   };
 
-  // Lock scroll when menu open like bencodes
+  // Lock scroll when menu open like bencodes — also stop Lenis
   useEffect(() => {
-    if (menuOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      lenisRef.current?.stop();
+    } else {
+      document.body.style.overflow = "";
+      lenisRef.current?.start();
+    }
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
