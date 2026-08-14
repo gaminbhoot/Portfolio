@@ -6,6 +6,10 @@ import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
 
 export default function MinimalHome() {
+  const [asciiArt, setAsciiArt] = React.useState("");
+  React.useEffect(() => {
+    fetch("/jay-ascii.txt").then(r => r.text()).then(t => setAsciiArt(t)).catch(()=>{});
+  }, []);
   usePageMeta({
     title: "Portfolio | Jay Joshi",
     description: "Explore my projects, skills, and professional journey. Available for new opportunities and collaborations.",
@@ -136,6 +140,10 @@ export default function MinimalHome() {
       {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         <img src="/landing.webp" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover opacity-[0.06] pointer-events-none" />
+        {asciiArt && (
+          <pre className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden p-4 opacity-[0.08] text-[5px] leading-[5px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace" }} aria-hidden>{asciiArt}</pre>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/40 pointer-events-none" />
         <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
           <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-white" onClick={() => handleSecretClick("hero")}>
             I believe in building
