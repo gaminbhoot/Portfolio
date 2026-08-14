@@ -12,8 +12,13 @@ export default function MinimalHome() {
 
   const [formStatus, setFormStatus] = useState("idle");
   const [hovered, setHovered] = useState(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [secretClicks, setSecretClicks] = useState([]);
   const secretCode = ["hero", "projects", "skill-0", "skill-2", "skill-1"];
+
+  const handleMouseMove = (e) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
 
   const handleSecretClick = (id) => {
     setSecretClicks((prev) => {
@@ -96,10 +101,13 @@ export default function MinimalHome() {
         <div className="max-w-[900px] mx-auto">
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
 
-          <div className="relative" onMouseLeave={() => setHovered(null)}>
-            {/* Hover preview — exact bencodes: floating card centered, rounded-xl, overflow-hidden */}
+          <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => setHovered(null)}>
+            {/* Hover preview — follows cursor like bencodes */}
             {hovered !== null && (
-              <div className="pointer-events-none hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black" style={{ transform: `translate(-50%, -50%)` }}>
+              <div
+                className="pointer-events-none hidden md:block fixed z-10 w-[385px] aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/5 bg-black"
+                style={{ left: mousePos.x + 24, top: mousePos.y - 140, transform: "translate(0, 0)" }}
+              >
                 <img src={rows[hovered].image} alt="" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
               </div>
