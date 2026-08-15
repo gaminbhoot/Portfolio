@@ -139,15 +139,16 @@ export default function MinimalHome() {
     } catch { setModalStatus("error"); }
   };
 
-  // Age from DOB 24-06-2005 — auto-updates
+  // Age from DOB 24-06-2005 — auto-updates (same as intro page)
   const getAge = () => {
-    const dob = new Date(2005, 5, 24); // 24 June 2005 (month 0-indexed)
+    const dob = new Date(2005, 5, 24);
     const now = new Date();
     let age = now.getFullYear() - dob.getFullYear();
     const m = now.getMonth() - dob.getMonth();
     if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
     return age;
   };
+  const AGE = getAge();
 
   // Close modal on Escape + lock scroll
   useEffect(() => {
@@ -157,7 +158,6 @@ export default function MinimalHome() {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      // reset modal status when closed
       if (modalStatus === "success" || modalStatus === "error") setTimeout(() => setModalStatus("idle"), 300);
     }
     return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
@@ -221,11 +221,11 @@ export default function MinimalHome() {
               <div>
                 <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
                 <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors">
-                  <span className=" -rotate-45">↗</span> Get in Touch
+                  <span>↗</span> Get in Touch
                 </a>
               </div>
               <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
-                <p>I&apos;m a 20 year-old CS student dedicated to building AI systems & frontend experiences that solve real problems. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
+                <p>I&apos;m a {AGE} year-old CS student dedicated to building AI systems & frontend experiences that solve real problems. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
                 <p>I&apos;m involved in every step: from discovery and design to development, testing, and deployment. I focus on delivering high-quality, scalable results that drive positive user experiences.</p>
               </div>
             </div>
