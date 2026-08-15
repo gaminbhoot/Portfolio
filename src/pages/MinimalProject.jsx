@@ -64,17 +64,27 @@ export default function MinimalProject() {
       </button>
       {/* Header like bencodes MeetMate: large title + arrow */}
       <div className="max-w-[1000px] mx-auto px-6 pt-24 pb-8">
-        <div className="flex items-start justify-between gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-start justify-between gap-6"
+        >
           <h1 className="khula-semibold text-5xl md:text-7xl tracking-tight leading-none" style={{ fontFamily: "Poppins, sans-serif", fontWeight: 600 }}>
             {project.title.replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace(" - Secure Data Sanitization", "").replace("Abhisar: Groq-Powered LLM Product", "Abhisar")}
           </h1>
           <a href={project.prototypeLink || project.githubLink || "#"} target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-colors shrink-0 mt-2">
             <ArrowUpRight size={18} />
           </a>
-        </div>
+        </motion.div>
 
         {/* Description + Technologies like bencodes */}
-        <div className="mt-12 grid md:grid-cols-2 gap-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          className="mt-12 grid md:grid-cols-2 gap-12"
+        >
           <div>
             <p className="text-xs tracking-widest uppercase poppins-light" style={{ color: "#888" }}>Description</p>
             <hr className="mt-2 border-white/20" />
@@ -94,19 +104,32 @@ export default function MinimalProject() {
               {project.category && <p style={{ color: "#888" }}>Category: <span style={{ color: "white" }}>{project.category}</span></p>}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Hero image like bencodes large preview */}
-        <div className="mt-12 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03]">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03]"
+        >
           <img src={project.heroImage || project.thumbnail} alt={project.title} className="w-full h-auto object-cover" loading="eager" decoding="async" />
-        </div>
+        </motion.div>
 
         {/* Additional sections if any — minimal */}
         {project.summary?.technicalHighlights?.slice(1).map((h, i) => (
-          <div key={i} className="mt-12 grid md:grid-cols-2 gap-8">
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-12 grid md:grid-cols-2 gap-8"
+          >
             <h3 className="khula-semibold text-xl">{h.title}</h3>
             <p className="text-sm leading-relaxed poppins-light" style={{ color: "rgba(255,255,255,0.7)" }}>{h.description}</p>
-          </div>
+          </motion.div>
         ))}
 
         <div className="mt-16 flex justify-between">

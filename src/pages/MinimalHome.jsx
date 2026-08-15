@@ -283,17 +283,45 @@ export default function MinimalHome() {
       {/* ——— ABOUT ——— whole page design from bencodes: white, large quote + This is me. + 2-col */}
       <section id="about" className="bg-white text-black w-screen min-h-screen flex flex-col justify-center px-6 md:px-12 py-24">
         <div className="max-w-[1100px] mx-auto w-full">
-          <h2 className="khula-bold text-4xl md:text-6xl leading-[1.05] tracking-tight" style={{ color: "black" }}>
+          <motion.h2
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="khula-bold text-4xl md:text-6xl leading-[1.05] tracking-tight"
+            style={{ color: "black" }}
+          >
             I believe in a user centered design<br />
             approach, ensuring that every<br />
             project I work on is tailored to<br />
             meet the specific needs of its<br />
             users.
-          </h2>
+          </motion.h2>
           <div className="mt-16">
-            <p className="poppins-light-italic text-sm" style={{ color: "#666" }}>This is me.</p>
-            <hr className="mt-1 border-black/10" />
-            <div className="mt-12 grid md:grid-cols-[420px_1fr] gap-12 items-start">
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="poppins-light-italic text-sm"
+              style={{ color: "#666" }}
+            >
+              This is me.
+            </motion.p>
+            <motion.hr
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+              className="mt-1 border-black/10 origin-left"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="mt-12 grid md:grid-cols-[420px_1fr] gap-12 items-start"
+            >
               <div>
                 <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
                 <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors group">
@@ -305,7 +333,7 @@ export default function MinimalHome() {
                 <p>I&apos;m a {AGE} year-old CS student dedicated to building AI systems & frontend experiences that solve real problems. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
                 <p>I&apos;m involved in every step: from discovery and design to development, testing, and deployment. I focus on delivering high-quality, scalable results that drive positive user experiences.</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -313,7 +341,16 @@ export default function MinimalHome() {
       {/* ——— PROJECTS ——— EXACT bencodes: white, Selected Projects, text rows + hover preview */}
       <section id="projects" className="w-screen bg-white text-black py-24 px-4">
         <div className="max-w-[900px] mx-auto">
-          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16"
+            style={{ color: "black" }}
+          >
+            Selected Projects
+          </motion.h2>
 
           <div id="projects-list" className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
             {/* Hover preview — window fixed, content pages inside like bencodes */}
@@ -355,9 +392,13 @@ export default function MinimalHome() {
 
             <div className="space-y-0">
               {rows.map((r, idx) => (
-                <div
+                <motion.div
                   key={idx}
                   data-project-index={idx}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: idx * 0.04 }}
                   onMouseEnter={(e) => handleHover(idx, e)}
                   onMouseMove={(e) => updateCoordinates(e.clientX, e.clientY)}
                   onClick={() => handleProjectClick(r.id)}
@@ -375,7 +416,7 @@ export default function MinimalHome() {
                   </span>
                   {/* Mobile category below */}
                   <span className="md:hidden absolute bottom-3 right-0 text-xs poppins-light" style={{ color: "#888" }}>{r.category}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -385,21 +426,36 @@ export default function MinimalHome() {
       {/* ——— SKILLS ——— keep but slim, white bg like projects */}
       <section id="skills" className="w-screen bg-white text-black py-16 px-4 border-t border-black/10">
         <div className="max-w-[1000px] mx-auto">
-          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10">Skills</h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10"
+          >
+            Skills
+          </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { label: "Primary", items: ["Python", "YOLOv8 & Computer Vision", "React · Vite", "Tailwind CSS", "Flask", "Java"] },
               { label: "Working", items: ["OpenCV · Deep SORT", "Ollama · vLLM", "NumPy · Pandas", "PHP", "GSAP · Framer", "Three.js"] },
               { label: "Learning", items: ["Hugging Face", "Reinforcement Learning", "TypeScript", "FastAPI", "Next.js", "Docker · K8s"] },
             ].map((tier, idx) => (
-              <div key={idx} className="space-y-3">
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: idx * 0.08 }}
+                className="space-y-3"
+              >
                 <h3 className="khula-light text-sm tracking-widest uppercase" style={{ color: "#666" }}>{tier.label}</h3>
                 <div className="flex flex-wrap gap-2">
                   {tier.items.map((s) => (
-                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-xs poppins-light cursor-pointer" style={{ borderColor: "#e5e7eb", color: "#111" }}>{s}</span>
+                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-xs poppins-light cursor-pointer hover:border-black transition-colors" style={{ borderColor: "#e5e7eb", color: "#111" }}>{s}</span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
           <div className="opacity-0 h-0 overflow-hidden" aria-hidden>
@@ -415,7 +471,13 @@ export default function MinimalHome() {
         {/* blurred blobs bottom */}
         <div className="pointer-events-none absolute bottom-0 left-0 w-[600px] h-[400px] bg-[#b1afff]/30 blur-[100px] rounded-full translate-y-1/3 -translate-x-1/4" />
         <div className="pointer-events-none absolute bottom-0 right-0 w-[600px] h-[400px] bg-[#bbe9ff]/30 blur-[100px] rounded-full translate-y-1/3 translate-x-1/4" />
-        <div className="relative z-10 w-full max-w-[800px] mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 w-full max-w-[800px] mx-auto text-center"
+        >
           <p className="poppins-semibold text-lg" style={{ color: "#666" }}>Want to collaborate?</p>
           <h2 className="khula-bold text-6xl md:text-7xl tracking-tight mt-2" style={{ color: "black" }}>Let&apos;s have a chat!</h2>
           <div className="mt-10 flex justify-center gap-4">
@@ -433,7 +495,7 @@ export default function MinimalHome() {
             <p className="poppins-light" style={{ color: "black" }}>Jay Joshi</p>
             <p className="text-xs poppins-light mt-1" style={{ color: "#888" }}>Portfolio — AI/ML & Frontend</p>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <CurveWipe isVisible={wipeActive} />
