@@ -13,7 +13,14 @@ let isFirstHomeMount = true;
 
 export default function MinimalHome() {
   const [asciiArt, setAsciiArt] = React.useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      return !sessionStorage.getItem("preloader_played");
+    } catch {
+      return false;
+    }
+  });
 
   React.useEffect(() => {
     fetch("/jay-ascii.txt").then(r => r.text()).then(t => setAsciiArt(t)).catch(()=>{});

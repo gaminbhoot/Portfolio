@@ -1,22 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Module-level guard so in-memory SPA navigations never replay the preloader
+let hasPlayedInSession = false;
+
 export default function Preloader({ onLoadingComplete }) {
-  const [visible, setVisible] = useState(true);
+  const [shouldPlay] = useState(() => {
+    if (typeof window === "undefined") return false;
+    if (hasPlayedInSession) return false;
+    try {
+      return !sessionStorage.getItem("preloader_played");
+    } catch {
+      return false;
+    }
+  });
+
+  const [visible, setVisible] = useState(shouldPlay);
 
   useEffect(() => {
+    if (!shouldPlay) {
+      if (onLoadingComplete) onLoadingComplete();
+      return;
+    }
+
+    hasPlayedInSession = true;
+    try {
+      sessionStorage.setItem("preloader_played", "true");
+    } catch {
+      // Storage unavailable
+    }
+
     // Lock scrolling while preloader is active
     document.body.style.overflow = "hidden";
 
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 2000);
+    }, 1800);
 
     return () => {
       clearTimeout(timer);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [shouldPlay, onLoadingComplete]);
+
+  if (!shouldPlay) return null;
 
   const handleExitComplete = () => {
     document.body.style.overflow = "";
@@ -53,7 +80,7 @@ export default function Preloader({ onLoadingComplete }) {
           key="preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center select-none pointer-events-auto"
         >
           <motion.svg
