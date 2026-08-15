@@ -1,11 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import Lenis from "lenis";
 
 export default function MinimalLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isOverLightSection, setIsOverLightSection] = useState(false);
   const [konami, setKonami] = useState([]);
   const lenisRef = useRef(null);
+  const location = useLocation();
+
+  // Detect when scroll passes the dark hero section onto the light sections
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setIsOverLightSection(false);
+      return;
+    }
+
+    const checkScrollPosition = () => {
+      const aboutEl = document.getElementById("about");
+      if (aboutEl) {
+        const rect = aboutEl.getBoundingClientRect();
+        // Transition when top of light section reaches near top navigation area (~60px)
+        setIsOverLightSection(rect.top <= 60);
+      } else {
+        setIsOverLightSection(window.scrollY > window.innerHeight * 0.7);
+      }
+    };
+
+    checkScrollPosition();
+    window.addEventListener("scroll", checkScrollPosition, { passive: true });
+    window.addEventListener("resize", checkScrollPosition, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", checkScrollPosition);
+      window.removeEventListener("resize", checkScrollPosition);
+    };
+  }, [location.pathname]);
 
   // Lenis smooth scroll — exact bencodes oomph
   useEffect(() => {
@@ -72,70 +103,141 @@ export default function MinimalLayout({ children }) {
     <div className="min-h-screen bg-[var(--dark)] text-white selection:bg-white selection:text-black flex flex-col" style={{ backgroundColor: "var(--dark)" }}>
       <a href="#main" className="skip-link">Skip to main content</a>
 
-      {/* Fixed menu button — exact bencodes: top-6 right-6 / right-16 */}
+      {/* Fixed menu button */}
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="fixed top-6 right-6 z-40 px-4 py-2 text-xl poppins-regular flex items-center gap-2"
-        style={{ color: menuOpen ? "var(--dark)" : "var(--light)" }}
+        className="fixed top-6 right-6 z-50 px-4 py-2 text-xl poppins-regular flex items-center gap-2"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
       >
-        {!menuOpen && <span className="hidden md:inline">menu</span>}
-        <span className="inline-flex h-8 w-8 items-center justify-center">
-          {menuOpen ? <X size={28} strokeWidth={1.5} /> : (
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        {/* Text 'menu' stays white on hero as requested ("do not do this for the text 'menu' only the menu icon") */}
+        {!menuOpen && (
+          <span
+            className="hidden md:inline transition-opacity duration-300 pointer-events-none"
+            style={{
+              color: "var(--light)",
+              opacity: isOverLightSection ? 0 : 1,
+            }}
+          >
+            menu
+          </span>
+        )}
+        <span
+          className="inline-flex h-8 w-8 items-center justify-center transition-colors duration-500 ease-in-out"
+          style={{
+            color: menuOpen
+              ? "var(--dark)"
+              : isOverLightSection
+              ? "#000000"
+              : "#ffffff",
+          }}
+        >
+          {menuOpen ? (
+            <X size={28} strokeWidth={1.5} />
+          ) : (
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="transition-colors duration-500 ease-in-out"
+            >
               <path d="M4 12h16M4 6h16M4 18h16" />
             </svg>
           )}
         </span>
       </button>
 
-      {/* Menu overlay — exact bencodes drawer */}
-      <div className={`fixed inset-0 z-50 bg-white text-black transition-all duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`} aria-hidden={!menuOpen}>
-        <div className="h-full flex flex-col">
-          <div className="flex justify-end p-6">
-            <button onClick={() => setMenuOpen(false)} className="p-2" aria-label="Close">
-              <X size={32} strokeWidth={1.5} />
-            </button>
+      {/* Backdrop overlay */}
+      <div
+        onClick={() => setMenuOpen(false)}
+        className={`fixed inset-0 bg-black/60 backdrop-blur-[2px] z-40 transition-opacity duration-300 ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* 1/3-width Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full sm:w-1/2 lg:w-1/3 max-w-lg z-50 bg-white text-black shadow-2xl flex flex-col justify-between transition-transform duration-500 ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{ transitionTimingFunction: "cubic-bezier(0.79, 0.35, 0.26, 1)" }}
+        aria-hidden={!menuOpen}
+      >
+        {/* Drawer Header */}
+        <div className="flex justify-end p-6 sm:p-8">
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-2 text-black hover:opacity-70 transition-opacity rounded-full"
+            aria-label="Close menu"
+          >
+            <X size={32} strokeWidth={1.5} />
+          </button>
+        </div>
+
+        {/* Drawer Content */}
+        <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 my-auto space-y-10 overflow-y-auto">
+          {/* Menu */}
+          <div className="space-y-4">
+            <h3 className="text-xs uppercase tracking-widest text-gray-400 font-semibold khula-light">Menu</h3>
+            <ul className="space-y-3">
+              {[
+                { name: "About Me", id: "about" },
+                { name: "Projects", id: "projects" },
+                { name: "Contact", id: "contact" },
+              ].map((o) => (
+                <li key={o.id}>
+                  <a
+                    href={`#${o.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNav(o.id);
+                    }}
+                    className="text-3xl sm:text-4xl khula-regular text-black hover:translate-x-2 inline-block transition-transform duration-200"
+                  >
+                    {o.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="flex flex-grow flex-row max-sm:flex-col-reverse items-start justify-between w-full px-[15%] max-sm:mx-[5%] gap-12">
-            {/* Social */}
-            <div className="space-y-4">
-              <h3 className="text-lg khula-light">Social</h3>
-              <ul className="space-y-2">
-                {[
-                  { name: "LinkedIn", link: "https://linkedin.com/in/gaminbhoot" },
-                  { name: "Github", link: "https://github.com/gaminbhoot" },
-                  { name: "Email", link: "mailto:jay05.joshi@gmail.com" },
-                ].map((o) => (
-                  <li key={o.name}>
-                    <a href={o.link} target={o.link.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="hover:underline text-xl poppins-light">
-                      {o.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {/* Menu */}
-            <div className="space-y-4">
-              <h3 className="text-lg khula-light">Menu</h3>
-              <ul className="space-y-2">
-                {[
-                  { name: "About Me", id: "about" },
-                  { name: "Projects", id: "projects" },
-                  { name: "Contact", id: "contact" },
-                ].map((o) => (
-                  <li key={o.id}>
-                    <a href={`#${o.id}`} onClick={(e) => { e.preventDefault(); handleNav(o.id); }} className="hover:underline text-xl poppins-light">
-                      {o.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+
+          {/* Social */}
+          <div className="space-y-3 pt-2">
+            <h3 className="text-xs uppercase tracking-widest text-gray-400 font-semibold khula-light">Social</h3>
+            <ul className="space-y-2">
+              {[
+                { name: "LinkedIn", link: "https://linkedin.com/in/gaminbhoot" },
+                { name: "GitHub", link: "https://github.com/gaminbhoot" },
+                { name: "Email", link: "mailto:jay05.joshi@gmail.com" },
+              ].map((o) => (
+                <li key={o.name}>
+                  <a
+                    href={o.link}
+                    target={o.link.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="text-lg poppins-light text-gray-700 hover:text-black hover:underline transition-colors"
+                  >
+                    {o.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="px-[15%] max-sm:mx-[5%] pb-12">
-            <p className="text-sm text-gray-600 poppins-light">© Jay Joshi</p>
-          </div>
+        </div>
+
+        {/* Drawer Footer */}
+        <div className="px-8 sm:px-12 pb-8 pt-4 border-t border-gray-100">
+          <p className="text-xs uppercase tracking-widest text-gray-400 font-medium">Get in touch</p>
+          <a
+            href="mailto:jay05.joshi@gmail.com"
+            className="text-base poppins-regular text-black hover:underline mt-1 block"
+          >
+            jay05.joshi@gmail.com
+          </a>
+          <p className="text-xs text-gray-400 mt-4 poppins-light">© Jay Joshi</p>
         </div>
       </div>
 

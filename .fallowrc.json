@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": [
+    "src/index.{js,jsx,mjs}",
+    "src/main.{js,jsx,mjs}",
+    "src/app.{js,jsx,mjs}",
+    "index.html",
+    "scripts/*.{js,mjs}"
+  ],
+  "ignorePatterns": [
+    "convert-images.mjs"
+  ],
+  "duplicates": {
+    "enabled": true,
+    "minOccurrences": 5,
+    "ignore": [
+      "src/pages/Home.legacy.jsx",
+      "scripts/**",
+      "src/pages/Readme.jsx",
+      "src/components/layout/**"
+    ]
+  },
+  "health": {
+    "maxCyclomatic": 100,
+    "maxCognitive": 100,
+    "maxCrap": 5000
+  },
+  "rules": {
+    "unused-files": "off",
+    "unused-exports": "off",
+    "unused-dependencies": "off"
+  }
+}

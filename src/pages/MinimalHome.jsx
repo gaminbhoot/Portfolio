@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { ArrowDownRight } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
+import Preloader from "../components/Preloader";
 
 // Track if this is the first mount since document load (full page load vs SPA back)
 // Module-level → resets only on hard refresh, persists across SPA navigations
@@ -11,6 +13,8 @@ let isFirstHomeMount = true;
 
 export default function MinimalHome() {
   const [asciiArt, setAsciiArt] = React.useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   React.useEffect(() => {
     fetch("/jay-ascii.txt").then(r => r.text()).then(t => setAsciiArt(t)).catch(()=>{});
   }, []);
@@ -29,21 +33,52 @@ export default function MinimalHome() {
   const navigate = useNavigate();
   const [direction, setDirection] = useState(0);
   const prevHoveredRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mousePosRef = useRef({ x: -1000, y: -1000 });
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const mouseX = useMotionValue(-1000);
+  const mouseY = useMotionValue(-1000);
   const springX = useSpring(mouseX, { stiffness: 300, damping: 30, mass: 0.8 });
   const springY = useSpring(mouseY, { stiffness: 300, damping: 30, mass: 0.8 });
   const [secretClicks, setSecretClicks] = useState([]);
   const secretCode = ["hero", "projects", "skill-0", "skill-2", "skill-1"];
 
-  const handleMouseMove = (e) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
-    mouseX.set(e.clientX + 24);
-    mouseY.set(e.clientY - 140);
+  const updateCoordinates = (clientX, clientY, immediate = false) => {
+    if (typeof clientX !== "number" || typeof clientY !== "number") return;
+    mousePosRef.current = { x: clientX, y: clientY };
+    setMousePos({ x: clientX, y: clientY });
+
+    const targetX = Math.min(window.innerWidth - 410, Math.max(20, clientX + 24));
+    const targetY = Math.min(window.innerHeight - 240, Math.max(20, clientY - 140));
+
+    if (immediate || mouseX.get() < -500 || (mouseX.get() === 0 && mouseY.get() === 0)) {
+      mouseX.set(targetX);
+      mouseY.set(targetY);
+      if (springX.jump) springX.jump(targetX);
+      if (springY.jump) springY.jump(targetY);
+    } else {
+      mouseX.set(targetX);
+      mouseY.set(targetY);
+    }
   };
 
-  const handleHover = (idx) => {
+  const handleMouseMove = (e) => {
+    updateCoordinates(e.clientX, e.clientY);
+  };
+
+  // Global mousemove tracker so coordinates are always synced before hover
+  useEffect(() => {
+    const onGlobalMouseMove = (e) => {
+      updateCoordinates(e.clientX, e.clientY);
+    };
+
+    window.addEventListener("mousemove", onGlobalMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onGlobalMouseMove);
+  }, []);
+
+  const handleHover = (idx, e) => {
+    if (e && typeof e.clientX === "number" && typeof e.clientY === "number") {
+      updateCoordinates(e.clientX, e.clientY, mouseX.get() < -500);
+    }
     if (idx !== hovered) {
       const prev = prevHoveredRef.current;
       if (prev !== null && idx !== null) {
@@ -55,6 +90,32 @@ export default function MinimalHome() {
       setHovered(idx);
     }
   };
+
+  // Detect project row when scrolling with stationary cursor
+  useEffect(() => {
+    const handleScrollHover = () => {
+      const { x, y } = mousePosRef.current;
+      if (x < 0 || y < 0) return;
+      const el = document.elementFromPoint(x, y);
+      const row = el?.closest("[data-project-index]");
+      if (row) {
+        const idx = parseInt(row.getAttribute("data-project-index"), 10);
+        if (!isNaN(idx) && idx !== hovered) {
+          updateCoordinates(x, y);
+          handleHover(idx);
+        }
+      } else {
+        const list = document.getElementById("projects-list");
+        if (list && !list.contains(el) && hovered !== null) {
+          prevHoveredRef.current = null;
+          setHovered(null);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollHover, { passive: true });
+    return () => window.removeEventListener("scroll", handleScrollHover);
+  }, [hovered]);
 
   const handleProjectClick = (id) => {
     // Save scroll position to restore when coming back from project
@@ -178,14 +239,23 @@ export default function MinimalHome() {
 
   return (
     <div className="bg-white text-black overflow-x-hidden">
-      {/* ——— HERO ——— keep your black hero but Polish per bencodes: centered, Khula */}
+      {/* Preloader — Jay animated SVG path drawing on initial load */}
+      <Preloader onLoadingComplete={() => setIsLoading(false)} />
+
+      {/* ——— HERO ——— clean monotone aesthetic */}
       <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         {asciiArt && (
-          <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.18] text-[11px] leading-[15px] tracking-[-0.02em] font-mono whitespace-pre" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.24)" }} aria-hidden>{asciiArt}</pre>
+          <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.16] text-[11px] leading-[15px] tracking-[-0.02em] font-mono whitespace-pre z-0" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.24)" }} aria-hidden>{asciiArt}</pre>
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none" />
-        <div className="relative z-10 max-w-[1000px] px-4 w-full text-center">
-          <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-white" onClick={() => handleSecretClick("hero")}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/50 pointer-events-none z-[2]" />
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: isLoading ? 0 : 1, scale: isLoading ? 0.94 : 1 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
+          className="relative z-10 max-w-[1000px] px-4 w-full text-center"
+        >
+          <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-white cursor-pointer" onClick={() => handleSecretClick("hero")}>
             I believe in building
             <br />
             <span className="text-[var(--gray-1)]">AI systems & frontend</span> experiences that solve real problems.
@@ -197,11 +267,17 @@ export default function MinimalHome() {
               {getAge()}-year-old CS student from Noida. Groq LLM, YOLOv8 + DeepSORT, OctaWipe.
             </p>
           </div>
-        </div>
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoading ? 0 : 0.4 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-10"
+        >
           <span className="text-xs tracking-widest uppercase poppins-light text-white">Scroll</span>
           <div className="w-px h-12 bg-[var(--gray-3)]" />
-        </div>
+        </motion.div>
       </section>
 
       {/* ——— ABOUT ——— whole page design from bencodes: white, large quote + This is me. + 2-col */}
@@ -220,8 +296,9 @@ export default function MinimalHome() {
             <div className="mt-12 grid md:grid-cols-[420px_1fr] gap-12 items-start">
               <div>
                 <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
-                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors">
-                  <span>↗</span> Get in Touch
+                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors group">
+                  <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+                  <span>Get in Touch</span>
                 </a>
               </div>
               <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
@@ -238,7 +315,7 @@ export default function MinimalHome() {
         <div className="max-w-[900px] mx-auto">
           <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-16" style={{ color: "black" }}>Selected Projects</h2>
 
-          <div className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
+          <div id="projects-list" className="relative" onMouseMove={handleMouseMove} onMouseLeave={() => { prevHoveredRef.current = null; setHovered(null); }}>
             {/* Hover preview — window fixed, content pages inside like bencodes */}
             <AnimatePresence>
               {hovered !== null && (
@@ -280,7 +357,9 @@ export default function MinimalHome() {
               {rows.map((r, idx) => (
                 <div
                   key={idx}
-                  onMouseEnter={() => handleHover(idx)}
+                  data-project-index={idx}
+                  onMouseEnter={(e) => handleHover(idx, e)}
+                  onMouseMove={(e) => updateCoordinates(e.clientX, e.clientY)}
                   onClick={() => handleProjectClick(r.id)}
                   className="group relative flex items-center justify-between py-12 border-t border-black/20 last:border-b cursor-pointer"
                   style={{ borderColor: hovered === idx ? "black" : "rgba(0,0,0,0.2)" }}
@@ -331,7 +410,7 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— CONTACT ——— EXACT bencodes: Want to collaborate? Let's have a chat! + Email/LinkedIn pills + bb */}
+      {/* ——— CONTACT ——— EXACT bencodes: Want to collaborate? Let's have a chat! + Email/LinkedIn pills + jj */}
       <section id="contact" className="relative w-screen bg-white text-black py-24 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[70vh]">
         {/* blurred blobs bottom */}
         <div className="pointer-events-none absolute bottom-0 left-0 w-[600px] h-[400px] bg-[#b1afff]/30 blur-[100px] rounded-full translate-y-1/3 -translate-x-1/4" />
@@ -350,7 +429,7 @@ export default function MinimalHome() {
             </a>
           </div>
           <div className="mt-16">
-            <p className="khula-bold text-xl">bb</p>
+            <p className="khula-bold text-xl">jj</p>
             <p className="poppins-light" style={{ color: "black" }}>Jay Joshi</p>
             <p className="text-xs poppins-light mt-1" style={{ color: "#888" }}>Portfolio — AI/ML & Frontend</p>
           </div>
