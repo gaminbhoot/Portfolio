@@ -5,7 +5,7 @@ import { ArrowDownRight } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
-import Preloader from "../components/Preloader";
+import Preloader, { hasPlayedIntro } from "../components/Preloader";
 
 // Track if this is the first mount since document load (full page load vs SPA back)
 // Module-level → resets only on hard refresh, persists across SPA navigations
@@ -13,14 +13,7 @@ let isFirstHomeMount = true;
 
 export default function MinimalHome() {
   const [asciiArt, setAsciiArt] = React.useState("");
-  const [isLoading, setIsLoading] = useState(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      return !sessionStorage.getItem("preloader_played");
-    } catch {
-      return false;
-    }
-  });
+  const [isLoading, setIsLoading] = useState(() => !hasPlayedIntro);
 
   React.useEffect(() => {
     fetch("/jay-ascii.txt").then(r => r.text()).then(t => setAsciiArt(t)).catch(()=>{});

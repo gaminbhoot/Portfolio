@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Module-level guard so in-memory SPA navigations never replay the preloader
-let hasPlayedInSession = false;
+// Module-level guard: resets to false on every full page reload / hard refresh,
+// but stays true across client-side SPA navigations (opening/closing project pages).
+export let hasPlayedIntro = false;
 
 export default function Preloader({ onLoadingComplete }) {
-  const [shouldPlay] = useState(() => {
-    if (typeof window === "undefined") return false;
-    if (hasPlayedInSession) return false;
-    try {
-      return !sessionStorage.getItem("preloader_played");
-    } catch {
-      return false;
-    }
-  });
-
+  const [shouldPlay] = useState(() => !hasPlayedIntro);
   const [visible, setVisible] = useState(shouldPlay);
 
   useEffect(() => {
@@ -23,12 +15,7 @@ export default function Preloader({ onLoadingComplete }) {
       return;
     }
 
-    hasPlayedInSession = true;
-    try {
-      sessionStorage.setItem("preloader_played", "true");
-    } catch {
-      // Storage unavailable
-    }
+    hasPlayedIntro = true;
 
     // Lock scrolling while preloader is active
     document.body.style.overflow = "hidden";
