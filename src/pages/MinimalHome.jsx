@@ -204,13 +204,15 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— ABOUT ——— keep minimal but not in screenshots, so slim */}
-      <section id="about" className="bg-[var(--dark)] text-white w-screen flex justify-center items-center px-4 py-20 border-t border-[var(--gray-4)]">
-        <div className="max-w-[1000px] w-full text-center">
-          <h2 className="poppins-light text-3xl tracking-[calc(3rem*0.02)] mb-8">About Me</h2>
-          <p className="max-w-[600px] mx-auto text-[var(--gray-1)] poppins-light leading-relaxed">
-            CS undergraduate building production AI and polished frontends. Practical architecture, measurable perf, explainable design.
+      {/* ——— ABOUT ——— whole page design from bencodes: full-screen black, centered */}
+      <section id="about" className="bg-[var(--dark)] text-white w-screen min-h-screen flex flex-col justify-center items-center px-4 py-32 border-t border-[var(--gray-4)]">
+        <div className="max-w-[700px] w-full text-center">
+          <h2 className="poppins-light text-3xl md:text-4xl tracking-[calc(3rem*0.02)] mb-8">About Me</h2>
+          <p className="text-[var(--gray-1)] poppins-light leading-relaxed text-[15px] md:text-base">
+            CS undergraduate building production AI and polished frontends. Practical architecture, measurable perf, explainable design. Hands-on: real-time YOLOv8 + DeepSORT tracking, secure sanitization (OctaWipe), Groq LLM product (Abhisar), and a Java compiler pipeline. Currently exploring Hugging Face transformers and system design.
           </p>
+          <div className="mt-10 h-px w-24 bg-[var(--gray-4)] mx-auto" />
+          <p className="mt-10 text-xs tracking-widest uppercase poppins-light" style={{ color: "#666" }}>Based in Noida · Open to hybrid & internships</p>
         </div>
       </section>
 
