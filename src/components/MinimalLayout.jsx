@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import Lenis from "lenis";
 
@@ -9,6 +9,7 @@ export default function MinimalLayout({ children }) {
   const [konami, setKonami] = useState([]);
   const lenisRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Detect when scroll passes the dark hero section onto the light sections
   useEffect(() => {
@@ -78,13 +79,26 @@ export default function MinimalLayout({ children }) {
 
   const handleNav = (id) => {
     setMenuOpen(false);
-    setTimeout(() => {
+
+    const scrollToTarget = () => {
+      if (id === "hero") {
+        if (lenisRef.current) lenisRef.current.scrollTo(0);
+        else window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
       const el = document.getElementById(id);
       if (el) {
         if (lenisRef.current) lenisRef.current.scrollTo(el, { offset: -20 });
         else el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 300);
+    };
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(scrollToTarget, 400);
+    } else {
+      setTimeout(scrollToTarget, 300);
+    }
   };
 
   // Lock scroll when menu open like bencodes — also stop Lenis
@@ -184,6 +198,7 @@ export default function MinimalLayout({ children }) {
             <h3 className="text-xs uppercase tracking-widest text-gray-400 font-semibold khula-light">Menu</h3>
             <ul className="space-y-3">
               {[
+                { name: "Home", id: "hero" },
                 { name: "About Me", id: "about" },
                 { name: "Projects", id: "projects" },
                 { name: "Contact", id: "contact" },

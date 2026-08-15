@@ -243,7 +243,7 @@ export default function MinimalHome() {
       <Preloader onLoadingComplete={() => setIsLoading(false)} />
 
       {/* ——— HERO ——— clean monotone aesthetic */}
-      <section className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
+      <section id="hero" className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         {asciiArt && (
           <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.16] text-[11px] leading-[15px] tracking-[-0.02em] font-mono whitespace-pre z-0" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.24)" }} aria-hidden>{asciiArt}</pre>
         )}
