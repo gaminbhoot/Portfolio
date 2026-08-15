@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, X, Github } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function MinimalProject() {
@@ -62,7 +62,7 @@ export default function MinimalProject() {
       <button onClick={handleClose} className="fixed top-6 left-6 z-40 h-10 w-10 flex md:hidden items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur" aria-label="Close">
         <X size={18} />
       </button>
-      {/* Header like bencodes MeetMate: large title + arrow */}
+      {/* Header like bencodes MeetMate: large title + buttons */}
       <div className="max-w-[1000px] mx-auto px-6 pt-24 pb-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -73,9 +73,30 @@ export default function MinimalProject() {
           <h1 className="khula-semibold text-5xl md:text-7xl tracking-tight leading-none" style={{ fontFamily: "Poppins, sans-serif", fontWeight: 600 }}>
             {project.title.replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace(" - Secure Data Sanitization", "").replace("Abhisar: Groq-Powered LLM Product", "Abhisar")}
           </h1>
-          <a href={project.prototypeLink || project.githubLink || "#"} target="_blank" rel="noopener noreferrer" className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-colors shrink-0 mt-2">
-            <ArrowUpRight size={18} />
-          </a>
+          <div className="flex items-center gap-3 shrink-0 mt-2">
+            {project.githubLink && (
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View Source Code on GitHub"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white hover:bg-white hover:text-black transition-all hover:scale-105"
+              >
+                <Github size={18} />
+              </a>
+            )}
+            {(project.prototypeLink || project.githubLink) && (
+              <a
+                href={project.prototypeLink || project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View Project"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-black hover:bg-white/90 transition-all hover:scale-105"
+              >
+                <ArrowUpRight size={18} />
+              </a>
+            )}
+          </div>
         </motion.div>
 
         {/* Description + Technologies like bencodes */}
@@ -91,9 +112,6 @@ export default function MinimalProject() {
             <p className="mt-6 text-sm leading-relaxed poppins-light" style={{ color: "rgba(255,255,255,0.85)" }}>
               {project.summary?.technicalHighlights?.[0]?.description || description || "Minimal case study for this project."}
             </p>
-            {project.githubLink && (
-              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex text-sm underline poppins-light" style={{ color: "#888" }}>View Github →</a>
-            )}
           </div>
           <div>
             <p className="text-xs tracking-widest uppercase poppins-light" style={{ color: "#888" }}>Technologies</p>
@@ -134,7 +152,6 @@ export default function MinimalProject() {
 
         <div className="mt-16 flex justify-between">
           <button onClick={handleClose} className="inline-flex items-center gap-2 text-sm poppins-light hover:underline" style={{ color: "#888" }}>← Back to projects</button>
-          {project.prototypeLink && <a href={project.prototypeLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm poppins-light hover:underline">Live ↗</a>}
         </div>
       </div>
     </div>
