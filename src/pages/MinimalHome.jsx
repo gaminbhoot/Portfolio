@@ -204,15 +204,32 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— ABOUT ——— whole page design from bencodes: full-screen WHITE (inverted from black) */}
-      <section id="about" className="bg-white text-black w-screen min-h-screen flex flex-col justify-center items-center px-4 py-32 border-t border-black/10">
-        <div className="max-w-[700px] w-full text-center">
-          <h2 className="poppins-light text-3xl md:text-4xl tracking-[calc(3rem*0.02)] mb-8" style={{ color: "black" }}>About Me</h2>
-          <p className="poppins-light leading-relaxed text-[15px] md:text-base" style={{ color: "#333" }}>
-            CS undergraduate building production AI and polished frontends. Practical architecture, measurable perf, explainable design. Hands-on: real-time YOLOv8 + DeepSORT tracking, secure sanitization (OctaWipe), Groq LLM product (Abhisar), and a Java compiler pipeline. Currently exploring Hugging Face transformers and system design.
-          </p>
-          <div className="mt-10 h-px w-24 bg-black/10 mx-auto" />
-          <p className="mt-10 text-xs tracking-widest uppercase poppins-light" style={{ color: "#888" }}>Based in Noida · Open to hybrid & internships</p>
+      {/* ——— ABOUT ——— whole page design from bencodes: white, large quote + This is me. + 2-col */}
+      <section id="about" className="bg-white text-black w-screen min-h-screen flex flex-col justify-center px-6 md:px-12 py-24">
+        <div className="max-w-[1100px] mx-auto w-full">
+          <h2 className="khula-bold text-4xl md:text-6xl leading-[1.05] tracking-tight" style={{ color: "black" }}>
+            I believe in a user centered design<br />
+            approach, ensuring that every<br />
+            project I work on is tailored to<br />
+            meet the specific needs of its<br />
+            users.
+          </h2>
+          <div className="mt-16">
+            <p className="poppins-light-italic text-sm" style={{ color: "#666" }}>This is me.</p>
+            <hr className="mt-1 border-black/10" />
+            <div className="mt-12 grid md:grid-cols-[420px_1fr] gap-12 items-start">
+              <div>
+                <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
+                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors">
+                  <span className=" -rotate-45">↗</span> Get in Touch
+                </a>
+              </div>
+              <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
+                <p>I&apos;m a 20 year-old CS student dedicated to building AI systems & frontend experiences that solve real problems. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
+                <p>I&apos;m involved in every step: from discovery and design to development, testing, and deployment. I focus on delivering high-quality, scalable results that drive positive user experiences.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
