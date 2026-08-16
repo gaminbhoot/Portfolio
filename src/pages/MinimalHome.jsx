@@ -491,7 +491,6 @@ export default function MinimalHome() {
             </a>
           </div>
           <div className="mt-16">
-            <p className="khula-bold text-xl">jj</p>
             <p className="poppins-light" style={{ color: "black" }}>Jay Joshi</p>
             <p className="text-xs poppins-light mt-1" style={{ color: "#888" }}>Portfolio — AI/ML & Frontend</p>
           </div>
