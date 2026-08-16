@@ -288,12 +288,10 @@ export default function MinimalHome() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-            className="khula-bold text-4xl md:text-6xl leading-[1.08] tracking-tight max-w-[1000px]"
+            className="khula-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight"
             style={{ color: "black" }}
           >
-            I like to understand the problem first,<br className="hidden sm:inline" />
-            {" "}then find a practical and technically sound<br className="hidden sm:inline" />
-            {" "}way to build it, and learn along the way.
+            I like to understand the problem first, then find a practical and technically sound way to build it, and learn along the way.
           </motion.h2>
           <div className="mt-16">
             <motion.p
