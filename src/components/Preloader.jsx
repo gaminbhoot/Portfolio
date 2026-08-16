@@ -45,7 +45,7 @@ export default function Preloader({ onLoadingComplete }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.45, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center select-none pointer-events-auto"
+          className="fixed inset-0 z-[9999] bg-[#f6f6f7] flex flex-col items-center justify-center select-none pointer-events-auto"
         >
           <motion.svg
             width="340"
