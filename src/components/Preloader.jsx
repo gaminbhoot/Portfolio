@@ -53,7 +53,7 @@ export default function Preloader({ onLoadingComplete }) {
             viewBox="0 0 600 600"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="overflow-visible -translate-y-8 sm:-translate-y-10"
+            className="overflow-visible -translate-y-16 sm:-translate-y-20"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
