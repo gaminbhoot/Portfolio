@@ -256,9 +256,9 @@ export default function MinimalHome() {
           className="relative z-10 max-w-[1000px] px-4 w-full text-center"
         >
           <h1 className="khula-semibold text-6xl max-sm:text-[10vw] leading-[1.1] text-white cursor-pointer" onClick={() => handleSecretClick("hero")}>
-            I believe in building
+            I build and experiment with
             <br />
-            <span className="text-[var(--gray-1)]">AI systems & frontend</span> experiences that solve real problems.
+            <span className="text-[var(--gray-1)]">AI products</span> for real-world use.
           </h1>
           <div className="mt-[10vh] max-w-[500px] mx-auto">
             <p className="text-gray-3 poppins-light-italic mb-1 select-none text-sm">This is me.</p>
@@ -330,7 +330,7 @@ export default function MinimalHome() {
                 </a>
               </div>
               <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
-                <p>I&apos;m a {AGE} year-old CS student dedicated to building AI systems & frontend experiences that solve real problems. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
+                <p>I&apos;m a {AGE} year-old CS student dedicated to building and experimenting with AI products for real-world use. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
                 <p>I&apos;m involved in every step: from discovery and design to development, testing, and deployment. I focus on delivering high-quality, scalable results that drive positive user experiences.</p>
               </div>
             </motion.div>
