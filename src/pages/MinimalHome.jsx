@@ -330,8 +330,8 @@ export default function MinimalHome() {
                 </a>
               </div>
               <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
-                <p>I&apos;m a {AGE} year-old CS student dedicated to building and experimenting with AI products for real-world use. I specialize in real-time computer vision, secure tools, and Groq-powered LLM products.</p>
-                <p>I&apos;m involved in every step: from discovery and design to development, testing, and deployment. I focus on delivering high-quality, scalable results that drive positive user experiences.</p>
+                <p>I&apos;m a computer science student interested in building software and understanding how things work under the hood. I enjoy working across different areas of technology, from systems and development to AI, with a focus on learning by building and experimenting.</p>
+                <p>I enjoy working across the whole process, from figuring out what to build and exploring an approach to writing the code, testing it, and getting it into a usable state. I&apos;m particularly interested in real-time AI, practical LLM applications, and building tools that are simple, reliable, and useful.</p>
               </div>
             </motion.div>
           </div>
