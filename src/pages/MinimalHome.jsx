@@ -291,7 +291,7 @@ export default function MinimalHome() {
             className="khula-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight"
             style={{ color: "black" }}
           >
-            I like to understand the problem first, then find a practical and technically sound way to build it, and learn along the way.
+            I like to understand the problem first, then find a practical and technically sound way to build it, learning along the way.
           </motion.h2>
           <div className="mt-16">
             <motion.p
