@@ -264,7 +264,7 @@ export default function MinimalHome() {
             <p className="text-gray-3 poppins-light-italic mb-1 select-none text-sm">This is me.</p>
             <hr className="bg-[var(--gray-3)] origin-left w-full border-none h-px" />
             <p className="mt-4 text-[var(--gray-1)] poppins-light leading-[123%] text-sm text-center">
-              {getAge()}-year-old CS student from Noida. Groq LLM, YOLOv8 + DeepSORT, OctaWipe.
+              {getAge()}-year-old CS student from Noida specializing in AI/ML.
             </p>
           </div>
         </motion.div>
