@@ -48,12 +48,12 @@ export default function Preloader({ onLoadingComplete }) {
           className="fixed inset-0 z-[9999] bg-white flex flex-col items-center justify-center select-none pointer-events-auto"
         >
           <motion.svg
-            width="320"
-            height="320"
-            viewBox="0 0 600 600"
+            width="340"
+            height="220"
+            viewBox="20 260 540 350"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="overflow-visible -translate-y-16 sm:-translate-y-20"
+            className="overflow-visible max-w-[85vw] max-h-[50vh]"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
