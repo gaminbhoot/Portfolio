@@ -39,6 +39,16 @@ export default function MinimalLayout({ children }) {
     };
   }, [location.pathname]);
 
+  // Always reset scroll to the top when navigating to a project detail page
+  useEffect(() => {
+    if (location.pathname.startsWith("/project/")) {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(0, { immediate: true });
+      }
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
+
   // Lenis smooth scroll — exact bencodes oomph
   useEffect(() => {
     const lenis = new Lenis({

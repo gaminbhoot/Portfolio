@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
@@ -10,6 +10,10 @@ export default function MinimalProject() {
   const navigate = useNavigate();
   const [closing, setClosing] = useState(false);
   const project = projectsData.find((p) => p.id === id);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [id]);
 
   usePageMeta({
     title: project ? `${project.title} | Jay Joshi` : "Project | Jay Joshi",
