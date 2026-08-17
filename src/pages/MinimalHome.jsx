@@ -320,15 +320,15 @@ export default function MinimalHome() {
             >
               <div>
                 <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
-                <div className="mt-8 flex flex-wrap items-center gap-3">
+                <div className="mt-8 flex flex-col items-start gap-3">
                   <a
                     href="/jay-joshi-resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
+                    className="w-44 inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
                   >
                     <span>Resume</span>
-                    <ArrowUpRight size={15} strokeWidth={1.75} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight size={16} strokeWidth={1.75} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                   <a
                     href="#contact"
@@ -336,10 +336,10 @@ export default function MinimalHome() {
                       e.preventDefault();
                       document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-all hover:scale-[1.02] group"
+                    className="w-44 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-all hover:scale-[1.02] group"
                   >
-                    <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                     <span>Get in Touch</span>
+                    <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
                   </a>
                 </div>
               </div>
