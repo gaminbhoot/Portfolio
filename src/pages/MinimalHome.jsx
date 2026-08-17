@@ -159,11 +159,8 @@ const executionSkills = [
   "AI Product Discovery",
   "Problem Framing",
   "Rapid Prototyping",
-  "Systems Architecture Thinking",
   "Engineering Leadership",
   "Presentation & Demos",
-  "Cross-Functional Execution",
-  "Specification Writing",
 ];
 
 export default function MinimalHome() {
