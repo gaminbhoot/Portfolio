@@ -145,7 +145,7 @@ const technicalSkills = [
   "Scikit-Learn & NumPy",
   "SafeTensors",
   "FastAPI",
-  "React · Vite",
+  "React",
   "TypeScript",
   "Docker",
   "SQLite & Telemetry",
