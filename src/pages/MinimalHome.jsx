@@ -580,7 +580,7 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
-      <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden border-t border-black/10 select-none">
+      <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden select-none">
         <div className="max-w-[900px] mx-auto px-4 mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
