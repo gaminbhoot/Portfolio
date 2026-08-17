@@ -135,30 +135,34 @@ function InteractiveMarqueeRow({
   );
 }
 
-const skillsRow1 = [
+const technicalSkills = [
   "Python",
   "PyTorch",
+  "React · Vite",
   "YOLOv8",
   "Deep SORT",
+  "FastAPI",
+  "TypeScript",
   "Computer Vision",
-  "Hardware Profiling",
+  "Docker",
+  "LLM Diagnostics",
   "Scikit-Learn",
-  "vLLM & Ollama",
-  "SafeTensors",
-  "NumPy",
+  "Tailwind CSS",
+  "SQLite & Telemetry",
+  "Git & GitHub",
 ];
 
-const skillsRow2 = [
-  "React",
-  "TypeScript",
-  "Vite",
-  "FastAPI",
-  "Tailwind CSS",
-  "Docker",
-  "Flask",
-  "SQLite",
-  "Framer Motion",
-  "Git & GitHub",
+const executionSkills = [
+  "Project Planning & Roadmapping",
+  "Technical Communication",
+  "Product Discovery",
+  "Problem Framing",
+  "Rapid Prototyping",
+  "Systems Architecture Thinking",
+  "Engineering Leadership",
+  "Presentation & Demos",
+  "Cross-Functional Execution",
+  "Specification Writing",
 ];
 
 export default function MinimalHome() {
@@ -574,39 +578,59 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
+      {/* ——— SKILLS & CAPABILITIES DOMAINS ——— */}
       <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden border-t border-black/10 select-none">
-        <div className="max-w-[900px] mx-auto px-4 mb-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="text-xs uppercase tracking-[0.25em] text-gray-400 font-semibold poppins-regular">
-              Core Capabilities & Technologies
-            </span>
-          </motion.div>
+        
+        {/* Domain 1: Technical Stack */}
+        <div className="mb-14">
+          <div className="max-w-[900px] mx-auto px-4 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center justify-between"
+            >
+              <span className="text-xs uppercase tracking-[0.25em] text-gray-400 font-semibold poppins-regular">
+                01 — Technical & Engineering Stack
+              </span>
+              <span className="text-xs text-gray-400 font-mono tracking-widest">[ CODE & SYSTEMS ]</span>
+            </motion.div>
+          </div>
+
+          <InteractiveMarqueeRow
+            items={technicalSkills}
+            direction="left"
+            speed={0.55}
+            fontClass="khula-regular"
+            textOpacity="text-black/85"
+            onSecretClick={() => handleSecretClick("skill-0")}
+          />
         </div>
 
-        {/* Marquee Row 1 (Left) */}
-        <InteractiveMarqueeRow
-          items={skillsRow1}
-          direction="left"
-          speed={0.55}
-          fontClass="khula-regular"
-          textOpacity="text-black/85"
-          onSecretClick={() => handleSecretClick("skill-0")}
-        />
+        {/* Domain 2: Leadership, Execution & Strategy */}
+        <div>
+          <div className="max-w-[900px] mx-auto px-4 mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center justify-between"
+            >
+              <span className="text-xs uppercase tracking-[0.25em] text-gray-400 font-semibold poppins-regular">
+                02 — Execution, Leadership & Strategy
+              </span>
+              <span className="text-xs text-gray-400 font-mono tracking-widest">[ PRODUCT & DELIVERY ]</span>
+            </motion.div>
+          </div>
 
-        {/* Marquee Row 2 (Right / Reverse) */}
-        <div className="mt-2">
           <InteractiveMarqueeRow
-            items={skillsRow2}
+            items={executionSkills}
             direction="right"
             speed={0.5}
             fontClass="khula-light"
-            textOpacity="text-black/60"
+            textOpacity="text-black/75"
             onSecretClick={() => handleSecretClick("skill-1")}
           />
         </div>
