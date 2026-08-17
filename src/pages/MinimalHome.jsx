@@ -229,7 +229,7 @@ export default function MinimalHome() {
     id: p.id,
     number: String(i + 1).padStart(2, "0"),
     title: p.title.replace(" - Secure Data Sanitization", "").replace(" - ", " ").replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace("Abhisar: Groq-Powered LLM Product", "Abhisar"),
-    category: p.id === "ai-surveillance" ? "Computer Vision / Systems" : p.id === "octawipe" ? "System Security" : p.id === "abhisar" ? "Full-Stack AI Product" : "Distributed AI / ML",
+    category: p.id === "sysaware-ml-optimizer" ? "Distributed AI / ML" : p.id === "octawipe" ? "System Security" : p.id === "abhisar-llm" ? "Full-Stack AI Product" : "Computer Vision / Systems",
     image: p.thumbnail,
     full: p.category,
   }));
