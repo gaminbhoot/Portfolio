@@ -9,6 +9,8 @@ import Preloader, { hasPlayedIntro } from "../components/Preloader";
 
 // Track if this is the first mount since document load (full page load vs SPA back)
 // Module-level → resets only on hard refresh, persists across SPA navigations
+let isFirstHomeMount = true;
+
 // Interactive kinetic marquee row with hover-pause and manual drag/wheel scrolling
 function InteractiveMarqueeRow({
   items,
