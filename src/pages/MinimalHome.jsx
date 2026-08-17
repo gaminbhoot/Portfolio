@@ -136,26 +136,27 @@ function InteractiveMarqueeRow({
 }
 
 const technicalSkills = [
-  "Python",
   "PyTorch",
-  "React · Vite",
+  "Python",
   "YOLOv8",
-  "Deep SORT",
-  "FastAPI",
-  "TypeScript",
   "Computer Vision",
+  "Deep SORT",
+  "LLM Diagnostics & vLLM",
+  "Scikit-Learn & NumPy",
+  "SafeTensors",
+  "FastAPI",
+  "React · Vite",
+  "TypeScript",
   "Docker",
-  "LLM Diagnostics",
-  "Scikit-Learn",
-  "Tailwind CSS",
   "SQLite & Telemetry",
+  "Tailwind CSS",
   "Git & GitHub",
 ];
 
 const executionSkills = [
   "Project Planning & Roadmapping",
   "Technical Communication",
-  "Product Discovery",
+  "AI Product Discovery",
   "Problem Framing",
   "Rapid Prototyping",
   "Systems Architecture Thinking",
