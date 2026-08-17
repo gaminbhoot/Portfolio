@@ -146,7 +146,6 @@ const technicalSkills = [
   "SafeTensors",
   "FastAPI",
   "React",
-  "TypeScript",
   "Docker",
   "SQLite & Telemetry",
   "Tailwind CSS",
