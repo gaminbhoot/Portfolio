@@ -396,8 +396,8 @@ export const projectsData = [
     title: "SysAware ML Optimizer",
     category: "Distributed Systems & Machine Learning",
     year: "2026",
-    thumbnail: "/images/sysaware/thumb.webp",
-    heroImage: "/images/sysaware/hero.webp",
+    thumbnail: "/images/sysaware/thumb.png",
+    heroImage: "/images/sysaware/hero.png",
     githubLink: "https://github.com/gaminbhoot/sysaware-ml-optimizer",
     
     summary: {
@@ -437,37 +437,37 @@ export const projectsData = [
       {
         id: "overview",
         title: "Overview",
-        image: "/images/sysaware/overview.webp",
+        image: "/images/sysaware/hero.png",
         content: "SysAware ML Optimizer bridges the divide between deep learning weights and physical hardware execution. Evolving from a single-machine profiling engine into a full-stack distributed ecosystem, it delivers automated model diagnostics, empirical runtime tuning, and predictive inference estimation across CPU, NVIDIA CUDA, Apple Silicon (MPS), and edge hardware."
       },
       {
         id: "problem",
         title: "The Problem",
-        image: "/images/sysaware/problem.webp",
+        image: "/images/sysaware/hero.png",
         content: "Running and fine-tuning modern LLMs on edge or local infrastructure is fraught with operational guesswork. Static parameter counts fail to account for intermediate activation memory and KV-cache expansion, leading to silent RAM spills and severe throughput collapse. Furthermore, manual trial-and-error for GPU layer offloading is slow and unreliable, while legacy model serialization invites arbitrary code execution vulnerabilities."
       },
       {
         id: "architecture",
         title: "Dual-Path System Architecture",
-        image: "/images/sysaware/architecture.webp",
+        image: "/images/sysaware/thumb.png",
         content: "SysAware orchestrates two decoupled workflows: Path A (Model Diagnostic) performs architectural scans on raw checkpoints (.safetensors, .pt) to detect dead neurons, layer redundancy, and INT8/4-bit quantization headroom without accuracy drop. Path B (Parameter Tuner) connects to runtime engines (LM Studio, Ollama), calculating mathematically optimal GPU/CPU layer distributions and empirical maximum context bounds."
       },
       {
         id: "benchmarking",
         title: "ML Inference Estimator & Benchmarking",
-        image: "/images/sysaware/benchmarking.webp",
+        image: "/images/sysaware/hero.png",
         content: "Rather than relying on static formulas, SysAware features a dedicated RandomForest inference predictor that estimates tokens-per-second before loading a model into memory. In runtime benchmarking, target execution loops are wrapped with native memory tracing until measurement variance stabilizes below 5% (CoV < 0.05), ensuring reliable ground-truth profiling."
       },
       {
         id: "optimization",
         title: "Prompt Laboratory & Live Proxy",
-        image: "/images/sysaware/optimization.webp",
+        image: "/images/sysaware/hero.png",
         content: "SysAware includes a Prompt Engine Laboratory that automatically optimizes instruction structures for token economy—stripping semantic stop-words and restructuring templates. Optimized prompts can be executed directly in the integrated Live Chat workspace, which proxies streaming requests through the connected inference backend."
       },
       {
         id: "deployment",
         title: "Distributed Fleet Telemetry & Deployment",
-        image: "/images/sysaware/deployment.webp",
+        image: "/images/sysaware/hero.png",
         content: "Designed for multi-machine setups, SysAware Fleet unites cluster nodes across a local area network. Nodes discover the central hub via UDP broadcast on port 8001 and stream live health heartbeats over Server-Sent Events (SSE). The system is built as a clean monorepo combining a FastAPI backend, SQLite persistence, and a cinematic React TypeScript dashboard, validated through comprehensive Pytest and Playwright test suites."
       }
     ]
