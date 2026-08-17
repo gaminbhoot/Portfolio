@@ -392,82 +392,84 @@ export const projectsData = [
     ]
   },
   {
-  id: "sysaware-ml-optimizer",
-  title: "SysAware ML Optimizer",
-  category: "Machine Learning / Systems Engineering",
-  year: "2026",
-  thumbnail: "/images/sysaware/thumb.webp",
-  heroImage: "/images/sysaware/hero.webp",
-  githubLink: "https://github.com/gaminbhoot/sysaware-ml-optimizer",
-  
-  summary: {
-    tagline: "An advanced, hardware-aware tool designed to dynamically profile, compress, and accelerate PyTorch models based on the host system's physical capabilities.",
-    projectMeta: {
-      problem: "Predicting raw memory footprints and dynamic latency bottlenecks for PyTorch models across heterogeneous hardware is highly inaccurate using static parameter estimations.",
-      role: "Machine Learning Engineer (Optimization, Profiling, Toolkit dev)",
-      result: "Developed a dynamic quantizer and hardware profiler toolkit for fast, automated model translation to INT8/FP16 pipelines."
+    id: "sysaware-ml-optimizer",
+    title: "SysAware ML Optimizer",
+    category: "Distributed Systems & Machine Learning",
+    year: "2026",
+    thumbnail: "/images/sysaware/thumb.webp",
+    heroImage: "/images/sysaware/hero.webp",
+    githubLink: "https://github.com/gaminbhoot/sysaware-ml-optimizer",
+    
+    summary: {
+      tagline: "A distributed, hardware-aware ecosystem designed to dynamically profile, diagnose, and accelerate LLMs and deep learning models across CPU, GPU, Apple Silicon (MPS), and NPUs.",
+      projectMeta: {
+        problem: "Deploying and tuning LLMs across heterogeneous local and edge hardware is plagued by unpredictable VRAM spilling, opaque quantization degradation, and inaccurate static memory approximations.",
+        role: "Systems & Machine Learning Engineer (Core Architecture, Profiling, ML Estimator)",
+        result: "Built a full-stack dual-path optimization suite featuring a RandomForest inference estimator, LAN fleet telemetry, and real-time runtime tuning for LM Studio & Ollama."
+      },
+      keyTechnologies: [
+        "Python 3.11+",
+        "FastAPI & SSE Streaming",
+        "React · TypeScript · Vite",
+        "PyTorch (CUDA & Apple Silicon MPS)",
+        "Scikit-learn (RandomForest)",
+        "SQLite & UDP Autodiscovery",
+        "Pytest & Playwright E2E"
+      ],
+      technicalHighlights: [
+        { title: "Dual-Path Diagnostic & Tuning Architecture", description: "Orchestrates two specialized pipelines: Path A for deep structural scans on raw checkpoints (.safetensors, .pt) analyzing dead neurons and quantization headroom, and Path B for live runtime parameter tuning (optimal GPU layer splits and context limits) on backends like LM Studio and Ollama." },
+        { title: "Machine Learning Inference Estimator", description: "Predicts tokens-per-second (tok/s) before loading a model via a trained RandomForest Regressor calibrated on community benchmarks and ground-truth lab data, explicitly modeling RAM-spill penalties and Apple Silicon unified memory." },
+        { title: "Distributed Fleet Telemetry", description: "Real-time fleet monitoring dashboard across local area networks utilizing lightweight UDP autodiscovery (:8001) and Server-Sent Events (SSE), backed by SQLite persistence with automatic schema migrations." },
+        { title: "Prompt Engine Laboratory & Live Chat", description: "Token-efficiency restructuring engine that strips semantic bloat from prompts with immediate validation against live proxied LLMs in an integrated chat workspace." },
+        { title: "Security-Enforced Model Ingest", description: "Enforces strict security boundaries with verified SafeTensors ingestion and guarded deserialization, mitigating arbitrary code execution risks during model loading." }
+      ],
+      metrics: [
+        "Hardware-aware profiling across CPU, CUDA, and Apple Silicon MPS",
+        "Sub-5% Variance (CoV) convergence on dynamic execution micro-benchmarks",
+        "Multi-node LAN fleet discovery with 30s heartbeat & SQLite telemetry",
+        "Comprehensive dual-layer testing with Pytest and Playwright E2E"
+      ],
+      architecture: "React TypeScript UI / CLI → FastAPI Service Layer → Diagnostic & Tuning Engines (LM Studio / SafeTensors) → RandomForest Estimator → UDP Fleet Broker & SQLite",
+      showcaseImages: []
     },
-    keyTechnologies: [
-      "Python 3.9+",
-      "PyTorch (CUDA & MPS Support)",
-      "Streamlit for rapid UX",
-      "Python tracemalloc & psutil",
-      "Subprocess & CLI Systems"
-    ],
-    technicalHighlights: [
-      { title: "Security-First Model Loading", description: "Mitigates arbitrary code execution vulnerabilities during serialization by strictly enforcing torch.load(..., weights_only=True) boundaries, protecting local environments from malicious payloads." },
-      { title: "Dynamic Hardware Tiering", description: "Replaces hardcoded tier rules with algorithmic checks mapping model sizes against accessible memory ratios, robustly shifting between CPU, GPU, and Apple Silicon MPS domains." },
-      { title: "Robust Benchmarking Mechanics", description: "Utilizes Python's 'tracemalloc' internally to measure actual intermediate tensors footprints seamlessly, cutting off benchmarks dynamically once inferences reach a tight coefficient of variance (CoV < 5%)." },
-      { title: "Expanded INT8 Quantization", description: "Automatically traverses nested layer blocks and dynamically compresses structural networks including Conv1d, Conv2d, Conv3d, LSTM, and GRU operations alongside standard Linear perceptrons." },
-      { title: "Intelligent Prompt Optimizer", description: "A decoupled heuristic compiler that evaluates instruction prompts natively, targeting and recursively stripping semantic stop-words while restructuring the remaining text into formatted templates." }
-    ],
-    metrics: [
-      "Hardware agnostic support: CPU, CUDA, and Apple Silicon MPS",
-      "Sub-5% Variance (CoV) tracking for dynamic micro-benchmarks",
-      "Format-compliant JSON runtime error envelopes",
-      "Optimized Disk-based state cloning to prevent OOM errors"
-    ],
-    architecture: "CLI / Streamlit GUI → Hardware Profiler → Model Estimator (Tracemalloc) → Strategy Engine → AutoTuner (INT8/FP16) → JSON Result Endpoint",
-    showcaseImages: []
-  },
 
-  sections: [
-    {
-      id: "overview",
-      title: "Overview",
-      image: "/images/sysaware/overview.webp",
-      content: "SysAware ML Optimizer bridges the gap between deep learning infrastructure and production optimization. Built as a comprehensive toolkit, it analyzes latency constraints, dynamically estimates intermediate activation footprints, and autotunes PyTorch models targeting INT8 or FP16 formats based on real-time hardware capabilities seamlessly across Windows, Linux, and macOS environments."
-    },
-    {
-      id: "problem",
-      title: "The Problem",
-      image: "/images/sysaware/problem.webp",
-      content: "Machine learning models are frequently deployed in heavily constrained environments. Static parameter counts fail to reflect actual memory limits because they blindside runtime gradients and expansive intermediate activation states. Furthermore, legacy model loading mechanisms invite critical security vulnerabilities via arbitrary code execution, and standard optimization cloning crashes constrained machines through exponential memory ballooning. A dynamic, resilient pipeline was needed."
-    },
-    {
-      id: "architecture",
-      title: "Core Architecture & Security",
-      image: "/images/sysaware/architecture.webp",
-      content: "Every optimization pass is driven by strict type contracts and modular decoupling. Security is treated as a first-class citizen unsafe deep copies were deprecated in favor of a disk-cached state load mechanism to prevent OOM exhaustion. Moreover, malicious payload injection via unpickling was mitigated outright by strictly enforcing 'weights_only=True' instantiation policies."
-    },
-    {
-      id: "benchmarking",
-      title: "Hardware Profiling & Benchmarking",
-      image: "/images/sysaware/benchmarking.webp",
-      content: "The profiler autonomously extracts comprehensive hardware topologies, surfacing system RAM, CUDA availability, and Apple Silicon MPS configurations. Rather than estimating execution via static parameter equations, SysAware measures real execution cost dynamically. It utilizes Python's native 'tracemalloc' directly wrapped around target prediction loops capturing exact memory footprints, persisting iterations exactly until variance stabilizes below 5%."
-    },
-    {
-      id: "optimization",
-      title: "Advanced Quantization & Prompt Engineering",
-      image: "/images/sysaware/optimization.webp",
-      content: "Beyond elementary linear blocks, the engine quantizes complex sequential layer paradigms safely, bringing Conv1d, Conv2d, Conv3d, LSTM, and GRU instances down to INT8. Adjacent to model optimization sits the Prompt Optimizer an algorithmic regex-bound engine scoring NLP instruction structures, automatically slicing semantic filler-words while yielding tactical templates optimized for downstream language execution."
-    },
-    {
-      id: "deployment",
-      title: "Enterprise Deployment",
-      image: "/images/sysaware/deployment.webp",
-      content: "SysAware was built to thrive within pipeline automation interfaces. The CLI envelope catches missing files or environment panics natively, encapsulating structural crashes into controlled HTTP 500-equivalent JSON payloads readable by CI runners. Conversely, human engagement happens seamlessly via its integrated Streamlit GUI, which incorporates aggressive stale-state invalidation hooks preventing latency when evaluating diverse model payloads iteratively."
-    }
-  ]
-}
+    sections: [
+      {
+        id: "overview",
+        title: "Overview",
+        image: "/images/sysaware/overview.webp",
+        content: "SysAware ML Optimizer bridges the divide between deep learning weights and physical hardware execution. Evolving from a single-machine profiling engine into a full-stack distributed ecosystem, it delivers automated model diagnostics, empirical runtime tuning, and predictive inference estimation across CPU, NVIDIA CUDA, Apple Silicon (MPS), and edge hardware."
+      },
+      {
+        id: "problem",
+        title: "The Problem",
+        image: "/images/sysaware/problem.webp",
+        content: "Running and fine-tuning modern LLMs on edge or local infrastructure is fraught with operational guesswork. Static parameter counts fail to account for intermediate activation memory and KV-cache expansion, leading to silent RAM spills and severe throughput collapse. Furthermore, manual trial-and-error for GPU layer offloading is slow and unreliable, while legacy model serialization invites arbitrary code execution vulnerabilities."
+      },
+      {
+        id: "architecture",
+        title: "Dual-Path System Architecture",
+        image: "/images/sysaware/architecture.webp",
+        content: "SysAware orchestrates two decoupled workflows: Path A (Model Diagnostic) performs architectural scans on raw checkpoints (.safetensors, .pt) to detect dead neurons, layer redundancy, and INT8/4-bit quantization headroom without accuracy drop. Path B (Parameter Tuner) connects to runtime engines (LM Studio, Ollama), calculating mathematically optimal GPU/CPU layer distributions and empirical maximum context bounds."
+      },
+      {
+        id: "benchmarking",
+        title: "ML Inference Estimator & Benchmarking",
+        image: "/images/sysaware/benchmarking.webp",
+        content: "Rather than relying on static formulas, SysAware features a dedicated RandomForest inference predictor that estimates tokens-per-second before loading a model into memory. In runtime benchmarking, target execution loops are wrapped with native memory tracing until measurement variance stabilizes below 5% (CoV < 0.05), ensuring reliable ground-truth profiling."
+      },
+      {
+        id: "optimization",
+        title: "Prompt Laboratory & Live Proxy",
+        image: "/images/sysaware/optimization.webp",
+        content: "SysAware includes a Prompt Engine Laboratory that automatically optimizes instruction structures for token economy—stripping semantic stop-words and restructuring templates. Optimized prompts can be executed directly in the integrated Live Chat workspace, which proxies streaming requests through the connected inference backend."
+      },
+      {
+        id: "deployment",
+        title: "Distributed Fleet Telemetry & Deployment",
+        image: "/images/sysaware/deployment.webp",
+        content: "Designed for multi-machine setups, SysAware Fleet unites cluster nodes across a local area network. Nodes discover the central hub via UDP broadcast on port 8001 and stream live health heartbeats over Server-Sent Events (SSE). The system is built as a clean monorepo combining a FastAPI backend, SQLite persistence, and a cinematic React TypeScript dashboard, validated through comprehensive Pytest and Playwright test suites."
+      }
+    ]
+  }
 ];
