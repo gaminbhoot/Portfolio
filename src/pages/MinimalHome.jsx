@@ -148,7 +148,6 @@ const technicalSkills = [
   "React",
   "Docker",
   "SQLite & Telemetry",
-  "Tailwind CSS",
   "Git & GitHub",
 ];
 
