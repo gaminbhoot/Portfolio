@@ -7,10 +7,6 @@ import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
 import Preloader, { hasPlayedIntro } from "../components/Preloader";
 
-// Track if this is the first mount since document load (full page load vs SPA back)
-// Module-level → resets only on hard refresh, persists across SPA navigations
-let isFirstHomeMount = true;
-
 // Interactive kinetic marquee row with hover-pause and manual drag/wheel scrolling
 function InteractiveMarqueeRow({
   items,
@@ -280,32 +276,19 @@ export default function MinimalHome() {
   };
 
   useEffect(() => {
-    // Prevent browser's own scroll restoration from fighting us
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
 
-    // First mount since document load = hard refresh / direct visit → always top
-    // Clears any stale position from a previous tab session
-    if (isFirstHomeMount) {
-      isFirstHomeMount = false;
-      sessionStorage.removeItem("projectsScrollY");
-      sessionStorage.removeItem("shouldRestoreScroll");
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    // Subsequent mounts = SPA navigation back from /project/:id → restore
     const shouldRestore = sessionStorage.getItem("shouldRestoreScroll");
     const y = sessionStorage.getItem("projectsScrollY");
-    if (shouldRestore && y) {
+
+    if (shouldRestore === "true" && y) {
+      sessionStorage.removeItem("shouldRestoreScroll");
       setTimeout(() => window.scrollTo(0, parseInt(y, 10)), 40);
+    } else {
       sessionStorage.removeItem("projectsScrollY");
       sessionStorage.removeItem("shouldRestoreScroll");
-    } else {
-      // Stale value without flag — clean it
-      if (y) sessionStorage.removeItem("projectsScrollY");
-      if (shouldRestore) sessionStorage.removeItem("shouldRestoreScroll");
       window.scrollTo(0, 0);
     }
   }, []);
