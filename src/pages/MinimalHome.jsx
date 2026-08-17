@@ -9,7 +9,159 @@ import Preloader, { hasPlayedIntro } from "../components/Preloader";
 
 // Track if this is the first mount since document load (full page load vs SPA back)
 // Module-level → resets only on hard refresh, persists across SPA navigations
-let isFirstHomeMount = true;
+// Interactive kinetic marquee row with hover-pause and manual drag/wheel scrolling
+function InteractiveMarqueeRow({
+  items,
+  direction = "left",
+  speed = 0.5,
+  fontClass = "khula-regular",
+  textOpacity = "text-black/85",
+  onSecretClick,
+}) {
+  const trackRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollPosRef = useRef(0);
+  const singleWidthRef = useRef(0);
+  const xPos = useMotionValue(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (trackRef.current) {
+        singleWidthRef.current = trackRef.current.scrollWidth / 4;
+        if (direction === "right" && scrollPosRef.current === 0) {
+          scrollPosRef.current = -singleWidthRef.current;
+          xPos.set(scrollPosRef.current);
+        }
+      }
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, [items, direction]);
+
+  useEffect(() => {
+    let animId;
+    const step = () => {
+      if (!isHovered && !isDraggingRef.current && singleWidthRef.current > 0) {
+        const delta = direction === "left" ? -speed : speed;
+        scrollPosRef.current += delta;
+
+        if (scrollPosRef.current <= -singleWidthRef.current * 2) {
+          scrollPosRef.current += singleWidthRef.current;
+        } else if (scrollPosRef.current >= 0) {
+          scrollPosRef.current -= singleWidthRef.current;
+        }
+        xPos.set(scrollPosRef.current);
+      }
+      animId = requestAnimationFrame(step);
+    };
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [isHovered, direction, speed]);
+
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX;
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current || singleWidthRef.current === 0) return;
+    const dx = e.clientX - startXRef.current;
+    startXRef.current = e.clientX;
+    scrollPosRef.current += dx;
+
+    if (scrollPosRef.current <= -singleWidthRef.current * 2) {
+      scrollPosRef.current += singleWidthRef.current;
+    } else if (scrollPosRef.current >= 0) {
+      scrollPosRef.current -= singleWidthRef.current;
+    }
+    xPos.set(scrollPosRef.current);
+  };
+
+  const handlePointerUp = () => {
+    isDraggingRef.current = false;
+  };
+
+  const handleWheel = (e) => {
+    if (!isHovered || singleWidthRef.current === 0) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) > 1) {
+      scrollPosRef.current -= delta * 0.7;
+      if (scrollPosRef.current <= -singleWidthRef.current * 2) {
+        scrollPosRef.current += singleWidthRef.current;
+      } else if (scrollPosRef.current >= 0) {
+        scrollPosRef.current -= singleWidthRef.current;
+      }
+      xPos.set(scrollPosRef.current);
+    }
+  };
+
+  const fullItems = [...items, ...items, ...items, ...items];
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        isDraggingRef.current = false;
+      }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onWheel={handleWheel}
+      className="relative w-full overflow-hidden flex whitespace-nowrap py-3 cursor-grab active:cursor-grabbing select-none"
+    >
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
+
+      <motion.div
+        ref={trackRef}
+        style={{ x: xPos }}
+        className="flex items-center gap-8 md:gap-12 whitespace-nowrap shrink-0 will-change-transform"
+      >
+        {fullItems.map((item, i) => (
+          <span
+            key={i}
+            onClick={onSecretClick}
+            className={`inline-flex items-center gap-8 md:gap-12 text-2xl sm:text-3xl md:text-4xl ${fontClass} ${textOpacity} hover:text-black transition-colors cursor-grab active:cursor-grabbing`}
+          >
+            <span>{item}</span>
+            <span className="text-black/20 text-lg md:text-xl select-none">/</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
+const skillsRow1 = [
+  "Python",
+  "PyTorch",
+  "YOLOv8",
+  "Deep SORT",
+  "Computer Vision",
+  "Hardware Profiling",
+  "Scikit-Learn",
+  "vLLM & Ollama",
+  "SafeTensors",
+  "NumPy",
+];
+
+const skillsRow2 = [
+  "React",
+  "TypeScript",
+  "Vite",
+  "FastAPI",
+  "Tailwind CSS",
+  "Docker",
+  "Flask",
+  "SQLite",
+  "Framer Motion",
+  "Git & GitHub",
+];
 
 export default function MinimalHome() {
   const [asciiArt, setAsciiArt] = React.useState("");
@@ -439,109 +591,39 @@ export default function MinimalHome() {
 
       {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
       <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden border-t border-black/10 select-none">
-        <div className="max-w-[900px] mx-auto px-4 mb-10">
+        <div className="max-w-[900px] mx-auto px-4 mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center justify-between"
           >
             <span className="text-xs uppercase tracking-[0.25em] text-gray-400 font-semibold poppins-regular">
               Core Capabilities & Technologies
             </span>
-            <span className="text-xs uppercase tracking-widest text-gray-400 font-mono">
-              [ STACK ]
-            </span>
           </motion.div>
         </div>
 
-        {/* Marquee Row 1 (Moving Left) */}
-        <div className="relative w-full overflow-hidden flex whitespace-nowrap py-3">
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
-          
-          <motion.div
-            className="flex items-center gap-8 md:gap-12 whitespace-nowrap shrink-0 will-change-transform"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ repeat: Infinity, duration: 28, ease: "linear" }}
-          >
-            {[
-              "Python",
-              "PyTorch",
-              "YOLOv8",
-              "Deep SORT",
-              "Computer Vision",
-              "LLM Diagnostics",
-              "Scikit-Learn",
-              "vLLM & Ollama",
-              "SafeTensors",
-              "NumPy",
-              "Python",
-              "PyTorch",
-              "YOLOv8",
-              "Deep SORT",
-              "Computer Vision",
-              "LLM Diagnostics",
-              "Scikit-Learn",
-              "vLLM & Ollama",
-              "SafeTensors",
-              "NumPy",
-            ].map((item, i) => (
-              <span
-                key={i}
-                onClick={() => handleSecretClick("skill-0")}
-                className="inline-flex items-center gap-8 md:gap-12 text-2xl sm:text-3xl md:text-4xl khula-regular text-black/85 hover:text-black transition-colors cursor-default"
-              >
-                <span>{item}</span>
-                <span className="text-black/20 text-lg md:text-xl select-none">/</span>
-              </span>
-            ))}
-          </motion.div>
-        </div>
+        {/* Marquee Row 1 (Left) */}
+        <InteractiveMarqueeRow
+          items={skillsRow1}
+          direction="left"
+          speed={0.55}
+          fontClass="khula-regular"
+          textOpacity="text-black/85"
+          onSecretClick={() => handleSecretClick("skill-0")}
+        />
 
-        {/* Marquee Row 2 (Moving Right / Reverse) */}
-        <div className="relative w-full overflow-hidden flex whitespace-nowrap py-3 mt-2">
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
-          
-          <motion.div
-            className="flex items-center gap-8 md:gap-12 whitespace-nowrap shrink-0 will-change-transform"
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
-          >
-            {[
-              "React",
-              "TypeScript",
-              "Vite",
-              "FastAPI",
-              "Tailwind CSS",
-              "Docker",
-              "Flask",
-              "SQLite",
-              "Framer Motion",
-              "Git & GitHub",
-              "React",
-              "TypeScript",
-              "Vite",
-              "FastAPI",
-              "Tailwind CSS",
-              "Docker",
-              "Flask",
-              "SQLite",
-              "Framer Motion",
-              "Git & GitHub",
-            ].map((item, i) => (
-              <span
-                key={i}
-                onClick={() => handleSecretClick("skill-1")}
-                className="inline-flex items-center gap-8 md:gap-12 text-2xl sm:text-3xl md:text-4xl khula-light text-black/60 hover:text-black transition-colors cursor-default"
-              >
-                <span>{item}</span>
-                <span className="text-black/20 text-lg md:text-xl select-none">/</span>
-              </span>
-            ))}
-          </motion.div>
+        {/* Marquee Row 2 (Right / Reverse) */}
+        <div className="mt-2">
+          <InteractiveMarqueeRow
+            items={skillsRow2}
+            direction="right"
+            speed={0.5}
+            fontClass="khula-light"
+            textOpacity="text-black/60"
+            onSecretClick={() => handleSecretClick("skill-1")}
+          />
         </div>
 
         {/* Secret easter-egg triggers preserved */}
