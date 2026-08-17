@@ -437,46 +437,118 @@ export default function MinimalHome() {
         </div>
       </section>
 
-      {/* ——— SKILLS ——— keep but slim, white bg like projects */}
-      <section id="skills" className="w-screen bg-white text-black py-16 px-4 border-t border-black/10">
-        <div className="max-w-[1000px] mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
+      {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
+      <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden border-t border-black/10 select-none">
+        <div className="max-w-[900px] mx-auto px-4 mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="poppins-light text-3xl tracking-[calc(3rem*0.02)] text-center mb-10"
+            className="flex items-center justify-between"
           >
-            Skills
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
+            <span className="text-xs uppercase tracking-[0.25em] text-gray-400 font-semibold poppins-regular">
+              Core Capabilities & Technologies
+            </span>
+            <span className="text-xs uppercase tracking-widest text-gray-400 font-mono">
+              [ STACK ]
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Marquee Row 1 (Moving Left) */}
+        <div className="relative w-full overflow-hidden flex whitespace-nowrap py-3">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
+          
+          <motion.div
+            className="flex items-center gap-8 md:gap-12 whitespace-nowrap shrink-0 will-change-transform"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ repeat: Infinity, duration: 28, ease: "linear" }}
+          >
             {[
-              { label: "Primary", items: ["Python", "YOLOv8 & Computer Vision", "React · Vite", "Tailwind CSS", "Flask", "Java"] },
-              { label: "Working", items: ["OpenCV · Deep SORT", "Ollama · vLLM", "NumPy · Pandas", "PHP", "GSAP · Framer", "Three.js"] },
-              { label: "Learning", items: ["Hugging Face", "Reinforcement Learning", "TypeScript", "FastAPI", "Next.js", "Docker · K8s"] },
-            ].map((tier, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: idx * 0.08 }}
-                className="space-y-3"
+              "Python",
+              "PyTorch",
+              "YOLOv8",
+              "Deep SORT",
+              "Computer Vision",
+              "LLM Diagnostics",
+              "Scikit-Learn",
+              "vLLM & Ollama",
+              "SafeTensors",
+              "NumPy",
+              "Python",
+              "PyTorch",
+              "YOLOv8",
+              "Deep SORT",
+              "Computer Vision",
+              "LLM Diagnostics",
+              "Scikit-Learn",
+              "vLLM & Ollama",
+              "SafeTensors",
+              "NumPy",
+            ].map((item, i) => (
+              <span
+                key={i}
+                onClick={() => handleSecretClick("skill-0")}
+                className="inline-flex items-center gap-8 md:gap-12 text-2xl sm:text-3xl md:text-4xl khula-regular text-black/85 hover:text-black transition-colors cursor-default"
               >
-                <h3 className="khula-light text-sm tracking-widest uppercase" style={{ color: "#666" }}>{tier.label}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {tier.items.map((s) => (
-                    <span key={s} onClick={() => handleSecretClick(`skill-${idx}`)} className="px-3 py-1.5 rounded-full border text-xs poppins-light cursor-pointer hover:border-black transition-colors" style={{ borderColor: "#e5e7eb", color: "#111" }}>{s}</span>
-                  ))}
-                </div>
-              </motion.div>
+                <span>{item}</span>
+                <span className="text-black/20 text-lg md:text-xl select-none">/</span>
+              </span>
             ))}
-          </div>
-          <div className="opacity-0 h-0 overflow-hidden" aria-hidden>
-            <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
-            <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
-            <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
-          </div>
+          </motion.div>
+        </div>
+
+        {/* Marquee Row 2 (Moving Right / Reverse) */}
+        <div className="relative w-full overflow-hidden flex whitespace-nowrap py-3 mt-2">
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
+          
+          <motion.div
+            className="flex items-center gap-8 md:gap-12 whitespace-nowrap shrink-0 will-change-transform"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
+          >
+            {[
+              "React",
+              "TypeScript",
+              "Vite",
+              "FastAPI",
+              "Tailwind CSS",
+              "Docker",
+              "Flask",
+              "SQLite",
+              "Framer Motion",
+              "Git & GitHub",
+              "React",
+              "TypeScript",
+              "Vite",
+              "FastAPI",
+              "Tailwind CSS",
+              "Docker",
+              "Flask",
+              "SQLite",
+              "Framer Motion",
+              "Git & GitHub",
+            ].map((item, i) => (
+              <span
+                key={i}
+                onClick={() => handleSecretClick("skill-1")}
+                className="inline-flex items-center gap-8 md:gap-12 text-2xl sm:text-3xl md:text-4xl khula-light text-black/60 hover:text-black transition-colors cursor-default"
+              >
+                <span>{item}</span>
+                <span className="text-black/20 text-lg md:text-xl select-none">/</span>
+              </span>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Secret easter-egg triggers preserved */}
+        <div className="opacity-0 h-0 overflow-hidden" aria-hidden>
+          <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
+          <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
+          <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
         </div>
       </section>
 
