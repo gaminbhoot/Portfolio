@@ -237,11 +237,12 @@ export default function MinimalLayout({ children }) {
                 { name: "LinkedIn", link: "https://linkedin.com/in/gaminbhoot" },
                 { name: "GitHub", link: "https://github.com/gaminbhoot" },
                 { name: "Email", link: "mailto:jay05.joshi@gmail.com" },
+                { name: "Resume (PDF)", link: "/jay-joshi-resume.pdf" },
               ].map((o) => (
                 <li key={o.name}>
                   <a
                     href={o.link}
-                    target={o.link.startsWith("http") ? "_blank" : undefined}
+                    target={o.link.startsWith("http") || o.link.endsWith(".pdf") ? "_blank" : undefined}
                     rel="noopener noreferrer"
                     className="text-lg poppins-light text-gray-700 hover:text-black hover:underline transition-colors"
                   >
@@ -277,6 +278,7 @@ export default function MinimalLayout({ children }) {
             <a href="https://github.com/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">GitHub</a>
             <a href="https://linkedin.com/in/gaminbhoot" target="_blank" rel="noopener noreferrer" className="hover:underline">LinkedIn</a>
             <a href="mailto:jay05.joshi@gmail.com" className="hover:underline">Email</a>
+            <a href="/jay-joshi-resume.pdf" target="_blank" rel="noopener noreferrer" className="hover:underline">Resume</a>
           </div>
         </div>
       </footer>

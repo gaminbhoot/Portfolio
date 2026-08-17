@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowDownRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
@@ -320,10 +320,28 @@ export default function MinimalHome() {
             >
               <div>
                 <h3 className="khula-light text-4xl">Hi, I&apos;m Jay.</h3>
-                <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }} className="mt-8 inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-colors group">
-                  <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-                  <span>Get in Touch</span>
-                </a>
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <a
+                    href="#contact"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-all hover:scale-[1.02] group"
+                  >
+                    <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+                    <span>Get in Touch</span>
+                  </a>
+                  <a
+                    href="/jay-joshi-resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
+                  >
+                    <span>Resume</span>
+                    <ArrowUpRight size={15} strokeWidth={1.75} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
               </div>
               <div className="space-y-6 poppins-light leading-relaxed" style={{ color: "#222" }}>
                 <p>I&apos;m a computer science student interested in building software and understanding how things work under the hood. I enjoy working across different areas of technology, from systems and development to AI, with a focus on learning by building and experimenting.</p>
