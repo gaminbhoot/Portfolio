@@ -347,49 +347,6 @@ export const projectsData = [
         { image: "/images/abhisar/thumb.webp", title: "UI Snapshot" },
       ],
     },
-
-  },
-      
-  {
-    id: "java-compiler",
-    title: "Mini Compiler Pipeline",
-    category: "Systems & Tooling",
-    year: "2026",
-    thumbnail: "/images/compiler/thumb.webp",
-    heroImage: "/images/compiler/hero.webp",
-    githubLink: "https://github.com/gaminbhoot/mini_compiler",
-    
-    summary: {
-      tagline: "A custom language compiler built fully in Java, featuring robust lexical analysis, abstract syntax tree (AST) construction, and assembly generation.",
-      projectMeta: {
-        problem: "Understanding how programming languages function requires deep systems building rather than using pre-built library parsers.",
-        role: "Systems Programmer",
-        result: "Built a compiler pipeline from scratch in Java, demonstrating low-level lexical analysis and AST construction."
-      },
-      keyTechnologies: [
-        "Java",
-        "Lexer & Parser Architecture",
-        "AST Generation",
-        "Semantic Analysis",
-        "Code Generation"
-      ],
-      technicalHighlights: [
-        { title: "Lexical Analysis", description: "Engineered a robust scanner to tokenize source files, handling complex grammar rules, keywords, and punctuation operators." },
-        { title: "Parsing & AST", description: "Implemented a recursive descent parser to produce correct Abstract Syntax Trees capable of identifying syntactical errors precisely." },
-        { title: "Semantic Operations", description: "Handled scope validation, type checking, and operational precedence natively." }
-      ],
-      metrics: [],
-      architecture: "Source Code → Lexer → Parser → AST → Semantic Check → Code Gen",
-      showcaseImages: []
-    },
-
-    sections: [
-      {
-        id: "overview",
-        title: "Systems Engineering",
-        content: "Building a compiler from scratch provides unparalleled insight into how programming languages actually function. This project demonstrated low-level systems programming within Java, prioritizing strong software architecture and algorithmic thinking over pre-built libraries."
-      }
-    ]
   },
   {
     id: "sysaware-ml-optimizer",

@@ -224,12 +224,12 @@ export default function MinimalHome() {
     return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
   }, [emailModalOpen, modalStatus]);
 
-  // Bencodes projects mapped to your data — keep 5 but in bencodes list style
+  // Clean mapped projects in minimal list style
   const rows = projectsData.map((p, i) => ({
     id: p.id,
     number: String(i + 1).padStart(2, "0"),
     title: p.title.replace(" - Secure Data Sanitization", "").replace(" - ", " ").replace("Real-Time AI Motion Detection & Tracking System", "AI Motion Tracker").replace("Abhisar: Groq-Powered LLM Product", "Abhisar"),
-    category: i === 0 ? "Computer Vision / Systems" : i === 1 ? "System Security" : i === 2 ? "Full-Stack AI Product" : i === 3 ? "Systems & Tooling" : "Machine Learning",
+    category: p.id === "ai-surveillance" ? "Computer Vision / Systems" : p.id === "octawipe" ? "System Security" : p.id === "abhisar" ? "Full-Stack AI Product" : "Distributed AI / ML",
     image: p.thumbnail,
     full: p.category,
   }));
