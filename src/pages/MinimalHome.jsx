@@ -325,7 +325,7 @@ export default function MinimalHome() {
                     href="/jay-joshi-resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-44 inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
+                    className="w-44 inline-flex items-center justify-between px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
                   >
                     <span>Resume</span>
                     <ArrowUpRight size={16} strokeWidth={1.75} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -336,7 +336,7 @@ export default function MinimalHome() {
                       e.preventDefault();
                       document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                     }}
-                    className="w-44 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-all hover:scale-[1.02] group"
+                    className="w-44 inline-flex items-center justify-between px-5 py-2.5 bg-black text-white rounded-full poppins-regular text-sm hover:bg-black/90 transition-all hover:scale-[1.02] group"
                   >
                     <span>Get in Touch</span>
                     <ArrowDownRight size={16} strokeWidth={2} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
