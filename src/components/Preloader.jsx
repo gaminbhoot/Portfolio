@@ -11,6 +11,7 @@ export default function Preloader({ onLoadingComplete }) {
 
   useEffect(() => {
     if (!shouldPlay) {
+      document.body.style.overflow = "";
       if (onLoadingComplete) onLoadingComplete();
       return;
     }
@@ -22,6 +23,8 @@ export default function Preloader({ onLoadingComplete }) {
 
     const timer = setTimeout(() => {
       setVisible(false);
+      document.body.style.overflow = "";
+      if (onLoadingComplete) onLoadingComplete();
     }, 2200);
 
     return () => {

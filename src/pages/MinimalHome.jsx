@@ -110,7 +110,8 @@ function InteractiveMarqueeRow({
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
       onWheel={handleWheel}
-      className="relative w-full overflow-hidden flex whitespace-nowrap py-3 cursor-grab active:cursor-grabbing select-none"
+      style={{ touchAction: "pan-y" }}
+      className="relative w-full overflow-hidden flex whitespace-nowrap py-3 cursor-grab active:cursor-grabbing select-none touch-pan-y"
     >
       <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 md:w-32 z-10 bg-gradient-to-l from-white to-transparent" />
@@ -380,7 +381,7 @@ export default function MinimalHome() {
       <Preloader onLoadingComplete={() => setIsLoading(false)} />
 
       {/* ——— HERO ——— clean monotone aesthetic */}
-      <section id="hero" className="w-screen min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
+      <section id="hero" className="w-full min-h-screen flex flex-col justify-center items-center relative overflow-hidden" style={{ background: "var(--landing-bg-image)", backgroundColor: "var(--dark)" }}>
         {asciiArt && (
           <pre className="absolute -inset-[10%] flex items-center justify-center pointer-events-none select-none overflow-hidden p-0 opacity-[0.16] text-[11px] leading-[15px] tracking-[-0.02em] font-mono whitespace-pre z-0" style={{ color: "white", fontFamily: "'Courier New', monospace", transform: "scale(1.24)" }} aria-hidden>{asciiArt}</pre>
         )}
@@ -418,7 +419,7 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— ABOUT ——— whole page design from bencodes: white, large quote + This is me. + 2-col */}
-      <section id="about" className="bg-white text-black w-screen min-h-screen flex flex-col justify-center px-6 md:px-12 py-24">
+      <section id="about" className="bg-white text-black w-full min-h-screen flex flex-col justify-center px-6 md:px-12 py-24">
         <div className="max-w-[1100px] mx-auto w-full">
           <motion.h2
             initial={{ opacity: 0, y: 32 }}
@@ -490,7 +491,7 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— PROJECTS ——— EXACT bencodes: white, Selected Projects, text rows + hover preview */}
-      <section id="projects" className="w-screen bg-white text-black py-24 px-4">
+      <section id="projects" className="w-full bg-white text-black py-24 px-4">
         <div className="max-w-[900px] mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -575,7 +576,7 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
-      <section id="skills" className="w-screen bg-white text-black py-20 overflow-hidden select-none">
+      <section id="skills" className="w-full bg-white text-black py-20 overflow-hidden select-none">
         <div className="max-w-[900px] mx-auto px-4 mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -620,7 +621,7 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— CONTACT ——— EXACT bencodes: Want to collaborate? Let's have a chat! + Email/LinkedIn pills + jj */}
-      <section id="contact" className="relative w-screen bg-white text-black py-24 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[70vh]">
+      <section id="contact" className="relative w-full bg-white text-black py-24 px-4 overflow-hidden flex flex-col items-center justify-center min-h-[70vh]">
         {/* blurred blobs bottom */}
         <div className="pointer-events-none absolute bottom-0 left-0 w-[600px] h-[400px] bg-[#b1afff]/30 blur-[100px] rounded-full translate-y-1/3 -translate-x-1/4" />
         <div className="pointer-events-none absolute bottom-0 right-0 w-[600px] h-[400px] bg-[#bbe9ff]/30 blur-[100px] rounded-full translate-y-1/3 translate-x-1/4" />

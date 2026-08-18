@@ -49,21 +49,25 @@ export default function MinimalLayout({ children }) {
     }
   }, [location.pathname]);
 
-  // Lenis smooth scroll — exact bencodes oomph
+  // Lenis smooth scroll — desktop only (allows native momentum touch scroll on mobile)
   useEffect(() => {
+    const isTouch = window.matchMedia("(pointer: coarse)").matches || ("ontouchstart" in window);
+    if (isTouch) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      smoothTouch: false,
     });
     lenisRef.current = lenis;
+    let reqId;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      reqId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    reqId = requestAnimationFrame(raf);
     return () => {
+      cancelAnimationFrame(reqId);
       lenis.destroy();
       lenisRef.current = null;
     };
