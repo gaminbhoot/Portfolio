@@ -13,6 +13,7 @@ const QUALITY_MAP = {
 const RESIZE_MAP = {
   'jay1.webp': { width: 376, withoutEnlargement: true },
   'thumb.webp': { width: 800, withoutEnlargement: true },
+  'preview.webp': { width: 800, withoutEnlargement: true },
 };
 
 function getAllImages(dir) {

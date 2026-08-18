@@ -209,7 +209,7 @@ export const projectsData = [
     title: "Abhisar: Groq-Powered LLM Product",
     category: "Full-Stack AI Product",
     year: "2026",
-    thumbnail: "/images/abhisar/hero.webp",
+    thumbnail: "/images/abhisar/preview.webp",
     heroImage: "/images/abhisar/hero.webp",
     githubLink: "https://github.com/gaminbhoot/Abhisar",
     prototypeLink: "https://abhisar.jayjoshi.online/",
