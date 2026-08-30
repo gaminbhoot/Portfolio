@@ -122,12 +122,24 @@ body {
 .contact-bg:before { content:""; position:absolute; left:-50%; bottom:-50%; width:100%; height:100%; background: radial-gradient(circle,#b1afff,#fff 60%); filter: blur(100px); z-index:-1; }
 .contact-bg:after { content:""; position:absolute; left:50%; bottom:-50%; width:100%; height:100%; background: radial-gradient(circle,#bbe9ff,#fff 60%); filter: blur(100px); z-index:-1; }
 
-/* Hide custom cursor entirely on minimal branch — native cursor only */
-.custom-cursor-wrapper,
-.custom-cursor-ring,
-.custom-cursor-dot,
-[data-testid="custom-cursor"] {
-  display: none !important;
+/* Custom cursor (fine pointers only) — native cursor hidden while active */
+@media (hover: hover) and (pointer: fine) {
+  body.pl-custom-cursor,
+  body.pl-custom-cursor * {
+    cursor: none !important;
+  }
+  body.pl-custom-cursor input,
+  body.pl-custom-cursor textarea,
+  body.pl-custom-cursor select {
+    cursor: text !important;
+  }
+}
+
+/* Dashboard-style cursor label typography */
+.pl-display {
+  font-family: 'Space Grotesk', 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* Terminal shell kept for hidden legacy, but not used on minimal home */

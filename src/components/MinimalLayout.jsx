@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import Lenis from "lenis";
+import CustomCursor from "./cursor/CustomCursor";
 
 export default function MinimalLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -129,6 +130,7 @@ export default function MinimalLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-[var(--dark)] text-white selection:bg-white selection:text-black flex flex-col" style={{ backgroundColor: "var(--dark)" }}>
+      <CustomCursor />
       <a href="#main" className="skip-link">Skip to main content</a>
 
       {/* Fixed menu button */}

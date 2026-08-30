@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { forwardRef, useImperativeHandle, useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
@@ -7,22 +7,39 @@ import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
 import Preloader, { hasPlayedIntro } from "../components/Preloader";
 
-// Interactive kinetic marquee row with hover-pause and manual drag/wheel scrolling
-function InteractiveMarqueeRow({
-  items,
-  direction = "left",
-  speed = 0.5,
-  fontClass = "khula-regular",
-  textOpacity = "text-black/85",
-  onSecretClick,
-}) {
+// Interactive kinetic marquee row with drag scrolling. Auto-play pause and
+// wheel control live in the parent skills zone (whole section), which drives
+// rows imperatively via ref.
+const InteractiveMarqueeRow = forwardRef(function InteractiveMarqueeRow(
+  {
+    items,
+    direction = "left",
+    speed = 0.5,
+    fontClass = "khula-regular",
+    textOpacity = "text-black/85",
+    paused = false,
+    onSecretClick,
+  },
+  ref
+) {
   const trackRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const scrollPosRef = useRef(0);
   const singleWidthRef = useRef(0);
   const xPos = useMotionValue(0);
+
+  const applyOffset = (offset) => {
+    const w = singleWidthRef.current;
+    if (w === 0) return;
+    scrollPosRef.current += offset;
+    if (scrollPosRef.current <= -w * 2) {
+      scrollPosRef.current += w;
+    } else if (scrollPosRef.current >= 0) {
+      scrollPosRef.current -= w;
+    }
+    xPos.set(scrollPosRef.current);
+  };
 
   useEffect(() => {
     const updateWidth = () => {
@@ -37,27 +54,26 @@ function InteractiveMarqueeRow({
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, [items, direction]);
+  }, [items, direction, xPos]);
 
   useEffect(() => {
     let animId;
     const step = () => {
-      if (!isHovered && !isDraggingRef.current && singleWidthRef.current > 0) {
-        const delta = direction === "left" ? -speed : speed;
-        scrollPosRef.current += delta;
-
-        if (scrollPosRef.current <= -singleWidthRef.current * 2) {
-          scrollPosRef.current += singleWidthRef.current;
-        } else if (scrollPosRef.current >= 0) {
-          scrollPosRef.current -= singleWidthRef.current;
-        }
-        xPos.set(scrollPosRef.current);
+      if (!paused && !isDraggingRef.current && singleWidthRef.current > 0) {
+        applyOffset(direction === "left" ? -speed : speed);
       }
       animId = requestAnimationFrame(step);
     };
     animId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animId);
-  }, [isHovered, direction, speed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paused, direction, speed]);
+
+  useImperativeHandle(ref, () => ({
+    scrollBy(delta) {
+      applyOffset((direction === "left" ? -1 : 1) * delta * 0.7);
+    },
+  }));
 
   const handlePointerDown = (e) => {
     isDraggingRef.current = true;
@@ -68,48 +84,24 @@ function InteractiveMarqueeRow({
     if (!isDraggingRef.current || singleWidthRef.current === 0) return;
     const dx = e.clientX - startXRef.current;
     startXRef.current = e.clientX;
-    scrollPosRef.current += dx;
-
-    if (scrollPosRef.current <= -singleWidthRef.current * 2) {
-      scrollPosRef.current += singleWidthRef.current;
-    } else if (scrollPosRef.current >= 0) {
-      scrollPosRef.current -= singleWidthRef.current;
-    }
-    xPos.set(scrollPosRef.current);
+    applyOffset(dx);
   };
 
   const handlePointerUp = () => {
     isDraggingRef.current = false;
   };
 
-  const handleWheel = (e) => {
-    if (!isHovered || singleWidthRef.current === 0) return;
-    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    if (Math.abs(delta) > 1) {
-      scrollPosRef.current -= delta * 0.7;
-      if (scrollPosRef.current <= -singleWidthRef.current * 2) {
-        scrollPosRef.current += singleWidthRef.current;
-      } else if (scrollPosRef.current >= 0) {
-        scrollPosRef.current -= singleWidthRef.current;
-      }
-      xPos.set(scrollPosRef.current);
-    }
-  };
-
   const fullItems = [...items, ...items, ...items, ...items];
 
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
-        setIsHovered(false);
         isDraggingRef.current = false;
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
-      onWheel={handleWheel}
       style={{ touchAction: "pan-y" }}
       className="relative w-full overflow-hidden flex whitespace-nowrap py-3 cursor-grab active:cursor-grabbing select-none touch-pan-y"
     >
@@ -134,7 +126,7 @@ function InteractiveMarqueeRow({
       </motion.div>
     </div>
   );
-}
+});
 
 const technicalSkills = [
   "PyTorch",
@@ -168,6 +160,28 @@ export default function MinimalHome() {
 
   React.useEffect(() => {
     fetch("/jay-ascii.txt").then(r => r.text()).then(t => setAsciiArt(t)).catch(()=>{});
+  }, []);
+
+  // Skills zone: while the cursor is anywhere inside #skills, wheel input
+  // scrolls the marquees only. Non-passive native listener (React wheel
+  // handlers are passive, so preventDefault there can't stop page scroll).
+  // Leaving the section resumes normal page scrolling.
+  const skillsZoneRef = useRef(null);
+  const techRowRef = useRef(null);
+  const execRowRef = useRef(null);
+  const [skillsHovered, setSkillsHovered] = useState(false);
+  useEffect(() => {
+    const el = skillsZoneRef.current;
+    if (!el) return undefined;
+    const onWheel = (e) => {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) <= 1) return;
+      e.preventDefault();
+      techRowRef.current?.scrollBy(delta);
+      execRowRef.current?.scrollBy(delta);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
   }, []);
   usePageMeta({
     title: "Portfolio | Jay Joshi",
@@ -576,7 +590,21 @@ export default function MinimalHome() {
       </section>
 
       {/* ——— SKILLS — KINETIC MONOTONE TICKER ——— */}
+      {/* Whole section is the interactive zone: wheel input scrolls only the
+          marquees (never the page), and the cursor ring expands with the
+          "<- Scroll ->" label. data-lenis-prevent stops Lenis hijacking it. */}
       <section id="skills" className="w-full bg-white text-black py-20 overflow-hidden select-none">
+        {/* Interactive zone — trimmed to ~80% width: wheel input here scrolls
+            only the marquees (never the page) and the cursor ring expands with
+            the "<- Scroll ->" label. data-lenis-prevent stops Lenis hijacking. */}
+        <div
+          ref={skillsZoneRef}
+          data-cursor-label="<- Scroll ->"
+          data-lenis-prevent
+          onMouseEnter={() => setSkillsHovered(true)}
+          onMouseLeave={() => setSkillsHovered(false)}
+          className="w-[80%] mx-auto"
+        >
         <div className="max-w-[900px] mx-auto px-4 mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -592,22 +620,26 @@ export default function MinimalHome() {
 
         {/* Row 1: Technical & AI Stack (Left) */}
         <InteractiveMarqueeRow
+          ref={techRowRef}
           items={technicalSkills}
           direction="left"
           speed={0.55}
           fontClass="khula-regular"
           textOpacity="text-black/85"
+          paused={skillsHovered}
           onSecretClick={() => handleSecretClick("skill-0")}
         />
 
         {/* Row 2: Execution, Leadership & Strategy (Right / Reverse) */}
         <div className="mt-2">
           <InteractiveMarqueeRow
+            ref={execRowRef}
             items={executionSkills}
             direction="right"
             speed={0.5}
             fontClass="khula-light"
             textOpacity="text-black/75"
+            paused={skillsHovered}
             onSecretClick={() => handleSecretClick("skill-1")}
           />
         </div>
@@ -617,6 +649,7 @@ export default function MinimalHome() {
           <span onClick={() => handleSecretClick("skill-0")}>cert-0</span>
           <span onClick={() => handleSecretClick("skill-1")}>cert-1</span>
           <span onClick={() => handleSecretClick("skill-2")}>cert-2</span>
+        </div>
         </div>
       </section>
 
