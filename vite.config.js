@@ -19,7 +19,23 @@ export default defineConfig({
       },
       workbox: {
         maximumFileSizeToCacheInBytes: 10000000,
-        globPatterns: ["**/*.{js,css,html,ico,png,webp,svg,woff2}"],
+        globPatterns: ["**/*.{js,css,html,ico,svg,woff2}"],
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpe?g|gif|svg|webp)$/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "portfolio-images",
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
       },
     }),
   ],

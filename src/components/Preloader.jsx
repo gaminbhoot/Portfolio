@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { hasPlayedIntro, markIntroPlayed } from "./preloaderState";
 
-// Module-level guard: resets to false on every full page reload / hard refresh,
-// but stays true across client-side SPA navigations (opening/closing project pages).
-export let hasPlayedIntro = false;
+export { hasPlayedIntro } from "./preloaderState";
 
 export default function Preloader({ onLoadingComplete }) {
   const [shouldPlay] = useState(() => !hasPlayedIntro);
@@ -16,16 +15,14 @@ export default function Preloader({ onLoadingComplete }) {
       return;
     }
 
-    hasPlayedIntro = true;
+    markIntroPlayed();
 
     // Lock scrolling while preloader is active
     document.body.style.overflow = "hidden";
 
     const timer = setTimeout(() => {
       setVisible(false);
-      document.body.style.overflow = "";
-      if (onLoadingComplete) onLoadingComplete();
-    }, 2200);
+    }, 1700);
 
     return () => {
       clearTimeout(timer);
@@ -37,7 +34,7 @@ export default function Preloader({ onLoadingComplete }) {
 
   const handleExitComplete = () => {
     document.body.style.overflow = "";
-    if (onLoadingComplete) onLoadingComplete();
+    onLoadingComplete?.();
   };
 
   return (

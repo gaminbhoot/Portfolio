@@ -1,9 +1,12 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import React, { lazy, Suspense, useState, useEffect, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, useParams, useLocation } from 'react-router-dom';
 import MinimalLayout from "./components/MinimalLayout";
+import SiteSkeleton from "./components/SiteSkeleton";
+import { hasPlayedIntro } from "./components/preloaderState";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
+const Preloader = lazy(() => import("./components/Preloader"));
 const MinimalHome = lazy(() => import("./pages/MinimalHome"));
 const MinimalProject = lazy(() => import("./pages/MinimalProject"));
 const Epoxy = lazy(() => import('./pages/Epoxy'));
@@ -27,11 +30,20 @@ function TokenRoute() {
 
 function AppContent() {
   const hasMounted = useHasMounted();
+  const location = useLocation();
+  const [introFinished, setIntroFinished] = useState(hasPlayedIntro);
+  const handleIntroComplete = useCallback(() => setIntroFinished(true), []);
+
   if (!hasMounted) return null;
 
   return (
     <MinimalLayout>
-      <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh] text-white/40 font-mono">Loading...</div>}>
+      {location.pathname === "/" && (
+        <Suspense fallback={null}>
+          <Preloader onLoadingComplete={handleIntroComplete} />
+        </Suspense>
+      )}
+      <Suspense fallback={introFinished ? <SiteSkeleton /> : null}>
         <Routes>
           <Route path="/" element={<MinimalHome />} />
           <Route path="/project/:id" element={<MinimalProject />} />

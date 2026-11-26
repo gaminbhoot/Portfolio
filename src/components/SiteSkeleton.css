@@ -1,0 +1,44 @@
+@keyframes ascii-skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.ascii-skeleton-line {
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    var(--ascii-base) 10%,
+    var(--ascii-highlight) 50%,
+    var(--ascii-base) 90%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: ascii-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.ascii-skeleton-dark {
+  --ascii-base: rgba(255, 255, 255, 0.16);
+  --ascii-highlight: rgba(255, 255, 255, 0.5);
+}
+
+.ascii-skeleton-light {
+  --ascii-base: rgba(0, 0, 0, 0.13);
+  --ascii-highlight: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-skeleton-line {
+    animation: none;
+  }
+}
