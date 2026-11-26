@@ -18,6 +18,8 @@ export default defineConfig({
         display: "standalone",
       },
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
         maximumFileSizeToCacheInBytes: 10000000,
         globPatterns: ["**/*.{js,css,html,ico,svg,woff2}"],
         navigateFallbackDenylist: [/^\/(?:[^/?]+\/)*[^/?]+\.[^/?]+(?:\?|$)/],

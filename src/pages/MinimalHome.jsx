@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, Download } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import { usePageMeta } from "../lib/usePageMeta";
 import CurveWipe from "../components/CurveWipe";
@@ -470,12 +470,13 @@ export default function MinimalHome() {
                 <div className="mt-8 flex flex-col items-start gap-3">
                   <a
                     href="/jay-joshi-resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    download="JAY_JOSHI_RESUME.pdf"
+                    aria-label="Download Resume"
+                    data-cursor-label="Download"
                     className="w-44 inline-flex items-center justify-between px-5 py-2.5 border border-black/15 text-black rounded-full poppins-regular text-sm hover:border-black hover:bg-black/5 transition-all hover:scale-[1.02] group"
                   >
                     <span>Resume</span>
-                    <ArrowUpRight size={16} strokeWidth={1.75} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <Download size={16} strokeWidth={1.75} className="transition-transform group-hover:translate-y-0.5" />
                   </a>
                   <a
                     href="#contact"
