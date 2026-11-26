@@ -80,7 +80,7 @@ export default function AiChatSidebar({ isOpen, onClose }) {
     } else if (lower.includes("contact") || lower.includes("email") || lower.includes("linkedin") || lower.includes("reach") || lower.includes("github")) {
       reply = "You can reach out to Jay directly:\n\n* **Email**: jay05.joshi@gmail.com\n* **LinkedIn**: linkedin.com/in/gaminbhoot\n* **GitHub**: github.com/gaminbhoot\n\nSelect **Contact.jsx** in the sidebar to open the contact form!";
     } else if (lower.includes("resume") || lower.includes("cv") || lower.includes("download")) {
-      reply = "You can download Jay's resume in PDF format directly from the Home page or download it here: [JAY_JOSHI_RESUME.pdf](/JAY%20JOSHI%20RESUME.pdf).";
+      reply = "You can download Jay's resume in PDF format directly from the Home page or download it here: [JAY_JOSHI_RESUME.pdf](/jay-joshi-resume.pdf).";
     } else if (lower.includes("education") || lower.includes("college") || lower.includes("university") || lower.includes("degree") || lower.includes("study") || lower.includes("school")) {
       reply = "Jay's educational background includes:\n\n* **Amity University** (Noida): Bachelor's in Technology (B.Tech) in Computer Science (2023-2027).\n* **IIT Guwahati**: Minor in Data Science (2025-2026).\n* **Vishwa Bharati Public School** (Noida): Senior Secondary School (CBSE), class of 2023.";
     } else if (lower.includes("open") || lower.includes("hire") || lower.includes("internship") || lower.includes("job") || lower.includes("role") || lower.includes("work") || lower.includes("available") || lower.includes("start")) {
