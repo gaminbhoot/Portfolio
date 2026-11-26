@@ -5,7 +5,7 @@
   },
   "rewrites": [
     {
-      "source": "/((?!robots.txt|sitemap.xml|manifest.webmanifest|sw.js|workbox-.*\\.js|registerSW.js).*)",
+      "source": "/((?!robots.txt|sitemap.xml|manifest.webmanifest|sw.js|workbox-.*\\.js|registerSW.js|jay-joshi-resume\\.pdf).*)",
       "destination": "/index.html"
     }
   ]
